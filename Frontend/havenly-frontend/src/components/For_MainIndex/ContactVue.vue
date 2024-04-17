@@ -120,11 +120,11 @@ const submit = handleSubmit(values => {
 </script>
 
 <style> 
-.left-data {
+/* .left-data {
     div {
         width: 100%;
         padding: 10px 0px;
     }
-}
+} */
 
 </style>

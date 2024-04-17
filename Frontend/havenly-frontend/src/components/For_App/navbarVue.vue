@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
         <div class="container-fluid">
           <a class="navbar-brand" href="#"><h2>Havenly</h2></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,8 +17,8 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Account</a>
+              <li class="nav-item bg-red">
+                <a class="nav-link text-white" href="#">Account</a>
               </li>
             </ul>
           </div>
