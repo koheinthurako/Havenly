@@ -5,7 +5,7 @@
         </div>
         <v-sheet class="mx-auto" elevation="6">
             <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
-                <v-slide-group-item v-for="n in 15" :key="n" v-slot="{ isSelected, toggle, selectedClass }">
+                <v-slide-group-item v-for="n in 15" :key="n" v-slot="{ isSelected, toggle }">
 
                     <v-card @click="toggle" elevation="20" rounded :color="isSelected ? 'primary' : undefined"
                         :disabled="loading" :loading="loading" class="mx-3 mt-3">

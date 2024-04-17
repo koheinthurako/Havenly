@@ -41,59 +41,6 @@
                     </div>
                 </div>
 
-                <v-dialog v-model="dialog" max-width="550">
-                    <v-stepper :items="['Package 1', 'Package 2', 'Package 3']">
-                        <template v-slot:item.1>
-                            <v-card title="Free Trial" flat>
-
-                                <ol class="list-group list-group-numbered">
-                                    <li class="p-2 rounded bg-danger"><div style="color: #fff;">Package Benefits</div></li>
-                                    <li class="list-group-item">(2) posts available</li>
-                                    <li class="list-group-item">(4) images per post</li>
-                                    <li class="list-group-item">(800) words per post</li>
-                                    <li class="list-group-item">Secure to upload posts</li>
-                                    <li class="list-group-item"><del>post boost available</del></li>
-                                    <li class="list-group-item"><del>showing less amount of ADs.</del></li>
-                                    <li class="list-group-item"><del>can contact directly report to admin</del></li>
-                                    <li class="list-group-item"><del>can send email to interested user</del></li>
-                                </ol>
-
-                            </v-card>
-                        </template>
-
-                        <template v-slot:item.2>
-                            <v-card title="Normal package" flat>
-                                <ol class="list-group list-group-numbered">
-                                    <li class="p-2 rounded bg-danger"><div style="color: #fff;">Package Benefits</div></li>
-                                    <li class="list-group-item">(12) posts available</li>
-                                    <li class="list-group-item">(8) images per post</li>
-                                    <li class="list-group-item">(1200) words per post</li>
-                                    <li class="list-group-item">Secure to upload posts</li>
-                                    <li class="list-group-item"><del>post boost available</del></li>
-                                    <li class="list-group-item">showing less amount of ADs.</li>
-                                    <li class="list-group-item">can contact directly report to admin</li>
-                                    <li class="list-group-item">can send email to interested user</li>
-                                </ol>
-                            </v-card>
-                        </template>
-
-                        <template v-slot:item.3>
-                            <v-card title="Premum Package" flat>
-                                <ol class="list-group list-group-numbered">
-                                    <li class="p-2 rounded bg-danger"><div style="color: #fff;">Package Benefits</div></li>
-                                    <li class="list-group-item">(30) posts available</li>
-                                    <li class="list-group-item">(12) images per post</li>
-                                    <li class="list-group-item">(2000) words per post</li>
-                                    <li class="list-group-item">Secure to upload posts</li>
-                                    <li class="list-group-item">post boost available</li>
-                                    <li class="list-group-item">Not showing annoying ADs.</li>
-                                    <li class="list-group-item">can contact directly report to admin</li>
-                                    <li class="list-group-item">can send email to interested user</li>
-                                </ol>
-                            </v-card>
-                        </template>
-                    </v-stepper>
-                </v-dialog>
 
             </div>
         </div>
@@ -111,14 +58,8 @@ export default {
         img1: require('@/assets/img/1.jpg'),
         img2: require('@/assets/img/2.jpg'),
         img3: require('@/assets/img/3.jpg'),
+  
     }),
-    methods: {
-        openDialog() {
-            this.dialog = true;
-        },
-        closeDialog() {
-            this.dialog = false;
-        }
-    }
+
 }
 </script>
