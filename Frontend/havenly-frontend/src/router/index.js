@@ -4,11 +4,12 @@ import HomeIndex from '../components/mainIndexVue.vue'
 const routes = [
   {
     path: '/home',
-    redirect: '/home'
+    redirect: '/'
   },
+
   {
     path: '/Home',
-    redirect: '/home',
+    redirect: '/',
   },
   {
     path: '/',

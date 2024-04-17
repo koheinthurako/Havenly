@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
+import './assets/css/main.scss'
 
 loadFonts()
 
