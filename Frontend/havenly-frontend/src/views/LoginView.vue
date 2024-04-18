@@ -86,6 +86,7 @@
 
 
 export default {
+ 
   data:()=>({
     step: 1
   }),
@@ -100,3 +101,4 @@ export default {
 <style>
 
 </style>
+s
