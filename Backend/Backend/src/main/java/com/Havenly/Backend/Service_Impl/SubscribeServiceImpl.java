@@ -1,101 +1,91 @@
-package com.Havenly.Backend.service;
+package com.Havenly.Backend.Service_Impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import com.Havenly.Backend.entity.PackageTypes;
-import com.Havenly.Backend.entity.Packages;
-import com.Havenly.Backend.entity.Subscribe;
-import com.Havenly.Backend.entity.UserStatus;
-import com.Havenly.Backend.repo.PackageTypesRepo;
-import com.Havenly.Backend.repo.SubscribeRepo;
+import com.Havenly.Backend.DTO.Subscription_DTO;
+import com.Havenly.Backend.Entity.PackageTypes;
+import com.Havenly.Backend.Entity.Packages;
+import com.Havenly.Backend.Entity.Reg_user;
+import com.Havenly.Backend.Entity.Subscription;
+import com.Havenly.Backend.Repo.PackageTypesRepo;
+import com.Havenly.Backend.Repo.PackagesRepo;
+import com.Havenly.Backend.Repo.SubscribeRepo;
+import com.Havenly.Backend.Service.SubscribeService;
 
 @Configuration
 public class SubscribeServiceImpl implements SubscribeService{
 
 	@Autowired
 	SubscribeRepo subscribeRepo;
-	PackageTypesRepo packRepo;
-	Subscribe subUser;
+	PackagesRepo packRepo;
+	Subscription_DTO subUser;
 	Packages pack;
 	PackageTypes packType;
 	
-	@Override
-	public Collection<Subscribe> findAll() {
-		// TODO Auto-generated method stub
-		return subscribeRepo.findAll();
-	}
-
-	@Override
-	public Subscribe getById(int id) {
-		return subscribeRepo.findById(id).orElse(null);
-	}
 
 
+//	@Override
+//	public Subscription_DTO getById(Subscription_DTO dto) {
+//		Subscription sub = subUser.convertToEntity(dto);
+//		Subscription user = subscribeRepo.findById(sub.getSubUserId()).orElse(null);
+//		Subscription_DTO user2 = subUser.convertToObject(user);
+//		return user2;
+//	}
+
+
 	@Override
-	public String cancel(int id) {
-		Subscribe sub = this.getById(id);
+	public String cancel(int sid) {
+		Subscription sub = subscribeRepo.findById(sid).orElse(null);
 		sub.setSubEndDate(LocalDate.now());
 		sub.setSubEndTime(LocalDateTime.now());
-		sub.setStatus(UserStatus.registered);
 		if(sub.equals(null)) {
 			return "User is not subscribed.";
 		}else {
 					subscribeRepo.delete(sub);
-					packRepo.deleteById(sub.getPackageId());
+					packRepo.delete(sub.getPackages());;
 					return "No Longer Subscribed.";
 		}
 		
 	}
 
 	@Override
-	public Subscribe freeTrial() {
-		pack.setPackageTypeId(1);
-		subUser.setStatus(UserStatus.freetrial);
-		subUser.setTotalAds(packRepo.getTotalAds("freeTrial"));
-		subUser.setTotalAds(packRepo.getTotalPosts("freeTrial"));
+	public Subscription_DTO freeTrial(String nrc, int reg_id, int pid) {
+		Subscription user = subscribeRepo.findByNrc(nrc);
+		subUser.setTotalAds(packType.getTotal_ads());
+		subUser.setTotalAds(packType.getTotal_posts());
 		return subscribeRepo.save(subUser);
 	
 	}
 	
 	@Override
-	public Subscribe subNormal() {
-		pack.setPackageTypeId(2);
-		subUser.setStatus(UserStatus.subscribed);
-		subUser.setTotalAds(packRepo.getTotalAds("Normal"));
-		subUser.setTotalAds(packRepo.getTotalPosts("Normal"));
+	public Subscription_DTO subNormal(String nrc, int reg_id, int pid) {
+		subUser.setTotalAds(packType.getTotal_ads());
+		subUser.setTotalAds(packType.getTotal_posts());
 		return subscribeRepo.save(subUser);
 		
 	}
 
 	@Override
-	public Subscribe subPremium() {
-		pack.setPackageTypeId(3);
-		subUser.setStatus(UserStatus.premium);
-		subUser.setTotalAds(packRepo.getTotalAds("Premium"));
-		subUser.setTotalAds(packRepo.getTotalPosts("Premium"));
+	public Subscription_DTO subPremium(String nrc, int reg_id, int pid) {
+		subUser.setTotalAds(packType.getTotal_posts());
+		subUser.setTotalAds(packType.getTotal_posts());
 		return subscribeRepo.save(subUser);
 	}
 
 	@Override
-	public Subscribe subscribe(String email, int packId) {
-		PackageService ps = null;
-		Subscribe user = subscribeRepo.findByGmail(email);
-		if (user.equals(null) && ps.payment(null)) {
+	public Subscription_DTO subscribe(String nrc, int packId) {
+		Subscription_DTO user = subscribeRepo.findByNrc(nrc);
+		if (user.equals(null)) {
 		user.setSubStartDate(LocalDate.now());
 		user.setSubStartTime(LocalDateTime.now());
-			if(packId==1) {
-				freeTrial();
-			}else if(packId==2) {
-				subNormal();
+		user.setNrc(nrc);
+			if(packId==1) {			}else if(packId==2) {
 			}else {
-				subPremium();
-			}
+		}
 		}else {
-			pack.setPackageTypeId(packId);
 			user.setTotalPosts(user.getTotalPosts()+packType.getTotal_posts());
 			user.setTotalAds(user.getTotalAds()+packType.getTotal_ads());
 		}

@@ -1,4 +1,4 @@
-package com.Havenly.Backend.controller;
+package com.Havenly.Backend.Controller;
 
 import java.util.List;
 
@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Havenly.Backend.entity.PackageTypes;
-import com.Havenly.Backend.entity.Subscribe;
-import com.Havenly.Backend.repo.PackageTypesRepo;
-import com.Havenly.Backend.service.SubscribeService;
+import com.Havenly.Backend.DTO.Subscription_DTO;
+import com.Havenly.Backend.Entity.PackageTypes;
+import com.Havenly.Backend.Entity.Subscription;
+import com.Havenly.Backend.Repo.PackageTypesRepo;
+import com.Havenly.Backend.Service.SubscribeService;
 
 @RestController
 @RequestMapping("/Subscribe")
@@ -35,8 +36,8 @@ public class SubscriptionController {
 	}
 	
 	@PostMapping("/Confirm")
-	public ResponseEntity<Subscribe> subscribe(String email, int packTypeId){
-		return new ResponseEntity <Subscribe>(subService.subscribe(email, packTypeId),HttpStatus.ACCEPTED);
+	public ResponseEntity<Subscription_DTO> subscribe(String nrc, int packTypeId){
+		return new ResponseEntity <Subscription_DTO>(subService.subscribe(nrc, packTypeId),HttpStatus.ACCEPTED);
 		
 	}
 }

@@ -1,11 +1,11 @@
-package com.Havenly.Backend.service;
+package com.Havenly.Backend.Service;
 
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
-import com.Havenly.Backend.entity.PackageTypes;
-import com.Havenly.Backend.entity.Packages;
+import com.Havenly.Backend.Entity.PackageTypes;
+import com.Havenly.Backend.Entity.Packages;
 
 @Service
 public interface PackageService {

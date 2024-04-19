@@ -1,9 +1,9 @@
-package com.Havenly.Backend.repo;
+package com.Havenly.Backend.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.Havenly.Backend.entity.PackageTypes;
+import com.Havenly.Backend.Entity.PackageTypes;
 
 public interface PackageTypesRepo extends JpaRepository<PackageTypes, Integer> {
 

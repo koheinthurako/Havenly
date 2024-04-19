@@ -1,14 +1,16 @@
-package com.Havenly.Backend.repo;
+package com.Havenly.Backend.Repo;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.Havenly.Backend.entity.Subscribe;
 
-public interface SubscribeRepo extends JpaRepository<Subscribe, Integer> {
+import com.Havenly.Backend.DTO.Subscription_DTO;
+import com.Havenly.Backend.Entity.Subscription;
+
+public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 	
-	public Subscribe findByGmail(String gmail);
+	public Subscription findByGmail(String gmail);
 	
-	public Subscribe findByName(String name);
+	public Subscription findByName(String name);
 	
-	
+	public Subscription findByNrc(String nrc);
 }
