@@ -7,6 +7,7 @@ import { loadFonts } from './plugins/webfontloader'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 import './assets/css/main.scss'
+import './assets/js/main.js'
 
 loadFonts()
 

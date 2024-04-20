@@ -6,18 +6,15 @@
 
                 <!-- for Desktop view -->
 
-                <v-btn size="large" :elevation="20" class="d-none d-md-block content-btn ms-auto mb-2">See all post of <span
-                        class="red">{{ get_title }}</span> <v-icon
-                        style="margin-left: 8px;font-size: 24px; transform: rotate(90deg);">mdi-triangle</v-icon>
+                <v-btn size="large"  class="d-none d-md-block content-btn ms-auto mb-3" style="text-transform:capitalize;">See all post of
+                    <span class="ms-1 red">{{ get_title }}</span> <v-icon
+                        style="margin-left: 8px;font-size: 24px;" class="custom-icon">mdi-chevron-double-right</v-icon>
                 </v-btn>
 
-                <v-btn size="small" :elevation="20" class="d-block d-sm-none content-btn ms-auto me-5 mb-1">See all <span
-                    class="red">{{ get_title }}</span> <v-icon
-                    style="margin-left: 8px;font-size: 24px; transform: rotate(90deg);">mdi-triangle</v-icon>
-            </v-btn>
-
-
-
+                <v-btn size="small" class="d-block d-sm-none content-btn ms-auto me-5 mb-1"  style="text-transform:capitalize;">See all
+                    <span class="ms-1 red">{{ get_title }}</span> <v-icon
+                        style=" margin-left: 8px;font-size: 24px;" class="custom-icon">mdi-chevron-double-right</v-icon>
+                </v-btn>
 
             </div>
 
@@ -29,30 +26,64 @@
 
                         <routerlink to="" class="card mb-4"
                             :class="[animations[index % animations.length], { 'fade-up': animated }]">
+                            <div class="custom-save">
+                                <v-icon >mdi-content-save-outline</v-icon>
+                            </div>
                             <div class="image-container mb-2">
                                 <img :src="slide.image" class="card-img-top" alt="Card image cap">
                             </div>
-                            <div class="card-body p-0">
-                                <div class="text-row">
-                                    <h4 class="text-center">{{ slide.title }}</h4>
-                                    <p class="text-center">hello world</p>
+
+                            <div class="card-body p-3">
+                                <div class="d-flex py-0">
+                                    <div class="card-kind">
+                                        <p class="bg-hover" :title="'This post is for ' + slide.type">{{ slide.type }}
+                                        </p>
+                                    </div>
+                                    <div class="heart-sign d-flex ms-auto py-0">
+                                        <v-icon class="ms-auto custom-heart">
+                                            mdi-heart-outline
+                                        </v-icon>
+                                        <p class="text-grey ms-1">1500</p>
+                                    </div>
                                 </div>
-                                <div class="btn-row">
-                                    <router-link to="" class="v-btn"
-                                        :elevation="20"><v-icon>mdi-home-floor-a</v-icon>Item a</router-link>
-                                    <router-link to="" class="v-btn"><v-icon>mdi-alpha-b-box</v-icon>Item
-                                        b</router-link>
+                                <div class="card-title w-100 py-0">
+                                    <h3>{{ slide.title }}</h3>
                                 </div>
-                                <div class="btn-row">
-                                    <router-link to="" class="v-btn"><v-icon>mdi-thumb-up</v-icon>Item c</router-link>
-                                    <router-link to="" class="v-btn"><v-icon>mdi-emoticon-cool-outline</v-icon>Item
-                                        d</router-link>
+                                <div class="w-100 py-0">
+                                    <div class="text-grey ">
+                                        {{ slide.description }}
+                                    </div>
                                 </div>
-                                <div class="footer-row">
-                                    <v-btn color="red" variant="outlined">Add to Cart
-                                        <v-icon>mdi-chevron-double-right</v-icon></v-btn>
+                                <div class="w-100 d-flex ">
+                                    <v-rating :model-value="4.5" color="success" density="compact" size="small"
+                                        half-increments readonly></v-rating>
+
+                                    <div class="text-grey">
+                                        4.5 (413)
+                                    </div>
+                                    <p class="ms-auto custom-m fw-bold">
+                                        3450 (kyats)
+                                    </p>
                                 </div>
+                                <div class="w-100 d-flex py-0">
+                                    <v-icon class="custom-icon">mdi-map-marker</v-icon>
+                                    <p class="ms-1">{{ slide.location }}</p>
+                                </div>
+                                
+                                <v-divider :thickness="2" class="border-opacity-25" />
+                                <div class="d-flex py-0">
+                                    <div class="clock-side d-flex">
+                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
+                                        <p class="ms-1 text-grey">12d 8h 56m</p>
+                                    </div>
+                                    <div class="d-flex ms-auto">
+                                        <v-icon class="text-red">mdi-eye</v-icon>
+                                        <p class="ms-1 text-grey" title="People watched times">1331</p>
+                                    </div>
+                                </div>
+
                             </div>
+
                         </routerlink>
 
                     </div>

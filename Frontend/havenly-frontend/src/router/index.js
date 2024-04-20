@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
+import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeIndex
+  },
+  {
+    path: '/package',
+    name: 'package',
+    component: tempPackage
   },
 
 ]

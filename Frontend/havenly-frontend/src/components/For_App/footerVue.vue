@@ -26,6 +26,6 @@ span {
     width: 100%;
     padding-top: 25px;
     padding-bottom: 14px;
-    background-color: antiquewhite;
+    background-color: rgba(255, 255, 255, 0.4);
 }
 </style>
