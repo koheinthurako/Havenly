@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.Havenly.Backend.Entity.PackageTypes;
 
 public interface PackageTypesRepo extends JpaRepository<PackageTypes, Integer> {
-
-	public PackageTypes findByName(String name);
 	
 	@Query(value = "select packName from PackageTypes where packTypeId=?1",nativeQuery= true)
 	public String getPackType(Integer packId);

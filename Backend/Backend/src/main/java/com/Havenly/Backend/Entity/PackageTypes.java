@@ -20,15 +20,15 @@ public class PackageTypes {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int packageTypeId;
 	
-	@Column
+	@Column(name = "package_types", length=30, nullable = false)
 	private String packName;
-	@Column
+	@Column(name = "price", nullable = false)
 	private int price;
-	@Column
+	@Column(name = "total_posts", nullable = false)
 	private int total_posts;
-	@Column
+	@Column(name = "total_ads", nullable = false)
 	private int total_ads;
 	
-	@OneToOne(mappedBy = "packageTypeId")
+	@OneToOne(mappedBy = "packType")
 	Packages packages;
 }

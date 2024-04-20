@@ -32,7 +32,6 @@ public class Subscription_DTO {
 
 	private int postId;
 	private int adsId;
-	private int packageId;
 	private int banId;
 	private int totalPosts;
 	private int totalAds;

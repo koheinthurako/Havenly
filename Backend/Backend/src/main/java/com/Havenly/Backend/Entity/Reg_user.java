@@ -40,7 +40,7 @@ public class Reg_user {
 	private LocalTime time;
 	
 	
-	@OneToOne(mappedBy = "register_id")
+	@OneToOne(mappedBy = "reg_user")
 	Subscription sub;
 	
 

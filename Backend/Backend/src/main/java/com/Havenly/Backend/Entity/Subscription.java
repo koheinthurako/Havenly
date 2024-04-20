@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,8 +18,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -39,42 +39,39 @@ private int subUserId;
 @Email(message = "Invalid NRC Format")
 private String nrc;
 
-@Column(columnDefinition = "ENUM('registered', 'subscribed','premium', 'banned') NOT NULL")	
-@Enumerated(EnumType.STRING)
-private UserStatus status;
+//@Column(columnDefinition = "ENUM('registered', 'subscribed','premium', 'banned') NOT NULL")	
+//@Enumerated(EnumType.STRING)
+//private UserStatus status;
 
-
-@Column(nullable = false)
-@ColumnDefault("current date")
+@Column(name = "post_id")
+private int postId;
+@Column(name = "ads_id")
+private int adsId;
+@Column(name = "ban_id")
+private int banId;
+@Column(name = "total_posts")
+private int totalPosts;
+@Column(name = "total_ads")
+private int totalAds;
 private LocalDate subStartDate;
 
 private LocalDate subEndDate;
 
-
-@Column(nullable = false)
-@ColumnDefault("current timestamp")
 private LocalDateTime subStartTime;
 
 private LocalDateTime subEndTime;
 
 
-@Column
-private int postId;
-@Column
-private int adsId;
-@Column
-private int banId;
-@Column
-private int totalPosts;
-@Column
-private int totalAds;
 
 @OneToOne(fetch = FetchType.EAGER)
 @JoinColumn(name="reg_user_id", referencedColumnName = "register_id")
 Reg_user reg_user;
 
-@ManyToOne(fetch = FetchType.EAGER)
-@JoinColumn(name="package_id", referencedColumnName = "packageId")
-Packages packages;
+//@OneToOne(fetch = FetchType.EAGER)
+//@JsonIgnore
+//@JoinColumn(name="package_id", referencedColumnName = "packageId")
+//Packages packages;
 
+@OneToOne(mappedBy = "sub1")
+Packages packages;
 }

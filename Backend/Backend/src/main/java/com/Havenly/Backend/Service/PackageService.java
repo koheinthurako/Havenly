@@ -11,7 +11,7 @@ import com.Havenly.Backend.Entity.Packages;
 public interface PackageService {
 	Collection <PackageTypes> findAll();
 	PackageTypes getById(int packageId);
-	PackageTypes getByName(String packName);
+	//PackageTypes getByName(String packName);
 	Packages findById(int pid);
 	boolean payment(String pay);
 	void delete(int packId);

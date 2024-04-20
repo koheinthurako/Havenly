@@ -16,10 +16,11 @@ public class PackageServiceImpl implements PackageService{
 
 	@Autowired
 	PackageTypesRepo packTypesRepo;
-	
+	@Autowired
 	PackagesRepo packRepo;
 	
-	Packages pack; 
+	Packages pack = new Packages(); 
+	
 	@Override
 	public Collection<PackageTypes> findAll() {
 		// TODO Auto-generated method stub
@@ -32,11 +33,11 @@ public class PackageServiceImpl implements PackageService{
 		return packTypesRepo.findById(packageId).orElse(null);
 	}
 	
-	@Override
-	public PackageTypes getByName(String packName) {
-		// TODO Auto-generated method stub
-		return packTypesRepo.findByName(packName);
-	}
+//	@Override
+//	public PackageTypes getByName(String packName) {
+//		// TODO Auto-generated method stub
+//		return packTypesRepo.findByName(packName);
+//	}
 
 	@Override
 	public void delete(int pid) {

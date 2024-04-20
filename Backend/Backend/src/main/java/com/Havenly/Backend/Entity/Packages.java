@@ -7,8 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
@@ -23,15 +21,18 @@ public class Packages {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int packageId;
-	@Column
-	private int subUserId;
-	@Column
+	@Column(name = "payment")
 	private String payment;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="package_type_id", referencedColumnName = "packageTypeId")
 	PackageTypes packType;
 	
-	@OneToMany(mappedBy = "packageId")
-	Subscription sub;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="subUser_id", referencedColumnName = "subUserId")
+	Subscription sub1;
+	
+//	@OneToOne(mappedBy = "package_id")
+//	@JsonIgnore
+//	Subscription sub;
 }
