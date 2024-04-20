@@ -16,12 +16,12 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                                <v-img :src="c1" height="100%"
                                     cover></v-img>
                             </div>
                             <div class="col-6">
                                 <v-card-item>
-                                    <v-card-title>Cafe Badilico</v-card-title>
+                                    <v-card-title>Lat Phrao Condo</v-card-title>
 
                                     <v-card-subtitle>
                                         <span class="me-1">Local Favorite</span>
@@ -41,14 +41,10 @@
                                     </v-row>
 
                                     <div class="my-4 text-subtitle-1">
-                                        $ • Italian, Cafe
+                                        Bangkok Imue Noy
                                     </div>
 
-                                    <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor
-                                        seats
-                                        plus
-                                        patio
-                                        seating.</div>
+                                    <div>FLO By Sansiri project, the first project in the form of a river curve view that is exclusive, the only one from Sansiri.</div>
                                 </v-card-text>
 
                                 <v-divider class="mx-4 mb-1"></v-divider>
@@ -88,8 +84,15 @@
 <script>
 export default {
     // Your script goes here
+
+    data: ()=> ({
+        c1: require('@/assets/img/c7.jpg'),
+    }),
+
 }
 </script>
+
+
 
 <style>
 .carousel-button {

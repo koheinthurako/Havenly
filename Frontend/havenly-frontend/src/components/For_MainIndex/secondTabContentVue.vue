@@ -3,14 +3,14 @@
         <div class="second-tabContent-data">
             <div class="tab-carousel-content m-auto my-2" :style="{ transform: `translateX(${offset}px)` }">
 
-                <div class="tabContent-header">
+                <!-- <div class="tabContent-header mb-5">
                     <div class="bar"></div>
-                    <h3>Hello There</h3>
-                </div>
+                    <h3>Enjoy All </h3>
+                </div> -->
                 <div class="d-none d-md-block">
                     <v-btn size="large"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                        :elevation="20" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
+                        :elevation="5" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
                         @click="openTab(visibleStartIndex + index)"
                         :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
                         {{ button }}
@@ -60,7 +60,7 @@ export default {
                 { title: 'phone xiaomi House' },
                 { title: 'phone vivo Hostel' },
             ],
-            activeTab: 0 // Set the default active tab to the first tab
+            activeTab: 1 // Set the default active tab to the first tab
         };
     },
     computed: {

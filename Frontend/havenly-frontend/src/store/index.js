@@ -52,58 +52,57 @@ export default createStore({
     ],
 
     phone: [
-      // apple
       {
-        title: 'Iphone 14 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
-        image2: require('@/assets/img/7.jpg'),
-        image3: require('@/assets/img/7.jpg'),
+        title: 'Khlong Luxury Condo',
+        description: 'Rama 4 Road, Maha Phrutharam, Bang Rak, Krabi 10 mins (820 m) from BL28 Hua Lamphong MRT',
+        image: require('@/assets/img/c1.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 15 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Bangkok DB Condo',
+        description: '78 Soi Sukhumvit 61, Khlong Tan Nua, Watthana, Bangkok 20 mins (1.7 km) from E6 Thong Lo BTS',
+        image: require('@/assets/img/c2.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 13 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Peat Dinna Condo',
+        description: 'Just 82,xxx, 2beds 2baths, newly renovate, high floor,near BTS Thonglo. For Sale The Clover Thonglor',
+        image: require('@/assets/img/c3.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 12 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Plai Phraya Condo',
+        description: '157 15 Ratchawithi Rd., Thung Phaya Thai, Ratchathewi, Bangkok 5 min (380 m) from N1 Ratchathewi BTS',
+        image: require('@/assets/img/c4.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 14 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Phela Bangkok',
+        description: 'Live the uniquely charming lifestyle of Sam Yan at Culture Chula. 38/12 Soi Pratu Chai, Si Phraya, Bang Rak, Bangkok',
+        image: require('@/assets/img/c5.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 15 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Lam Thap Luxury',
+        description: '99 Ratchaphruek Road, Bukkalo, Thon Buri, Bangkok 4 mins (320 m) from S9 Pho Nimit BTS',
+        image: require('@/assets/img/c6.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 13 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Phasi Charoen',
+        description: '2 Silom Road, Silom, Bang Rak, Bangkok 6 mins (500 m) from S3 Chong Nonsi BTS',
+        image: require('@/assets/img/c7.jpg'),
         category: 'apple',
       },
       {
-        title: 'Iphone 12 pro max',
-        description: 'available on march',
-        image: require('@/assets/img/2.jpg'),
+        title: 'Min buri Condo',
+        description: 'Krung Thon Buri Road, Bang Lam Phu Lang, Khlong San, Bangkok 7 mins (580 m) from S8 Wongwian Yai BTS',
+        image: require('@/assets/img/c8.jpg'),
         category: 'apple',
       },
-      // Samsung
+
+
+
       {
         title: 'S24 ultra',
         description: 'available on march',
@@ -152,7 +151,9 @@ export default createStore({
         image: require('@/assets/img/3.jpg'),
         category: 'samsung',
       },
-      // Xiaomi
+
+
+
       {
         title: 'Mi 11 ultra',
         description: 'available on march',
@@ -201,7 +202,9 @@ export default createStore({
         image: require('@/assets/img/5.jpg'),
         category: 'xiaomi',
       },
-      // Vivo
+
+
+
       {
         title: 'vivo 11 ultra',
         description: 'available on march',

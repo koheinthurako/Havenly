@@ -12,10 +12,10 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="#">Package</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="#">Contact Us</a>
               </li>
               <li class="nav-item bg-red">
                 <a class="nav-link text-white" href="#">Account</a>

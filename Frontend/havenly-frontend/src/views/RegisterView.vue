@@ -7,7 +7,7 @@
               <v-text-field variant="underlined" v-model="user.email" label="Email"></v-text-field>
               <v-text-field variant="underlined" v-model="user.password" label="password"></v-text-field>
 
-              <v-btn type="submit" color="primary"  block class="mt-2">Sign up</v-btn>
+              <v-btn type="submit" block class="mt-2 bg-redbrick text-white">Sign up</v-btn>
           </v-form>
           <div class="mt-2">
               <p class="text-body-2">

@@ -6,7 +6,7 @@
 
                 <!-- for Desktop view -->
 
-                <v-btn size="large" :elevation="20" class="d-none d-md-block content-btn ms-auto mb-2">See all post of <span
+                <v-btn size="large" :elevation="5" class="d-none d-md-block content-btn ms-auto mb-2">See all post of <span
                         class="red">{{ get_title }}</span> <v-icon
                         style="margin-left: 8px;font-size: 24px; transform: rotate(90deg);">mdi-triangle</v-icon>
                 </v-btn>
@@ -14,10 +14,7 @@
                 <v-btn size="small" :elevation="20" class="d-block d-sm-none content-btn ms-auto me-5 mb-1">See all <span
                     class="red">{{ get_title }}</span> <v-icon
                     style="margin-left: 8px;font-size: 24px; transform: rotate(90deg);">mdi-triangle</v-icon>
-            </v-btn>
-
-
-
+                </v-btn>
 
             </div>
 
@@ -32,25 +29,13 @@
                             <div class="image-container mb-2">
                                 <img :src="slide.image" class="card-img-top" alt="Card image cap">
                             </div>
-                            <div class="card-body p-0">
-                                <div class="text-row">
-                                    <h4 class="text-center">{{ slide.title }}</h4>
-                                    <p class="text-center">hello world</p>
-                                </div>
-                                <div class="btn-row">
-                                    <router-link to="" class="v-btn"
-                                        :elevation="20"><v-icon>mdi-home-floor-a</v-icon>Item a</router-link>
-                                    <router-link to="" class="v-btn"><v-icon>mdi-alpha-b-box</v-icon>Item
-                                        b</router-link>
-                                </div>
-                                <div class="btn-row">
-                                    <router-link to="" class="v-btn"><v-icon>mdi-thumb-up</v-icon>Item c</router-link>
-                                    <router-link to="" class="v-btn"><v-icon>mdi-emoticon-cool-outline</v-icon>Item
-                                        d</router-link>
-                                </div>
-                                <div class="footer-row">
-                                    <v-btn color="red" variant="outlined">Add to Cart
-                                        <v-icon>mdi-chevron-double-right</v-icon></v-btn>
+                            <div class="card-body p-0 d-flex flex-column text-center justify-content-between">
+                                <h4 class="text-center my-3">{{ slide.title }}</h4>
+                                <p class="p-0 card-text small mx-auto col-10"> {{ slide.description }} </p>
+                                <div class="footer-row mb-4 mt-auto">
+                                    <v-btn variant="outlined" color="red" class="w-75"> See Details
+                                        <v-icon>mdi-chevron-double-right</v-icon>
+                                    </v-btn>
                                 </div>
                             </div>
                         </routerlink>
@@ -86,6 +71,7 @@ export default {
         slides() {
             let slides = [];
             const titleParts = this.content.title.split(' ');
+            console.log(this.content.title);
             if (titleParts.length === 3) {
                 const firstWord = titleParts[0];
                 const secondWord = titleParts[1];

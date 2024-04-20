@@ -7,7 +7,7 @@
                 <v-text-field v-model="user.password" label="password"></v-text-field>
                 <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
 
-                <v-btn type="submit" color="primary" block class="mt-2">Sign in</v-btn>
+                <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3">Sign in</v-btn>
 
             </v-form>
             <div class="mt-2">

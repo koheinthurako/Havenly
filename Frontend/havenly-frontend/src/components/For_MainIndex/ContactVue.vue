@@ -44,7 +44,7 @@
                             submit
                         </v-btn>
 
-                        <v-btn @click="handleReset" class="mt-3">
+                        <v-btn @click="handleReset" variant="outlined" class="mt-3">
                             clear
                         </v-btn>
                     </form>
