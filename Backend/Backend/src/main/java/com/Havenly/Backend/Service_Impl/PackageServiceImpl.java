@@ -21,23 +21,6 @@ public class PackageServiceImpl implements PackageService{
 	
 	Packages pack = new Packages(); 
 	
-	@Override
-	public Collection<PackageTypes> findAll() {
-		// TODO Auto-generated method stub
-		return packTypesRepo.findAll();
-	}
-
-	@Override
-	public PackageTypes getById(int packageId) {
-		// TODO Auto-generated method stub
-		return packTypesRepo.findById(packageId).orElse(null);
-	}
-	
-//	@Override
-//	public PackageTypes getByName(String packName) {
-//		// TODO Auto-generated method stub
-//		return packTypesRepo.findByName(packName);
-//	}
 
 	@Override
 	public void delete(int pid) {

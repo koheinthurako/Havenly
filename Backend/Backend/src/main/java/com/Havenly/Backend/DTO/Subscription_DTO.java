@@ -2,13 +2,8 @@ package com.Havenly.Backend.DTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import org.hibernate.annotations.ColumnDefault;
-
 import com.Havenly.Backend.Entity.Subscription;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,11 +35,8 @@ public class Subscription_DTO {
 		Subscription subUser = new Subscription();
 		subUser.setSubUserId(dto.getAdsId());
 		subUser.setNrc(dto.getNrc());
-		subUser.setBanId(dto.getBanId());
 		subUser.setTotalPosts(dto.getTotalPosts());
 		subUser.setTotalAds(dto.getTotalAds());
-		subUser.setPostId(dto.getPostId());
-		subUser.setAdsId(dto.getAdsId());
 		
 		subUser.setSubStartDate(dto.getSubStartDate());
 		subUser.setSubStartTime(dto.getSubStartTime());
@@ -59,11 +51,8 @@ public class Subscription_DTO {
 		Subscription_DTO dto = new Subscription_DTO();
 		dto.setSubUserId(subUser.getSubUserId());
 		dto.setNrc(subUser.getNrc());
-		dto.setBanId(subUser.getBanId());
 		dto.setTotalPosts(subUser.getTotalPosts());
 		dto.setTotalAds(subUser.getTotalAds());
-		dto.setPostId(subUser.getPostId());
-		dto.setAdsId(subUser.getAdsId());
 		
 		dto.setSubStartDate(subUser.getSubStartDate());
 		dto.setSubStartTime(subUser.getSubStartTime());
