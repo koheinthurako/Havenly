@@ -3,9 +3,6 @@ package com.Havenly.Backend.DTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.Havenly.Backend.Entity.Reg_user;
 
 import lombok.AllArgsConstructor;

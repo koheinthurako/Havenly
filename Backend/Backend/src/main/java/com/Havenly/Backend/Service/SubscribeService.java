@@ -7,10 +7,10 @@ import com.Havenly.Backend.DTO.Subscription_DTO;
 @Service
 public interface SubscribeService {
 
-	String cancel(int subId);
-	Subscription_DTO subscribe(String nrc, int packId);
-	Subscription_DTO freeTrial(Subscription_DTO dto, String pName);
-	Subscription_DTO subNormal(Subscription_DTO dto, String pName);
-	Subscription_DTO subPremium(Subscription_DTO dto, String pName);
+	String cancel(Subscription_DTO dto);
+	//Subscription_DTO subscribe(Subscription_DTO dto);
+	Subscription_DTO freeTrial(Subscription_DTO dto);
+	Subscription_DTO subNormal(Subscription_DTO dto);
+	Subscription_DTO subPremium(Subscription_DTO dto);
 
 }

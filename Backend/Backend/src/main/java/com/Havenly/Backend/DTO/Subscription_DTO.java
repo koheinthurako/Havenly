@@ -19,15 +19,12 @@ public class Subscription_DTO {
 	private String nrc;
 	
 	private LocalDate subStartDate;
-	private LocalDate subEndDate;
-
-
 	private LocalDateTime subStartTime;
-	private LocalDateTime subEndTime;
 
+	private String packageType;
 	private int postId;
 	private int adsId;
-	private int banId;
+
 	private int totalPosts;
 	private int totalAds;
 	
@@ -35,13 +32,13 @@ public class Subscription_DTO {
 		Subscription subUser = new Subscription();
 		subUser.setSubUserId(dto.getAdsId());
 		subUser.setNrc(dto.getNrc());
+		subUser.setName(dto.getName());
 		subUser.setTotalPosts(dto.getTotalPosts());
 		subUser.setTotalAds(dto.getTotalAds());
-		
+		subUser.setPackageType(dto.getPackageType());
 		subUser.setSubStartDate(dto.getSubStartDate());
 		subUser.setSubStartTime(dto.getSubStartTime());
-		subUser.setSubEndDate(dto.getSubEndDate());
-		subUser.setSubEndTime(dto.getSubEndTime());
+
 		
 		return subUser;
 		
@@ -53,11 +50,10 @@ public class Subscription_DTO {
 		dto.setNrc(subUser.getNrc());
 		dto.setTotalPosts(subUser.getTotalPosts());
 		dto.setTotalAds(subUser.getTotalAds());
-		
+		dto.setPackageType(subUser.getPackageType());
 		dto.setSubStartDate(subUser.getSubStartDate());
 		dto.setSubStartTime(subUser.getSubStartTime());
-		dto.setSubEndDate(subUser.getSubEndDate());
-		dto.setSubEndTime(subUser.getSubEndTime());
+
 		return dto;
 		
 	}

@@ -22,7 +22,7 @@ import com.Havenly.Backend.Service.SubscribeService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/subscribe")
+@RequestMapping("/")
 public class SubscriptionController {
 	
 	@Autowired
@@ -33,8 +33,8 @@ public class SubscriptionController {
 
 	
 	@DeleteMapping("/cancel")
-	public ResponseEntity<String> cancelSub(@Valid @RequestBody int subId){
-		return new ResponseEntity <String>(subService.cancel(subId),HttpStatus.OK);		
+	public ResponseEntity<String> cancelSub(@Valid @RequestBody Subscription_DTO dto){
+		return new ResponseEntity <String>(subService.cancel(dto),HttpStatus.OK);		
 	}
 	
 	@GetMapping("/packages")
@@ -42,27 +42,18 @@ public class SubscriptionController {
 		return new ResponseEntity <List<PackageTypes>>(packRepo.findAll(),HttpStatus.OK);
 	}
 	
-	@PostMapping("/normal")
-	public ResponseEntity<Subscription_DTO> subNormal(@Valid @RequestBody Subscription_DTO dto, String packName){
+	@PostMapping("/subscribe")
+	public ResponseEntity<Subscription_DTO> subscribe(@Valid @RequestBody Subscription_DTO dto){
 		dto.setSubStartDate(LocalDate.now());
 		dto.setSubStartTime(LocalDateTime.now());
-		return new ResponseEntity <Subscription_DTO>(subService.subNormal(dto, packName),HttpStatus.ACCEPTED);
-		
-	}
-	
-	@PostMapping("/freetrial")
-	public ResponseEntity<Subscription_DTO> freeTrial(@Valid @RequestBody Subscription_DTO dto, String packName){
-		dto.setSubStartDate(LocalDate.now());
-		dto.setSubStartTime(LocalDateTime.now());
-		return new ResponseEntity <Subscription_DTO>(subService.freeTrial(dto, packName),HttpStatus.ACCEPTED);
-		
-	}
-	
-	@PostMapping("/premium")
-	public ResponseEntity<Subscription_DTO> subPremium(@Valid @RequestBody Subscription_DTO dto, String packName){
-		dto.setSubStartDate(LocalDate.now());
-		dto.setSubStartTime(LocalDateTime.now());
-		return new ResponseEntity <Subscription_DTO>(subService.subPremium(dto, packName),HttpStatus.ACCEPTED);
+		if(dto.getPackageType()=="Free Trial") {
+			return new ResponseEntity <Subscription_DTO>(subService.freeTrial(dto),HttpStatus.ACCEPTED);
+		}
+		else if(dto.getPackageType() =="Normal") {
+			return new ResponseEntity <Subscription_DTO>(subService.subNormal(dto),HttpStatus.ACCEPTED);
+		}else {
+			return new ResponseEntity <Subscription_DTO>(subService.subPremium(dto),HttpStatus.ACCEPTED);
+		}
 		
 	}
 }

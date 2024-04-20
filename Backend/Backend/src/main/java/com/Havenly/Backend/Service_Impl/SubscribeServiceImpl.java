@@ -35,10 +35,8 @@ public class SubscribeServiceImpl implements SubscribeService{
 
 
 	@Override
-	public String cancel(int sid) {
-		Subscription sub = subscribeRepo.findById(sid).orElse(null);
-		sub.setSubEndDate(LocalDate.now());
-		sub.setSubEndTime(LocalDateTime.now());
+	public String cancel(Subscription_DTO dto) {
+		Subscription sub = subscribeRepo.findByNrc(dto.getNrc());
 		if(sub.equals(null)) {
 			return "User is not subscribed.";
 		}else {
@@ -50,10 +48,12 @@ public class SubscribeServiceImpl implements SubscribeService{
 	}
 
 	@Override
-	public Subscription_DTO freeTrial(Subscription_DTO dto, String pName) {
+	public Subscription_DTO freeTrial(Subscription_DTO dto) {
 		Subscription sub = subUser.convertToEntity(dto);
-		sub.setTotalAds(packTypesRepo.getTotalAds(pName));
-		sub.setTotalPosts(packTypesRepo.getTotalPosts(pName));
+		sub.setTotalAds(2);
+		sub.setTotalPosts(3);
+		sub.setName(dto.getName());
+		sub.setPackageType(dto.getPackageType());
 		sub.setNrc(dto.getNrc());
 		Subscription user = subscribeRepo.save(sub);
 		Subscription_DTO user2 = subUser.convertToObject(user);
@@ -62,10 +62,12 @@ public class SubscribeServiceImpl implements SubscribeService{
 	}
 	
 	@Override
-	public Subscription_DTO subNormal(Subscription_DTO dto, String pName) {
+	public Subscription_DTO subNormal(Subscription_DTO dto) {
 		Subscription sub = subUser.convertToEntity(dto);
-		sub.setTotalAds(packTypesRepo.getTotalAds(pName));
-		sub.setTotalPosts(packTypesRepo.getTotalPosts(pName));
+		sub.setTotalAds(10);
+		sub.setTotalPosts(15);
+		sub.setName(dto.getName());
+		sub.setPackageType(dto.getPackageType());
 		sub.setNrc(dto.getNrc());
 		Subscription user = subscribeRepo.save(sub);
 		Subscription_DTO user2 = subUser.convertToObject(user);
@@ -73,20 +75,27 @@ public class SubscribeServiceImpl implements SubscribeService{
 	}
 
 	@Override
-	public Subscription_DTO subPremium(Subscription_DTO dto, String pName) {
+	public Subscription_DTO subPremium(Subscription_DTO dto) {
 		Subscription sub = subUser.convertToEntity(dto);
-		sub.setTotalAds(packTypesRepo.getTotalAds(pName));
-		sub.setTotalPosts(packTypesRepo.getTotalPosts(pName));
+		sub.setTotalAds(20);
+		sub.setTotalPosts(30);
+		sub.setName(dto.getName());
+		sub.setPackageType(dto.getPackageType());
 		sub.setNrc(dto.getNrc());
 		Subscription user = subscribeRepo.save(sub);
 		Subscription_DTO user2 = subUser.convertToObject(user);
 		return user2;
 	}
-
-	@Override
-	public Subscription_DTO subscribe(String nrc, int packId) {
-		return subUser;
-		
-	}
+//
+//	@Override
+//	public Subscription_DTO subscribe(Subscription_DTO dto) {
+//		Subscription sub = subUser.convertToEntity(dto);
+//		sub.setTotalAds(2);
+//		sub.setTotalPosts(3);
+//		sub.setNrc(dto.getNrc());
+//		Subscription user = subscribeRepo.save(sub);
+//		Subscription_DTO user2 = subUser.convertToObject(user);
+//		return user2;
+//	}
 
 }

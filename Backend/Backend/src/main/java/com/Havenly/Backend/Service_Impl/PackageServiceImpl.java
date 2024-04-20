@@ -1,7 +1,5 @@
 package com.Havenly.Backend.Service_Impl;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,6 +41,12 @@ public class PackageServiceImpl implements PackageService{
 	@Override
 	public Packages findById(int pid) {
 		return packRepo.findById(pid).orElse(null);
+	}
+
+	@Override
+	public PackageTypes defaultValue() {
+		// TODO Auto-generated method stub
+		return packTypesRepo.insertValues();
 	}
 
 	

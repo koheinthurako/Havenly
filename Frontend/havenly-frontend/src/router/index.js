@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeIndex from '../components/mainIndexVue.vue'
+import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import SubscribeView from '../views/SubscribeView.vue'
+import CancelSubscription from '../views/CancelSubscription.vue'
 
 const routes = [
   {
@@ -20,13 +23,21 @@ const routes = [
     component: SubscribeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/cancel',
+    name: 'CancelSubscription',
+    component: CancelSubscription
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: HomeIndex
+  },
+  {
+    path: '/package',
+    name: 'package',
+    component: tempPackage
+  },
+
 ]
 
 const router = createRouter({
