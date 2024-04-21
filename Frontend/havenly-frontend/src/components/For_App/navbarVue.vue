@@ -9,16 +9,16 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <router-link to="/home" class="nav-link">Home</router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Package</a>
+                <router-link to="/home" class="nav-link">Package</router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <router-link to="/home" class="nav-link">Contact</router-link>
               </li>
-              <li class="nav-item bg-red">
-                <a class="nav-link text-white" href="#">Account</a>
+              <li class="nav-item">
+                <router-link to="/home" class="nav-link">Account</router-link>
               </li>
             </ul>
           </div>

@@ -68,12 +68,12 @@ export default {
     overflow: hidden;
     padding: 60px 0px;
 
-    .fourContact-data {
+    /* .fourContact-data {
         width: 80%;
         height: auto;
         margin: auto;
 
-    }
+    } */
 }
 
 </style>

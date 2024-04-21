@@ -61,9 +61,9 @@ const selectTypes = useField('selectTypes')
 const selectRegion = useField('selectRegion')
 const selectTownShip = useField('selectTownShip')
 
-const types = ref(['Condo', 'Apartments', 'Stand Alone house'])
-const regions = ref(['Yangon', 'Mandalay', 'Mon'])
-const townships = ref(['Yangon', 'Aung Myay Thar Zan', 'Kyite Hto'])
+const types = ref(['Condo', 'Apartment', 'Stand Alone house', 'Hostel'])
+const regions = ref(['Yangon', 'Mandalay', 'Mon', 'Shan', 'Kayar', 'Awadady', ])
+const townships = ref(['Hlaing', 'Thamine', 'Helden', 'South Okkalapa', 'South Dagon', 'Botahtaung'])
 
 const showSubmitButton = ref(false)
 

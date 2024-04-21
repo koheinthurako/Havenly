@@ -5,8 +5,10 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader';
 import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap';
 import './assets/css/main.scss';
+import 'bootstrap';
+import './assets/css/main.scss'
+import './assets/js/main.js'
 
 loadFonts()
 

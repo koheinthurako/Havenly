@@ -8,13 +8,13 @@
                             <h3>Contact us</h3>
                         </div>
                         <div>
-                            <v-icon>mdi-home</v-icon>Yangon
+                            <v-icon class="me-1">mdi-home</v-icon>Yangon
                         </div>
                         <div>
-                            <v-icon>mdi-email-outline</v-icon>helloworld@gmail.com
+                            <v-icon class="me-1">mdi-email-outline</v-icon>helloworld@gmail.com
                         </div>
                         <div>
-                            <v-icon>mdi-cellphone</v-icon>+95+9664493719
+                            <v-icon class="me-1">mdi-cellphone</v-icon>+95+9664493719
                         </div>
                         <p>You can contact or give advice to admin. We will always taking care to our customers.</p>
                     </div>
@@ -40,11 +40,11 @@
                         <v-text-field v-model="address.value.value" :error-messages="address.errorMessage.value"
                             label="Address"></v-text-field>
 
-                        <v-btn class="me-4 mt-3" type="submit" color="red">
+                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit" >
                             submit
                         </v-btn>
 
-                        <v-btn @click="handleReset" variant="outlined" class="mt-3">
+                        <v-btn :elevation="20" @click="handleReset" class="mt-3 clear">
                             clear
                         </v-btn>
                     </form>
@@ -52,11 +52,14 @@
                 </div>
                 <div class="col-md-2">
                     <h3>Links </h3>
-                    <router-link to="/" class="btn w-100 mb-2"><div style="color: #fff;">Home</div></router-link>
-                    <router-link to="/" class="btn w-100 mb-2"><div style="color: #fff;">Address</div></router-link>
-                    <router-link to="/" class="btn w-100 mb-2"><div style="color: #fff;">Contact</div></router-link>
-                    <router-link to="/" class="btn w-100 mb-2"><div style="color: #fff;">About</div></router-link>
-                    <v-btn variant="elevated" color="white" class="w-100">Call Now</v-btn>
+                    <div class="link-colletion">
+                        <router-link to="/" class="nav-link ">Home</router-link>
+                        <router-link to="/" class="nav-link ">Address</router-link>
+                        <router-link to="/" class="nav-link">Contact</router-link>
+                        <router-link to="/" class="nav-link">About</router-link>
+                        <v-btn variant="elevated" class="call-bg">Call Now</v-btn>
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -3,22 +3,25 @@
         <div class="second-tabContent-data">
             <div class="tab-carousel-content m-auto my-2" :style="{ transform: `translateX(${offset}px)` }">
 
-                <!-- <div class="tabContent-header mb-5">
-                    <div class="bar"></div>
-                    <h3>Enjoy All </h3>
-                </div> -->
-                <div class="d-none d-md-block">
-                    <v-btn size="large"
-                        v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                        :elevation="5" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
-                        @click="openTab(visibleStartIndex + index)"
-                        :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
-                        {{ button }}
-                    </v-btn>
+                <div class="tabContent-header">
+                    <h3>Welcome to Havenly</h3>
+                    </div>
+
+                    <div class="d-none d-md-block button-bar ">
+                    <div>
+                        <v-btn size="large"
+                            v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
+                            :elevation="20" :key="index" style="text-transform:capitalize;"
+                            class="tab-carousel-button " @click="openTab(visibleStartIndex + index)"
+                            :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
+                            {{ button }}
+                            <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div>
+                        </v-btn>
+                    </div>
                 </div>
 
 
-                <div class="d-block d-sm-none ">
+                <div class="d-block d-sm-none">
                     <v-btn size="small"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
                         :elevation="20" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
@@ -50,7 +53,7 @@ export default {
     },
     data() {
         return {
-            buttons: ['Condo', 'Apartment', 'House', 'Hostel'],
+            buttons: ['Condo', 'Apart', 'House', 'Hostel'],
             offset: 0,
             visibleStartIndex: 0,
             visibleButtons: 10,
