@@ -192,76 +192,96 @@ $font-family: "Roboto", sans-serif;
 /* For Second Tab Content End */
 
 /* For Third Carousel start */
-.third-carousel {
+
+.third-carousel-page {
   width: 100%;
+  height: auto;
   background-color: pink;
-  display: flex;
-  padding: 40px 0px;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  overflow: hidden;
 
-  .third-carousel-header {
+  .third-carousel {
     width: 100%;
-    h2 {
-      margin: auto;
-      padding: 8px 0px;
-      text-align: center;
-      width: 400px;
-      color: #e86f52;
-      background-color: #fff;
-      border-left: 5px solid #e86f52;
-      border-right: 5px solid #e86f52;
-    }
-  }
-
-  .tab-carousel-content {
-    width: 100%;
+    height: auto;
+    padding: 40px 0px;
+    overflow: hidden;
     display: flex;
-  }
+    align-items: center;
 
-  .pointer-button {
-    position: absolute;
-    width: 80%;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: all 0.3s ease-in-out;
-    z-index: 400;
-
-    .prev,
-    .next {
-      font-size: 24px;
+    .inner {
       display: flex;
-      z-index: 400;
+  
+      align-items: center;
+      transition: transform 0.4s ease-in-out;
+    }
+    .card-img {
+      width: 600px;
+      border-radius: 6px;
+      position: relative;
+      display: flex;
+      margin-left: 16px;
+      z-index: 300;
+      box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.2);
+      .split {
+        height: 100%;
+        width: 50%;
 
-      .v-icon {
-        padding: 30px;
-        background-color: #525252;
-        color: #fff;
-        border-radius: 50%;
-        cursor: pointer;
+        top: 0;
+
+        z-index: 600;
+      }
+
+      .left-part {
+        left: 0;
+        padding: 10px;
+
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(40px);
+      }
+
+      .right-part {
+        right: 0;
+        background-color: transparent;
       }
     }
-    .next {
-      margin-right: 18px;
+  }
+  .next,
+  .prev {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    transition: all 0.3s ease-in-out;
+    z-index: 500;
+    top: 42%;
+
+    .v-icon {
+      font-size: 44px;
     }
   }
-
-  .active {
-    background-color: red;
-    color: #fff !important;
-    transform: translateY(50%, 50%);
-  }
-}
-
-.third-carousel:hover .pointer-button {
-  .prev {
-    display: block !important;
-    animation: fadeRightAnimation 0.4s ease-in-out;
-  }
   .next {
-    display: block !important;
-    animation: fadeLeftAnimation 0.4s ease-in-out;
+    left: 5%;
+    opacity: 0;
+    transform: translateX(-300px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .prev {
+    right: 5%;
+    opacity: 0;
+    transform: translateX(300px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  &:hover .next {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  &:hover .prev {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -544,9 +564,9 @@ $font-family: "Roboto", sans-serif;
   .contact-data {
     width: 85%;
     height: auto;
-    color: #fff; 
+    color: #fff;
     .left-data {
-      .v-icon{
+      .v-icon {
         color: #e86f52;
         font-weight: bold;
       }
@@ -582,7 +602,6 @@ $font-family: "Roboto", sans-serif;
         width: 100%;
       }
     }
-
   }
 }
 /* For Contact Page end */
@@ -634,7 +653,7 @@ $font-family: "Roboto", sans-serif;
 
     position: relative;
     .card-box-data {
-      width: 70%;
+      width: 65%;
       padding: 20px;
       background-color: #fff;
       border-radius: 20px;
@@ -654,18 +673,18 @@ $font-family: "Roboto", sans-serif;
       }
     }
     .left {
-      margin-top: 360px;
-      margin-left: 360px;
+      margin-top: 200px;
+      margin-left: 420px;
       z-index: 400;
     }
     .right {
-      margin-top: 360px;
-      margin-right: 360px;
+      margin-top: 220px;
+      margin-right: 420px;
       z-index: 400;
     }
 
     .mid {
-      margin-top: 390px;
+      margin-top: 240px;
       z-index: 420;
     }
   }
@@ -675,7 +694,7 @@ $font-family: "Roboto", sans-serif;
     width: 100%;
     display: flex;
     justify-content: center;
-    
+
     .pay-data {
       .v-icon {
         font-size: 28px;
@@ -952,11 +971,10 @@ $font-family: "Roboto", sans-serif;
               margin-top: 1px;
             }
 
-            &:hover .custom-icon{
+            &:hover .custom-icon {
               color: #525252;
             }
           }
-          
         }
       }
     }
@@ -1084,6 +1102,19 @@ $font-family: "Roboto", sans-serif;
 }
 
 // animation staff
+
+// customs
+@keyframes C-fadeUpAnimation {
+  from,
+  to {
+    opacity: 0;
+    transform: translateY(300px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Define keyframe animations */
 @keyframes fadeUpAnimation {

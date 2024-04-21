@@ -24,7 +24,7 @@
                         </v-card>
                         <div class="mt-2 w-100 d-flex justify-space-between">
 
-                            <v-btn class="reg-btn">Register</v-btn>
+                            <v-btn class="reg-btn">Subscribe</v-btn>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         </v-card>
                         <div class="mt-2 w-100 d-flex justify-space-between">
                             <v-btn class="sub-btn">Subscribe</v-btn>
-                            <v-btn class="reg-btn">Register</v-btn>
+                            
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                         </v-card>
                         <div class="mt-2 w-100 d-flex justify-space-between">
                             <v-btn class="sub-btn">Subscribe</v-btn>
-                            <v-btn class="reg-btn">Register</v-btn>
+                            
                         </div>
                     </div>
                 </div>
@@ -129,20 +129,7 @@ export default {
                 title: 'Item #3',
                 value: 3,
             },
-            { type: 'divider' },
-            { type: 'subheader', title: 'Verification & Security' },
-            {
-                title: 'Item #4',
-                value: 4,
-            },
-            {
-                title: 'Item #5',
-                value: 5,
-            },
-            {
-                title: 'Item #6',
-                value: 6,
-            },
+            
 
         ],
         item2: [

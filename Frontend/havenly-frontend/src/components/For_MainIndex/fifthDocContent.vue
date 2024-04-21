@@ -9,11 +9,11 @@
             <div class="top-doc color-white">
               <div class="image-overlay">
                 <div class="overlay-text">
-                  <h2>Some Documentations you can read</h2>
+                  <h2>Documentation About our website</h2>
                   <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptates maxime ad quos,
                     temporibus quibusdam nulla. Voluptatibus, similique quisquam? Veniam optio exercitationem quos totam
                     ipsum perferendis ex esse, hic iure!</p>
-                    <router-link to="/" class="custom-link">Read more <v-icon
+                  <router-link to="/" class="custom-link">Read more <v-icon
                       class="custom-icon">mdi-arrow-right-bold</v-icon></router-link>
                 </div>
               </div>
@@ -24,52 +24,42 @@
           </div>
 
         </div>
+
         <div class="row">
-          <div class="col-md-4 p-2">
+          <div class="col-md-6 p-2">
 
             <div class="button-box color-red">
-              <div class="logo">
-                <v-icon>mdi-text-box-multiple</v-icon>
-              </div>
-              <p><span class="ms-5"></span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos magnam
-                obcaecati facere, eius accusantium iusto, laudantium, sint nostrum molestias recusandae earum quisquam
-                pariatur cumque dolor? Iure magni exercitationem fuga quisquam!</p>
-              <router-link class="custom-link" to="/">Read more <v-icon
+
+              <h3 class="text-center my-2">Up coming events</h3>
+              <router-link to="/" class="nav-link">
+                <div class="d-flex"><v-icon>mdi-calendar-alert</v-icon>
+                  <p>&nbsp;From 01 Apr To 30 Apr</p>
+                </div>
+                <div class="d-flex"><v-icon>mdi-map-marker-check</v-icon>&nbsp;<p>Lotte Hotel Yangon</p>
+                </div>
+              </router-link>
+              <v-divider :thickness="2" class="border-opacity-50 mt-0"></v-divider>
+              <router-link to="/" class="nav-link">
+                <div class="d-flex"><v-icon>mdi-calendar-alert</v-icon>
+                  <p>&nbsp;From 01 Apr To 30 Apr</p>
+                </div>
+                <div class="d-flex"><v-icon>mdi-map-marker-check</v-icon>&nbsp;<p>Bangkok Projects Special Sales Event
+                  </p>
+                </div>
+              </router-link>
+              <router-link class="custom-link" to="/">See all events <v-icon
                   class="custom-icon">mdi-arrow-right-bold</v-icon></router-link>
             </div>
 
           </div>
 
-          <div class="col-md-4 p-2">
-
-            <div class="button-box color-white">
-              <div class="logo">
-                <v-icon>mdi-star-box-multiple</v-icon>
-              </div>
-              <p><span class="ms-5"></span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos magnam
-                obcaecati facere, eius accusantium iusto, laudantium, sint nostrum molestias recusandae earum quisquam
-                pariatur cumque dolor? Iure magni exercitationem fuga quisquam!</p>
-              <router-link class="custom-link" to="/">Read more <v-icon
-                  class="custom-icon">mdi-arrow-right-bold</v-icon></router-link>
-            </div>
-
+          <div class="col-md-6 p-2">
+            <adspage />
           </div>
-          <div class="col-md-4 p-2">
 
-            <div class="button-box color-white">
-              <div class="logo">
-                <v-icon>mdi-play-box-multiple</v-icon>
-              </div>
-              <p><span class="ms-5"></span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos magnam
-                obcaecati facere, eius accusantium iusto, laudantium, sint nostrum molestias recusandae earum quisquam
-                pariatur cumque dolor? Iure magni exercitationem fuga quisquam!</p>
-              <router-link class="custom-link" to="/">Read more <v-icon
-                  class="custom-icon">mdi-arrow-right-bold</v-icon></router-link>
-            </div>
-
-          </div>
 
         </div>
+
       </div>
     </div>
   </div>
@@ -77,8 +67,12 @@
 
 
 <script>
+import adspage from '../Temp_Collection/ads-Small.vue'
 export default {
   name: 'fourContectVue',
+  components: {
+    adspage,
+  },
 
   data: () => ({
     img1: require('@/assets/img/6.jpg'),

@@ -1,43 +1,54 @@
 <!-- <template>
-  <div class="third-carousel">
-    <div @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
-      <div class="tab-carousel-content my-2 d-flex" :style="{ transform: `translateX(${offset}px)` }">
-        <v-card @click="openTab(visibleStartIndex + index)"
-          :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }"
-          v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleContent)" :key="index"
-          class="p-0 mx-2">
-          <v-img class="align-end text-white" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
-            <v-card-title>{{ button }}</v-card-title>
+  <div class="third-carousel-page">
+
+    <div class="">
+      <div class="third-carousel" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
+        <div class="inner" ref="inner" :style="innerStyles">
+          <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class=" card-img">
+
+            <div class="split left-part">
+
+              <div>
+                <h3>Cafe Badilico</h3>
+
+                <div>
+                  <span class="me-1">Local Favorite</span>
+
+                  <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                </div>
+              </div>
+
+
+              <v-row align="center" class="mx-0">
+                <v-rating :model-value="4.5" color="amber" density="compact" size="small" half-increments
+                  readonly></v-rating>
+
+                <div class="text-grey ms-4">
+                  4.5 (413)
+                </div>
+              </v-row>
+              <div class="my-3"></div>
+              <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+              </div>
+
+              <br>
+
+              <v-btn color="red">Check Details</v-btn>
+
+            </div>
+            <div class="split right-part">
+              hello world
+            </div>
+
+
+
           </v-img>
-
-          <v-card-subtitle class="pt-4">
-            Number 10
-          </v-card-subtitle>
-
-          <v-card-text>
-            <div>Whitehaven Beach</div>
-            <div>Whitsunday Island, Whitsunday Islands</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text="Share"></v-btn>
-            <v-btn color="orange" text="Explore"></v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
-
-      <div class="pointer-button">
-        <div class="d-flex">
-          <div class="prev my-auto me-auto d-none" @click="prev" :disabled="isPrevButtonHidden">
-            <v-icon>mdi-chevron-left</v-icon>
-          </div>
-          <div class="next my-auto ms-auto d-none" @click="next" :disabled="isNextButtonHidden">
-            <v-icon>mdi-chevron-right</v-icon>
-          </div>
         </div>
       </div>
-
     </div>
+
+    <v-btn @click="prev" class="next"><v-icon>mdi-chevron-left</v-icon></v-btn>
+    <v-btn @click="next" class="prev"><v-icon>mdi-chevron-right</v-icon></v-btn>
 
   </div>
 </template>
@@ -46,63 +57,104 @@
 export default {
   data() {
     return {
-      buttons: ['Yangon', 'Mandaly', 'Nay pyi taw', 'Shan', 'Pyin Oo Lwin', 'Shan', 'Mon' ],
-      offset: 0,
-      visibleStartIndex: 0,
-      visibleContent: 4,
-      activeTab: 0,
-      autoScrollInterval: null
+      cards: [
+        { url: require('@/assets/img/1.jpg') },
+        { url: require('@/assets/img/2.jpg') },
+        { url: require('@/assets/img/3.jpg') },
+        { url: require('@/assets/img/4.jpg') },
+        { url: require('@/assets/img/5.jpg') },
+        { url: require('@/assets/img/6.jpg') },
+        { url: require('@/assets/img/7.jpg') },
+        { url: require('@/assets/img/8.jpg') },
+        { url: require('@/assets/img/9.jpg') },
+        { url: require('@/assets/img/10.jpg') },
+
+      ],
+      innerStyles: {},
+      step: '',
+      transitioning: false,
+      autoScrollInterval: null,
+      autoScrollSpeed: 3000, // Adjust as needed
     };
   },
-  computed: {
-    isPrevButtonHidden() {
-      return this.visibleStartIndex === 0;
-    },
-    isNextButtonHidden() {
-      return this.visibleStartIndex + this.visibleContent >= this.buttons.length;
-    }
-  },
+
   mounted() {
-    // Retrieve saved activeTab from local storage
-    const savedTab = localStorage.getItem('activeTab');
-    if (savedTab !== null) {
-      this.activeTab = parseInt(savedTab); // Set activeTab to the saved value if it exists
-    }
-
-    // maintain scroll position
-    window.addEventListener('beforeunload', this.saveScrollPosition);
-    this.restoreScrollPosition();
-
-    // Start auto-scrolling
+    this.setStep();
+    this.resetTranslate();
     this.startAutoScroll();
+  },
 
-    // Adjust visibleButtons based on screen width
-    this.updateVisibleButtons();
-    window.addEventListener('resize', this.updateVisibleButtons);
-  },
-  beforeUnmount() {
-    window.removeEventListener('beforeunload', this.saveScrollPosition);
-    clearInterval(this.autoScrollInterval); // Clear the auto-scroll interval on component unmount
-    window.removeEventListener('resize', this.updateVisibleButtons);
-  },
   methods: {
-    saveScrollPosition() {
-      sessionStorage.setItem('scrollPosition', window.scrollY);
+    setStep() {
+      const innerWidth = this.$refs.inner.offsetWidth;
+      const totalCards = this.cards.length;
+      this.step = `${innerWidth / totalCards}px`;
     },
-    restoreScrollPosition() {
-      const scrollPosition = sessionStorage.getItem('scrollPosition');
-      if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition));
-      }
-    },
+
     next() {
-      if (this.visibleStartIndex + this.visibleContent < this.buttons.length) {
-        this.visibleStartIndex++;
-        this.offset = -this.calculateButtonWidth() * this.visibleStartIndex;
-        localStorage.setItem('visibleStartIndex', this.visibleStartIndex);
-      }
+      if (this.transitioning) return;
+      this.transitioning = true;
+      this.moveLeft();
+      this.afterTransition(() => {
+        const card = this.cards.shift();
+        this.cards.push(card);
+        this.resetTranslate();
+        this.transitioning = false;
+      });
     },
+
     prev() {
+      if (this.transitioning) return;
+      this.transitioning = true;
+      this.moveRight();
+      this.afterTransition(() => {
+        const card = this.cards.pop();
+        this.cards.unshift(card);
+        this.resetTranslate();
+        this.transitioning = false;
+      });
+    },
+
+    moveLeft() {
+      this.innerStyles = {
+        transform: `translateX(-${this.step}) translateX(-${this.step})`
+      };
+    },
+
+    moveRight() {
+      this.innerStyles = {
+        transform: `translateX(${this.step}) translateX(-${this.step})`
+      };
+    },
+
+    afterTransition(callback) {
+      const innerRef = this.$refs.inner;
+      if (!innerRef) return; // Check if innerRef is null
+      const listener = () => {
+        callback();
+        innerRef.removeEventListener('transitionend', listener);
+      };
+      innerRef.addEventListener('transitionend', listener);
+    },
+
+    resetTranslate() {
+      this.innerStyles = {
+        transition: 'none',
+        transform: `translateX(-${this.step})`
+      };
+    },
+
+    startAutoScroll() {
+      this.autoScrollInterval = setInterval(() => {
+        this.next();
+      }, this.autoScrollSpeed);
+    },
+
+    stopAutoScroll() {
+      clearInterval(this.autoScrollInterval);
+    }
+  }
+};
       if (this.visibleStartIndex > 0) {
         this.visibleStartIndex--;
         this.offset += this.calculateButtonWidth();
@@ -143,7 +195,7 @@ export default {
     }
   }
 };
-</script> -->
+</script> --> -->
 
 
   <!-- <template>
