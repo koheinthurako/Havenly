@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 
+import register from '../components/Login_&_Register/registerVue.vue'
+
 const routes = [
   {
     path: '/home',
@@ -21,6 +23,11 @@ const routes = [
     path: '/package',
     name: 'package',
     component: tempPackage
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: register
   },
 
 ]

@@ -16,7 +16,7 @@
                             class="tab-carousel-button " @click="openTab(visibleStartIndex + index)"
                             :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
                             {{ button }}
-                            <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div>
+                            <!-- <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div> -->
                         </v-btn>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ export default {
     },
     data() {
         return {
-            buttons: ['Condo', 'Apart', 'House', 'Hostel'],
+            buttons: ['Condo', 'Apartment', 'House', 'Hostel'],
             offset: 0,
             visibleStartIndex: 0,
             visibleButtons: 10,
