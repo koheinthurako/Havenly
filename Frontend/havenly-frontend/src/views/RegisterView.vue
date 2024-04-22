@@ -35,6 +35,7 @@ export default {
       signup() {
         axios.post("http://localhost:8083/register",this.user)
    .then(response => console.log(response))
+   
           //
       },
   },

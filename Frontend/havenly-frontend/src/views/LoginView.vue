@@ -2,6 +2,7 @@
     <div class="d-flex align-center justify-center" style="height: 100vh">
         <v-sheet width="400" class="mx-auto">
             <v-form fast-fail @submit.prevent="login">
+                
                 <v-text-field v-model="user.email" label="User Name"></v-text-field>
 
                 <v-text-field v-model="user.password" label="password"></v-text-field>
@@ -17,7 +18,11 @@
     </div>
 </template>
 <script>
+import router from '@/router';
 import axios from 'axios'
+
+
+
 export default {
     data() {
       return {
@@ -27,10 +32,16 @@ export default {
         }
       };
   },
-    methods: {
+  methods: {
         login() {
-            axios.post("http://localhost:8083/login",this.user)
-   .then(response => console.log(response))
+          
+          axios.post("http://localhost:8083/login",this.user)
+
+            .then(function(response){
+                const status=JSON.parse(response.status);
+                if(status=='200'){(router.push('/about'));}
+            })
+   
         },
     },
 }

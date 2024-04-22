@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
+import {createApp} from 'vue'
 
 const routes = [
   {
@@ -27,5 +28,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+const app = createApp(LoginView);
+app.use(router);
+
+
 
 export default router
