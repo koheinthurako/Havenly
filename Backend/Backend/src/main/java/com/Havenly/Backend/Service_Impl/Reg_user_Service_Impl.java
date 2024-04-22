@@ -1,5 +1,8 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +22,17 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	PasswordEncoder pwencoder;
 	
 	Reg_user_DTO user_dto= new Reg_user_DTO();
+	
+	@Override
+	public List<Reg_user_DTO> findAll() {
+		List<Reg_user> users = regRepo.findAll();
+		List<Reg_user_DTO> reg_user_list = new ArrayList<Reg_user_DTO>();
+		reg_user_list.clear();
+		for(Reg_user user : users) {
+			reg_user_list.add(user_dto.covertToObject(user));
+		}
+		return reg_user_list;
+	}
 
 	@Override
 	public Reg_user_DTO register(Reg_user_DTO dto) {

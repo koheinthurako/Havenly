@@ -1,0 +1,10 @@
+package com.Havenly.Backend.Service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface Photo_Service {
+	
+	
+
+}

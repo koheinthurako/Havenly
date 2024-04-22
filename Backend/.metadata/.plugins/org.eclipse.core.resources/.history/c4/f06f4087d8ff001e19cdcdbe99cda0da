@@ -1,0 +1,14 @@
+package com.Havenly.Backend.Service;
+
+import org.springframework.stereotype.Service;
+
+import com.Havenly.Backend.Entity.Category;
+
+@Service
+public interface Category_Service {
+	
+	public Category saveCategory(Category category);
+	public void saveCategory(Category category);
+	public Category getCategoryById(Long CategoryId);
+	
+}

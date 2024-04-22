@@ -1,0 +1,10 @@
+package com.Havenly.Backend.Service;
+
+import com.Havenly.Backend.Entity.Category;
+
+public interface Category_Service {
+	
+	public void saveCategory(Category category);
+	public Category getCategoryId(int CategoryId);
+	
+}
