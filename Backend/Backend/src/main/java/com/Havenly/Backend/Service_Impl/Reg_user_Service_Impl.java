@@ -36,8 +36,6 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 
 	@Override
 	public Reg_user_DTO register(Reg_user_DTO dto) {
-		// TODO Auto-generated method stub
-		
 		Reg_user user=user_dto.covertToEntity(dto);
 		user.setPassword(this.pwencoder.encode(user.getPassword()));
 		Reg_user user1=regRepo.save(user);

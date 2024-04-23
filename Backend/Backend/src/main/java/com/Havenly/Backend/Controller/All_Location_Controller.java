@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Havenly.Backend.Entity.All_Location;
+import com.Havenly.Backend.DTO.All_Location_DTO;
 import com.Havenly.Backend.Service.All_Location_Service;
 
 import jakarta.validation.Valid;
@@ -24,13 +24,13 @@ public class All_Location_Controller {
 	All_Location_Service allLocationService;
 	
 	@GetMapping("/getall")
-	public ResponseEntity<List<All_Location>> getAllLocations() {
-		return new ResponseEntity<List<All_Location>>(allLocationService.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<All_Location_DTO>> getAllLocations() {
+		return new ResponseEntity<List<All_Location_DTO>>(allLocationService.getAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<All_Location> saveAllLocations(@Valid @RequestBody All_Location allLocations) {
-		return new ResponseEntity<All_Location>(allLocationService.save(allLocations), HttpStatus.OK);
+	public ResponseEntity<All_Location_DTO> saveAllLocations(@Valid @RequestBody All_Location_DTO allLocationsDTO) {
+		return new ResponseEntity<All_Location_DTO>(allLocationService.save(allLocationsDTO), HttpStatus.OK);
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Havenly.Backend.DTO.Thai_Location_DTO;
 import com.Havenly.Backend.Entity.Thai_Location;
 import com.Havenly.Backend.Service.Thai_Location_Service;
 
@@ -22,13 +23,13 @@ public class Thai_Location_Controller {
 	Thai_Location_Service thaiLocationService;
 	
 	@GetMapping("/getall")
-	public ResponseEntity<List<Thai_Location>> getAllLocations() {
-		return new ResponseEntity<List<Thai_Location>>(thaiLocationService.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<Thai_Location_DTO>> getAllLocations() {
+		return new ResponseEntity<List<Thai_Location_DTO>>(thaiLocationService.getAll(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<List<Thai_Location>> saveAllLocations(@RequestBody List<Thai_Location> thaiLocations) {
-		return new ResponseEntity<List<Thai_Location>>(thaiLocationService.saveAll(thaiLocations), HttpStatus.OK);
+	public ResponseEntity<List<Thai_Location_DTO>> saveAllLocations(@RequestBody List<Thai_Location_DTO> thaiLocations) {
+		return new ResponseEntity<List<Thai_Location_DTO>>(thaiLocationService.saveAll(thaiLocations), HttpStatus.OK);
 	}
 
 }

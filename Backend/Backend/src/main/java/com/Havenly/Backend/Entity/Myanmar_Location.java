@@ -26,11 +26,11 @@ public class Myanmar_Location {
 	private String province;
 	private String amphoe;
 	private String region;
-	private int latitude;
-	private int longitude;
+	private String latitude;
+	private String longitude;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "all_location_id", referencedColumnName = "all_location_id")
-	All_Location all_locations;
+	All_Location all_location;
 
 }
