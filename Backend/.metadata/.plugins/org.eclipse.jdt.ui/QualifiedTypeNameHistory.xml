@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="jakarta.persistence.Lob"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Service.Category_Service"/>
     <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Myanmar_Location"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.All_Location"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Thai_Location_DTO"/>
+    <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Reg_user_DTO"/>
 </qualifiedTypeNameHistroy>

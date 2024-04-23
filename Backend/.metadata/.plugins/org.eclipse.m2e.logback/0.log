@@ -1967,3 +1967,23 @@ Caused by: java.lang.ClassNotFoundException: org.apache.el.util.JreCompat cannot
 2024-04-23 15:18:43,990 [Worker-89: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
 2024-04-23 15:19:06,124 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@79a1d810{STOPPING}[12.0.3,sto=0]
 2024-04-23 15:19:06,157 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@51e64136{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-04-23 16:24:36,489 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-04-23 16:25:46,469 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-23 16:25:46,516 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-04-23 16:25:46,527 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
+2024-04-23 16:28:56,296 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-23 16:28:56,305 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-04-23 16:28:56,309 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
+2024-04-23 16:29:06,090 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-23 16:29:06,098 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-04-23 16:29:06,104 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
+2024-04-23 16:29:23,091 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-12.0.3; built: 2023-10-27T03:25:22.284Z; git: a873259fd5af141dedaa6c7fa8fe8fbdedce0d61; jvm 17.0.9+9
+2024-04-23 16:29:23,169 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started oeje8n.ContextHandler$CoreContextHandler@679ec3e2{/help,/help,b=null,a=AVAILABLE,h=oeje8n.ContextHandler$CoreContextHandler$CoreToNestedHandler@ae193de{STARTED}}
+2024-04-23 16:29:23,170 [Start Help Server] INFO  o.e.j.s.DefaultSessionIdManager - Session workerName=node0
+2024-04-23 16:29:23,220 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@62c72fbf{HTTP/1.1, (http/1.1)}{127.0.0.1:55182}
+2024-04-23 16:29:23,266 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started oejs.Server@73458aea{STARTING}[12.0.3,sto=0] @473634ms
+2024-04-23 16:29:33,367 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-04-23 16:29:33,414 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-04-23 16:29:33,420 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
+2024-04-23 16:43:13,997 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@73458aea{STOPPING}[12.0.3,sto=0]
+2024-04-23 16:43:14,024 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@62c72fbf{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
