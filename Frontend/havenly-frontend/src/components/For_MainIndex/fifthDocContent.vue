@@ -28,33 +28,14 @@
         <div class="row">
           <div class="col-md-6 p-2">
 
-            <div class="button-box color-red">
-
-              <h3 class="text-center my-2">Up coming events</h3>
-              <router-link to="/" class="nav-link">
-                <div class="d-flex"><v-icon>mdi-calendar-alert</v-icon>
-                  <p>&nbsp;From 01 Apr To 30 Apr</p>
-                </div>
-                <div class="d-flex"><v-icon>mdi-map-marker-check</v-icon>&nbsp;<p>Lotte Hotel Yangon</p>
-                </div>
-              </router-link>
-              <v-divider :thickness="2" class="border-opacity-50 mt-0"></v-divider>
-              <router-link to="/" class="nav-link">
-                <div class="d-flex"><v-icon>mdi-calendar-alert</v-icon>
-                  <p>&nbsp;From 01 Apr To 30 Apr</p>
-                </div>
-                <div class="d-flex"><v-icon>mdi-map-marker-check</v-icon>&nbsp;<p>Bangkok Projects Special Sales Event
-                  </p>
-                </div>
-              </router-link>
-              <router-link class="custom-link" to="/">See all events <v-icon
-                  class="custom-icon">mdi-arrow-right-bold</v-icon></router-link>
-            </div>
+            <event />
 
           </div>
 
           <div class="col-md-6 p-2">
-            <adspage />
+            <div style="padding: 10px 0px; border-radius: 10px; box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);">
+              <ads_small_page />
+            </div>
           </div>
 
 
@@ -67,11 +48,14 @@
 
 
 <script>
-import adspage from '../Temp_Collection/ads-Small.vue'
+import ads_small_page from '../Temp_Collection/ads-Small.vue'
+import event from '../Temp_Collection/eventVue.vue'
+
 export default {
   name: 'fourContectVue',
   components: {
-    adspage,
+    ads_small_page,
+    event,
   },
 
   data: () => ({

@@ -3,6 +3,13 @@ import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 
 import register from '../components/Login_&_Register/registerVue.vue'
+import login from '../components/Login_&_Register/loginVue.vue'
+
+import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+
+import testingPage from '../components/For_Testing/testingOne.vue'
+
+
 
 const routes = [
   {
@@ -29,6 +36,21 @@ const routes = [
     name: 'register',
     component: register
   },
+  {
+    path: '/userdashboard',
+    name: 'User_dashboard',
+    component: userDashboard
+  },
+  {
+    path: '/testingPage',
+    name: 'testingPage',
+    component: testingPage
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  }
 
 ]
 

@@ -38,6 +38,7 @@
 </template>
 
 <script>
+
 import firstIndex from './For_MainIndex/firstIndexContent.vue'
 import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'

@@ -16,20 +16,25 @@
                         <div>
                             <v-icon class="me-1">mdi-cellphone</v-icon>+95+9664493719
                         </div>
-                        <p>You can contact or give advice to admin. We will always taking care to our customers.</p>
+                        <div class="d-flex">
+                            <v-icon class="me-1">mdi-arrow-right-bold-box</v-icon>
+                            <p>You can contact or give advice to
+                                admin. We will always taking care to our customers.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h3>User feedback form</h3>
+                    <h3>Give your feedback</h3>
 
                     <form @submit.prevent="submit">
-                         
+
                         <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
                             label="E-mail"></v-text-field>
 
-                        <v-textarea v-model="textarea.value.value" :error-messages="textarea.errorMessage.value" label="Label"></v-textarea>
- 
-                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit" >
+                        <v-textarea v-model="textarea.value.value" :error-messages="textarea.errorMessage.value"
+                            label="Label"></v-textarea>
+
+                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit">
                             submit
                         </v-btn>
 
@@ -48,7 +53,7 @@
                         <router-link to="/" class="nav-link">About</router-link>
                         <v-btn variant="elevated" class="call-bg">Call Now</v-btn>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -94,12 +99,11 @@ const submit = handleSubmit(values => {
 })
 </script>
 
-<style> 
+<style>
 .left-data {
     div {
         width: 100%;
         padding: 10px 0px;
     }
 }
-
 </style>
