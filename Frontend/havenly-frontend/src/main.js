@@ -10,6 +10,7 @@ import 'bootstrap';
 import './assets/css/main.scss'
 import './assets/js/main.js'
 
+
 loadFonts()
 
 createApp(App)
@@ -17,3 +18,4 @@ createApp(App)
   .use(store)
   .use(vuetify)
   .mount('#app')
+  

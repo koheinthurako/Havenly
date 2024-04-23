@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Login;
 import com.Havenly.Backend.Entity.Reg_user;
@@ -41,15 +42,16 @@ public class Reg_user_Controller {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Reg_user> login(
+	public ResponseEntity<Reg_user_DD> login(
 			 @RequestBody Login login
 	) {
 		
-		Reg_user user = regService
+		Reg_user_DD user = regService
 				.Login(login.getEmail(), login.getPassword());
 		if (user == null) {
 			return ResponseEntity.badRequest().build();
 		}
+	
 		return ResponseEntity.ok().body(user);
 	}
 }

@@ -3,6 +3,7 @@ import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
+import {createApp} from 'vue'
 import Location_List from '../components/LocationAPI/Location_List.vue'
 
 const routes = [
@@ -47,5 +48,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+const app = createApp(LoginView);
+app.use(router);
+
+
 
 export default router
