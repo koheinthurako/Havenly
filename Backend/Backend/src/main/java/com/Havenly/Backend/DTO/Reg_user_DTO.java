@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.Havenly.Backend.Entity.Reg_user;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,16 @@ public class Reg_user_DTO {
 	
 private int register_id;
 	
+   @NotBlank
 	private String name;
+   
+   @NotBlank
 	private String phone;
+   
+   @NotBlank
 	private String email;
+	
+	@NotBlank
 	private String password;
 	private LocalDate date;
 	private LocalTime time;

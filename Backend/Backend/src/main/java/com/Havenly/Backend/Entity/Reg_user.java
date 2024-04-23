@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,17 +24,24 @@ public class Reg_user {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int register_id;
 	
-	@Column(name = "name",length = 40,nullable = false)
+	@Column(name = "name",length = 40,nullable = false	)
+	@NotBlank
 	private String name;
 	
 	@Column(name = "phone",length = 11,nullable = false)
+	@NotBlank
+
 	private String phone;
 	
 	@Column(name = "email",nullable = false,unique = true)
 	@Email(message = "Invalid Email Format")
+	@NotBlank
+
 	private String email;
 	
 	@Column(name = "password",nullable = false)
+	@NotBlank
+	@NotEmpty
 	private String password;
 	
 	private LocalDate date;
