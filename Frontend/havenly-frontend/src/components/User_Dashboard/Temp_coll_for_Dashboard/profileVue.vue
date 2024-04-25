@@ -93,6 +93,9 @@
                                                 @click:append="visible1 = !visible1"></v-text-field>
 
                                             <v-row cols="12" class="w-100 mt-4">
+                                                <div class="me-auto" :v-if="!show_error">
+                                                    <p class="text-red">Didn't match!</p>
+                                                </div>
                                                 <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
                                                     type="submit">
                                                     submit
@@ -287,6 +290,7 @@ export default {
 
 import { useField, useForm } from 'vee-validate'
 
+
 const { handleSubmit, handleReset } = useForm({
     validationSchema: {
 
@@ -319,9 +323,19 @@ const password = useField('password')
 const confirm_password = useField('confirm_password')
 const email = useField('email')
 
+function showAlert(data) {
+    alert(
+        data
+    )
+}
+
 const submit = handleSubmit(values => {
-    alert(values.password, values.confirm_password);
-})
+    if (values.password !== values.confirm_password) {
+        showAlert("Password didn't match!");
+    } else {
+        showAlert("Correct Password!");
+    }
+});
 </script>
 
 <style>
