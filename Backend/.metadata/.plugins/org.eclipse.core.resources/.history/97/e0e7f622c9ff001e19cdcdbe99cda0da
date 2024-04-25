@@ -1,0 +1,5 @@
+package com.Havenly.Backend.Repo;
+
+public interface Photo_Repo {
+
+}

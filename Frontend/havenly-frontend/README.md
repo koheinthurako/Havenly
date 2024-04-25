@@ -1,4 +1,4 @@
-# havenly-frontend
+# havenly
 
 ## Project setup
 ```

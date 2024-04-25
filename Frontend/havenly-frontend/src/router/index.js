@@ -1,25 +1,57 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeIndex from '../components/mainIndexVue.vue'
+import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
+import RegisterView from '../views/RegisterView.vue'
+import LoginView from '../views/LoginView.vue'
+import {createApp} from 'vue'
+import Location_List from '../components/LocationAPI/Location_List.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/home',
+    redirect: '/'
+  },
+
+  {
+    path: '/Home',
+    redirect: '/',
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/',
+    name: 'home',
+    component: HomeIndex
+  },
+  {
+    path: '/package',
+    name: 'package',
+    component: tempPackage
+  },
+  {
+    path: '/register',
+    name: 'RegisterView',
+    component: RegisterView
+  },
+  {
+    path: '/login',
+    name: 'LoginView',
+    component: LoginView
+  },
+  {
+    path: '/category',
+    name: 'Location_List',
+    component: Location_List
   }
+
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+const app = createApp(LoginView);
+app.use(router);
+
+
 
 export default router

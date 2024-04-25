@@ -1,0 +1,9 @@
+package com.Havenly.Backend.DTO;
+
+public class All_Location_DTO {
+	
+	private String country;
+	
+	
+
+}

@@ -1,0 +1,5 @@
+package com.Havenly.Backend.Entity;
+
+public class All_Location {
+
+}
