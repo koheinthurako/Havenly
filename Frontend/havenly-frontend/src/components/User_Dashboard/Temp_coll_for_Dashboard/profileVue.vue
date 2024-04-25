@@ -93,9 +93,7 @@
                                                 @click:append="visible1 = !visible1"></v-text-field>
 
                                             <v-row cols="12" class="w-100 mt-4">
-                                                <div class="me-auto" :v-if="!show_error">
-                                                    <p class="text-red">Didn't match!</p>
-                                                </div>
+
                                                 <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
                                                     type="submit">
                                                     submit
