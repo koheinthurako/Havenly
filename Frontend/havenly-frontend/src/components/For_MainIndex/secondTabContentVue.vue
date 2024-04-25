@@ -4,11 +4,10 @@
             <div class="tab-carousel-content m-auto my-2" :style="{ transform: `translateX(${offset}px)` }">
 
                 <div class="tabContent-header">
-
                     <h3>Welcome to Havenly</h3>
-                </div>
+                    </div>
 
-                <div class="d-none d-md-block button-bar ">
+                    <div class="d-none d-md-block button-bar ">
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
@@ -16,7 +15,7 @@
                             class="tab-carousel-button " @click="openTab(visibleStartIndex + index)"
                             :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
                             {{ button }}
-                            <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div>
+                            <!-- <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div> -->
                         </v-btn>
                     </div>
                 </div>
@@ -54,7 +53,7 @@ export default {
     },
     data() {
         return {
-            buttons: ['Condo', 'Apart', 'House', 'Hostel'],
+            buttons: ['Condo', 'Apartment', 'House', 'Hostel'],
             offset: 0,
             visibleStartIndex: 0,
             visibleButtons: 10,
@@ -64,7 +63,7 @@ export default {
                 { title: 'phone xiaomi House' },
                 { title: 'phone vivo Hostel' },
             ],
-            activeTab: 0 // Set the default active tab to the first tab
+            activeTab: 1 // Set the default active tab to the first tab
         };
     },
     computed: {

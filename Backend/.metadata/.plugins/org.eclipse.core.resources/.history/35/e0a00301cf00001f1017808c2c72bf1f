@@ -1,0 +1,5 @@
+package com.Havenly.Backend.Service;
+
+public interface All_Location_Service {
+
+}

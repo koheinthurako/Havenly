@@ -1,0 +1,5 @@
+package com.Havenly.Backend.Service;
+
+public interface Thai_Location_Service {
+
+}

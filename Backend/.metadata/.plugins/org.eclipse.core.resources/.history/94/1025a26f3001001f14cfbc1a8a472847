@@ -1,0 +1,33 @@
+package com.Havenly.Backend.Service_Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+
+import com.Havenly.Backend.DTO.Myanmar_Location_DTO;
+import com.Havenly.Backend.Entity.Myanmar_Location;
+import com.Havenly.Backend.Repo.Myanmar_Location_Repo;
+import com.Havenly.Backend.Service.Myanmar_Location_Service;
+
+@Configuration
+public class Myanmar_Location_Service_Impl implements Myanmar_Location_Service{
+	
+	@Autowired
+	Myanmar_Location_Repo myanmarLocationRepo;
+
+	@Override
+	public List<Myanmar_Location_DTO> getAll() {
+		List<Myanmar_Location> myanLocation = myanmarLocationRepo.findAll();
+		
+		return null;
+	}
+
+	@Override
+	public List<Myanmar_Location_DTO> saveAll(List<Myanmar_Location_DTO> myanmarLocationsDTO) {
+		return null;
+	}
+	
+	
+
+}

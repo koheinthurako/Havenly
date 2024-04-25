@@ -1,0 +1,13 @@
+package com.Havenly.Backend.DTO;
+
+import com.Havenly.Backend.Entity.All_Location;
+
+public class All_Location_DTO {
+	
+	private String country;
+	
+	public All_Location convertToEntity() {
+		
+	}
+
+}

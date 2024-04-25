@@ -119,7 +119,9 @@ export default createStore({
         location: 'Madalay',
         category: 'apple',
       },
-      // Samsung
+
+
+
       {
         title: 'Phone Store',
         description: 'available on march',
@@ -184,7 +186,9 @@ export default createStore({
         location: 'Kayin State',
         category: 'samsung',
       },
-      // Xiaomi
+
+
+
       {
         title: 'Trees',
         description: 'available on march',
@@ -249,7 +253,9 @@ export default createStore({
         location: 'Yangon',
         category: 'xiaomi',
       },
-      // Vivo
+
+
+
       {
         title: 'Trees',
         description: 'available on march',

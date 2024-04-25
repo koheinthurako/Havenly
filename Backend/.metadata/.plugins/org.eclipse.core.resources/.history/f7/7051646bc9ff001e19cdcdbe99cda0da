@@ -1,0 +1,15 @@
+package com.Havenly.Backend.Service_Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.Havenly.Backend.Entity.Photo;
+import com.Havenly.Backend.Repo.Photo_Repo;
+
+public class Photo_Service_Impl {
+	
+	@Autowired
+	Photo_Repo photoRepo;
+	
+	
+
+}

@@ -1,0 +1,12 @@
+package com.Havenly.Backend.Entity;
+
+import jakarta.persistence.Id;
+
+public class Thai_Location {
+	
+	@Id
+	private int thai_location_id;
+	
+	
+
+}

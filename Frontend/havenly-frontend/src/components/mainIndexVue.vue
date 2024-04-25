@@ -33,7 +33,6 @@
         <contactpage />
     </div>
 
-
     
 </div>
 </template>
@@ -46,6 +45,9 @@ import fourthPackage from './For_MainIndex/fourthPackageVue.vue'
 import fifthDoc from './For_MainIndex/fifthDocContent.vue'
 
 import contactpage from './For_MainIndex/ContactVue.vue'
+
+
+
 export default {
     name: 'mainIndexVue',
 
@@ -57,6 +59,8 @@ export default {
         fifthDoc,
  
         contactpage,
+
+        
         
     },
 
@@ -69,6 +73,8 @@ export default {
 </script>
 
 <style> 
+
+
 .public-content {
     position: fixed;
     z-index: 1000;
@@ -81,7 +87,7 @@ export default {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    .v-icon {
+    /* .v-icon {
         font-size: 32px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
@@ -103,7 +109,7 @@ export default {
         &:hover {
             color: #1DA1F2;
         }
-    }
+    } */
 }
 
 </style>

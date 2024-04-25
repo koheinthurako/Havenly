@@ -20,26 +20,15 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h3>Register Form</h3>
+                    <h3>User feedback form</h3>
 
                     <form @submit.prevent="submit">
-                        <div class="d-flex">
-                            <v-text-field class="me-3" v-model="Firstname.value.value" :counter="10"
-                                :error-messages="Firstname.errorMessage.value" label="First name"></v-text-field>
-
-                            <v-text-field v-model="Lastname.value.value" :counter="10"
-                                :error-messages="Lastname.errorMessage.value" label="Last Name"></v-text-field>
-                        </div>
-
-                        <v-text-field v-model="phone.value.value" :counter="7"
-                            :error-messages="phone.errorMessage.value" label="Phone Number"></v-text-field>
-
+                         
                         <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
                             label="E-mail"></v-text-field>
 
-                        <v-text-field v-model="address.value.value" :error-messages="address.errorMessage.value"
-                            label="Address"></v-text-field>
-
+                        <v-textarea v-model="textarea.value.value" :error-messages="textarea.errorMessage.value" label="Label"></v-textarea>
+ 
                         <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit" >
                             submit
                         </v-btn>
@@ -83,25 +72,10 @@ import { useField, useForm } from 'vee-validate'
 
 const { handleSubmit, handleReset } = useForm({
     validationSchema: {
-        Firstname(value) {
-            if (value?.length >= 2) return true
+        word(value) {
+            if (value?.length >= 6) return true
 
-            return 'First Name needs to be at least 2 characters.'
-        },
-        Lastname(value) {
-            if (value?.length >= 2) return true
-
-            return 'Last Name needs to be at least 2 characters.'
-        },
-        address(value) {
-            if (value?.length >= 10) return true
-
-            return 'Bro, it not your address ;).'
-        },
-        phone(value) {
-            if (value?.length > 9 && /[0-9-]+/.test(value)) return true
-
-            return 'Phone number needs to be at least 9 digits.'
+            return 'Feed back is not that short!'
         },
         email(value) {
             if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
@@ -110,11 +84,9 @@ const { handleSubmit, handleReset } = useForm({
         },
     },
 })
-const Firstname = useField('Firstname')
-const Lastname = useField('Lastname')
-const address = useField('address')
-const phone = useField('phone')
+
 const email = useField('email')
+const textarea = useField('word')
 
 
 const submit = handleSubmit(values => {
@@ -123,11 +95,11 @@ const submit = handleSubmit(values => {
 </script>
 
 <style> 
-.left-data {
+/* .left-data {
     div {
         width: 100%;
         padding: 10px 0px;
     }
-}
+} */
 
 </style>

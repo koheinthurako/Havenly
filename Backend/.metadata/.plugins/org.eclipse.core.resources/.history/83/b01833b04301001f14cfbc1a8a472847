@@ -1,0 +1,32 @@
+package com.Havenly.Backend.DTO;
+
+import com.Havenly.Backend.Entity.All_Location;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class All_Location_DTO {
+	
+	private String country;
+	
+	public All_Location convertToEntity(All_Location_DTO allLocationsDTO) {
+		All_Location allLocations = new All_Location();
+		allLocations.setCountry(allLocationsDTO.getCountry());
+		return allLocations;
+	}
+	
+	public All_Location_DTO convertToObject(All_Location allLocations) {
+		All_Location_DTO allLocationsDTO = new All_Location_DTO();
+		allLocationsDTO.setCountry(allLocations.getCountry());
+		return allLocationsDTO;
+	}
+
+}

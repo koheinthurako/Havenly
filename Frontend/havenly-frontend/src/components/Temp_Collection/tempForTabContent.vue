@@ -117,6 +117,7 @@ export default {
         slides() {
             let slides = [];
             const titleParts = this.content.title.split(' ');
+            console.log(this.content.title);
             if (titleParts.length === 3) {
                 const firstWord = titleParts[0];
                 const secondWord = titleParts[1];

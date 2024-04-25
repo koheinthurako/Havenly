@@ -1,0 +1,12 @@
+package com.Havenly.Backend.Service_Impl;
+
+import org.springframework.context.annotation.Configuration;
+
+import com.Havenly.Backend.Service.All_Location_Service;
+
+@Configuration
+public class All_Location_Service_Impl implements All_Location_Service{
+	
+	
+
+}

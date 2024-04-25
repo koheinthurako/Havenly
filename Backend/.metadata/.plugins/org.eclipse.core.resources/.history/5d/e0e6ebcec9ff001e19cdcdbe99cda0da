@@ -1,0 +1,19 @@
+package com.Havenly.Backend.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.Havenly.Backend.Service.Category_Service;
+
+@RestController
+@RequestMapping("/category")
+public class Category_Controller {
+	
+	@Autowired
+	Category_Service cateService;
+	
+	@Autowired
+	Photo_Service photoService;
+
+}
