@@ -5,28 +5,29 @@
             <div class="temp-header-row ">
                 <div>
                     <p>pricing</p>
-                    <h3 class="my-2 mx-auto">We offer three different kinds of package. Enjoy.</h3>
+                    <h3 class="my-2 mx-auto">We offer three different kinds of package.</h3>
                 </div>
 
             </div>
             <div class="temp-package-row">
 
-                <swiper :keyboard="true" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true"
-                    :slidesPerView="'auto'" :navigation="true" :mousewheel="true" :coverflowEffect="{
+                <swiper ref="swiper" :keyboard="true" :loop="false" :effect="'coverflow'" :grabCursor="true"
+                    :centeredSlides="true" :slidesPerView="'auto'" :navigation="true" :mousewheel="true"
+                    :coverflowEffect="{
                         rotate: 10,
-                        stretch: 20,
-                        depth: 100,
+                        stretch: 10,
+                        depth: 120,
                         modifier: 1.5,
                         slideShadows: true,
-                    }" :pagination="{
-                        clickable: true,
-                    }" :modules="modules" class="mySwiper">
+                    }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
                     <swiper-slide>
                         <!-- package one start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
-                                <h3>Free Trial</h3>
-                                <p class="text-grey">For new user</p>
+                                <h3 class="d-flex">
+                                    <div>Free</div>&nbsp;&nbsp;Trial
+                                </h3>
+                                <h5>For new user</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">$0</h1>
@@ -34,15 +35,34 @@
 
                             <div class="w-100 px-4">
 
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 posts.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 ads.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;3 images per post.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;1000 words per post.</p>
+                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p1">Over
+                                        all 3
+                                        posts.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p2">Over
+                                        all 3 ads.
+                                    </p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p3">3
+                                        images per
+                                        post.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p4">1000
+                                        words per
+                                        post.</p>
+                                </div>
 
                             </div>
-                            <div class="w-100 mt-5 d-flex justify-center">
+                            <div class="w-100 mt-5 d-flex justify-center temp-btn">
                                 <v-btn elevation="20" class="sub-btn">
-                                    Subscribe
+                                    <div class="toggle-v-l">
+                                        <span class="visible">Subscribe</span>
+                                        <span class="later-visible">Right now</span>
+                                    </div>
                                 </v-btn>
                             </div>
                         </div>
@@ -50,26 +70,49 @@
                     </swiper-slide>
                     <swiper-slide>
                         <!-- package two start -->
-                        <div class="temp-package" style="background-color: #202842; color: #fff">
+                        <div class="temp-package">
                             <div style="line-height: 0px;">
-                                <h3 style="color: #fff;">Normal Package</h3>
-                                <p class="text-white">For normal user</p>
+                                <h3 class="d-flex">
+                                    <div>Normal</div>&nbsp;&nbsp;package
+                                </h3>
+                                <h5>For normal user</h5>
                             </div>
                             <div>
-                                <h1 class="mt-4 mb-5" style="color: #e86f52;">$399</h1>
+                                <h1 class="mt-4 mb-5">
+                                    $ 399
+                                </h1>
                             </div>
 
                             <div class="w-100 px-4">
 
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 posts.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 ads.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;3 images per post.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;1000 words per post.</p>
+                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p1">Over
+                                        all 3
+                                        posts.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p2">Over
+                                        all 3 ads.
+                                    </p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p3">3
+                                        images per
+                                        post.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p4">1000
+                                        words per
+                                        post.</p>
+                                </div>
 
                             </div>
-                            <div class="w-100 mt-5 d-flex justify-center">
+                            <div class="w-100 mt-5 d-flex justify-center temp-btn">
                                 <v-btn elevation="20" class="sub-btn">
-                                    Subscribe
+                                    <div class="toggle-v-l">
+                                        <span class="visible">Subscribe</span>
+                                        <span class="later-visible">Right now</span>
+                                    </div>
                                 </v-btn>
                             </div>
                         </div>
@@ -79,24 +122,47 @@
                         <!-- package three start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
-                                <h3>Premium Package</h3>
-                                <p class="text-grey">For genius user</p>
+                                <h3 class="d-flex">
+                                    <div>Premium</div>&nbsp;&nbsp;package
+                                </h3>
+                                <h5>For genius user</h5>
                             </div>
                             <div>
-                                <h1 class="mt-4 mb-5">$799</h1>
+                                <h1 class="mt-4 mb-5">
+                                    $ 799
+                                </h1>
                             </div>
 
                             <div class="w-100 px-4">
 
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 posts.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;Over all 3 ads.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;3 images per post.</p>
-                                <p><v-icon>mdi-checkbox-marked-circle</v-icon>&nbsp;1000 words per post.</p>
+                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p1">Over
+                                        all 3
+                                        posts.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p2">Over
+                                        all 3 ads.
+                                    </p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p3">3
+                                        images per
+                                        post.</p>
+                                </div>
+                                <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p4">1000
+                                        words per
+                                        post.</p>
+                                </div>
 
                             </div>
-                            <div class="w-100 mt-5 d-flex justify-center">
+                            <div class="w-100 mt-5 d-flex justify-center temp-btn">
                                 <v-btn elevation="20" class="sub-btn">
-                                    Subscribe
+                                    <div class="toggle-v-l">
+                                        <span class="visible">Subscribe</span>
+                                        <span class="later-visible">Right now</span>
+                                    </div>
                                 </v-btn>
                             </div>
                         </div>
@@ -162,7 +228,25 @@ export default {
         img3: require('@/assets/img/logo-nasa.svg'),
         img4: require('@/assets/img/logo-vodafone.svg'),
         img5: require('@/assets/img/logo-digitalocean.svg'),
+
     }),
+    methods: {
+        startCountAnimation(price) {
+            this.hovering = true;
+            this.animatedPrice = 0;
+            clearInterval(this.interval);
+            this.interval = setInterval(() => {
+                this.animatedPrice += Math.ceil(price / 60);
+                if (this.animatedPrice >= price) {
+                    this.animatedPrice = price;
+                    clearInterval(this.interval);
+                }
+            }, 20);
+        },
+
+
+    },
+
 }
 
 </script>

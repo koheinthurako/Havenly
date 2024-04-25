@@ -33,7 +33,7 @@
 
               <br>
 
-              <v-btn color="red">Check Details</v-btn>
+              <v-btn elevation="20" color="#E97559" style="border-radius: 30px;">Check Details</v-btn>
 
             </div>
             <div class="split right-part">

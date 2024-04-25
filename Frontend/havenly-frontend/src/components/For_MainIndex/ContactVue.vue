@@ -34,11 +34,11 @@
                         <v-textarea v-model="textarea.value.value" :error-messages="textarea.errorMessage.value"
                             label="Label"></v-textarea>
 
-                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit">
+                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit" style="border-radius: 30px;">
                             submit
                         </v-btn>
 
-                        <v-btn :elevation="20" @click="handleReset" class="mt-3 clear">
+                        <v-btn :elevation="20" @click="handleReset" class="mt-3 clear" style="border-radius: 30px;">
                             clear
                         </v-btn>
                     </form>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
+import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
@@ -50,6 +51,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: login
+  },
+  {
+    path: '/tempDoc',
+    name: 'tempDoc',
+    component: tempDoc
   }
 
 ]

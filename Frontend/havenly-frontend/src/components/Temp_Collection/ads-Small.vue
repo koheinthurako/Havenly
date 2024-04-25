@@ -170,12 +170,14 @@ export default {
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: #e86f52;
+        color: #fff;
         backdrop-filter: blur(30px);
         -webkit-backdrop-filter: blur(30px);
         transition: all 0.4s ease-in-out;
         z-index: 500;
         top: 42%;
+
 
         .v-icon {
             font-size: 44px;
