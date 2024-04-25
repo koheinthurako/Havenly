@@ -5,7 +5,7 @@
                 <v-text-field variant="underlined" v-model="user.nrc" label="NRC"></v-text-field>
                 <v-text-field variant="underlined" v-model="user.name" label="Name"></v-text-field>
 
-                <v-btn type="submit" color="primary"  block class="mt-2">Confirm</v-btn>
+                <v-btn type="submit" color="#e86f52"  block class="mt-2">Confirm</v-btn>
             </v-form>
             <div class="mt-2">
                 <p class="text-body-2">

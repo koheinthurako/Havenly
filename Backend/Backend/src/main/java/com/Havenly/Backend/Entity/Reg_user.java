@@ -2,6 +2,7 @@ package com.Havenly.Backend.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +42,5 @@ public class Reg_user {
 	
 	
 	@OneToOne(mappedBy = "reg_user")
-	Subscription sub;
-	
-
+	private Subscription sub;
 }

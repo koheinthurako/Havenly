@@ -9,6 +9,7 @@ import com.Havenly.Backend.Entity.Reg_user;
 @Repository
 @EnableJpaRepositories
 public interface Reg_user_Repo extends JpaRepository<Reg_user, Integer>{
+	
 	public Reg_user findByEmail(String gmail);
 }
 

@@ -17,7 +17,7 @@ public class Subscription_DTO {
 	private int subUserId;
 	private String name;
 	private String nrc;
-	
+	private String email;
 	private LocalDate subStartDate;
 	private LocalDateTime subStartTime;
 
@@ -33,6 +33,7 @@ public class Subscription_DTO {
 		subUser.setSubUserId(dto.getAdsId());
 		subUser.setNrc(dto.getNrc());
 		subUser.setName(dto.getName());
+		subUser.setEmail(dto.getEmail());
 		subUser.setTotalPosts(dto.getTotalPosts());
 		subUser.setTotalAds(dto.getTotalAds());
 		subUser.setPackageType(dto.getPackageType());
@@ -47,6 +48,8 @@ public class Subscription_DTO {
 	public Subscription_DTO convertToObject(Subscription subUser) {
 		Subscription_DTO dto = new Subscription_DTO();
 		dto.setSubUserId(subUser.getSubUserId());
+		dto.setName(subUser.getName());
+		dto.setEmail(subUser.getEmail());
 		dto.setNrc(subUser.getNrc());
 		dto.setTotalPosts(subUser.getTotalPosts());
 		dto.setTotalAds(subUser.getTotalAds());

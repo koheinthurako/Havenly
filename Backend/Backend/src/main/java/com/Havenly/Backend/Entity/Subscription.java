@@ -5,6 +5,7 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,6 +38,11 @@ private String name;
 //@Column(columnDefinition = "ENUM('registered', 'subscribed','premium', 'banned') NOT NULL")	
 //@Enumerated(EnumType.STRING)
 //private UserStatus status;
+
+@Column(name = "email",nullable = false,unique = true)
+@Email(message = "Invalid Email Format")
+private String email;
+
 @Column(name = "package_name")
 private String packageType;
 @Column(name = "post_id")
@@ -52,17 +58,10 @@ private LocalDate subStartDate;
 private LocalDateTime subStartTime;
 
 
-
-
 @OneToOne(fetch = FetchType.EAGER)
 @JoinColumn(name="reg_user_id", referencedColumnName = "register_id")
-Reg_user reg_user;
-
-//@OneToOne(fetch = FetchType.EAGER)
-//@JsonIgnore
-//@JoinColumn(name="package_id", referencedColumnName = "packageId")
-//Packages packages;
+private Reg_user reg_user;;
 
 @OneToOne(mappedBy = "sub1")
-Packages packages;
+private Packages packages;
 }

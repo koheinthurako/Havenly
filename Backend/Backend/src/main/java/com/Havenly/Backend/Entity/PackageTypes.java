@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +28,8 @@ public class PackageTypes {
 	@Column(name = "total_ads", nullable = false)
 	private int total_ads;
 	
-	@OneToOne(mappedBy = "packType")
-	Packages packages;
-	
+//	@OneToMany(mappedBy = "packType")
+//	private String packageType;
+//	
 
 }
