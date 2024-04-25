@@ -4,7 +4,8 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import {createApp} from 'vue'
-import Location_List from '../components/LocationAPI/Location_List.vue'
+// import Location_List from '../components/LocationAPI/Location_List.vue'
+import testPhoto from '../components/For_Testing/testPhoto.vue'
 
 const routes = [
   {
@@ -37,9 +38,9 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/category',
-    name: 'Location_List',
-    component: Location_List
+    path: '/testphoto',
+    name: 'testPhoto',
+    component: testPhoto
   }
 
 ]
