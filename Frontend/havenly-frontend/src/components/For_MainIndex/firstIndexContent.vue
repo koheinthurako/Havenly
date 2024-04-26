@@ -2,7 +2,7 @@
     <div class="first-index">
         <div class="button-group d-flex">
             <div class="form-header">
-                <h5>Choose your desire</h5>
+                <h5 class="text-white">Choose your desire</h5>
             </div>
             <form @submit.prevent="submit" class="form-edit">
                 <div class="row">

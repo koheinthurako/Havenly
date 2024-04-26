@@ -50,7 +50,7 @@ export default createStore({
     ],
 
     phone: [
-      // apple
+      
       {
         title: 'Buildings',
         description: 'available on march',
