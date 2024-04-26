@@ -5,7 +5,15 @@
                 
                 <v-text-field v-model="user.email" label="User Name" :rules="[value => !!value || 'Required']" ></v-text-field>
 
-                <v-text-field v-model="user.password" label="password" :rules="[value => !!value || 'Required']" ></v-text-field>
+                <v-text-field
+                 v-model="user.password"  :type="showPassword ? 'text' : 'password'"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner=togglePasswordVisibility()  label="password" 
+                :rules="[value => !!value || 'Required']" >
+
+                </v-text-field>
+               
+
                 <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
 
                 <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3">Sign in</v-btn>
@@ -18,10 +26,9 @@
     </div>
 </template>
 <script>
+
 import router from '@/router';
-import axios from 'axios'
-
-
+import axios from 'axios';
 
 
 export default {
@@ -30,10 +37,19 @@ export default {
         user :{
           email: '',
           password: ''
-        }
+        },
+        showPassword: false
       };
   },
+ 
+  
+
   methods: {
+
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
+
         login() {
             function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
@@ -54,11 +70,6 @@ export default {
                     
                         })
             .catch(httpErrorHandler)
-
-                  
-  
-                        
-
                  },
     },
 }

@@ -5,6 +5,7 @@ import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import {createApp} from 'vue'
 import Location_List from '../components/LocationAPI/Location_List.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 const routes = [
   {
@@ -34,12 +35,19 @@ const routes = [
   {
     path: '/login',
     name: 'LoginView',
-    component: LoginView
+    component: LoginView,
+ 
   },
   {
     path: '/category',
     name: 'Location_List',
     component: Location_List
+  },
+  {
+    path: '/profile',
+    name: 'ProfileView',
+    component : ProfileView,
+    props: true
   }
 
 ]
