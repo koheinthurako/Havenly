@@ -57,14 +57,14 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		return user1;
 	}
 	@Override
-	public Reg_user_DD update(Reg_user_DD user) {
-		Reg_user user1=user.covertToEntity(user);
-		Reg_user updateUser=regRepo.findByEmail(user1.getEmail());
+	public Reg_user_DD update(String name,String phone,String gmail) {
+		
+		Reg_user updateUser=regRepo.findByEmail(gmail);
 		if (updateUser == null) {
 			return null;
 		}
-		updateUser.setName(user.getName());
-		updateUser.setPhone(user.getPhone());
+		updateUser.setName(name);
+		updateUser.setPhone(phone);
 		Reg_user user2=regRepo.save(updateUser);
 		Reg_user_DD user4=user3.covertToObject(user2);
 		

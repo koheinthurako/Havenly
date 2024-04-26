@@ -1,280 +1,184 @@
 <!-- <template>
-    <div class="container">
-        <div class="carousel">
-            <div class="inner" ref="inner" :style="innerStyles">
-                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card" />
-            </div>
-    
-            
+  <div style="margin-top: 7%;"></div>
+  <div>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="selectOption">Select an option:</label>
+            <select class="form-control" id="selectOption" v-model="selectedOption">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </select>
+          </div>
         </div>
-        <v-btn @click="prev">Prev</v-btn>
-            <v-btn @click="next">Next</v-btn>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4" :class="{ 'hidden': selectedOption !== 'option1' }" transition="slide">
+          <div class="form-group">
+            <label for="input1Option1">Input 1 for option 1:</label>
+            <input type="text" class="form-control" id="input1Option1" v-model="option1Input1">
+          </div>
+          <div class="form-group">
+            <label for="input2Option1">Input 2 for option 1:</label>
+            <input type="text" class="form-control" id="input2Option1" v-model="option1Input2">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4" :class="{ 'hidden': selectedOption !== 'option2' }" transition="slide">
+          <div class="form-group">
+            <label for="input1Option2">Input 1 for option 2:</label>
+            <input type="text" class="form-control" id="input1Option2" v-model="option2Input1">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4" :class="{ 'hidden': selectedOption !== 'option3' }" transition="slide">
+          <div class="form-group">
+            <label for="input1Option3">Input 1 for option 3:</label>
+            <input type="text" class="form-control" id="input1Option3" v-model="option3Input1">
+          </div>
+          <div class="form-group">
+            <label for="input2Option3">Input 2 for option 3:</label>
+            <input type="text" class="form-control" id="input2Option3" v-model="option3Input2">
+          </div>
+          <div class="form-group">
+            <label for="input3Option3">Input 3 for option 3:</label>
+            <input type="text" class="form-control" id="input3Option3" v-model="option3Input3">
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
+
 export default {
-    data() {
-        return {
-            cards: [
-                { url: require('@/assets/img/1.jpg') },
-                { url: require('@/assets/img/2.jpg') },
-                { url: require('@/assets/img/3.jpg') },
-                { url: require('@/assets/img/4.jpg') },
-                { url: require('@/assets/img/5.jpg') },
-                { url: require('@/assets/img/6.jpg') },
-                { url: require('@/assets/img/7.jpg') },
-                { url: require('@/assets/img/8.jpg') },
-            ],
-            innerStyles: {},
-            step: '',
-            transitioning: false
-        };
-    },
-
-    mounted() {
-        this.setStep();
-        this.resetTranslate();
-    },
-
-    methods: {
-        setStep() {
-            const innerWidth = this.$refs.inner.offsetWidth; // Use offsetWidth instead of scrollWidth
-            const totalCards = this.cards.length;
-            this.step = `${innerWidth / totalCards}px`;
-        },
-
-        next() {
-            if (this.transitioning) return;
-
-            this.transitioning = true;
-
-            this.moveLeft();
-
-            this.afterTransition(() => {
-                const card = this.cards.shift();
-                this.cards.push(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        prev() {
-            if (this.transitioning) return;
-
-            this.transitioning = true;
-
-            this.moveRight();
-
-            this.afterTransition(() => {
-                const card = this.cards.pop();
-                this.cards.unshift(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        moveLeft() {
-            this.innerStyles = {
-                transform: `translateX(-${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        moveRight() {
-            this.innerStyles = {
-                transform: `translateX(${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        afterTransition(callback) {
-            const listener = () => {
-                callback();
-                this.$refs.inner.removeEventListener('transitionend', listener);
-            };
-            this.$refs.inner.addEventListener('transitionend', listener);
-        },
-
-        resetTranslate() {
-            this.innerStyles = {
-                transition: 'none',
-                transform: `translateX(-${this.step})`
-            };
-        }
-    }
+  data() {
+    return {
+      selectedOption: 'option1',
+      option1Input1: '',
+      option1Input2: '',
+      option2Input1: '',
+      option3Input1: '',
+      option3Input2: '',
+      option3Input3: ''
+    };
+  }
 };
 </script>
 
 <style>
-.carousel {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    overflow: hidden;
+.hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  animation: slideOut 0.6s both;
 }
 
-.inner {
-    transition: transform 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-.card {
-    width: 200px;
-    margin-right: 10px;
-    border-radius: 4px;
+  50% {
+    opacity: 1;
+    transform: translateX(-100px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
 }
 </style> -->
 
-<template>
-    <div class="container">
-        <div class="carousel" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
-            <div class="inner" ref="inner" :style="innerStyles">
-                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img" />
-            </div>
-        </div>
 
-        <v-btn @click="prev">Prev</v-btn>
-        <v-btn @click="next">Next</v-btn>
+<template>
+  <div style="margin-top: 8%;"></div>
+  <div class="ms-5">
+    <label class="file-input">
+      <input type="file" accept="image/*" @change="handleFileSelect" multiple>
+      <span class="mdi mdi-plus"></span>
+      <span>Add Image</span>
+    </label>
+    <div v-if="selectedImages">
+      <h2>Selected Images:</h2>
+      <div class="image-row">
+        <img v-for="(image, index) in selectedImages" :key="index" :src="image.url" :alt="image.name"
+          class="image-item">
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-    data() {
-        return {
-            cards: [
-                { url: require('@/assets/img/1.jpg') },
-                { url: require('@/assets/img/2.jpg') },
-                { url: require('@/assets/img/3.jpg') },
-                { url: require('@/assets/img/4.jpg') },
-                { url: require('@/assets/img/5.jpg') },
-                { url: require('@/assets/img/6.jpg') },
-                { url: require('@/assets/img/7.jpg') },
-                { url: require('@/assets/img/8.jpg') },
-            ],
-            innerStyles: {},
-            step: '',
-            transitioning: false,
-            autoScrollInterval: null,
-            autoScrollSpeed: 3000, // Adjust as needed
-        };
-    },
+  name: 'FileInput',
+  setup() {
+    const selectedImages = ref([]);
 
-    mounted() {
-        this.setStep();
-        this.resetTranslate();
-        this.startAutoScroll();
-    },
+    const handleFileSelect = (event) => {
+      const files = event.target.files;
+      if (files) {
+        const selected = Array.from(files);
+        selectedImages.value = selected.map(file => ({
+          name: file.name,
+          url: URL.createObjectURL(file)
+        }));
+      }
+    };
 
-    methods: {
-        setStep() {
-            const innerWidth = this.$refs.inner.offsetWidth;
-            const totalCards = this.cards.length;
-            this.step = `${innerWidth / totalCards}px`;
-        },
-
-        next() {
-            if (this.transitioning) return;
-            this.transitioning = true;
-            this.moveLeft();
-            this.afterTransition(() => {
-                const card = this.cards.shift();
-                this.cards.push(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        prev() {
-            if (this.transitioning) return;
-            this.transitioning = true;
-            this.moveRight();
-            this.afterTransition(() => {
-                const card = this.cards.pop();
-                this.cards.unshift(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        moveLeft() {
-            this.innerStyles = {
-                transform: `translateX(-${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        moveRight() {
-            this.innerStyles = {
-                transform: `translateX(${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        afterTransition(callback) {
-            const innerRef = this.$refs.inner;
-            if (!innerRef) return; // Check if innerRef is null
-            const listener = () => {
-                callback();
-                innerRef.removeEventListener('transitionend', listener);
-            };
-            innerRef.addEventListener('transitionend', listener);
-        },
-
-
-        // afterTransition(callback) {
-        //     const listener = () => {
-        //         callback();
-        //         this.$refs.inner.removeEventListener('transitionend', listener);
-        //     };
-        //     this.$refs.inner.addEventListener('transitionend', listener);
-        // },
-
-        resetTranslate() {
-            this.innerStyles = {
-                transition: 'none',
-                transform: `translateX(-${this.step})`
-            };
-        },
-
-        startAutoScroll() {
-            this.autoScrollInterval = setInterval(() => {
-                this.next();
-            }, this.autoScrollSpeed);
-        },
-
-        stopAutoScroll() {
-            clearInterval(this.autoScrollInterval);
-        }
-    }
+    return {
+      selectedImages,
+      handleFileSelect
+    };
+  }
 };
 </script>
 
 <style>
-.container {
-    position: relative;
+.file-input {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
-.carousel {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    overflow: hidden;
+
+.file-input .v-icon {
+  font-size: 24px;
+  margin-right: 5px;
 }
 
-.inner {
-    transition: transform 0.4s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.file-input input[type="file"] {
+  display: none;
 }
 
-.card-img {
-    width: 200px;
-    margin-right: 10px;
-    border-radius: 4px;
+
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-item {
+  width: 300px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 </style>

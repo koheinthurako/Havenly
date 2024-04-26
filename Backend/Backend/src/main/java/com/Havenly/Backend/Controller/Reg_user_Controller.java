@@ -58,7 +58,7 @@ public class Reg_user_Controller {
 	@PutMapping("/profile/update")
 	public ResponseEntity<Reg_user_DD> updateProfile( @RequestBody  Reg_user_DD user) {
 		
-		Reg_user_DD updatedUser = regService.update(user);
+		Reg_user_DD updatedUser = regService.update(user.getName(),user.getPhone(),user.getEmail());
 		if (updatedUser == null) {
 			return ResponseEntity.notFound().build();
 		}

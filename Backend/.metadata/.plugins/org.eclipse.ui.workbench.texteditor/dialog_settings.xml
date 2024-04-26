@@ -10,8 +10,9 @@
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="user3"/>
 		<list key="findhistory">
+			<item value="user3"/>
 			<item value="allLocation"/>
 		</list>
 		<list key="replacehistory">
