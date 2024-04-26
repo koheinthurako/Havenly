@@ -24,7 +24,7 @@ import com.Havenly.Backend.Service.Reg_user_Service;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/register")
 public class Reg_user_Controller {
 	
 	@Autowired
