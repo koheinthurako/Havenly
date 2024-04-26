@@ -1,13 +1,12 @@
   <template>
     <div class="third-item-carousel">
         <div class="container">
-            <h2>I don't know what is that Exactly!</h2>
+            <h2>Explore homes on Havenly.</h2>
         </div>
         <v-sheet class="mx-auto" elevation="6">
             <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
                 <v-slide-group-item v-for="n in 15" :key="n" v-slot="{ isSelected, toggle }">
-
-                    <v-card @click="toggle" elevation="20" rounded :color="isSelected ? 'primary' : undefined"
+                <v-card @click="toggle" elevation="20" rounded :color="isSelected ? 'primary' : undefined"
                         :disabled="loading" :loading="loading" class="mx-3 mt-3">
                         <template v-slot:loader="{ isActive }">
                             <v-progress-linear :active="isActive" color="deep-purple" height="4"
@@ -39,7 +38,7 @@
                                             4.5 (413)
                                         </div>
                                     </v-row>
-
+                                </v-card-text>
                                     <div class="my-4 text-subtitle-1">
                                         Bangkok Imue Noy
                                     </div>
@@ -58,14 +57,11 @@
                                         @click="reserve"></v-btn>
                                 </v-card-actions>
                             </div>
-                        </div>
-
+                       
                     </v-card>
-
                 </v-slide-group-item>
             </v-slide-group>
         </v-sheet>
-
     </div>
 </template>
 

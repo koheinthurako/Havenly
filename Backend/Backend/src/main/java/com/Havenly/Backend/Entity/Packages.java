@@ -37,7 +37,7 @@ public class Packages {
 	private LocalDate packDate;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="package_name")
+	@JoinColumn(name="package_type_id")
 	private PackageTypes packType;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)

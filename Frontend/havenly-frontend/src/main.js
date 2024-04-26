@@ -18,7 +18,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 // Import main SCSS file
-import './assets/css/main.scss' // Adjust the path as needed
+import '../src/assets/css/main.scss' // Adjust the path as needed
 
 
 

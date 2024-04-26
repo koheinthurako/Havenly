@@ -25,13 +25,13 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/package"
-              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Package</router-link>
+            <router-link to="/packages"
+              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/tempDoc"
-              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Documentation</router-link>
+            <router-link to="/subscribe"
+              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
           </li>
 
           <li class="nav-item">

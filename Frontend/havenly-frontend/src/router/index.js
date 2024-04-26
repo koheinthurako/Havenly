@@ -9,11 +9,8 @@ import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
 import {createApp} from 'vue'
 import Location_List from '../components/LocationAPI/Location_List.vue'
-import login from '../components/Login_&_Register/loginVue.vue'
-
-import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
-
 import testingPage from '../components/For_Testing/testingOne.vue'
+import IndexUserDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 
 
 
@@ -53,9 +50,14 @@ const routes = [
     component: HomeIndex
   },
   {
-    path: '/package',
+    path: '/packages',
     name: 'package',
     component: tempPackage
+  },
+  {
+    path: '/my-package',
+    name: 'packageDoc',
+    component: tempDoc
   },
   {
     path: '/register',
@@ -71,6 +73,15 @@ const routes = [
     path: '/category',
     name: 'Location_List',
     component: Location_List
+  },
+  {
+    path: '/userDashboard',
+    name: 'indexUserDashboard',
+    component: IndexUserDashboard
+  },{
+    path: '/test',
+    name: 'testingOne',
+    component: testingPage
   }
 
 ]

@@ -1,17 +1,23 @@
 <template>
     <div class="d-flex align-center justify-center" style="height: 100vh">
         <v-sheet width="400" class="mx-auto">
+          <h4 class="flex" style="height: 80px">Subscription Form</h4>
             <v-form fast-fail @submit.prevent="subscription">
                 
                 <v-text-field variant="underlined" v-model="user.nrc" :rules="[value => !!value || 'Required']" label="NRC" required></v-text-field>
                 <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']" label="Email" required></v-text-field>
+            <v-row justify="space-around">
+      <v-col cols="auto">
+        <div class="text-center">
+         
+            <v-btn type="submit" v-bind:rounded="true" block class="m-2 bg-redbrick text-white mt-3" style="height: 40px; width: 164px;">Subscribe</v-btn></div>
+      </v-col> </v-row>
                 
-                <v-btn type="submit" color="#e86f52"  block class="mt-2">Subscribe</v-btn>
             </v-form>
             <div class="mt-2">
-      
+      <br>
                 <p class="text-body-2">
-                  <a href="/register"> Register </a>
+                  <a href="/home"> Cancel </a>
                 </p>
             </div>
         </v-sheet>
