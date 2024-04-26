@@ -1,7 +1,5 @@
 package com.Havenly.Backend.Controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Packages_DTO;
+import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Repo.PackageTypesRepo;
@@ -53,22 +53,26 @@ public class PackagesController {
 	}
 	
 	@PostMapping("/purchase")
-	public ResponseEntity <?> purchasePackage(@Valid @RequestBody String nrc, Packages_DTO pack){
-		if(nrc == null) {
-			return ResponseEntity.badRequest().body("Invalid nrc.");
+	public ResponseEntity <String> purchasePackage(@Valid @RequestBody Subscription_DTO dto){
+		if(dto == null) {
+			return ResponseEntity.badRequest().build();
 		}
-		if(subRepo.findByNrc(nrc)==null) {
+		String email = dto.getEmail();
+		String packType = dto.getPackageType();
+		if(subRepo.findByEmail(dto.getEmail())==null) {
 			return ResponseEntity.notFound().build();
 		}
-		if (pack.getPayment() == null) {
-			return ResponseEntity.badRequest().body("Invalid payment.");
+//		if (pack.getPayment() == null) {
+//			return ResponseEntity.badRequest().build();
+//		}
+		if (dto.getPackageType() == null) {
+			return ResponseEntity.badRequest().build();
 		}
-		if (pack.getPackType() == null) {
-			return ResponseEntity.badRequest().body("Invalid package.");
+		Packages_DTO pack = packService.buyPack(email, packType);
+		if (pack == null) {
+			return ResponseEntity.internalServerError().build();
 		}
-		pack.setPackDate(LocalDate.now());
-		pack.setPackTime(LocalDateTime.now());
-		return new ResponseEntity <>(packService.buyPack(nrc, pack),HttpStatus.OK);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/cancel-package")
@@ -80,7 +84,7 @@ public class PackagesController {
 
 		boolean isDeleted = packService.delete(packId);
 		if (!isDeleted) {
-			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 
 		return ResponseEntity.ok().build();

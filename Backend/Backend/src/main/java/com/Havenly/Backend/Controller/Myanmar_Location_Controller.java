@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Myanmar_Location_DTO;
-import com.Havenly.Backend.Entity.Myanmar_Location;
 import com.Havenly.Backend.Service.Myanmar_Location_Service;
 
 @RestController

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
+import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.Service.SubscriptionService;
 
 import jakarta.validation.Valid;
@@ -26,6 +27,9 @@ public class SubscriptionController {
 	
 	@Autowired
 	Reg_user_Repo regRepo;
+	
+	@Autowired
+	SubscribeRepo subRepo;
 	
 	@DeleteMapping("/subscribe/cancel")
 	public ResponseEntity<?> cancelSub(@Valid @RequestBody Subscription_DTO dto){
@@ -41,10 +45,13 @@ public class SubscriptionController {
 		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
 			return ResponseEntity.badRequest().build();
 		}
+		if(this.subRepo.findByNrc(dto.getNrc()) != null) {
+			return ResponseEntity.notFound().build();
+		}
 		dto.setSubStartDate(LocalDate.now());
 		dto.setSubStartTime(LocalDateTime.now());
 		
-			return new ResponseEntity <Subscription_DTO>(subService.subscribe(dto),HttpStatus.ACCEPTED);		
+			return new ResponseEntity <Subscription_DTO>(subService.subscribe(dto),HttpStatus.OK);		
 	}
 	
 }

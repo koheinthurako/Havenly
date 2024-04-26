@@ -1,5 +1,8 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,16 +27,17 @@ public class PackagesServiceImpl implements PackagesService{
 
 	Packages pack = new Packages(); 
 	Packages_DTO pack_dto = new Packages_DTO();
+	
 
 	@Override
 	public boolean delete(int pid) {
 		pack = this.findById(pid);
 		if(pack.equals(null)) {
-			System.out.println("No such package.");
+			//No such package
 			return false;
 		}else {
 			packRepo.delete(pack);
-		System.out.println("Package profile deleted.");
+		//Package profile deleted
 		return true;
 		}
 		 
@@ -51,31 +55,35 @@ public class PackagesServiceImpl implements PackagesService{
 	}
 
 	@Override
-	public Packages_DTO buyPack(String nrc, Packages_DTO dto) {
-		Subscription subUser = subRepo.findByNrc(nrc);
-		Packages packUser = pack_dto.convertToEntity(dto);
-		PackageTypes packTypes = new PackageTypes();
-		if(dto.getPackType().matches("Free Trial")) {
+	public Packages_DTO buyPack(String email, String packType) {
+		Subscription subUser = subRepo.findByEmail(email);
+		PackageTypes packTypes = packTypesRepo.findByPackName(packType);
+		Packages packUser = new Packages();
+		packUser.setSub1(subUser);
+		packUser.setPackType(packTypes);
+		packUser.setPackDate(LocalDate.now());
+		packUser.setPackTime(LocalDateTime.now());	
+			
+		Packages packUser2 = packRepo.save(packUser);
+		
+		if(packType.matches("Free Trial")) {
 			subUser.setTotalAds(packTypesRepo.getTotalAds(1));
 			subUser.setTotalPosts(packTypesRepo.getTotalPosts(1));
 			}
-		if(dto.getPackType().matches("Normal")) {
+		if(packType.matches("Normal")) {
 				subUser.setTotalAds(packTypesRepo.getTotalAds(2));
 				subUser.setTotalPosts(packTypesRepo.getTotalPosts(2));
 			}
-		if(dto.getPackType().matches("Premium")) {
+		if(packType.matches("Premium")) {
 				subUser.setTotalAds(packTypesRepo.getTotalAds(3));
 				subUser.setTotalPosts(packTypesRepo.getTotalPosts(3));
 			}
-		packTypes.setPackName(packUser.getPackType().toString());
-		packUser.setPackType(packTypes);
-		subUser.setPackages(packUser);
+		subUser.setPackages(packUser2);
 		subUser.setEmail(subUser.getEmail());
 		subUser.setNrc(subUser.getNrc());
-		packUser.getSub1();
-		packUser.setSub1(subUser);
+		subUser.setPackageType(packType);
 		subRepo.save(subUser);
-		Packages packUser2 = packRepo.save(packUser);
+		
 		Packages_DTO packUser3 = pack_dto.convertToObject(packUser2);
 		return packUser3;
 	}

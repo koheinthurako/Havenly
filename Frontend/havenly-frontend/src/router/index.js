@@ -5,6 +5,7 @@ import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import SubscribeView from '../views/SubscribeView.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
+import PackagesView from '@/views/PackagesView.vue'
 import {createApp} from 'vue'
 import Location_List from '../components/LocationAPI/Location_List.vue'
 
@@ -29,7 +30,11 @@ const routes = [
     name: 'CancelSubscription',
     component: CancelSubscription
   },
-
+  {
+    path: '/packages/purchase',
+    name: 'PackagesView',
+    component: PackagesView
+  },
   {
     path: '/Home',
     redirect: '/',

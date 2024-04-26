@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.Havenly.Backend.DTO.Thai_Location_DTO;
-import com.Havenly.Backend.DTO.Thai_Location_DTO;
-import com.Havenly.Backend.DTO.Thai_Location_DTO;
-import com.Havenly.Backend.Entity.Thai_Location;
-import com.Havenly.Backend.Entity.Thai_Location;
 import com.Havenly.Backend.Entity.Thai_Location;
 import com.Havenly.Backend.Repo.Thai_Location_Repo;
 import com.Havenly.Backend.Service.Thai_Location_Service;

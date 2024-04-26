@@ -33,6 +33,7 @@ public class Packages {
 	@Column(name = "purchase_time")
 	private LocalDateTime packTime;
 	
+	@Column(name = "purchase_date")
 	private LocalDate packDate;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

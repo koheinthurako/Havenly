@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.Havenly.Backend.DTO.Myanmar_Location_DTO;
-import com.Havenly.Backend.Entity.Myanmar_Location;
 
 @Service
 public interface Myanmar_Location_Service {
