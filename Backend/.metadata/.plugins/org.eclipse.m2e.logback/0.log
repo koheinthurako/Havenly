@@ -2908,3 +2908,6 @@ Caused by: java.lang.ClassNotFoundException: org.apache.el.util.JreCompat cannot
 2024-04-25 22:02:37,831 [Worker-22: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-04-25 22:02:37,865 [Worker-22: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2024-04-25 22:02:37,869 [Worker-22: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
+2024-04-26 02:44:02,697 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@2764565f{STOPPING}[12.0.3,sto=0]
+2024-04-26 02:44:03,280 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@6ac148e9{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-04-26 11:26:25,669 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.

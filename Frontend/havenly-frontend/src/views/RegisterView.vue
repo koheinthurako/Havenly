@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center justify-center" style="height: 100vh">
+  <div class="d-flex align-center justify-center mt-5 pt-5">
       <v-sheet width="400" class="mx-auto">
           <v-form fast-fail @submit.prevent="signup">
               <v-text-field variant="underlined" v-model="user.name" :rules="[value => !!value || 'Required']" label="Name"  required ></v-text-field>

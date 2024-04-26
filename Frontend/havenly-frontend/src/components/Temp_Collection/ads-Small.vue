@@ -1,18 +1,16 @@
 <template>
     <div class="ads-sm-page">
-
-        <div class="container">
-            <div class="third-carousel" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
-                <div class="inner" ref="inner" :style="innerStyles">
-                    <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class=" card-img">
-                        <div class="overlay"></div>
-                    </v-img>
-                </div>
+        <div class="third-carousel-sm" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
+            <div class="inner-sm" ref="inner" :style="innerStyles">
+                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img-sm">
+                    <div class="overlay"></div>
+                </v-img>
             </div>
         </div>
 
-        <v-btn @click="prev" class="next"><v-icon>mdi-chevron-left</v-icon></v-btn>
-        <v-btn @click="next" class="prev"><v-icon>mdi-chevron-right</v-icon></v-btn>
+
+        <v-btn @click="prev" class="sm-next"><v-icon>mdi-chevron-left</v-icon></v-btn>
+        <v-btn @click="next" class="sm-prev"><v-icon>mdi-chevron-right</v-icon></v-btn>
 
     </div>
 </template>
@@ -125,9 +123,9 @@ export default {
     width: 100%;
     height: auto;
     position: relative;
-   
 
-    .third-carousel {
+
+    .third-carousel-sm {
         width: 100%;
         height: auto;
 
@@ -135,16 +133,16 @@ export default {
         display: flex;
         align-items: center;
 
-        .inner {
+        .inner-sm {
             display: flex;
 
             align-items: center;
             transition: transform 0.4s ease-in-out;
         }
 
-        .card-img {
+        .card-img-sm {
             width: 300px;
-            height: 290px;
+            height: 270px;
             border-radius: 6px;
             background-repeat: no-repeat;
             object-fit: cover;
@@ -166,44 +164,46 @@ export default {
 
     }
 
-    .next,
-    .prev {
+    .sm-next,
+    .sm-prev {
         position: absolute;
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: #e86f52;
+        color: #fff;
         backdrop-filter: blur(30px);
         -webkit-backdrop-filter: blur(30px);
-        transition: all 0.3s ease-in-out;
+        transition: all 0.4s ease-in-out;
         z-index: 500;
         top: 42%;
+
 
         .v-icon {
             font-size: 44px;
         }
     }
 
-    .next {
+    .sm-next {
         left: 5%;
         opacity: 0;
-        transform: translateX(-300px);
+        transform: translateX(-100px);
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .prev {
+    .sm-prev {
         right: 5%;
         opacity: 0;
-        transform: translateX(300px);
+        transform: translateX(100px);
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    &:hover .next {
+    &:hover .sm-next {
         opacity: 1;
         transform: translateX(0);
     }
 
-    &:hover .prev {
+    &:hover .sm-prev {
         opacity: 1;
         transform: translateX(0);
     }
