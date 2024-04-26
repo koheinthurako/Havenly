@@ -4,11 +4,23 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader';
-import 'bootstrap/dist/css/bootstrap.css';
+
+// Import Bootstrap styles Need both Css and JS
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/main.scss';
-import 'bootstrap';
-import './assets/css/main.scss'
-import './assets/js/main.js'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
+// Import SweetAlert styles
+import 'sweetalert2/dist/sweetalert2.min.css'
+
+// Import Font Awesome styles
+import '@fortawesome/fontawesome-free/css/all.css'
+
+// Import main SCSS file
+import './assets/css/main.scss' // Adjust the path as needed
+
+
 
 
 loadFonts()

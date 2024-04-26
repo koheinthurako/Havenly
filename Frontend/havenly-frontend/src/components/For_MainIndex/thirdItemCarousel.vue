@@ -44,24 +44,14 @@
                                         Bangkok Imue Noy
                                     </div>
 
-                                    <div>FLO By Sansiri project, the first project in the form of a river curve view that is exclusive, the only one from Sansiri.</div>
-                                </v-card-text>
+              <br>
 
-                                <v-divider class="mx-4 mb-1"></v-divider>
+              <v-btn elevation="20" color="#E97559" style="border-radius: 30px;">Check Details</v-btn>
 
-                                <v-card-title>Tonight's availability</v-card-title>
-
-                                <div class="px-4 mb-2">
-                                    <v-chip-group v-model="selection" selected-class="bg-deep-purple-lighten-2">
-                                        <v-chip>5:30PM</v-chip>
-
-                                        <v-chip>7:30PM</v-chip>
-
-                                        <v-chip>8:00PM</v-chip>
-
-                                        <v-chip>9:00PM</v-chip>
-                                    </v-chip-group>
-                                </div>
+            </div>
+            <div class="split right-part">
+              hello world
+            </div>
 
                                 <v-card-actions>
                                     <v-btn color="deep-purple-lighten-2" text="Reserve" block border

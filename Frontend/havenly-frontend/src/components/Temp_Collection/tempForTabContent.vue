@@ -6,14 +6,16 @@
 
                 <!-- for Desktop view -->
 
-                <v-btn size="large"  class="d-none d-md-block content-btn ms-auto mb-3" style="text-transform:capitalize;">See all post of
-                    <span class="ms-1 red">{{ get_title }}</span> <v-icon
-                        style="margin-left: 8px;font-size: 24px;" class="custom-icon">mdi-chevron-double-right</v-icon>
+                <v-btn size="large" class="d-none d-md-block content-btn ms-auto mb-3"
+                    style="text-transform:capitalize;">See all post of
+                    <span class="ms-1 red">{{ get_title }}</span> <v-icon style="margin-left: 8px;font-size: 24px;"
+                        class="custom-icon">mdi-chevron-double-right</v-icon>
                 </v-btn>
 
-                <v-btn size="small" class="d-block d-sm-none content-btn ms-auto me-5 mb-1"  style="text-transform:capitalize;">See all
-                    <span class="ms-1 red">{{ get_title }}</span> <v-icon
-                        style=" margin-left: 8px;font-size: 24px;" class="custom-icon">mdi-chevron-double-right</v-icon>
+                <v-btn size="small" class="d-block d-sm-none content-btn ms-auto me-5 mb-1"
+                    style="text-transform:capitalize;">See all
+                    <span class="ms-1 red">{{ get_title }}</span> <v-icon style=" margin-left: 8px;font-size: 24px;"
+                        class="custom-icon">mdi-chevron-double-right</v-icon>
                 </v-btn>
 
             </div>
@@ -26,9 +28,13 @@
 
                         <routerlink to="" class="card mb-4"
                             :class="[animations[index % animations.length], { 'fade-up': animated }]">
-                            <div class="custom-save">
-                                <v-icon >mdi-content-save-outline</v-icon>
+
+                            <div v-if="login_status">
+                                <div class="custom-save">
+                                    <v-icon>mdi-content-save-outline</v-icon>
+                                </div>
                             </div>
+
                             <div class="image-container mb-2">
                                 <img :src="slide.image" class="card-img-top" alt="Card image cap">
                             </div>
@@ -40,9 +46,11 @@
                                         </p>
                                     </div>
                                     <div class="heart-sign d-flex ms-auto py-0">
-                                        <v-icon class="ms-auto custom-heart">
-                                            mdi-heart-outline
-                                        </v-icon>
+                                        <div v-if="login_status">
+                                            <v-icon class="ms-auto custom-heart">
+                                                mdi-heart-outline
+                                            </v-icon>
+                                        </div>
                                         <p class="text-grey ms-1">1500</p>
                                     </div>
                                 </div>
@@ -69,7 +77,7 @@
                                     <v-icon class="custom-icon">mdi-map-marker</v-icon>
                                     <p class="ms-1">{{ slide.location }}</p>
                                 </div>
-                                
+
                                 <v-divider :thickness="2" class="border-opacity-25" />
                                 <div class="d-flex py-0">
                                     <div class="clock-side d-flex">
@@ -126,9 +134,11 @@ export default {
             return this.limitSlides(slides);
         },
 
-        darkMode() {
-            return this.$store.getters.darkMode;
-        }
+        login_status() {
+            return this.$store.getters.LoginData
+        },
+
+
     },
 
     mounted() {

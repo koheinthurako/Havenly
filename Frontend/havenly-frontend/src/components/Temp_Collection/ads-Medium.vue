@@ -1,16 +1,17 @@
 <template>
-    <div class="ads-sm-page">
-        <div class="third-carousel-sm" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
-            <div class="inner-sm" ref="inner" :style="innerStyles">
-                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img-sm">
+    <div class="ads-medium-page">
+
+        <div class="third-carousel-medium" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
+            <div class="inner-medium" ref="inner" :style="innerStyles">
+                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img-medium">
                     <div class="overlay"></div>
                 </v-img>
             </div>
         </div>
 
 
-        <v-btn @click="prev" class="sm-next"><v-icon>mdi-chevron-left</v-icon></v-btn>
-        <v-btn @click="next" class="sm-prev"><v-icon>mdi-chevron-right</v-icon></v-btn>
+        <v-btn @click="prev" class="medium-next"><v-icon>mdi-chevron-left</v-icon></v-btn>
+        <v-btn @click="next" class="medium-prev"><v-icon>mdi-chevron-right</v-icon></v-btn>
 
     </div>
 </template>
@@ -20,13 +21,13 @@ export default {
     data() {
         return {
             cards: [
-                { url: require('@/assets/img/house-1.jpg') },
-                { url: require('@/assets/img/house-2.jpg') },
-                { url: require('@/assets/img/house-3.jpg') },
-                { url: require('@/assets/img/house-4.jpg') },
-                { url: require('@/assets/img/house-5.jpg') },
-                { url: require('@/assets/img/house-6.jpg') },
-                { url: require('@/assets/img/house-7.jpg') },
+                { url: require('@/assets/img/1.jpg') },
+                { url: require('@/assets/img/2.jpg') },
+                { url: require('@/assets/img/3.jpg') },
+                { url: require('@/assets/img/4.jpg') },
+                { url: require('@/assets/img/5.jpg') },
+                { url: require('@/assets/img/6.jpg') },
+                { url: require('@/assets/img/7.jpg') },
 
 
             ],
@@ -119,13 +120,13 @@ export default {
 
 
 <style>
-.ads-sm-page {
+.ads-medium-page {
     width: 100%;
     height: auto;
     position: relative;
 
 
-    .third-carousel-sm {
+    .third-carousel-medium {
         width: 100%;
         height: auto;
 
@@ -133,22 +134,22 @@ export default {
         display: flex;
         align-items: center;
 
-        .inner-sm {
+        .inner-medium {
             display: flex;
 
             align-items: center;
             transition: transform 0.4s ease-in-out;
         }
 
-        .card-img-sm {
-            width: 300px;
-            height: 270px;
+        .card-img-medium {
+            width: 390px;
+            height: auto;
             border-radius: 6px;
             background-repeat: no-repeat;
             object-fit: cover;
             background-size: cover;
             display: flex;
-            margin-left: 14px;
+
             z-index: 300;
 
             .overlay {
@@ -164,48 +165,66 @@ export default {
 
     }
 
-    .sm-next,
-    .sm-prev {
+    .medium-next,
+    .medium-prev {
         position: absolute;
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background-color: #e86f52;
-        color: #fff;
+        background-color: rgba(255, 255, 255, 0.6);
         backdrop-filter: blur(30px);
         -webkit-backdrop-filter: blur(30px);
         transition: all 0.4s ease-in-out;
         z-index: 500;
-        top: 42%;
-
+        top: 40%;
 
         .v-icon {
             font-size: 44px;
         }
     }
 
-    .sm-next {
+    .medium-next {
         left: 5%;
         opacity: 0;
         transform: translateX(-100px);
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .sm-prev {
+    .medium-prev {
         right: 5%;
         opacity: 0;
         transform: translateX(100px);
         transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    &:hover .sm-next {
+    &:hover .medium-next {
         opacity: 1;
         transform: translateX(0);
     }
 
-    &:hover .sm-prev {
+    &:hover .medium-prev {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    /* For Desktop */
+    .ads-medium-page {
+        .card-img-medium {
+            margin-left: 40px;
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    /* For mobile */
+    .ads-medium-page {
+        .card-img-medium {
+            margin-right: 5px;
+        }
     }
 }
 </style>
