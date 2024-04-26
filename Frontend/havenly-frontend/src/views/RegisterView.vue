@@ -3,7 +3,7 @@
       <v-sheet width="400" class="mx-auto">
           <v-form ref="form" fast-fail @submit.prevent="signup">
               <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.phone"   label="Phone" required ></v-text-field>
+              <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
               <v-text-field variant="underlined"  v-model="user.email"    label="Email" required ></v-text-field>
               <v-text-field variant="underlined" v-model="user.password"  label="password" required ></v-text-field>
 

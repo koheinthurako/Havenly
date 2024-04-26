@@ -5,16 +5,17 @@
                 <div class="profile-box h-auto">
                     <div class="profile-box-data pb-5">
                         <v-img :src="acc_img" class="profile-img" />
-                        <form @submit.prevent="submit">
+                        <form ref="form" fast-fail @submit.prevent="update">
+
+                            
 
 
                             <div class="form-control">
-                                <div :v-if="user_data !== null">
-                                    <input type="text" :value="user_data?.name || ''" :counter="10" label="User name">
-                                    <input type="email" :value="user_data?.gmail || ''" label="E-mail">
-                                    <input type="phone" :value="user_data?.phone || ''" label="phone">
+                                <div style="padding:2%"> <h6>Update Information</h6></div>
 
-                                </div>
+                                <v-text-field v-model="user.name" label="Name"></v-text-field>
+                                <v-text-field v-model="user.phone" :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone"  ></v-text-field>
+                                <v-text-field v-model="user.email" label="Email of this account" :rules="[value => !!value || 'Required']" ></v-text-field>
                             </div>
 
 
@@ -22,7 +23,7 @@
 
                                 <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
                                     style="text-transform:capitalize;">
-                                    Save chane
+                                    Update
                                 </v-btn>
 
 
@@ -68,41 +69,42 @@
                                     <!-- Dialog start -->
                                     <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
 
+                                        
 
-                                        <form @submit.prevent="submit" class="form-edit2">
+
+                                        <form ref="form"  @submit.prevent="submit" class="form-edit2">
                                             <v-row cols="12" class="mx-auto mb-3">
                                                 <h3>Change Password</h3>
                                             </v-row>
                                             <button class="close-btn"
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
-
-                                            <v-text-field v-model="email.value.value"
-                                                :error-messages="email.errorMessage.value"
+                                                <form  @submit.prevent="change" >
+                                            <v-text-field v-model="change_pw.username"
+                                                
                                                 label="G-mail"></v-text-field>
 
-                                            <v-text-field v-model="password.value.value"
-                                                :error-messages="password.errorMessage.value"
+                                            <v-text-field v-model="change_pw.password"
+                                                
                                                 class="input-group--focused" hint="At least 6 characters"
                                                 label="Current Password" name="input-10-2"
                                                 @click:append="visible = !visible"></v-text-field>
 
-                                            <v-text-field v-model="confirm_password.value.value"
-                                                :error-messages="confirm_password.errorMessage.value"
+                                            <v-text-field v-model="change_pw.new_password"
+                                               
                                                 class="input-group--focused" hint="At least 6 characters"
                                                 label="New password" name="input-10-2"
                                                 @click:append="visible1 = !visible1"></v-text-field>
 
                                             <v-row cols="12" class="w-100 mt-4">
 
-                                                <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
-                                                    type="submit">
-                                                    submit
-                                                </v-btn>
+                                                <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
+                                    style="text-transform:capitalize; background-color: #E97559; color: #fff;">
+                                   Change
+                                </v-btn>
 
-                                                <v-btn elevation="10" class="clear" @click="handleReset">
-                                                    clear
-                                                </v-btn>
+                                               
                                             </v-row>
+                                        </form>
                                         </form>
 
 
@@ -241,23 +243,36 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
     name: 'profileVue',
 
+      
 
-    data: () => ({
-
-        img: require('@/assets/img/9.jpg'),
-        acc_img: require('@/assets/img/img_avatar.png'),
-        resetdialog: false,
-
-        rules: {
-            required: value => !!value || 'Required.',
-            min: v => v.length >= 6 || 'Min 6 characters',
-            emailMatch: () => (`The email and password you entered don't match`),
+    data () {
+        
+        
+        
+       return {
+        img : require('@/assets/img/9.jpg'),
+        acc_img : require('@/assets/img/img_avatar.png'),
+        resetdialog : false,
+        
+        user :{
+          name: '',
+          phone:'',
+          email: ''      
         },
-    }),
+
+        change_pw : {
+            username : '',
+            password : '',
+            new_password : ''
+        }
+      };
+    },
+    
 
     computed: {
         user_data() {
@@ -277,6 +292,58 @@ export default {
 
         closeDialog() {
             this.resetdialog = false;
+        },
+
+        update(){
+
+            function httpErrorHandler(error) {
+                        if (axios.isAxiosError(error)) {
+                            const response = error?.response
+                            if(response){
+                                const statusCode = response?.status
+                                if(statusCode===404){alert("Upadte Information failed!!!   Please check your E-mail and fill again!!")}
+                            }
+                            }
+                    }
+
+
+
+            axios.put("http://localhost:8083/profile/update",this.user)
+            .then(function(response){
+                const status=JSON.parse(response.status);
+                if(status=='200'){
+                  alert("updated Successfully")
+                }
+            })
+            .catch(httpErrorHandler)
+                 
+        },
+
+        change(){
+            function httpErrorHandler(error) {
+                        if (axios.isAxiosError(error)) {
+                            const response = error?.response
+                            if(response){
+                                const statusCode = response?.status
+                                if(statusCode===404 || statusCode===400){alert("Password Update Unsuccessful!! Please fill your G-mail and Password again!!!")}
+                            }
+                            }
+                    }
+
+
+
+            axios.put("http://localhost:8083/pwdUpdate",this.change_pw)
+            .then(function(response){
+                const status=JSON.parse(response.status);
+                if(status=='200'){
+                  alert(" Password Updated Successfully")
+                }
+            })
+            .catch(httpErrorHandler)
+            this.user.name='',
+                  this.change_pw.username='',
+                  this.change_pw.password='',
+                  this.change_pw.new_password=''
         }
 
     }
@@ -284,57 +351,6 @@ export default {
 
 </script>
 
-<script setup>
-
-import { useField, useForm } from 'vee-validate'
-
-
-const { handleSubmit, handleReset } = useForm({
-    validationSchema: {
-
-        password(value) {
-            if (value?.length >= 6) {
-
-                return true;
-            } else {
-                return 'Cannot be empty!'
-            }
-        },
-
-        confirm_password(value) {
-            if (value?.length >= 6) {
-                return true;
-            } else {
-                return 'Cannot be empty!'
-            }
-        },
-        email(value) {
-            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
-
-            return 'Must be a valid e-mail.'
-        },
-
-    },
-})
-
-const password = useField('password')
-const confirm_password = useField('confirm_password')
-const email = useField('email')
-
-function showAlert(data) {
-    alert(
-        data
-    )
-}
-
-const submit = handleSubmit(values => {
-    if (values.password !== values.confirm_password) {
-        showAlert("Password didn't match!");
-    } else {
-        showAlert("Correct Password!");
-    }
-});
-</script>
 
 <style>
 .form-edit2 {
@@ -349,10 +365,12 @@ const submit = handleSubmit(values => {
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
 
     .close-btn {
+        
         position: absolute;
         top: 10px;
         right: 10px;
         font-size: 20px;
+        
     }
 
     .submit,
@@ -383,34 +401,21 @@ const submit = handleSubmit(values => {
             }
 
             .profile-img {
-                width: 200px;
-                height: 200px;
+                width: 130px;
+                height: 130px;
                 border-radius: 50%;
-                margin: auto;
+                margin: left;
+                margin-left: 10px;
             }
 
             .form-control {
                 width: 100%;
                 height: auto;
-                padding: 10px 0px;
-                display: block;
                 background-color: transparent;
                 border: none;
 
-                input {
-                    width: 100%;
-                    background-color: #fff;
-                    margin: 10px 0px;
-                    font-size: 18px;
-                    padding: 10px;
-                    border-radius: 10px;
-                    border: 1px solid #F6F5F2;
-                    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
 
-                    &:focus {
-                        outline: none;
-                    }
-                }
+                
 
             }
 

@@ -15,5 +15,6 @@ public interface Reg_user_Service {
 	public Reg_user_DTO register(Reg_user_DTO dto);
 	public Reg_user_DD Login(String gmail, String password);
 	public Reg_user_DD update(String name,String phone,String gmail);
+	public Reg_user_DTO pwdUpdate(String username,String password,String new_password);
 
 }

@@ -65,7 +65,7 @@ export default {
             .then(function(response){
                     const status=JSON.parse(response.status);
                     if(status=='200'){
-                        router.push('/home');
+                        router.push('/');
                     }
                     
                         })
