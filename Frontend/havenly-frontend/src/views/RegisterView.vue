@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center justify-center mt-5 pt-5">
+  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 100vh;">
       <v-sheet width="400" class="mx-auto">
           <v-form ref="form" fast-fail @submit.prevent="signup">
               <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>
@@ -11,7 +11,7 @@
           </v-form>
           <div class="mt-2">
               <p class="text-body-2">
-                  Already have an account? <a href="/login">Sign in</a>
+                  Already have an account? <a href="/loginakm">Sign in</a>
               </p>
           </div>
       </v-sheet>

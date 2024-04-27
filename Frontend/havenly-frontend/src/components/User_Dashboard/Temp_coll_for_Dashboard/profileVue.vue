@@ -302,6 +302,7 @@ export default {
                             if(response){
                                 const statusCode = response?.status
                                 if(statusCode===404){alert("Upadte Information failed!!!   Please check your E-mail and fill again!!")}
+                                if(statusCode===500){alert("Upadte Information failed!!!   Please check your Phone number and fill again!!")}
                             }
                             }
                     }

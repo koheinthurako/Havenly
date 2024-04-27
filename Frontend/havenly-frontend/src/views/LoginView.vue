@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-center justify-center mt-5 pt-5">
+    <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 100vh;">
         <v-sheet width="400" class="mx-auto">
             <v-form fast-fail @submit.prevent="login">
                 
