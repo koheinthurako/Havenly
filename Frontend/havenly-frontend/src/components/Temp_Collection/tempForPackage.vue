@@ -58,12 +58,15 @@
 
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
+
                                 <v-btn elevation="20" class="sub-btn">
                                     <div class="toggle-v-l">
                                         <span class="visible">Subscribe</span>
                                         <span class="later-visible">Right now</span>
                                     </div>
                                 </v-btn>
+
+
                             </div>
                         </div>
                         <!-- package one end -->
@@ -112,6 +115,7 @@
                                     <div class="toggle-v-l">
                                         <span class="visible">Subscribe</span>
                                         <span class="later-visible">Right now</span>
+
                                     </div>
                                 </v-btn>
                             </div>
@@ -162,6 +166,7 @@
                                     <div class="toggle-v-l">
                                         <span class="visible">Subscribe</span>
                                         <span class="later-visible">Right now</span>
+
                                     </div>
                                 </v-btn>
                             </div>
@@ -200,10 +205,10 @@
 
 
 <script>
-
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 import 'swiper/css';
+// import Swal from 'sweetalert2';
 
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -217,8 +222,10 @@ export default {
         SwiperSlide,
     },
     setup() {
+
         return {
             modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+
         };
     },
 
@@ -244,8 +251,23 @@ export default {
             }, 20);
         },
 
-
     },
+
+    // setup() {
+
+    //     return {
+    //         modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+
+    //     };
+
+    // },
+
+
+    computed: {
+        user_info() {
+            return this.$store.getters.Take_Userinfo
+        }
+    }
 
 }
 

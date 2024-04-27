@@ -254,7 +254,7 @@
 
 
             <div class="row">
-                <div class="col-md-7 p-0 mx-auto">
+                <div class="col-md-12 p-0 ">
 
 
                     <div v-if="openTab === 'profile'">
@@ -269,8 +269,8 @@
                         <p>This is where the add post content will be displayed.</p>
                     </div>
                     <div v-else-if="openTab === 'create-post'">
+                        <!-- for nothing ;) -->
                         <div style="width: 100%; height: 130vh;"></div>
-
                     </div>
                     <div v-else-if="openTab === 'create-post-real'">
                         <create_post_page />
@@ -629,10 +629,10 @@ export default {
     margin-left: auto;
     height: auto;
     width: calc(100% - 70px);
-    /* Adjusted to account for the width of the sidebar */
     padding: 6px 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
+
 }
 
 @media only screen and (min-width: 768px) {
@@ -655,11 +655,11 @@ export default {
 #sidebar {
     overflow: hidden;
     position: fixed;
-    top: 10%;
+    top: 8%;
     left: 0;
     width: 70px;
     min-width: 70px;
-    height: 90vh;
+    height: 100vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     background-color: #0e2238;
