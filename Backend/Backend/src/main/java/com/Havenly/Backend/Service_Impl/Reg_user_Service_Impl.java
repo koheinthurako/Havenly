@@ -56,6 +56,37 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}
+	@Override
+	public Reg_user_DD update(String name,String phone,String gmail) {
+		
+		Reg_user updateUser=regRepo.findByEmail(gmail);
+		if (updateUser == null) {
+			return null;
+		}
+		updateUser.setName(name);
+		updateUser.setPhone(phone);
+		Reg_user user2=regRepo.save(updateUser);
+		Reg_user_DD user4=user3.covertToObject(user2);
+		
+
+		return user4;
+	}
+	@Override
+	public Reg_user_DTO pwdUpdate(String username, String password , String new_password) {
+		Reg_user user = regRepo.findByEmail(username);
+
+		if (user == null) {
+			return null;
+		}
+		if (!pwencoder.matches(password, user.getPassword())) {
+			return null;
+		}
+		user.setPassword(this.pwencoder.encode(new_password));
+		Reg_user user1=regRepo.save(user);
+		Reg_user_DTO user2=user_dto.covertToObject(user1);
+		
+		return user2;
+	}
 	
 	
 

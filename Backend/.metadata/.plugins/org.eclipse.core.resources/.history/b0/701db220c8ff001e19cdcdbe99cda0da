@@ -1,7 +1,0 @@
-package com.Havenly.Backend.Service;
-
-public interface Category_Service {
-	
-	public void saveCategory();
-	
-}

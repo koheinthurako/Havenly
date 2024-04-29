@@ -1,280 +1,205 @@
-<!-- <template>
-    <div class="container">
-        <div class="carousel">
-            <div class="inner" ref="inner" :style="innerStyles">
-                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card" />
-            </div>
-    
-            
-        </div>
-        <v-btn @click="prev">Prev</v-btn>
-            <v-btn @click="next">Next</v-btn>
-    </div>
-</template>
-
-<script>
-export default {
-    data() {
-        return {
-            cards: [
-                { url: require('@/assets/img/1.jpg') },
-                { url: require('@/assets/img/2.jpg') },
-                { url: require('@/assets/img/3.jpg') },
-                { url: require('@/assets/img/4.jpg') },
-                { url: require('@/assets/img/5.jpg') },
-                { url: require('@/assets/img/6.jpg') },
-                { url: require('@/assets/img/7.jpg') },
-                { url: require('@/assets/img/8.jpg') },
-            ],
-            innerStyles: {},
-            step: '',
-            transitioning: false
-        };
-    },
-
-    mounted() {
-        this.setStep();
-        this.resetTranslate();
-    },
-
-    methods: {
-        setStep() {
-            const innerWidth = this.$refs.inner.offsetWidth; // Use offsetWidth instead of scrollWidth
-            const totalCards = this.cards.length;
-            this.step = `${innerWidth / totalCards}px`;
-        },
-
-        next() {
-            if (this.transitioning) return;
-
-            this.transitioning = true;
-
-            this.moveLeft();
-
-            this.afterTransition(() => {
-                const card = this.cards.shift();
-                this.cards.push(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        prev() {
-            if (this.transitioning) return;
-
-            this.transitioning = true;
-
-            this.moveRight();
-
-            this.afterTransition(() => {
-                const card = this.cards.pop();
-                this.cards.unshift(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        moveLeft() {
-            this.innerStyles = {
-                transform: `translateX(-${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        moveRight() {
-            this.innerStyles = {
-                transform: `translateX(${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        afterTransition(callback) {
-            const listener = () => {
-                callback();
-                this.$refs.inner.removeEventListener('transitionend', listener);
-            };
-            this.$refs.inner.addEventListener('transitionend', listener);
-        },
-
-        resetTranslate() {
-            this.innerStyles = {
-                transition: 'none',
-                transform: `translateX(-${this.step})`
-            };
-        }
-    }
-};
-</script>
-
-<style>
-.carousel {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    overflow: hidden;
-}
-
-.inner {
-    transition: transform 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card {
-    width: 200px;
-    margin-right: 10px;
-    border-radius: 4px;
-}
-</style> -->
-
 <template>
-    <div class="container">
-        <div class="carousel" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
-            <div class="inner" ref="inner" :style="innerStyles">
-                <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img" />
-            </div>
+
+  <div style="margin-top: 7%;"></div>
+  <div class="w-100 d-flex p-0 m-0">
+    <span class="mt-2 me-2">Choose an option : </span>
+    <v-radio-group v-model="change_type" inline>
+      <v-radio label="Option one" value="one" color="orange"></v-radio>
+      <v-radio label="Option two" value="two" color="orange"></v-radio>
+    </v-radio-group>
+  </div>
+
+  <div v-if="box_data">
+    <v-btn @click="change">
+      Off
+    </v-btn>
+  </div>
+  <div v-if="!box_data">
+    <v-btn @click="change">On</v-btn>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6 mx-auto"
+      style="transition: all 0.4s ease-in-out;padding: 20px; background-color: #ddd; position: sticky; top: 0;">
+      <form @submit.prevent="submit">
+        <v-text-field v-model="name.value.value" fast-fail="true" :counter="10"
+          :error-messages="name.errorMessage.value" label="Name"></v-text-field>
+
+        <v-text-field v-model="phone.value.value" :counter="7" :error-messages="phone.errorMessage.value"
+          label="Phone Number"></v-text-field>
+
+        <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
+          label="E-mail"></v-text-field>
+
+        <v-select v-model="select.value.value" :error-messages="select.errorMessage.value" :items="items"
+          label="Select"></v-select>
+
+        <div :class="{ fade_in: change_type === 'one', fade_right_gone: change_type !== 'one' }">
+          <v-checkbox v-model="checkbox.value.value" :error-messages="checkbox.errorMessage.value" label="Option"
+            type="checkbox" value="1"></v-checkbox>
         </div>
 
-        <v-btn @click="prev">Prev</v-btn>
-        <v-btn @click="next">Next</v-btn>
+        <v-btn :class="{ up_ward: change_type !== 'one' }" class="me-4" type="submit">
+          submit
+        </v-btn>
+
+        <v-btn @click="handleReset">
+          clear
+        </v-btn>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
+
 export default {
-    data() {
-        return {
-            cards: [
-                { url: require('@/assets/img/1.jpg') },
-                { url: require('@/assets/img/2.jpg') },
-                { url: require('@/assets/img/3.jpg') },
-                { url: require('@/assets/img/4.jpg') },
-                { url: require('@/assets/img/5.jpg') },
-                { url: require('@/assets/img/6.jpg') },
-                { url: require('@/assets/img/7.jpg') },
-                { url: require('@/assets/img/8.jpg') },
-            ],
-            innerStyles: {},
-            step: '',
-            transitioning: false,
-            autoScrollInterval: null,
-            autoScrollSpeed: 3000, // Adjust as needed
-        };
-    },
+  data: () => ({
+    change_type: 'one',
+    box_data: true
+  }),
 
-    mounted() {
-        this.setStep();
-        this.resetTranslate();
-        this.startAutoScroll();
-    },
-
-    methods: {
-        setStep() {
-            const innerWidth = this.$refs.inner.offsetWidth;
-            const totalCards = this.cards.length;
-            this.step = `${innerWidth / totalCards}px`;
-        },
-
-        next() {
-            if (this.transitioning) return;
-            this.transitioning = true;
-            this.moveLeft();
-            this.afterTransition(() => {
-                const card = this.cards.shift();
-                this.cards.push(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        prev() {
-            if (this.transitioning) return;
-            this.transitioning = true;
-            this.moveRight();
-            this.afterTransition(() => {
-                const card = this.cards.pop();
-                this.cards.unshift(card);
-                this.resetTranslate();
-                this.transitioning = false;
-            });
-        },
-
-        moveLeft() {
-            this.innerStyles = {
-                transform: `translateX(-${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        moveRight() {
-            this.innerStyles = {
-                transform: `translateX(${this.step}) translateX(-${this.step})`
-            };
-        },
-
-        afterTransition(callback) {
-            const innerRef = this.$refs.inner;
-            if (!innerRef) return; // Check if innerRef is null
-            const listener = () => {
-                callback();
-                innerRef.removeEventListener('transitionend', listener);
-            };
-            innerRef.addEventListener('transitionend', listener);
-        },
-
-
-        // afterTransition(callback) {
-        //     const listener = () => {
-        //         callback();
-        //         this.$refs.inner.removeEventListener('transitionend', listener);
-        //     };
-        //     this.$refs.inner.addEventListener('transitionend', listener);
-        // },
-
-        resetTranslate() {
-            this.innerStyles = {
-                transition: 'none',
-                transform: `translateX(-${this.step})`
-            };
-        },
-
-        startAutoScroll() {
-            this.autoScrollInterval = setInterval(() => {
-                this.next();
-            }, this.autoScrollSpeed);
-        },
-
-        stopAutoScroll() {
-            clearInterval(this.autoScrollInterval);
-        }
+  computed: {
+    changer() {
+      return !this.box_data;
     }
-};
+  },
+
+  methods: {
+    change() {
+      this.box_data = this.changer;
+    }
+  }
+}
+
+</script>
+
+<script setup>
+import { ref } from 'vue'
+import { useField, useForm } from 'vee-validate'
+
+const { handleSubmit, handleReset } = useForm({
+  validationSchema: {
+    name(value) {
+      if (value?.length >= 2) return true
+
+      return 'Name needs to be at least 2 characters.'
+    },
+    phone(value) {
+      if (value?.length > 9 && /[0-9-]+/.test(value)) return true
+
+      return 'Phone number needs to be at least 9 digits.'
+    },
+    email(value) {
+      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+      return 'Must be a valid e-mail.'
+    },
+    select(value) {
+      if (value) return true
+
+      return 'Select an item.'
+    },
+    checkbox(value) {
+      if (value === '1') return true
+
+      return 'Must be checked.'
+    },
+  },
+})
+const name = useField('name')
+const phone = useField('phone')
+const email = useField('email')
+const select = useField('select')
+const checkbox = useField('checkbox')
+
+const items = ref([
+  'Item 1',
+  'Item 2',
+  'Item 3',
+  'Item 4',
+])
+
+const submit = handleSubmit(values => {
+  alert(JSON.stringify(values, null, 2))
+})
 </script>
 
 <style>
-.container {
-    position: relative;
+.v-text-field,
+.v-select,
+.v-checkbox {
+  transition: all 0.4s ease-in-out both;
 }
 
-.carousel {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    overflow: hidden;
+.up_ward {
+  animation: upward 1s ease-in-out both;
 }
 
-.inner {
-    transition: transform 0.4s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.fade_right_gone {
+  animation: fadeRightGone 0.6s ease-in-out both;
 }
 
-.card-img {
-    width: 200px;
-    margin-right: 10px;
-    border-radius: 4px;
+@keyframes fadeRightGone {
+  0% {
+    transform: translateX(0px);
+  }
+
+  45% {
+    opacity: 0.5;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    display: none;
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+@keyframes upward {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-50px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.fade_in {
+  animation: ScaleIn 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+}
+
+.fade_out {
+  animation: myAnim 0.1s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+}
+
+@keyframes ScaleIn {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes myAnim {
+  0% {
+    transform: rotate(0);
+    transform-origin: top;
+  }
+
+  100% {
+    display: none;
+    transform: rotate(360deg);
+    transform-origin: top;
+  }
 }
 </style>

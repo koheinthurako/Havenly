@@ -1,22 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
-import RegisterView from '../views/RegisterView.vue'
-import LoginView from '../views/LoginView.vue'
-import {createApp} from 'vue'
-// import Location_List from '../components/LocationAPI/Location_List.vue'
-import testPhoto from '../components/For_Testing/testPhoto.vue'
+import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
+import register from '../components/Login_&_Register/registerVue.vue'
+import login from '../components/Login_&_Register/loginVue.vue'
+import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+import testingPage from '../components/For_Testing/testingOne.vue'
+import loginakm from '../views/LoginView.vue'
+import registerakm from '../views/RegisterView.vue'
+
+
+
 
 const routes = [
-  {
-    path: '/home',
-    redirect: '/'
-  },
-
-  {
-    path: '/Home',
-    redirect: '/',
-  },
+  // {
+  //   path: '/home',
+  //   redirect: '/home'
+  // },
+  // {
+  //   path: '/Home',
+  //   redirect: '/home',
+  // },
   {
     path: '/',
     name: 'home',
@@ -29,19 +33,40 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'RegisterView',
-    component: RegisterView
+    name: 'register',
+    component: register
+  },
+  {
+    path: '/registerakm',
+    name: 'registerakm',
+    component: registerakm
+  },
+  {
+    path: '/loginakm',
+    name: 'loginakm',
+    component: loginakm
+  },
+  {
+    path: '/userdashboard',
+    name: 'User_dashboard',
+    component: userDashboard
+  },
+  {
+    path: '/testingPage',
+    name: 'testingPage',
+    component: testingPage
   },
   {
     path: '/login',
-    name: 'LoginView',
-    component: LoginView
+    name: 'login',
+    component: login
   },
   {
-    path: '/testphoto',
-    name: 'testPhoto',
-    component: testPhoto
-  }
+    path: '/tempDoc',
+    name: 'tempDoc',
+    component: tempDoc
+  },
+  
 
 ]
 
@@ -49,10 +74,5 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
-const app = createApp(LoginView);
-app.use(router);
-
-
 
 export default router

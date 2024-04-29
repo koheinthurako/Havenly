@@ -2,8 +2,6 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    darkMode: localStorage.getItem('darkMode') === 'true',
-
     idea: [
       {
         name: 'Shatha J',
@@ -52,7 +50,7 @@ export default createStore({
     ],
 
     phone: [
-      // apple
+      
       {
         title: 'Buildings',
         description: 'available on march',
@@ -119,9 +117,7 @@ export default createStore({
         location: 'Madalay',
         category: 'apple',
       },
-
-
-
+      // Samsung
       {
         title: 'Phone Store',
         description: 'available on march',
@@ -186,9 +182,7 @@ export default createStore({
         location: 'Kayin State',
         category: 'samsung',
       },
-
-
-
+      // Xiaomi
       {
         title: 'Trees',
         description: 'available on march',
@@ -253,9 +247,7 @@ export default createStore({
         location: 'Yangon',
         category: 'xiaomi',
       },
-
-
-
+      // Vivo
       {
         title: 'Trees',
         description: 'available on march',
@@ -340,12 +332,165 @@ export default createStore({
       }
     ],
 
+    // to Store Register Data 
+    registerData: [],
+
+    // Login Id as none ;)
+    LoginedId: localStorage.getItem('LoginedId') || 'none',
+
+    // Login Status
+    Logined: localStorage.getItem('Logined') === 'false',
+
+    // Registered start
+    Registered: localStorage.getItem('Registered') === 'false',
+
   },
   getters: {
+
+    get_LoginedId(state) {
+      return state.LoginedId;
+    },
+
+    //Take data from page to confirm registered or Not
+    darkMode(state) {
+      return state.darkMode;
+    },
+
+    LoginData(state) {
+      return state.Logined;
+    },
+
+    RegisterData(state) {
+      return state.Registered
+    },
+
+    Take_Userinfo: (state) => {
+      const user = state.registerData.find(user => user.id === state.LoginedId);
+      return user ? user : null;
+    }
+
   },
   mutations: {
+
+
+
+    // Register Section start 
+    Register_mut(state, getData) {
+      let temp = 0;
+      const isEmpty = state.registerData.length === 0;
+
+      if (!isEmpty) {
+
+        // If any data exist in registerData check email is Registered or not
+        for (const pp of state.registerData) {
+          for (const gg of getData) {
+            if (pp.gmail == gg.usermail) {
+              if (pp.name == gg.username) {
+                temp = 1;
+              }
+            }
+          }
+        }
+
+        // if Eamil is not Registered add as a new user
+        if (temp == 0) {
+          for (const gg of getData) {
+            let id = state.registerData.length + 1;
+            state.registerData.push({
+              id: id,
+              name: gg.username,
+              gmail: gg.usermail,
+              pass: gg.password,
+              phone: gg.phone_no,
+              subscribe_id: '',
+              subscribe_package: '',
+              post_count: '',
+            })
+            state.LoginedId = id;
+            localStorage.setItem('LoginedId', state.LoginedId);
+          }
+
+          state.Registered = !state.Registered;
+          localStorage.setItem('Registered', state.Registered);
+
+          state.Logined = !state.Logined;
+          localStorage.setItem('Logined', state.Logined);
+
+        }
+
+      } else {
+
+        // this section will do when no data exist in DB
+        for (const gg of getData) {
+          let id = state.registerData.length + 1;
+          state.registerData.push({
+            id: id,
+            name: gg.username,
+            gmail: gg.usermail,
+            pass: gg.password,
+            phone: gg.phone_no,
+            subscribe_id: '',
+            subscribe_package: '',
+            post_count: '',
+          })
+          state.LoginedId = id;
+          console.log("all data : " + state.registerData.id);
+          localStorage.setItem('LoginedId', state.LoginedId);
+        }
+
+        state.Registered = !state.Registered;
+        localStorage.setItem('Registered', state.Registered);
+
+        state.Logined = !state.Logined;
+        localStorage.setItem('Logined', state.Logined);
+      }
+    },
+    // Register Section end
+
+    // Logout Mutation
+    LogoutMutation(state) {
+      console.log('Logout mutation');
+      console.log("check logout or not " + state.Logined);
+      console.log("check Loginedid " + state.LoginedId);
+      state.Logined = !state.Logined;
+      localStorage.setItem('Logined', state.Logined);
+
+      state.LoginedId = 'none';
+      localStorage.setItem('LoginedId', state.LoginedId);
+    },
+
+    LoginMutation(state, get_id) {
+      state.Logined = !state.Logined;
+      localStorage.setItem('Logined', state.Logined);
+
+      state.LoginedId = get_id;
+      localStorage.setItem('LoginedId', state.LoginedId);
+    }
+
   },
   actions: {
+
+    // Take Action from Pages
+    Register_Action(context, getData) {
+      context.commit('Register_mut', getData);
+    },
+
+    // Take Login Action From Page
+    login_confirm(context) {
+      context.commit('Login_c_mut');
+    },
+
+    // Logout Action
+    To_Logout_Action(context) {
+      console.log('Logout action in');
+      context.commit('LogoutMutation');
+    },
+
+    // Login Action
+    To_Login_Action(context, get_id) {
+      context.commit('LoginMutation', get_id);
+    },
+
   },
   modules: {
   }

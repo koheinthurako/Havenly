@@ -1,32 +1,31 @@
 <template>
     <div class="second-tabContent">
         <div class="second-tabContent-data">
-            <div class="tab-carousel-content m-auto my-2" :style="{ transform: `translateX(${offset}px)` }">
+            <div class="tab-carousel-content m-auto" :style="{ transform: `translateX(${offset}px)` }">
 
-                <div class="tabContent-header">
+                <!-- <div class="tabContent-header">
                     <h3>Welcome to Havenly</h3>
-                    </div>
+                </div> -->
 
-                    <div class="d-none d-md-block button-bar ">
+                <div class="d-none d-md-block button-bar mb-2 py-4">
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                            :elevation="20" :key="index" style="text-transform:capitalize;"
-                            class="tab-carousel-button " @click="openTab(visibleStartIndex + index)"
-                            :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
+                            :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button w-25"
+                            @click="openTab(visibleStartIndex + index)"
+                            :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                             {{ button }}
-                            <!-- <div id="bar" :class="{ 'active-bar': activeTab === visibleStartIndex + index }"></div> -->
                         </v-btn>
                     </div>
                 </div>
 
 
-                <div class="d-block d-sm-none">
+                <div class="d-block d-sm-none mb-5">
                     <v-btn size="small"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                        :elevation="20" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
+                        :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
                         @click="openTab(visibleStartIndex + index)"
-                        :class="{ 'tablinks': true, 'active': activeTab === visibleStartIndex + index }">
+                        :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                         {{ button }}
                     </v-btn>
 
@@ -35,10 +34,9 @@
 
             </div>
 
-            <div class="pointer-button ms-2" :hidden="true">
-                <v-btn class="prev" @click="prev" :disabled="isPrevButtonHidden">&lt;</v-btn>
-                <v-btn class="next" @click="next" :disabled="isNextButtonHidden">&gt;</v-btn>
-            </div>
+            <button class="sec-prev" @click="prev" :hidden="isPrevButtonHidden">&lt;</button>
+            <button class="sec-next" @click="next" :hidden="isNextButtonHidden">&gt;</button>
+
         </div>
         <TabContent v-if="activeTab !== null" :content="contents[activeTab]" />
     </div>
@@ -53,17 +51,22 @@ export default {
     },
     data() {
         return {
-            buttons: ['Condo', 'Apartment', 'House', 'Hostel'],
+            
+            buttons: ['Condo', 'Apartment', 'House'],
             offset: 0,
             visibleStartIndex: 0,
-            visibleButtons: 10,
+            visibleButtons: 5,
             contents: [
                 { title: 'phone apple Condo' },
                 { title: 'phone samsung Apartment' },
                 { title: 'phone xiaomi House' },
                 { title: 'phone vivo Hostel' },
+                { title: 'phone apple Industrial' },
+                { title: 'phone samsung Office' },
+                { title: 'phone xiaomi Restaurant' },
+                { title: 'phone vivo Land' },
             ],
-            activeTab: 1 // Set the default active tab to the first tab
+            activeTab: 0
         };
     },
     computed: {
@@ -75,14 +78,13 @@ export default {
         }
     },
     mounted() {
-        // Retrieve saved activeTab from local storage
+        
+
         const savedTab = localStorage.getItem('activeTab');
         if (savedTab !== null) {
-            this.activeTab = parseInt(savedTab); // Set activeTab to the saved value if it exists
+            this.activeTab = parseInt(savedTab);
         }
 
-
-        // maintain scroll position
         window.addEventListener('beforeunload', this.saveScrollPosition);
         this.restoreScrollPosition();
     },
@@ -94,6 +96,7 @@ export default {
     },
 
     methods: {
+        
         saveScrollPosition() {
             sessionStorage.setItem('scrollPosition', window.scrollY);
         },
