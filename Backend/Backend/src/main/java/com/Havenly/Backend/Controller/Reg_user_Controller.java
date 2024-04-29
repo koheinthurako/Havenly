@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Service.Reg_user_Service;
 
 import jakarta.validation.Valid;
