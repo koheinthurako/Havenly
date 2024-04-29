@@ -1,5 +1,0 @@
-package com.Havenly.Backend.Repo;
-
-public interface Myanmar_Location_Repo {
-
-}

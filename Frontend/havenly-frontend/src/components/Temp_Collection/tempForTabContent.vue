@@ -178,7 +178,7 @@
 
 
                         <!-- TZH card styles -->
-                        <div class="card" style="width: 20rem; height: 600px;">
+                        <div class="card" style="width: 320px; height: 600px;">
                             <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div>

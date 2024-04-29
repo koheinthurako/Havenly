@@ -367,10 +367,12 @@ export default createStore({
     Take_Userinfo: (state) => {
       const user = state.registerData.find(user => user.id === state.LoginedId);
       return user ? user : null;
-  }
+    }
 
   },
   mutations: {
+
+
 
     // Register Section start 
     Register_mut(state, getData) {
@@ -393,12 +395,16 @@ export default createStore({
         // if Eamil is not Registered add as a new user
         if (temp == 0) {
           for (const gg of getData) {
-            let id = state.registerData.length+1;
+            let id = state.registerData.length + 1;
             state.registerData.push({
               id: id,
               name: gg.username,
               gmail: gg.usermail,
-              pass: gg.password
+              pass: gg.password,
+              phone: gg.phone_no,
+              subscribe_id: '',
+              subscribe_package: '',
+              post_count: '',
             })
             state.LoginedId = id;
             localStorage.setItem('LoginedId', state.LoginedId);
@@ -416,15 +422,19 @@ export default createStore({
 
         // this section will do when no data exist in DB
         for (const gg of getData) {
-          let id = state.registerData.length+1;
+          let id = state.registerData.length + 1;
           state.registerData.push({
             id: id,
             name: gg.username,
             gmail: gg.usermail,
-            pass: gg.password
+            pass: gg.password,
+            phone: gg.phone_no,
+            subscribe_id: '',
+            subscribe_package: '',
+            post_count: '',
           })
           state.LoginedId = id;
-          console.log("all data : "+state.registerData.id);
+          console.log("all data : " + state.registerData.id);
           localStorage.setItem('LoginedId', state.LoginedId);
         }
 
@@ -440,8 +450,8 @@ export default createStore({
     // Logout Mutation
     LogoutMutation(state) {
       console.log('Logout mutation');
-      console.log("check logout or not "+state.Logined);
-      console.log("check Loginedid "+state.LoginedId);
+      console.log("check logout or not " + state.Logined);
+      console.log("check Loginedid " + state.LoginedId);
       state.Logined = !state.Logined;
       localStorage.setItem('Logined', state.Logined);
 
@@ -479,7 +489,7 @@ export default createStore({
     // Login Action
     To_Login_Action(context, get_id) {
       context.commit('LoginMutation', get_id);
-    }
+    },
 
   },
   modules: {

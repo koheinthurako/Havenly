@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg p-0 fixed-top py-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <h2>Havenly</h2>
@@ -30,8 +30,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/tempDoc"
-              :class="{ 'nav-link': true, active: isNavLinkActive('blog') }">Blog</router-link>
+            <router-link to="/tempDoc" :class="{ 'nav-link': true, active: isNavLinkActive('blog') }">Blog</router-link>
           </li>
 
           <li class="nav-item">
@@ -39,7 +38,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/userdashboard" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
+            <router-link to="/userdashboard"
+              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
           </li>
         </ul>
 

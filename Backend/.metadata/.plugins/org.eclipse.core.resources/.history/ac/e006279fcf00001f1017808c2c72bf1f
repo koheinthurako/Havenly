@@ -1,7 +1,0 @@
-package com.Havenly.Backend.Repo;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface All_Location_Service_Repo extends JpaRepository<All_Location_Repo, Integer>{
-
-}
