@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.Locations_Repo"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Locations"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Service.Countries_Service"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Service.Locations_Service"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Locations_DTO"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
-    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Countries_DTO"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Countries"/>
@@ -34,7 +29,6 @@
     <fullyQualifiedTypeName name="jakarta.persistence.AttributeConverter"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Convert"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.RentPost_Repo"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.RentPost"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
     <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
@@ -55,9 +49,15 @@
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.Posts_Repo"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.SellPost"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Posts"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.time.LocalTime"/>
+    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.SellPost"/>
+    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.RentPost"/>
+    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Locations"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.FetchType"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.JoinColumn"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.OneToOne"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
 </qualifiedTypeNameHistroy>
