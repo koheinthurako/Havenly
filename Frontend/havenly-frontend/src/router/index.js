@@ -10,7 +10,7 @@ import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 import testPhoto from '../components/Test_Photo/testPhoto.vue'
 
-
+import postDetailView from '../components/For_MainIndex/Side_Pages_For_Mainindex/post_detail_view.vue'
 
 const routes = [
   // {
@@ -71,6 +71,11 @@ const routes = [
     name: 'testphoto',
     component: testPhoto
   },
+  {
+    path: '/postDetailView',
+    name: 'Post_Details',
+    component: postDetailView
+  }
 
 ]
 

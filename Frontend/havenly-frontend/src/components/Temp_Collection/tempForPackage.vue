@@ -11,16 +11,15 @@
             </div>
             <div class="temp-package-row">
 
-                <swiper ref="swiper" :keyboard="true" :loop="false" :effect="'coverflow'" :grabCursor="true"
-                    :centeredSlides="true" :slidesPerView="'auto'" :navigation="true" :mousewheel="true"
-                    :coverflowEffect="{
+                <swiper2 ref="swiper" :keyboard="true" :loop="false" :effect="'coverflow'" :grabCursor="true"
+                    :centeredSlides="true" :slidesPerView="'auto'" :mousewheel="true" :coverflowEffect="{
                         rotate: 10,
                         stretch: 10,
                         depth: 120,
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <swiper-slide>
+                    <swiper-slide2>
                         <!-- package one start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
@@ -70,8 +69,8 @@
                             </div>
                         </div>
                         <!-- package one end -->
-                    </swiper-slide>
-                    <swiper-slide>
+                    </swiper-slide2>
+                    <swiper-slide2>
                         <!-- package two start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
@@ -121,15 +120,15 @@
                             </div>
                         </div>
                         <!-- package two end -->
-                    </swiper-slide>
-                    <swiper-slide>
+                    </swiper-slide2>
+                    <swiper-slide2>
                         <!-- package three start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
-                                <h3 class="d-flex">
+                                <h3 class="d-flex me-auto">
                                     <div>Premium</div>&nbsp;&nbsp;package
                                 </h3>
-                                <h5>For genius user</h5>
+                                <h5 class="me-auto">For genius user</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">
@@ -172,9 +171,9 @@
                             </div>
                         </div>
                         <!-- package three end -->
-                    </swiper-slide>
+                    </swiper-slide2>
 
-                </swiper>
+                </swiper2>
 
             </div>
         </div>
@@ -205,7 +204,7 @@
 
 
 <script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Swiper as Swiper2, SwiperSlide as SwiperSlide2 } from 'swiper/vue';
 
 import 'swiper/css';
 // import Swal from 'sweetalert2';
@@ -218,8 +217,8 @@ export default {
     name: 'tempForPackage',
 
     components: {
-        Swiper,
-        SwiperSlide,
+        Swiper2,
+        SwiperSlide2,
     },
     setup() {
 
