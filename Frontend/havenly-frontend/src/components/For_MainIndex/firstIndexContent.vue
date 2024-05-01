@@ -13,13 +13,13 @@
                         <v-select variant="solo" v-model="selectedAmphoe" :items="uniqueAmphoes"
                             :error-messages="selectRegion.errorMessage.value" :disabled="!selectedProvince"
                             label="Select an amphoe" required></v-select>
-                        <v-select variant="solo" v-model="selectedLatitude" :items="uniqueDistricts"
+                        <v-select variant="solo" v-model="selectedRegion" :items="uniqueDistricts"
                             :error-messages="selectTownShip.errorMessage.value" :disabled="!selectedAmphoe"
                             label="Select a district" required></v-select>
                         <v-text-field variant="solo" v-model="zipCode" label="Zip Code"
-                            :disabled="!selectedLatitude"></v-text-field>
+                            :disabled="!selectedRegion"></v-text-field>
 
-                        <div class="form-btn-group" :hidden="!zipCode || !selectedLatitude">
+                        <div class="form-btn-group" :hidden="!zipCode || !selectedRegion">
                             <v-btn class="me-3 submit" type="submit">Search</v-btn>
                             <v-btn class="clear" @click="clearFields">clear</v-btn>
                         </div>
@@ -53,22 +53,21 @@
         <form @submit.prevent="submit" class="form-edit">
           <div class="row">
             <div class="p-0 row-1">
-              <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" label="Select a province" required></v-select>
-              <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select an amphoe" required></v-select>
-              <v-select bg-color="white" v-model="selectedLatitude" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select a district" required></v-select>
-              <v-text-field v-model="zipCode" label="Zip Code" :disabled="!selectedLatitude"></v-text-field>
-  
-              <div class="form-btn-group" :hidden="!zipCode || !selectedLatitude">
+              <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
+              <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
+              <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+              <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+              <div class="form-btn-group" :hidden="!selectedRegion">
                 <v-btn class="me-3 submit" type="submit">Search</v-btn>
                 <v-btn class="clear" @click="clearFields">Clear</v-btn>
               </div>
             </div>
-            <div class="p-0 row-2">
+            <!-- <div class="p-0 row-2">
               <v-select bg-color="white" v-model="Country.value.value" :items="countries" label="Select Country"></v-select>
               <v-select bg-color="white" v-model="select.value.value" :items="items" label="All Types"></v-select>
               <v-select bg-color="white" v-model="PriceFrom.value.value" :items="prices" label="Price range(from)"></v-select>
               <v-select bg-color="white" v-model="PriceTo.value.value" :items="prices" label="Price range(to)" :disabled="ppt"></v-select>
-            </div>
+            </div> -->
           </div>
         </form>
       </div>
@@ -85,16 +84,23 @@ export default {
     return {
       locations: [],
       users: json_data,
+      selectedCountry: '',
       selectedProvince: '',
       selectedAmphoe: '',
-      selectedLatitude: '',
+      selectedRegion: '',
       zipCode: '',
     }
   },
 
   computed: {
+
+    uniqueCountries() {
+      return [...new Set(this.locations.map(location => location.country_name))];
+    },
+
     uniqueProvinces() {
-      return [...new Set(this.locations.map(location => location.province))];
+      // return [...new Set(this.locations.map(location => location.province))];
+      return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
     },
     
     uniqueAmphoes() {
@@ -102,14 +108,15 @@ export default {
     },
     
     uniqueDistricts() {
-      return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.latitude))];
+      return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
     },
     
     filteredLocations() {
       return this.locations.filter(location =>
+        location.country_name === this.selectedCountry &&
         location.province === this.selectedProvince &&
         location.amphoe === this.selectedAmphoe &&
-        location.district === this.selectedLatitude
+        location.district === this.selectedRegion
       );
     }
   },
@@ -125,6 +132,7 @@ export default {
       .then(data => {
         this.locations = data.map(location => ({
           location_id: location.location_id,
+          country_name: location.country_name,
           province: location.province,
           amphoe: location.amphoe,
           region: location.region,
@@ -145,9 +153,10 @@ export default {
 
     clearFields() {
       // Clear selected fields
+      this.selectedCountry = '';
       this.selectedProvince = '';
       this.selectedAmphoe = '';
-      this.selectedLatitude = '';
+      this.selectedRegion = '';
       this.zipCode = '';
     }
   }
@@ -156,7 +165,7 @@ export default {
 
 
 
-<script setup>
+<!-- <script setup>
 import { ref, watch } from 'vue'
 import { useField, useForm } from 'vee-validate'
 
@@ -290,7 +299,7 @@ function clearFields() {
     selectRegion.errorMessage.value = '';
     selectTownShip.errorMessage.value = '';
 }
-</script>
+</script> -->
 
 <style scoped>
 .v-select .v-select__selection:hover,
