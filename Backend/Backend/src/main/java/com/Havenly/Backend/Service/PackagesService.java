@@ -11,6 +11,6 @@ public interface PackagesService {
 	Packages findById(int pid);
 	Packages_DTO showPackage(Packages_DTO pack);
 	boolean payment(String pay);
-	boolean delete(int packId);
+	boolean delete(Packages pack);
 	Packages_DTO buyPack(String nrc, String packType);
 }

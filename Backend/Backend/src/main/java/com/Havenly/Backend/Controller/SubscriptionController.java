@@ -43,10 +43,10 @@ public class SubscriptionController {
 			return ResponseEntity.badRequest().build();
 		}
 		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.notFound().build();
 		}
 		if(this.subRepo.findByNrc(dto.getNrc()) != null) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.badRequest().build();
 		}
 		dto.setSubStartDate(LocalDate.now());
 		dto.setSubStartTime(LocalDateTime.now());

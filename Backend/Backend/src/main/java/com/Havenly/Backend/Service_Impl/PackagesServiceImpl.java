@@ -30,13 +30,13 @@ public class PackagesServiceImpl implements PackagesService{
 	
 
 	@Override
-	public boolean delete(int pid) {
-		pack = this.findById(pid);
+	public boolean delete(Packages pack) {
+		
 		if(pack.equals(null)) {
 			//No such package
 			return false;
 		}else {
-			packRepo.delete(pack);
+			packRepo.deleteById(pack.getPackageId());
 		//Package profile deleted
 		return true;
 		}
@@ -65,19 +65,7 @@ public class PackagesServiceImpl implements PackagesService{
 		packUser.setPackTime(LocalDateTime.now());	
 			
 		Packages packUser2 = packRepo.save(packUser);
-		
-		if(packType.matches("Free Trial")) {
-			subUser.setTotalAds(packTypesRepo.getTotalAds(1));
-			subUser.setTotalPosts(packTypesRepo.getTotalPosts(1));
-			}
-		if(packType.matches("Normal")) {
-				subUser.setTotalAds(packTypesRepo.getTotalAds(2));
-				subUser.setTotalPosts(packTypesRepo.getTotalPosts(2));
-			}
-		if(packType.matches("Premium")) {
-				subUser.setTotalAds(packTypesRepo.getTotalAds(3));
-				subUser.setTotalPosts(packTypesRepo.getTotalPosts(3));
-			}
+			
 		subUser.setPackages(packUser2);
 		subUser.setEmail(subUser.getEmail());
 		subUser.setNrc(subUser.getNrc());

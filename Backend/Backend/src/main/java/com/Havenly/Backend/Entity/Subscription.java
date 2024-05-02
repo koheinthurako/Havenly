@@ -32,8 +32,7 @@ private int subUserId;
 @Column(name = "nrc",nullable = false,unique = true)
 private String nrc;
 
-@Column(name = "name")
-private String name;
+
 //@Column(columnDefinition = "ENUM('registered', 'subscribed','premium', 'banned') NOT NULL")	
 //@Enumerated(EnumType.STRING)
 //private UserStatus status;
@@ -44,14 +43,7 @@ private String email;
 
 @Column(name = "package_name")
 private String packageType;
-@Column(name = "post_id")
-private int postId;
-@Column(name = "ads_id")
-private int adsId;
-@Column(name = "total_posts")
-private int totalPosts;
-@Column(name = "total_ads")
-private int totalAds;
+
 private LocalDate subStartDate;
 
 private LocalDateTime subStartTime;

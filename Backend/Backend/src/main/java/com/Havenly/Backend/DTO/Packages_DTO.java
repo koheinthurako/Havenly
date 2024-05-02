@@ -16,17 +16,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Packages_DTO {
 	private int packageId;
-	private String packType;
+//	private String packageName;
 	private String payment;	
 	private LocalDateTime packTime;
 	private LocalDate packDate;
 	
 	public Packages convertToEntity(Packages_DTO dto) {
 		Packages pack = new Packages();
-		pack.setPackageId(dto.getPackageId());
+		pack.setPackageId(dto.packageId);
 		pack.setPayment(dto.getPayment());
 		pack.setPackDate(dto.getPackDate());
 		pack.setPackTime(dto.getPackTime());
+	//	pack.setPackageName(dto.getPackageName());
 		return pack;
 }
 	
@@ -36,6 +37,7 @@ public class Packages_DTO {
 		dto.setPayment(pack.getPayment());
 		dto.setPackDate(pack.getPackDate());
 		dto.setPackTime(pack.getPackTime());
+	//	dto.setPackageName(pack.getPackageName());
 		return dto;
 }
 }

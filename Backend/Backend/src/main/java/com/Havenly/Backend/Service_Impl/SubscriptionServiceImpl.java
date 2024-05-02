@@ -97,9 +97,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 //		if(regRepo.findByEmail(dto.getEmail())==null){
 //		return null;
 //		}else {		
-			sub.setName(reg_user.getName());
-			sub.setNrc(sub.getNrc());
 			sub.setEmail(sub.getEmail());
+			sub.setNrc(sub.getNrc());
 			sub.setReg_user(reg_user);
 			Subscription user = subscribeRepo.save(sub);
 			Subscription_DTO user2 = subUser.convertToObject(user);

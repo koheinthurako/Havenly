@@ -1,7 +1,5 @@
 package com.Havenly.Backend.Controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Packages_DTO;
 import com.Havenly.Backend.DTO.Subscription_DTO;
-import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
-import com.Havenly.Backend.Repo.PackageTypesRepo;
+import com.Havenly.Backend.Entity.Subscription;
 import com.Havenly.Backend.Repo.PackagesRepo;
 import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.Service.PackagesService;
@@ -27,18 +24,11 @@ import jakarta.validation.Valid;
 public class PackagesController {
 
 	@Autowired
-	PackageTypesRepo packTypesRepo;
-	@Autowired
 	PackagesRepo packRepo;
 	@Autowired
 	PackagesService packService;
 	@Autowired
 	SubscribeRepo subRepo;
-	
-	@GetMapping("/")
-	public ResponseEntity <List<PackageTypes>> showPackages(){
-		return new ResponseEntity <List<PackageTypes>>(packTypesRepo.findAll(),HttpStatus.OK);
-	}
 
 	@GetMapping("/my-package")
 	public ResponseEntity <Packages_DTO> showPurchased(@Valid @RequestBody Packages_DTO pack){
@@ -75,15 +65,20 @@ public class PackagesController {
 	}
 	
 	@DeleteMapping("/cancel-package")
-	public ResponseEntity <?> cancelPack(@Valid @RequestBody int packId){
-		Packages pack = packService.findById(packId);
-		if (pack == null) {
+	public ResponseEntity <String> cancelPack(@Valid @RequestBody Subscription_DTO dto){
+		if(dto == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		String nrc = dto.getNrc();
+		Subscription sub = subRepo.findByNrc(nrc);		
+
+		if (sub == null) {
 			return ResponseEntity.notFound().build();
 		}
-
-		boolean isDeleted = packService.delete(packId);
-		if (!isDeleted) {
-			return new ResponseEntity<>(HttpStatus.OK);
+		Packages pack = sub.getPackages();
+		boolean isDeleted = packService.delete(pack);
+		if (isDeleted) {
+			return new ResponseEntity<String>(HttpStatus.OK);
 		}
 
 		return ResponseEntity.ok().build();
