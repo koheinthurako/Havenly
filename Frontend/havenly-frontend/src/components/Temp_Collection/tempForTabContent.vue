@@ -289,7 +289,7 @@ export default {
                 price: post.price,
                 photo_urls: post.photoUrls,
              }));
-            console.log(this.posts);
+            // console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

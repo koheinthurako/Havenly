@@ -2,18 +2,19 @@
     <div class="create-post-section px-5 py-4">
         <div class="row">
             <div class="col-md-7 p-0">
-                <!-- Create from start -->
+
+                <!-- TZH Form -->
                 <div class="create-post">
                     <div class="form-header">
                         <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Create post</p>
+                        <p class="mt-3 ms-2">Create Sell Post</p>
                     </div>
 
                     <div class="form-body">
-                        <form @submit.prevent="submit" class="w-100">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Title <span class="text-red">*</span></span>
+                        <form @submit.prevent="submit" class="w-100 px-4 py-3">
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
@@ -23,62 +24,51 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Type <span class="text-red">*</span></span>
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                        variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
+                                        :counter="200" :error-messages="Description.errorMessage.value"
+                                        placeholder="Description"></v-textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="p-0 row-1 d-flex">
+                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
+                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
+                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small"> House Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="selectTypes.value.value"
-                                        :error-messages="selectTypes.errorMessage.value" :items="Types"
-                                        placeholder="Select a type"></v-select>
+                                        variant="solo" rounded="lg" density="compact" v-model="houseTypes.value.value"
+                                        :error-messages="houseTypes.errorMessage.value" :items="HouseTypes"
+                                        placeholder="Select house type"></v-select>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Floor <span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="floor_data.value.value"
-                                        :error-messages="floor_data.errorMessage.value" :items="floor_item"
-                                        placeholder="Select a floor"></v-select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Finish State</span>
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small"> Property Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-radio-group v-model="finishRadio.value.value"
-                                        :error-messages="finishRadio.errorMessage.value" inline>
-                                        <v-radio label="Complete" value="complete" color="orange"></v-radio>
-                                        <v-radio label="No Complete" value="no complete" color="orange"></v-radio>
-
-                                    </v-radio-group>
+                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                        variant="solo" rounded="lg" density="compact" v-model="propertyTypes.value.value"
+                                        :error-messages="propertyTypes.errorMessage.value" :items="PropertyTypes"
+                                        placeholder="Select property type"></v-select>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Currency</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-radio-group inline v-model="currencyRadio.value.value"
-                                        :error-messages="currencyRadio.errorMessage.value">
-                                        <v-radio label="Myanmar(kyat)" value="myanmar kyat" color="orange"></v-radio>
-                                        <v-radio label="Thai (baht)" value="thailand baht" color="orange"></v-radio>
-                                        <v-radio label="US (Dollar)" value="us dollar" color="orange"></v-radio>
-                                    </v-radio-group>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Price kyat(Lakh)<span
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Price($Dollar)<span
                                             class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
@@ -90,181 +80,20 @@
                             </div>
 
 
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Price Per Sqrt Ft</span>
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Area</span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="pricePerSqrtFt.value.value" placeholder="optional"></v-text-field>
+                                        v-model="area.value.value" placeholder="Area"></v-text-field>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Preice Per Acre</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="pricePerAcre.value.value" placeholder="optional"></v-text-field>
-                                </div>
-                            </div>
-
-                            <div class="row">
+                            <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Bank Installment</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-radio-group inline v-model="bankInstallRadio.value.value"
-                                        :error-messages="bankInstallRadio.errorMessage.value">
-                                        <v-radio label="No" value="no" color="orange"></v-radio>
-                                        <v-radio label="Yes" value="yes" color="orange"></v-radio>
-                                    </v-radio-group>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">
-                                    <span class="float-right mt-2">Area Type</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 d-flex justify-space-between">
-
-                                    <v-text-field bg-color="#EDEDED" class="w-50" filled variant="solo"
-                                        density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                        v-model="width.value.value" :error-messages="width.errorMessage.value"
-                                        placeholder="width"></v-text-field>
-
-                                    <v-text-field bg-color="#EDEDED" class="w-50" filled variant="solo"
-                                        density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                        v-model="height.value.value" :error-messages="height.errorMessage.value"
-                                        placeholder="height"></v-text-field>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Furnished or not<span
-                                            class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Furnish.value.value"
-                                        :error-messages="Furnish.errorMessage.value" :items="furnish_item"
-                                        placeholder="Select a type"></v-select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Bedroom</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Bedroom.value.value"
-                                        :items="bedroom_item" placeholder="Select room"></v-select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Bathroom</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Bathroom.value.value"
-                                        :items="bedroom_item" placeholder="Select room"></v-select>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Country<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Country.value.value"
-                                        :error-messages="Country.errorMessage.value" :items="country_item"
-                                        placeholder="Select a Country"></v-select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Region, State<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="regionState.value.value"
-                                        :error-messages="regionState.errorMessage.value" :items="region_state"
-                                        placeholder="Select a Region"></v-select>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Contact, Phone<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-
-                                    <v-text-field bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
-                                        clearable variant="solo" rounded="lg" density="compact"
-                                        v-model="phone.value.value" :counter="11"
-                                        :error-messages="phone.errorMessage.value"
-                                        placeholder="Phone Number"></v-text-field>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Advertiser<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-radio-group inline v-model="Advertiser.value.value"
-                                        :error-messages="Advertiser.errorMessage.value">
-                                        <v-radio label="Agent" value="Agent" color="orange"></v-radio>
-                                        <v-radio label="Owner" value="Owner" color="orange"></v-radio>
-                                    </v-radio-group>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Description<span class="text-red">*</span> </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
-                                        :counter="200" :error-messages="Description.errorMessage.value"
-                                        placeholder="Description"></v-textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Choose Option<span class="text-red">*</span> </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-radio-group inline v-model="sellorRent.value.value"
-                                        :error-messages="sellorRent.errorMessage.value">
-                                        <v-radio label="Sell Post" value="Sell" color="orange" selected></v-radio>
-                                        <v-radio label="Rent Post" value="Rent" color="orange"></v-radio>
-                                        <v-radio label="Both Sell and Rent" value="Both" color="orange"></v-radio>
-
-                                    </v-radio-group>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-right mt-2">Choose Image<span class="text-red">*</span> </span>
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
                                     <v-file-input counter multiple color="deep-purple-accent-4" chips
@@ -277,11 +106,11 @@
 
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
-                                <v-btn class="me-4" type="submit" rounded="xl" elevation="20" color="#E86F52">
+                                <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
                                     submit
                                 </v-btn>
 
-                                <v-btn @click="handleReset" rounded="xl" elevation="20" color="#525252">
+                                <v-btn @click="handleReset" rounded="xl" color="#525252">
                                     clear
                                 </v-btn>
                             </div>
@@ -290,7 +119,7 @@
                     </div>
 
                 </div>
-                <!-- Create form end -->
+
             </div>
 
             <div class="col-md-5">
@@ -414,6 +243,19 @@
 export default {
     name: 'create_post',
     data: () => ({
+        title: '',
+        description: '',
+        image: [],
+        price: '',
+        area: '',
+        house_type: '',
+        property_type: '',
+        locations: [],
+        selectedLocationId: '',
+        selectedCountry: '',
+        selectedProvince: '',
+        selectedAmphoe: '',
+        selectedRegion: '',
 
         change_type: 'sell',
 
@@ -477,227 +319,285 @@ export default {
             },
         ],
     }),
+
+    computed: {
+
+        uniqueCountries() {
+        return [...new Set(this.locations.map(location => location.country_name))];
+        },
+
+        uniqueProvinces() {
+        // return [...new Set(this.locations.map(location => location.province))];
+        return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
+        },
+
+        uniqueAmphoes() {
+        return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
+        },
+
+        uniqueDistricts() {
+        return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+        },
+
+        filteredLocations() {
+        return this.locations.filter(location =>
+            location.location_id === this.selectedLocationId &&
+            location.country_name === this.selectedCountry &&
+            location.province === this.selectedProvince &&
+            location.amphoe === this.selectedAmphoe &&
+            location.district === this.selectedRegion
+        );
+        }
+        },
+
+        mounted() {
+            const cachedData = this.getLocationsFromSessionStorage();
+            if(cachedData) {
+                this.locations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
+        },
+
+        methods: { 
+
+            fetchLocations() {
+            fetch('http://localhost:8083/locations/getall')
+            .then(response => response.json())
+            .then(data => {
+                const mappedData = data.map(location => ({
+                location_id: location.location_id,
+                country_name: location.country_name,
+                province: location.province,
+                amphoe: location.amphoe,
+                region: location.region,
+                latitude: location.latitude,
+                longitude: location.longitude
+                }));
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+
+            })
+            .catch(error => {
+                console.error('Error fetching locations:', error);
+            });
+            },
+
+            getLocationsFromSessionStorage() {
+                const data = sessionStorage.getItem('locations');
+                return data ? JSON.parse(data) : null;
+            }
+
+    }
 }
 </script>
 
 
 <script setup>
 import { ref } from 'vue'
-import { useField, useForm } from 'vee-validate'
+// import { useField, useForm } from 'vee-validate'
+import { useField } from 'vee-validate'
+import axios from 'axios';
 
-const { handleSubmit, handleReset } = useForm({
-    validationSchema: {
-        title(value) {
-            if (value?.length >= 10) return true
+// const { handleSubmit, handleReset } = useForm({
+//     validationSchema: {
+//         title(value) {
+//             if (value?.length > 0) return true
 
-            return 'Name needs to be at least 10 characters.'
-        },
-        phone(value) {
-            if (value?.length > 9 && /[0-9-]+/.test(value)) return true
+//             return 'Please enter your title'
+//         },
+//         phone(value) {
+//             if (value?.length > 9 && /[0-9-]+/.test(value)) return true
 
-            return 'Phone number needs to be at least 9 digits.'
-        },
+//             return 'Phone number needs to be at least 9 digits.'
+//         },
 
-        selectTypes(value) {
-            if (value) return true
+//         selectTypes(value) {
+//             if (value) return true
 
-            return 'Select an item.'
-        },
+//             return 'Select an item.'
+//         },
 
-        finishRadio(value) {
-            if (value) return true
+//         houseTypes(value) {
+//             if(value) return true;
+//             return 'Select house type'
+//         },
 
-            return 'Select one option'
-        },
+//         propertyTypes(value) {
+//             if(value) return true
+//             return 'Select property type'
+//         },
 
-        currencyRadio(value) {
-            if (value) return true
+//         finishRadio(value) {
+//             if (value) return true
 
-            return 'Select one option'
-        },
+//             return 'Select one option'
+//         },
 
-        price(value) {
-            if (value) return true
+//         currencyRadio(value) {
+//             if (value) return true
 
-            return 'Set price to your post'
-        },
+//             return 'Select one option'
+//         },
 
-        pricePerSqrtFt(value) {
-            if (value) return true
+//         price(value) {
+//             if (value) return true
 
-            return true
-        },
+//             return 'Set price to your post'
+//         },
 
-        pricePerAcre(value) {
-            if (value) return true
+//         area(value) {
+//             if (value) return true
 
-            return true
-        },
+//             return true
+//         },
 
-        bankInstallRadio(value) {
-            if (value) return true
+//         pricePerAcre(value) {
+//             if (value) return true
 
-            return 'Select at least one'
-        },
+//             return true
+//         },
 
-        width(value) {
-            if (value) return true
+//         bankInstallRadio(value) {
+//             if (value) return true
 
-            return 'Set width'
-        },
+//             return 'Select at least one'
+//         },
 
-        height(value) {
-            if (value) return true
+//         width(value) {
+//             if (value) return true
 
-            return 'Set height'
-        },
+//             return 'Set width'
+//         },
 
-        Furnish(value) {
-            if (value) return true
+//         height(value) {
+//             if (value) return true
 
-            return 'Choose an option'
-        },
+//             return 'Set height'
+//         },
 
-        Bedroom(value) {
-            if (value) return true
+//         Furnish(value) {
+//             if (value) return true
 
-            return true
-        },
+//             return 'Choose an option'
+//         },
 
-        Bathroom(value) {
-            if (value) return true
+//         Bedroom(value) {
+//             if (value) return true
 
-            return true
-        },
+//             return true
+//         },
 
-        Country(value) {
-            if (value) return true
+//         Bathroom(value) {
+//             if (value) return true
 
-            return 'Select one Country'
-        },
+//             return true
+//         },
 
-        regionState(value) {
-            if (value) return true
+//         Country(value) {
+//             if (value) return true
 
-            return 'Select one Region'
-        },
+//             return 'Select one Country'
+//         },
 
-        Advertiser(value) {
-            if (value) return true
+//         regionState(value) {
+//             if (value) return true
 
-            return 'Select one option'
-        },
+//             return 'Select one Region'
+//         },
 
-        Description(value) {
-            if (value) return true
+//         Advertiser(value) {
+//             if (value) return true
 
-            return 'Enter about your post'
-        },
+//             return 'Select one option'
+//         },
 
-        sellorRent(value) {
-            if (value) return true
+//         Description(value) {
+//             if (value) return true
 
-            return 'Select on option'
-        },
+//             return 'Enter about your post'
+//         },
 
-        image(value) {
-            if (value) return true
+//         sellorRent(value) {
+//             if (value) return true
 
-            return 'Upload at least one image.'
-        },
+//             return 'Select on option'
+//         },
 
-        floor_data(value) {
-            if (value) return true
+//         image(value) {
+//             if (value) return true
 
-            return 'Select one option.'
-        },
+//             return 'Upload at least one image.'
+//         },
 
-    },
-})
+//         floor_data(value) {
+//             if (value) return true
+
+//             return 'Select one option.'
+//         },
+
+//     },
+// })
+
 
 /* Radio Collection */
-const finishRadio = useField('finishRadio')
-const currencyRadio = useField('currencyRadio')
-const bankInstallRadio = useField('bankInstallRadio')
-const Advertiser = useField('Advertiser')
-const sellorRent = useField('sellorRent')
+// const finishRadio = useField('finishRadio')
+// const currencyRadio = useField('currencyRadio')
+// const bankInstallRadio = useField('bankInstallRadio')
+// const Advertiser = useField('Advertiser')
+// const sellorRent = useField('sellorRent')
 
 
 /* Field collection */
 const title = useField('title')
-const selectTypes = useField('selectTypes')
-const price = useField('price')
-const pricePerSqrtFt = useField('pricePerSqrtFt')  // optional 1
-const pricePerAcre = useField('pricePerAcre') // optional 2
-const width = useField('width')
-const height = useField('height')
-const Furnish = useField('Furnish')
-const Bedroom = useField('Bedroom')
-const Bathroom = useField('Bathroom')
-const Country = useField('Country')
-const regionState = useField('regionState')
-const phone = useField('phone')
 const Description = useField('Description')
+const houseTypes = useField('houseTypes')
+const propertyTypes = useField('propertyTypes')
+const price = useField('price')
+const area = useField('area')  // optional 1
 const image = useField('image')
-const floor_data = useField('floor_data')
 
-const Types = ref([
-    'Apartment',
+const HouseTypes = ref([
+    'Stand-alone House',
+    'Two-story House',
+    'Three-story House'
+])
+
+const PropertyTypes = ref([
     'Condo',
-    'Mini Condo',
-    'House',
-    'Industrial'
+    'Apartment'
 ])
 
-const bedroom_item = ref([
-    '1 Room',
-    '2 Rooms',
-    '3 Rooms',
-    '4 Rooms',
-    '5 Rooms',
-    '6 Rooms',
-    '7 Rooms',
-    '8 Rooms',
-    '9 Rooms',
-    '10 Rooms',
-    '11 Rooms',
-    '12 Rooms',
-])
+const submit = async () => {
+  const formData = {
+    title: title.value.value,
+    description: Description.value.value,
+    house_type: houseTypes.value.value,
+    property_type: propertyTypes.value.value,
+    price: price.value.value,
+    area: area.value.value,
+    photos: [
+        image.value.value[0].name
+    ]
+  };
 
-const floor_item = ref([
-    '1th floor',
-    '2th floor',
-    '3th floor',
-    '4th floor',
-    '5th floor',
-    '6th floor',
-    '7th floor'
-])
+  console.log(houseTypes.value.value);
+  console.log(propertyTypes.value.value);
+  console.log(image.value.value[0].name);
 
-const country_item = ref([
-    'Myanmar',
-    'Thailand'
-])
+  try {
+    const response = await axios.post('http://localhost:8083/savesellpost', formData)
+    console.log(response.data)
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-const region_state = ref([
-    'Region 1',
-    'Region 2',
-    'Region 3',
-    'State 1',
-    'State 2',
-    'State 3'
-])
 
-const furnish_item = ref([
-    'No Furnish',
-    'Half Furnish',
-    'Full Furnish'
-])
+// const submit = handleSubmit(values => {
+//     alert(JSON.stringify(values, null, 2))
 
-const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
-
-})
+// })
 </script>
 
 <style>
