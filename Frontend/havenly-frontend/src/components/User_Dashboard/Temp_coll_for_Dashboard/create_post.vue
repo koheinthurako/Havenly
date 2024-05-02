@@ -351,40 +351,21 @@ export default {
         },
 
         mounted() {
-        this.fetchLocations();
+            const cachedData = this.getLocationsFromSessionStorage();
+            if(cachedData) {
+                this.locations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
         },
 
-        methods: {
-
-            // submit() {
-            //     const sellPostData = {
-            //         title: this.title,
-            //         description: this.Description,
-            //         price: this.price,
-            //         area: this.area,
-            //         house_type: this.houseTypes,
-            //         property_type: this.propertyTypes,
-            //         image: [ this.image ],
-            //         // locations: {
-            //         //     location_id: 5
-            //         // }
-            //     };
-            //     console.log(this.title);
-
-            //     axios.post('http://localhost:8083/savesellpost', sellPostData)
-            //         .then(response => {
-            //             console.log('Response from backend:', response.data);
-            //         })
-            //         .catch(error => {
-            //             console.error('Error while submitting form:', error);
-            //         });
-            // },
+        methods: { 
 
             fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
             .then(response => response.json())
             .then(data => {
-                this.locations = data.map(location => ({
+                const mappedData = data.map(location => ({
                 location_id: location.location_id,
                 country_name: location.country_name,
                 province: location.province,
@@ -393,13 +374,20 @@ export default {
                 latitude: location.latitude,
                 longitude: location.longitude
                 }));
-                console.log(this.locations);
-                console.log(this.title);
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+
             })
             .catch(error => {
                 console.error('Error fetching locations:', error);
             });
-            }  
+            },
+
+            getLocationsFromSessionStorage() {
+                const data = sessionStorage.getItem('locations');
+                return data ? JSON.parse(data) : null;
+            }
+
     }
 }
 </script>
@@ -584,12 +572,18 @@ const submit = async () => {
   const formData = {
     title: title.value.value,
     description: Description.value.value,
-    houseType: houseTypes.value.value,
-    propertyType: propertyTypes.value.value,
+    house_type: houseTypes.value.value,
+    property_type: propertyTypes.value.value,
     price: price.value.value,
     area: area.value.value,
-    image: image.value.value,
-  }
+    photos: [
+        image.value.value[0].name
+    ]
+  };
+
+  console.log(houseTypes.value.value);
+  console.log(propertyTypes.value.value);
+  console.log(image.value.value[0].name);
 
   try {
     const response = await axios.post('http://localhost:8083/savesellpost', formData)

@@ -122,15 +122,21 @@ export default {
   },
 
   mounted() {
-    this.fetchLocations();
+    const cachedData = this.getLocationsFromSessionStorage();
+    if(cachedData) {
+        this.locations = cachedData;
+    } else {
+        this.fetchLocations();
+    }
   },
 
   methods: {
+
     fetchLocations() {
       fetch('http://localhost:8083/locations/getall')
       .then(response => response.json())
       .then(data => {
-        this.locations = data.map(location => ({
+          const mappedData = data.map(location => ({
           location_id: location.location_id,
           country_name: location.country_name,
           province: location.province,
@@ -138,12 +144,19 @@ export default {
           region: location.region,
           latitude: location.latitude,
           longitude: location.longitude
-        }));
-        console.log(this.locations);
+          }));
+          sessionStorage.setItem('locations', JSON.stringify(mappedData));
+          this.locations = mappedData;
+
       })
       .catch(error => {
-        console.error('Error fetching locations:', error);
+          console.error('Error fetching locations:', error);
       });
+    },
+
+    getLocationsFromSessionStorage() {
+        const data = sessionStorage.getItem('locations');
+        return data ? JSON.parse(data) : null;
     },
 
     submit() {
