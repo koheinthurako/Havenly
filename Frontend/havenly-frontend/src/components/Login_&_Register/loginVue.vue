@@ -1,56 +1,73 @@
 <template>
 
-    <div class="register-page">
-        <div class="container">
-            <div class="register-data">
+    <div class="login-page">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="login-data">
+                    <div class="login-form ">
+                        <div class="login-header">
+                            <div class="mx-auto my-auto px-auto py-auto">
+                                <h2 class="mx-auto me-auto text-center">Login Here</h2><br>
+                                <div class="d-flex">
+                                    <p>If you don't have an account go to</p><router-link to="/register"
+                                        class="ms-2 nav-link fw-bold"
+                                        style="color: #525252; font-size: 24px;">Register</router-link>
 
-                <div class="row">
-                    <div class="col-md-6 mx-auto p-0">
-                        <div class="register-form ">
-                            <div class="header">
-                                <div class="mx-auto my-auto px-auto py-auto">
-                                    <h2 class="mx-auto me-auto text-center">Login Here</h2><br>
-                                    <div class="d-flex">
-                                        <p>If you don't have an account go to</p><router-link to="/register"
-                                            class="ms-2 nav-link fw-bold"
-                                            style="color: #525252; font-size: 24px;">Register</router-link>
-
-                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form">
-                                <form @submit.prevent="submit">
-
-
-                                    <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
-                                        label="E-mail"></v-text-field>
-
-                                    <v-text-field v-model="password.value.value"
-                                        :error-messages="password.errorMessage.value"
-                                        :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
-                                        :rules="[rules.required, rules.min]" :type="visible ? 'text' : 'password'"
-                                        class="input-group--focused" hint="At least 8 characters" label="Password"
-                                        name="input-10-2" @click:append="visible = !visible"></v-text-field>
-
-
-                                    <v-row cols="12" class="w-100">
-                                        <v-btn class="submit ms-auto me-3" type="submit">
-                                            Login
-                                        </v-btn>
-
-                                        <v-btn class="clear" @click="handleReset">
-                                            clear
-                                        </v-btn>
-                                    </v-row>
-                                </form>
-                            </div>
-
-
                         </div>
+
+                        <div class="login-form-submit">
+                            <form @submit.prevent="submit">
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span class="float-right mt-3">Gmail<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-9">
+                                        <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                            rounded="lg" variant="solo" v-model="email.value.value"
+                                            :error-messages="email.errorMessage.value" label="G-mail"></v-text-field>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span class="float-right mt-3">Password<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-9">
+                                        <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                            v-model="password.value.value" :error-messages="password.errorMessage.value"
+                                            :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+                                            :rules="[rules.required, rules.min]" :type="visible ? 'text' : 'password'"
+                                            class="input-group--focused" hint="At least 8 characters" label="Password"
+                                            name="input-10-2" @click:append="visible = !visible"></v-text-field>
+                                    </div>
+                                </div>
+
+
+                                <v-row cols="12" class="w-100">
+                                    <v-btn rounded class="submit ms-auto me-3" type="submit">
+                                        Login
+                                    </v-btn>
+
+                                    <v-btn rounded class="clear" @click="handleReset">
+                                        clear
+                                    </v-btn>
+                                </v-row>
+                            </form>
+                        </div>
+
+
                     </div>
+
+
                 </div>
             </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
 </template>
@@ -75,24 +92,23 @@ export default {
 </script>
 
 <style>
-.register-page {
+.login-page {
     margin-top: 5%;
-    padding: 30px 0px;
     width: 100%;
     height: auto;
+    margin-bottom: 30px;
 
-
-    .register-data {
+    .login-data {
         width: 100%;
         height: auto;
 
-        .register-form {
+        .login-form {
             overflow: hidden;
             border-radius: 10px;
             padding-bottom: 20px;
-            box-shadow: 0px 6px 25px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
 
-            .header {
+            .login-header {
                 width: 100%;
                 height: 15vh;
                 background-color: #e86f52;
@@ -103,7 +119,7 @@ export default {
                 line-height: 13px;
             }
 
-            .form {
+            .login-form-submit {
                 padding: 20px;
 
                 .submit {

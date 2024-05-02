@@ -32,13 +32,11 @@ public class Reg_user {
 	
 	@Column(name = "phone",length = 11,nullable = false)
 	@NotBlank
-
 	private String phone;
 	
 	@Column(name = "email",nullable = false,unique = true)
 	@Email(message = "Invalid Email Format")
 	@NotBlank
-
 	private String email;
 	
 	@Column(name = "password",nullable = false)

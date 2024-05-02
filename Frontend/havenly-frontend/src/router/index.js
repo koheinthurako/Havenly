@@ -61,8 +61,8 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'RegisterView',
-    component: RegisterView
+    name: 'register',
+    component: register
   },
   {
     path: '/login',
@@ -90,10 +90,5 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
-const app = createApp(LoginView);
-app.use(router);
-
-
 
 export default router

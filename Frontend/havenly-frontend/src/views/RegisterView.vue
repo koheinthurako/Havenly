@@ -1,12 +1,12 @@
 <template>
-  <div class="d-flex align-center justify-center" style="height: 100vh">
+  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 100vh;">
       <v-sheet width="400" class="mx-auto">
         <h4 class="flex" style="height: 80px">Registeration Form</h4>
-          <v-form fast-fail @submit.prevent="signup">
-              <v-text-field variant="underlined" v-model="user.name" :rules="[value => !!value || 'Required']" label="Name"  required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.phone" :rules="[value => !!value || 'Required']"  label="Phone" required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']"   label="Email" required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.password" :rules="[value => !!value || 'Required']" label="password" required ></v-text-field>
+          <v-form ref="form" fast-fail @submit.prevent="signup">
+              <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>
+              <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
+              <v-text-field variant="underlined"  v-model="user.email"    label="Email" required ></v-text-field>
+              <v-text-field variant="underlined" v-model="user.password"  label="password" required ></v-text-field>
               <v-row justify="space-around">
       <v-col cols="auto">
         <div class="text-center">
@@ -15,7 +15,7 @@
           </v-form>
           <div class="mt-2">
               <p class="text-body-2">
-                  Already have an account? <a href="/login">Sign in</a>
+                  Already have an account? <a href="/loginakm">Sign in</a>
               </p>
           </div>
       </v-sheet>
@@ -38,12 +38,15 @@ export default {
   },
   methods: {
       signup() {
+       
         function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
                             const response = error?.response
                             if(response){
                                 const statusCode = response?.status
-                                if(statusCode===500){console.log("error")}
+                                if(statusCode===500){alert("Something Worng!!Please use another email or another phone number!!!")}
+                                else if(statusCode===400){alert("Please fill the information!!!")}
+                                
                             }
                             }
                     }
@@ -56,6 +59,11 @@ export default {
               }
             })
             .catch(httpErrorHandler)
+            this.user.name='',
+                  this.user.phone='',
+                  this.user.email='',
+                  this.user.password=''
+                
    
           //
       },

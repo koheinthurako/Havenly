@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg p-0 fixed-top py-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <h2>Havenly</h2>
@@ -16,7 +16,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/home" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -39,7 +39,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
+            <router-link to="/userdashboard"
+              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
           </li>
         </ul>
 
@@ -70,7 +71,7 @@
               </div>
             </div>
             <div v-else>
-              <router-link to="/register" class="nav-link">Register</router-link>
+              <router-link to="/loginakm" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>
@@ -104,7 +105,7 @@ export default {
         } else if (scrollPosition < 2900) {
           activeNavLink.value = 'package';
         } else if (scrollPosition < 3500) {
-          activeNavLink.value = 'documentation';
+          activeNavLink.value = 'blog';
         } else {
           activeNavLink.value = 'contact';
         }

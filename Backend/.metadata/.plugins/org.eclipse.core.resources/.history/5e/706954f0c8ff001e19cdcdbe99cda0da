@@ -1,5 +1,0 @@
-package com.Havenly.Backend.Service;
-
-public interface Photo_Service {
-
-}

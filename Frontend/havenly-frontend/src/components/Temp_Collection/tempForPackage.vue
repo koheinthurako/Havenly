@@ -64,6 +64,8 @@
                                         
                                     </div>
                                 </v-btn>
+
+
                             </div>
                         </div>
                         <!-- package one end -->
@@ -199,10 +201,10 @@
 
 
 <script>
-
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
 import 'swiper/css';
+// import Swal from 'sweetalert2';
 
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -216,8 +218,10 @@ export default {
         SwiperSlide,
     },
     setup() {
+
         return {
             modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+
         };
     },
 
@@ -243,8 +247,23 @@ export default {
             }, 20);
         },
 
-
     },
+
+    // setup() {
+
+    //     return {
+    //         modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+
+    //     };
+
+    // },
+
+
+    computed: {
+        user_info() {
+            return this.$store.getters.Take_Userinfo
+        }
+    }
 
 }
 

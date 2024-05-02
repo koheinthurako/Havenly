@@ -1,10 +1,18 @@
 <template>
-    <div class="d-flex align-center justify-center" style="height: 100vh">
+    <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 100vh;">
         <v-sheet width="400" class="mx-auto">
             <h4 class="flex" style="height: 80px">Sign In</h4>
             <v-form fast-fail @submit.prevent="login">   
                 <v-text-field variant="underlined" v-model="user.email" label="User Name" :rules="[value => !!value || 'Required']" ></v-text-field>
-                <v-text-field variant="underlined" v-model="user.password" label="password" :rules="[value => !!value || 'Required']" ></v-text-field>
+                <v-text-field variant="underlined"
+                 v-model="user.password"  :type="showPassword ? 'text' : 'password'"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner=togglePasswordVisibility()  label="password" 
+                :rules="[value => !!value || 'Required']" >
+
+                </v-text-field>
+               
+
                 <a href="#" class="text-body-2 font-weight-regular">Forgot Password?</a>
                 <v-row justify="space-around">
       <v-col cols="auto">
@@ -13,14 +21,16 @@
 </div></v-col></v-row>
             </v-form>
             <div class="mt-2">
-                <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
+                <p class="text-body-2">Don't have an account? <a href="/registerakm">Sign Up</a></p>
             </div>
         </v-sheet>
     </div>
 </template>
 <script>
+
 import router from '@/router';
-import axios from 'axios'
+import axios from 'axios';
+
 
 export default {
     data() {
@@ -28,10 +38,19 @@ export default {
         user :{
           email: '',
           password: ''
-        }
+        },
+        showPassword: false
       };
   },
+ 
+  
+
   methods: {
+
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
+
         login() {
             function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
@@ -47,16 +66,11 @@ export default {
             .then(function(response){
                     const status=JSON.parse(response.status);
                     if(status=='200'){
-                        router.push('/home');
+                        router.push('/');
                     }
                     
                         })
             .catch(httpErrorHandler)
-
-                  
-  
-                        
-
                  },
     },
 }

@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
+import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
 import com.Havenly.Backend.Service.Reg_user_Service;
 
@@ -58,4 +59,27 @@ public class Reg_user_Controller {
 	
 		return ResponseEntity.ok().body(user);
 	}
+	
+	@PutMapping("/profile/update")
+	public ResponseEntity<Reg_user_DD> updateProfile( @RequestBody  Reg_user_DD user) {
+		
+		Reg_user_DD updatedUser = regService.update(user.getName(),user.getPhone(),user.getEmail());
+		if (updatedUser == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(updatedUser);
+	}
+	@PutMapping("/pwdUpdate")
+	public ResponseEntity<Reg_user_DTO> updatePassword( @RequestBody Change_password change) {
+		
+		Reg_user_DTO updatedUser = regService.pwdUpdate(change.getUsername(),change.getPassword(),change.getNew_password());
+		if (updatedUser == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(updatedUser);
+	}
+
+
+
+
 }

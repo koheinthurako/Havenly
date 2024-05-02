@@ -107,7 +107,7 @@ export default {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    /* .v-icon {
+    .v-icon {
         font-size: 32px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
@@ -129,7 +129,7 @@ export default {
         &:hover {
             color: #1DA1F2;
         }
-    } */
+    }
 }
 
 #backToTopBtn {

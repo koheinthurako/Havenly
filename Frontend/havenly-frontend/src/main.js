@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader';
+import { loadFonts } from './plugins/webfontloader'
 
 // Import Bootstrap styles Need both Css and JS
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -30,4 +30,3 @@ createApp(App)
   .use(store)
   .use(vuetify)
   .mount('#app')
-  
