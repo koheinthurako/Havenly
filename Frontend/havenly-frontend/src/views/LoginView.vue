@@ -21,7 +21,7 @@
 </div></v-col></v-row>
             </v-form>
             <div class="mt-2">
-                <p class="text-body-2">Don't have an account? <a href="/registerakm">Sign Up</a></p>
+                <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
             </div>
         </v-sheet>
     </div>

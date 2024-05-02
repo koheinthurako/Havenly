@@ -60,16 +60,6 @@ const routes = [
     component: tempDoc
   },
   {
-    path: '/register',
-    name: 'register',
-    component: register
-  },
-  {
-    path: '/login',
-    name: 'LoginView',
-    component: LoginView
-  },
-  {
     path: '/category',
     name: 'Location_List',
     component: Location_List

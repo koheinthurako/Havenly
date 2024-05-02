@@ -15,7 +15,7 @@
           </v-form>
           <div class="mt-2">
               <p class="text-body-2">
-                  Already have an account? <a href="/loginakm">Sign in</a>
+                  Already have an account? <a href="/login">Sign in</a>
               </p>
           </div>
       </v-sheet>
