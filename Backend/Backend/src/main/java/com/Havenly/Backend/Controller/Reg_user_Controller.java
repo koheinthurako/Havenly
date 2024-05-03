@@ -64,8 +64,11 @@ public class Reg_user_Controller {
 	public ResponseEntity<Reg_user_DTO> register(@Valid @RequestBody Reg_user_DTO dto){
 		dto.setDate(LocalDate.now());
 		dto.setTime(LocalTime.now());
-		
-		return new ResponseEntity<Reg_user_DTO> (regService.register(dto),HttpStatus.OK);
+		Reg_user_DTO dto1=regService.register(dto);
+		if (dto1 == null) {
+			return ResponseEntity.internalServerError().build();
+		}
+		return ResponseEntity.ok().body(dto1);
 	}
 
 	@PostMapping("/login")

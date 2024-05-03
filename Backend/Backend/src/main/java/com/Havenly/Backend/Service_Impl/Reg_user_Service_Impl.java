@@ -14,8 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
+import com.Havenly.Backend.Entity.Ban_user;
 //import com.Havenly.Backend.Entity.PasswordResetToken;
 import com.Havenly.Backend.Entity.Reg_user;
+import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 //import com.Havenly.Backend.Repo.TokenRepository;
 import com.Havenly.Backend.Service.Reg_user_Service;
@@ -40,6 +42,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Autowired
 	EmailUtil emailUtil;
 	
+	@Autowired
+	Ban_user_Repo banRepo;
+	
 //	@Autowired
 //	TokenRepository tokenRepository;
 	
@@ -59,10 +64,17 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public Reg_user_DTO register(Reg_user_DTO dto) {
 		Reg_user user=user_dto.covertToEntity(dto);
 		user.setPassword(this.pwencoder.encode(user.getPassword()));
-		Reg_user user1=regRepo.save(user);
-		Reg_user_DTO user2=user_dto.covertToObject(user1);
+		Ban_user banUser=banRepo.findByEmail(user.getEmail());
+		if(banUser==null) {
+			Reg_user user1=regRepo.save(user);
+			Reg_user_DTO user2=user_dto.covertToObject(user1);
+			return user2;
+
+				}
 		
-		return user2;
+		
+		
+		return null;
 	}
 	@Override
 	public Reg_user_DD Login(String gmail, String password) {
