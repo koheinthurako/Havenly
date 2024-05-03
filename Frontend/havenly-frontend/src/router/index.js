@@ -9,6 +9,8 @@ import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 import testPhoto from '../components/Test_Photo/testPhoto.vue'
+import AdminView from '../views/AdminView.vue'
+
 
 
 
@@ -72,6 +74,12 @@ const routes = [
     name: 'testphoto',
     component: testPhoto
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+  component : AdminView
+  },
+  
 
 ]
 
