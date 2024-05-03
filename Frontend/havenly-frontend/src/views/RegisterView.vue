@@ -1,5 +1,7 @@
 <template>
-  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 100vh;">
+    <div style=" height: 60px; color: white; background-color: #e86f52;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly</em></h1></div>
+
+  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
       <v-sheet width="400" class="mx-auto">
           <v-form ref="form" fast-fail @submit.prevent="signup">
               <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>

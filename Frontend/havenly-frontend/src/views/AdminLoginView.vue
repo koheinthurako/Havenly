@@ -1,6 +1,5 @@
 <template>
-      <div style=" height: 60px; color: white; background-color: #e86f52;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly </em></h1></div>
-
+  <div style=" height: 60px; color: white; background-color: #e86f52;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly (Admin)</em></h1></div>
     <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
         <v-sheet width="400" class="mx-auto">
             <v-form fast-fail @submit.prevent="login">
@@ -21,9 +20,7 @@
                 <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3">Sign in</v-btn>
 
             </v-form>
-            <div class="mt-2">
-                <p class="text-body-2">Don't have an account? <a href="/registerakm">Sign Up</a></p>
-            </div>
+           
         </v-sheet>
     </div>
 </template>
@@ -62,12 +59,12 @@ export default {
                             }
                             }
                     }
-          axios.post("http://localhost:8083/login",this.user)
+          axios.post("http://localhost:8083/admin/login",this.user)
            
             .then(function(response){
                     const status=JSON.parse(response.status);
                     if(status=='200'){
-                        router.push('/');
+                        router.push('/admin');
                     }
                     
                         })

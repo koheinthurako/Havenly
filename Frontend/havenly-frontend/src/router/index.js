@@ -10,6 +10,7 @@ import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 import testPhoto from '../components/Test_Photo/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
+import AdminLoginView from '../views/AdminLoginView.vue'
 
 
 
@@ -79,6 +80,12 @@ const routes = [
     name: 'Admin',
   component : AdminView
   },
+  {
+    path: '/admin/login',
+    name: 'AdminLogin',
+  component : AdminLoginView
+  },
+  
   
 
 ]
