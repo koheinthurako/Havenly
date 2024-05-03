@@ -136,14 +136,14 @@ export default {
       fetch('http://localhost:8083/locations/getall')
       .then(response => response.json())
       .then(data => {
-          const mappedData = data.map(location => ({
-          location_id: location.location_id,
-          country_name: location.country_name,
-          province: location.province,
-          amphoe: location.amphoe,
-          region: location.region,
-          latitude: location.latitude,
-          longitude: location.longitude
+            const mappedData = data.map(location => ({
+              location_id: location.location_id,
+              country_name: location.country_name,
+              province: location.province,
+              amphoe: location.amphoe,
+              region: location.region,
+              latitude: location.latitude,
+              longitude: location.longitude
           }));
           sessionStorage.setItem('locations', JSON.stringify(mappedData));
           this.locations = mappedData;

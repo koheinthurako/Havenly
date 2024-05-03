@@ -30,7 +30,7 @@ public class Countries {
 	private int country_id;
 
 	@Column(name = "country", nullable = false)
-	private String country;
+	private String country_name;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "countries", cascade = CascadeType.ALL, orphanRemoval = true)

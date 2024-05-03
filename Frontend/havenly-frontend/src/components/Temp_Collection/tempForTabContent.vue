@@ -185,6 +185,7 @@
                             <div class="card-body p-4 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small mb-auto opacity-75">{{ post.description }}</p>
+                                <p class="card-text small mb-auto opacity-75">{{ post.location }}</p>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <v-rating :model-value="4.5" color="danger" density="compact" size="small"
                                         half-increments readonly>
@@ -276,20 +277,21 @@ export default {
 
         fetchPosts() {
         // Make API call to fetch posts from backend
-        fetch('http://localhost:8083/')
+        fetch('http://localhost:8083/getsellpost')
           .then(response => response.json())
           .then(data => {
-            this.posts = data.map(post => ({ 
-                post_id: post.post_id,
+            this.posts = data.map(post => ({
+                location: post.sellpost_location,
+                post_id: post.sell_post_id,
                 title: post.title,
                 description: post.description,
                 house_type: post.house_type,
                 property_type: post.property_type,
                 area: post.area,
                 price: post.price,
-                photo_urls: post.photoUrls,
+                photo_urls: post.photos,
              }));
-            // console.log(this.posts);
+            console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

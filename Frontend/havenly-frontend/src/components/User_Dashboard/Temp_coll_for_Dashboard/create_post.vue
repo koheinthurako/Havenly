@@ -40,7 +40,8 @@
                                 <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
                                 <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
                                 <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations" :disabled="!selectedRegion" label="Country_id" required></v-select>
                             </div>
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
@@ -91,7 +92,7 @@
                                 </div>
                             </div>
 
-                            <div class="row justify-content-between">
+                            <!-- <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12 py-0">
                                     <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
                                 </div>
@@ -101,6 +102,17 @@
                                         :error-messages="image.errorMessage.value" :rules="rules"
                                         accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
                                         prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div> -->
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
                                 </div>
                             </div>
 
@@ -243,6 +255,7 @@
 export default {
     name: 'create_post',
     data: () => ({
+        location_id: '',
         title: '',
         description: '',
         image: [],
@@ -251,11 +264,11 @@ export default {
         house_type: '',
         property_type: '',
         locations: [],
-        selectedLocationId: '',
         selectedCountry: '',
         selectedProvince: '',
         selectedAmphoe: '',
         selectedRegion: '',
+        selectedLocation: '',
 
         change_type: 'sell',
 
@@ -323,29 +336,32 @@ export default {
     computed: {
 
         uniqueCountries() {
-        return [...new Set(this.locations.map(location => location.country_name))];
+            return [...new Set(this.locations.map(location => location.country_name))];
         },
 
         uniqueProvinces() {
         // return [...new Set(this.locations.map(location => location.province))];
-        return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
+            return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
         },
 
         uniqueAmphoes() {
-        return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
+            return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
         },
 
-        uniqueDistricts() {
-        return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+        uniqueRegions() {
+            return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+        },
+
+        uniqueLocations() {
+            return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
         },
 
         filteredLocations() {
         return this.locations.filter(location =>
-            location.location_id === this.selectedLocationId &&
             location.country_name === this.selectedCountry &&
             location.province === this.selectedProvince &&
             location.amphoe === this.selectedAmphoe &&
-            location.district === this.selectedRegion
+            location.region === this.selectedRegion
         );
         }
         },
@@ -366,17 +382,16 @@ export default {
             .then(response => response.json())
             .then(data => {
                 const mappedData = data.map(location => ({
-                location_id: location.location_id,
-                country_name: location.country_name,
-                province: location.province,
-                amphoe: location.amphoe,
-                region: location.region,
-                latitude: location.latitude,
-                longitude: location.longitude
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
                 }));
                 sessionStorage.setItem('locations', JSON.stringify(mappedData));
                 this.locations = mappedData;
-
             })
             .catch(error => {
                 console.error('Error fetching locations:', error);
@@ -386,218 +401,73 @@ export default {
             getLocationsFromSessionStorage() {
                 const data = sessionStorage.getItem('locations');
                 return data ? JSON.parse(data) : null;
-            }
+            },
+            
+            // getLocationIdByRegion(region, selectedRegion) {
+            //     const location = this.locations.find(location => location.region === region);
+            //     return location ? location.location_id : null;
+            // }
 
-    }
+    },
+
 }
 </script>
 
 
 <script setup>
-import { ref } from 'vue'
-// import { useField, useForm } from 'vee-validate'
-import { useField } from 'vee-validate'
-import axios from 'axios';
+    import { ref } from 'vue'
+    import { useField } from 'vee-validate'
+    import axios from 'axios';
 
-// const { handleSubmit, handleReset } = useForm({
-//     validationSchema: {
-//         title(value) {
-//             if (value?.length > 0) return true
+    /* Field collection */
+    const title = useField('title')
+    const Description = useField('Description')
+    const houseTypes = useField('houseTypes')
+    const propertyTypes = useField('propertyTypes')
+    const price = useField('price')
+    const area = useField('area')
+    const image = useField('image')
 
-//             return 'Please enter your title'
-//         },
-//         phone(value) {
-//             if (value?.length > 9 && /[0-9-]+/.test(value)) return true
+    const HouseTypes = ref([
+        'Stand-alone House',
+        'Two-story House',
+        'Three-story House'
+    ])
 
-//             return 'Phone number needs to be at least 9 digits.'
-//         },
+    const PropertyTypes = ref([
+        'Condo',
+        'Apartment'
+    ])
 
-//         selectTypes(value) {
-//             if (value) return true
+    const selectedLocation = ref('')
 
-//             return 'Select an item.'
-//         },
+    const submit = async () => {
 
-//         houseTypes(value) {
-//             if(value) return true;
-//             return 'Select house type'
-//         },
+        const formData = {
+            title: title.value.value,
+            description: Description.value.value,
+            house_type: houseTypes.value.value,
+            property_type: propertyTypes.value.value,
+            price: price.value.value,
+            area: area.value.value,
+            photos: [
+                image.value.value
+            ],
+            locations: {
+                location_id: selectedLocation.value
+            }
+        };
 
-//         propertyTypes(value) {
-//             if(value) return true
-//             return 'Select property type'
-//         },
+        console.log(formData);
 
-//         finishRadio(value) {
-//             if (value) return true
+        try {
+        const response = await axios.post('http://localhost:8083/savesellpost', formData)
+        console.log(response.data)
+        } catch (error) {
+        console.error(error)
+        }
+    }
 
-//             return 'Select one option'
-//         },
-
-//         currencyRadio(value) {
-//             if (value) return true
-
-//             return 'Select one option'
-//         },
-
-//         price(value) {
-//             if (value) return true
-
-//             return 'Set price to your post'
-//         },
-
-//         area(value) {
-//             if (value) return true
-
-//             return true
-//         },
-
-//         pricePerAcre(value) {
-//             if (value) return true
-
-//             return true
-//         },
-
-//         bankInstallRadio(value) {
-//             if (value) return true
-
-//             return 'Select at least one'
-//         },
-
-//         width(value) {
-//             if (value) return true
-
-//             return 'Set width'
-//         },
-
-//         height(value) {
-//             if (value) return true
-
-//             return 'Set height'
-//         },
-
-//         Furnish(value) {
-//             if (value) return true
-
-//             return 'Choose an option'
-//         },
-
-//         Bedroom(value) {
-//             if (value) return true
-
-//             return true
-//         },
-
-//         Bathroom(value) {
-//             if (value) return true
-
-//             return true
-//         },
-
-//         Country(value) {
-//             if (value) return true
-
-//             return 'Select one Country'
-//         },
-
-//         regionState(value) {
-//             if (value) return true
-
-//             return 'Select one Region'
-//         },
-
-//         Advertiser(value) {
-//             if (value) return true
-
-//             return 'Select one option'
-//         },
-
-//         Description(value) {
-//             if (value) return true
-
-//             return 'Enter about your post'
-//         },
-
-//         sellorRent(value) {
-//             if (value) return true
-
-//             return 'Select on option'
-//         },
-
-//         image(value) {
-//             if (value) return true
-
-//             return 'Upload at least one image.'
-//         },
-
-//         floor_data(value) {
-//             if (value) return true
-
-//             return 'Select one option.'
-//         },
-
-//     },
-// })
-
-
-/* Radio Collection */
-// const finishRadio = useField('finishRadio')
-// const currencyRadio = useField('currencyRadio')
-// const bankInstallRadio = useField('bankInstallRadio')
-// const Advertiser = useField('Advertiser')
-// const sellorRent = useField('sellorRent')
-
-
-/* Field collection */
-const title = useField('title')
-const Description = useField('Description')
-const houseTypes = useField('houseTypes')
-const propertyTypes = useField('propertyTypes')
-const price = useField('price')
-const area = useField('area')  // optional 1
-const image = useField('image')
-
-const HouseTypes = ref([
-    'Stand-alone House',
-    'Two-story House',
-    'Three-story House'
-])
-
-const PropertyTypes = ref([
-    'Condo',
-    'Apartment'
-])
-
-const submit = async () => {
-  const formData = {
-    title: title.value.value,
-    description: Description.value.value,
-    house_type: houseTypes.value.value,
-    property_type: propertyTypes.value.value,
-    price: price.value.value,
-    area: area.value.value,
-    photos: [
-        image.value.value[0].name
-    ]
-  };
-
-  console.log(houseTypes.value.value);
-  console.log(propertyTypes.value.value);
-  console.log(image.value.value[0].name);
-
-  try {
-    const response = await axios.post('http://localhost:8083/savesellpost', formData)
-    console.log(response.data)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-
-// const submit = handleSubmit(values => {
-//     alert(JSON.stringify(values, null, 2))
-
-// })
 </script>
 
 <style>

@@ -2,8 +2,12 @@ package com.Havenly.Backend.Controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +29,11 @@ public class SellPost_Controller {
 	Posts_Repo postsRepo;
 	
 	private int sellCount = 1;
+	
+	@GetMapping("/getsellpost")
+	public ResponseEntity<List<SellPost>> getAllSellPosts() {
+		return new ResponseEntity<List<SellPost>>(sellRepo.findAll(), HttpStatus.OK);
+	}
 	
 	@PostMapping("/savesellpost")
 	public SellPost saveSellPost(@RequestBody SellPost sellpost) {
