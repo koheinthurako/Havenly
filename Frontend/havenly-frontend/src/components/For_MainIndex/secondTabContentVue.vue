@@ -3,7 +3,7 @@
         <div class="second-tabContent-data">
             <div class="tab-carousel-content m-auto" :style="{ transform: `translateX(${offset}px)` }">
 
-                <!-- <div class="tabContent-header">
+                <!-- <div class="tabContent-header"-->
                     <h3>Welcome to Havenly</h3>
                     </div>
 
@@ -39,7 +39,7 @@
 
         </div>
         <TabContent v-if="activeTab !== null" :content="contents[activeTab]" />
-    </div>
+
 </template>
 
 <script>

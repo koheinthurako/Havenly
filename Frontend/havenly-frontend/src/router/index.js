@@ -5,10 +5,9 @@ import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import SubscribeView from '../views/SubscribeView.vue'
+import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
-import {createApp} from 'vue'
-import Location_List from '../components/LocationAPI/Location_List.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import IndexUserDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 
@@ -29,6 +28,11 @@ const routes = [
     path: '/subscribe',
     name: 'SubscribeView',
     component: SubscribeView
+  },
+  {
+    path: '/subscribevue',
+    name: 'SubscribeVue',
+    component: SubscribeVue
   },
   {
     path: '/cancel',
@@ -59,11 +63,7 @@ const routes = [
     name: 'packageDoc',
     component: tempDoc
   },
-  {
-    path: '/category',
-    name: 'Location_List',
-    component: Location_List
-  },
+
   {
     path: '/userDashboard',
     name: 'indexUserDashboard',

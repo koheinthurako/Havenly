@@ -37,6 +37,7 @@
 
         };
     },
+
     methods: {
         subscription() {
           function httpErrorHandler(error) {
