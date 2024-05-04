@@ -93,7 +93,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 	@Override
 	public Subscription_DTO subscribe(Subscription_DTO dto) {
 		Subscription sub = subUser.convertToEntity(dto);
-		Reg_user reg_user = regRepo.findByEmail(sub.getEmail());
+		String email = sub.getEmail();
+		Reg_user reg_user = regRepo.findByEmail(email);
 //		if(regRepo.findByEmail(dto.getEmail())==null){
 //		return null;
 //		}else {		

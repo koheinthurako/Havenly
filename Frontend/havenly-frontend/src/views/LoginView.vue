@@ -64,8 +64,6 @@ export default {
                             }
                     }
           axios.post("http://localhost:8083/login",this.user)
-          
-           
             .then(function(response){
                     const status=JSON.parse(response.status);
                     if(status=='200'){
@@ -76,8 +74,6 @@ export default {
 
             .catch(httpErrorHandler)
             .then(sessionStorage.setItem('users',JSON.stringify(this.user.email)))
-            
-           
                  },
     },
 }

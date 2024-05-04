@@ -20,9 +20,9 @@
             </v-form>
             <div class="mt-2">
               <br>
-                <!-- <p class="text-body-2">
+                <p class="text-body-2">
                   selected package : {{ user.packageType }}
-                </p> -->
+                </p>
                 <p class="text-body-2">
                   <a href="/packages"> Go Back </a>
                 </p>
@@ -33,6 +33,7 @@
   <script>
   import router from '@/router';
   import axios from 'axios';
+  
   export default {
     data() {
         return {

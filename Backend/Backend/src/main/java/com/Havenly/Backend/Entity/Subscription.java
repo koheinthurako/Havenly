@@ -38,7 +38,7 @@ private String nrc;
 //private UserStatus status;
 
 @Column(name = "email",nullable = false,unique = true)
-@Email(message = "Invalid Email Format")
+@Email(message= "invalid mail format")
 private String email;
 
 @Column(name = "package_name")
@@ -51,7 +51,7 @@ private LocalDateTime subStartTime;
 
 @OneToOne(fetch = FetchType.EAGER)
 @JoinColumn(name="reg_user_id", referencedColumnName = "register_id")
-private Reg_user reg_user;;
+private Reg_user reg_user;
 
 @OneToOne(mappedBy = "sub1")
 private Packages packages;

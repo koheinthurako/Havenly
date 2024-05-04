@@ -106,7 +106,7 @@
     
       submitForm() {
         // Generate the data string and save it along with email
-        const selectedPlaceObj = this.data.find(item => item.name_en === this.selectedPlace);
+      const selectedPlaceObj = this.data.find(item => item.name_en === this.selectedPlace);
       this.user.nrc = `${this.selectedNRCCode}${selectedPlaceObj.name_en}${this.selectedNRCType}${this.nrcNumber}`;
       this.user.email = this.email;
         // Reset form after submission

@@ -3,9 +3,8 @@
         <v-sheet width="400" class="mx-auto">
           <h4 class="flex" style="height: 80px">Subscription Form</h4>
             <v-form fast-fail @submit.prevent="subscription">
-                
                 <v-text-field variant="underlined" v-model="user.nrc" :rules="[value => !!value || 'Required']" label="NRC" required></v-text-field>
-                <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']" label="Email" required></v-text-field>
+                <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']" label="Email" @click="autofill" required></v-text-field>
             <v-row justify="space-around">
       <v-col cols="auto">
         <div class="text-center">
@@ -20,25 +19,50 @@
                   <a href="/home"> Cancel </a>
                 </p>
             </div>
+            <div><v-flex class="grey-text">
+       logged in as : {{login.userMail}}
+      </v-flex></div>
         </v-sheet>
     </div>
   </template>
+
   <script>
   import router from '@/router';
   import axios from 'axios';
+  
   export default {
+
     data() {
         return {
           
+          login: {
+            userIsLoggedIn: false,
+            userMail: '',
+          },
+
           user :{
             nrc: '',
             email: '',
           },
-
         };
     },
 
+    created() {
+    // Fetch session data from sessionStorage
+    const userEmail = JSON.parse(sessionStorage.getItem('users'));
+    if (userEmail) {
+      this.login.userMail = userEmail;
+      this.login.userIsLoggedIn = true;
+      console.log('User is logged in.');
+    } else {
+      console.error('User email not found in sessionStorage.');
+    }
+  },
     methods: {
+      autofill() {
+      // Simulate autofill by setting the value of the text field
+      this.user.email = this.login.userMail;
+    },
         subscription() {
           function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
@@ -47,6 +71,7 @@
                                 const statusCode = response?.status
                                 if(statusCode===500){console.log("error")}
                                 if(statusCode===400){alert("You are already subscribed!")}
+                                if(statusCode===204){alert("Email did not parse.")}
                                 if(statusCode===404){
                                 alert("Register or login first to subscribe!");
                                 router.push('/register');
@@ -54,17 +79,28 @@
                                 }
                             }
                     }
+      
+      if(!this.login.userIsLoggedIn){
+        router.push('/login');
+      }
           axios.post("http://localhost:8083/subscribe",this.user)
      .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status===200){
                   alert("Subscribed Successfully!");
+                  const userIsSubbed = true;
+                  sessionStorage.setItem('subuser', userIsSubbed);
                  } 
                  router.push('/home');
             })
-            .catch(httpErrorHandler)
-        },
+        .catch(httpErrorHandler)
+            },
     },
   };
   </script>
+  <style>
+  .grey-text {
+  color: #999; 
+}
+</style>
   

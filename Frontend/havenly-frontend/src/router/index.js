@@ -5,13 +5,10 @@ import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import SubscribeView from '../views/SubscribeView.vue'
-import SubscribeVue from '@/views/SubscribeVue.vue'
+// import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
-import testingPage from '../components/For_Testing/testingOne.vue'
-import loginakm from '../views/LoginView.vue'
-import registerakm from '../views/RegisterView.vue'
-import testPhoto from '../components/Test_Photo/testPhoto.vue'
+import testPhoto from '@/components/For_Testing/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 
@@ -35,11 +32,11 @@ const routes = [
     name: 'SubscribeView',
     component: SubscribeView
   },
-  {
-    path: '/subscribevue',
-    name: 'SubscribeVue',
-    component: SubscribeVue
-  },
+  // {
+  //   path: '/subscribevue',
+  //   name: 'SubscribeVue',
+  //   component: SubscribeVue
+  // },
   {
     path: '/cancel',
     name: 'CancelSubscription',
