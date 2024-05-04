@@ -20,163 +20,11 @@
 
             </div>
 
-            <!-- <div class="row mb-1">
-                <div v-for="(slide, index) in slides" :style="{ animationDelay: `${index * 0.2}s` }" :key="index"
-                    class="col-md-3">
-
-                    <div class="card-container">
-
-                        <routerlink to="" class="card mb-4"
-                            :class="[animations[index % animations.length], { 'fade-up': animated }]">
-
-                            <div v-if="login_status">
-                                <div class="custom-save">
-                                    <v-icon>mdi-content-save-outline</v-icon>
-                                </div>
-                            </div>
-
-                            <div class="image-container mb-2">
-                                <img :src="slide.image" class="card-img-top" alt="Card image cap">
-                            </div>
-
-                            <div class="card-body p-3">
-                                <div class="d-flex py-0">
-                                    <div class="card-kind">
-                                        <p class="bg-hover" :title="'This post is for ' + slide.type">{{ slide.type }}
-                                        </p>
-                                    </div>
-                                    <div class="heart-sign d-flex ms-auto py-0">
-                                        <div v-if="login_status">
-                                            <v-icon class="ms-auto custom-heart">
-                                                mdi-heart-outline
-                                            </v-icon>
-                                        </div>
-                                        <p class="text-grey ms-1">1500</p>
-                                    </div>
-                                </div>
-                                <div class="card-title w-100 py-0">
-                                    <h3>{{ slide.title }}</h3>
-                                </div>
-                                <div class="w-100 py-0">
-                                    <div class="text-grey ">
-                                        {{ slide.description }}
-                                    </div>
-                                </div>
-                                <div class="w-100 d-flex ">
-                                    <v-rating :model-value="4.5" color="success" density="compact" size="small"
-                                        half-increments readonly></v-rating>
-
-                                    <div class="text-grey">
-                                        4.5 (413)
-                                    </div>
-                                    <p class="ms-auto custom-m fw-bold">
-                                        3450 (kyats)
-                                    </p>
-                                </div>
-                                <div class="w-100 d-flex py-0">
-                                    <v-icon class="custom-icon">mdi-map-marker</v-icon>
-                                    <p class="ms-1">{{ slide.location }}</p>
-                                </div>
-
-                                <v-divider :thickness="2" class="border-opacity-25" />
-                                <div class="d-flex py-0">
-                                    <div class="clock-side d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <p class="ms-1 text-grey">12d 8h 56m</p>
-                                    </div>
-                                    <div class="d-flex ms-auto">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <p class="ms-1 text-grey" title="People watched times">1331</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </routerlink>
-
-                    </div>
-
-                </div>
-            </div> -->
-
-
-
-
             <!-- Render real data from database-->
 
             <div class="row mb-1 g-3">
                 <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-
                     <div class="card-container">
-
-                        <!-- <routerlink to="" class="card mb-4"
-                            :class="[animations[index % animations.length], { 'fade-up': animated }]">
-
-                            <div v-if="login_status">
-                                <div class="custom-save">
-                                    <v-icon>mdi-content-save-outline</v-icon>
-                                </div>
-                            </div>
-
-                            <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
-                                <img :src="url" class="w-100 h-100" alt="Card image cap">
-                            </div>
-
-                            <div class="card-body p-3">
-                                <div class="d-flex py-0">
-                                    <div class="card-kind">
-                                        <h4>{{ post.title }}</h4>
-                                        <p class="small">{{ post.description }}</p>
-                                    </div>
-                                    <div class="heart-sign d-flex ms-auto py-0">
-                                        <div v-if="login_status">
-                                            <v-icon class="ms-auto custom-heart">
-                                                mdi-heart-outline
-                                            </v-icon>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-title w-100 py-0">
-                                    <h3>{{ post.property_type }}</h3>
-                                </div>
-                                <div class="w-100 py-0">
-                                    <div class="text-grey ">
-                                        {{ post.area }}
-                                    </div>
-                                </div>
-                                <div class="w-100 d-flex ">
-                                    <v-rating :model-value="4.5" color="success" density="compact" size="small"
-                                        half-increments readonly></v-rating>
-
-                                    <div class="text-grey">
-                                        4.5 (413)
-                                    </div>
-                                    <p class="ms-auto custom-m fw-bold">
-                                        3450 (kyats)
-                                    </p>
-                                </div>
-                                <div class="w-100 d-flex py-0">
-                                    <v-icon class="custom-icon">mdi-map-marker</v-icon>
-                                    <p class="ms-1">{{ post.price }}</p>
-                                </div>
-
-                                <v-divider :thickness="2" class="border-opacity-25" />
-                                <div class="d-flex py-0">
-                                    <div class="clock-side d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <p class="ms-1 text-grey">12d 8h 56m</p>
-                                    </div>
-                                    <div class="d-flex ms-auto">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <p class="ms-1 text-grey" title="People watched times">1331</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </routerlink> -->
-
-
                         <!-- TZH card styles -->
                         <div class="card" style="width: 320px; height: 600px;">
                             <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
@@ -280,7 +128,19 @@ export default {
         fetch('http://localhost:8083/getsellpost')
           .then(response => response.json())
           .then(data => {
-            this.posts = data.map(post => ({
+            data.forEach(post => {
+                this.posts.unshift({
+                    location: post.sellpost_location,
+                    post_id: post.sell_post_id,
+                    title: post.title,
+                    description: post.description,
+                    house_type: post.house_type,
+                    property_type: post.property_type,
+                    area: post.area,
+                    price: post.price,
+                    photo_urls: post.photos,
+                });
+            });(post => ({
                 location: post.sellpost_location,
                 post_id: post.sell_post_id,
                 title: post.title,

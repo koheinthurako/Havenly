@@ -28,7 +28,12 @@ public class SellPost_Controller {
 	@Autowired
 	Posts_Repo postsRepo;
 	
-	private int sellCount = 1;
+	private int sellCount;
+	
+	public SellPost_Controller(SellPost_Repo sellRepo) {
+        this.sellRepo = sellRepo;
+        this.sellCount = (int) sellRepo.count() + 1; // Initialize sellCount based on the count of existing records
+    }
 	
 	@GetMapping("/getsellpost")
 	public ResponseEntity<List<SellPost>> getAllSellPosts() {
@@ -37,6 +42,8 @@ public class SellPost_Controller {
 	
 	@PostMapping("/savesellpost")
 	public SellPost saveSellPost(@RequestBody SellPost sellpost) {
+		
+//		sellCount = (int) sellRepo.count();
 		
 		String customId = "s" + sellCount++;
 		

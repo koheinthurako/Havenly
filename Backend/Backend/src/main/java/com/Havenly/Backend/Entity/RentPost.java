@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -38,8 +40,12 @@ public class RentPost {
 	private String deposit;
 	private String least_contract;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "rentpost_locations", referencedColumnName = "location_id")
+//	@OneToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+//	Locations locations;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	Locations locations;
 
 }
