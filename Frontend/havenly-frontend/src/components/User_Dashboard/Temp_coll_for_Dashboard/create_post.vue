@@ -473,7 +473,48 @@ export default {
         } catch (error) {
         console.error(error)
         }
+
+
+    // const formData = new FormData();
+    // formData.append('sellPost', JSON.stringify({
+    //     title: title.value.value,
+    //     description: Description.value.value,
+    //     house_type: houseTypes.value.value,
+    //     property_type: propertyTypes.value.value,
+    //     price: price.value.value,
+    //     area: area.value.value,
+    //     locations: {
+    //         location_id: selectedLocation.value
+    //     }
+    // }));
+
+    // // Append each file to formData
+    // for (let i = 0; i < image.value.value.length; i++) {
+    //     formData.append('photos', image.value.value[i]);
+    // }
+
+    // console.log(formData);
+
+    // try {
+    //     const response = await axios.post('http://localhost:8083/savesellpost', formData, {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data'
+    //         }
+    //     });
+    //     console.log(response.data);
+    //     title.resetField();
+    //     Description.resetField();
+    //     houseTypes.resetField();
+    //     propertyTypes.resetField();
+    //     price.resetField();
+    //     area.resetField();
+    //     image.resetField();
+    // } catch (error) {
+    //     console.error(error);
+    // }
     }
+
+
 
 </script>
 

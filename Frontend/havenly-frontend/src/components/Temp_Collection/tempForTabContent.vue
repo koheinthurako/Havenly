@@ -32,8 +32,11 @@
                             </div>
                             <div class="card-body p-4 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
-                                <p class="card-text small mb-auto opacity-75">{{ post.description }}</p>
-                                <p class="card-text small mb-auto opacity-75">{{ post.location }}</p>
+                                <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                    <v-icon >mdi-map-marker-radius</v-icon>
+                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                </p>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <v-rating :model-value="4.5" color="danger" density="compact" size="small"
                                         half-increments readonly>
@@ -128,9 +131,12 @@ export default {
         fetch('http://localhost:8083/getsellpost')
           .then(response => response.json())
           .then(data => {
+            console.log(data);
             data.forEach(post => {
-                this.posts.unshift({
-                    location: post.sellpost_location,
+                this.posts.push({
+                    province: post.locations.province,
+                    region: post.locations.region,
+                    country: post.locations.countries.country_name,
                     post_id: post.sell_post_id,
                     title: post.title,
                     description: post.description,
@@ -140,17 +146,7 @@ export default {
                     price: post.price,
                     photo_urls: post.photos,
                 });
-            });(post => ({
-                location: post.sellpost_location,
-                post_id: post.sell_post_id,
-                title: post.title,
-                description: post.description,
-                house_type: post.house_type,
-                property_type: post.property_type,
-                area: post.area,
-                price: post.price,
-                photo_urls: post.photos,
-             }));
+            });
             console.log(this.posts);
           })
           .catch(error => {
