@@ -45,8 +45,6 @@ export default {
       };
   },
  
-  
-
   methods: {
 
     togglePasswordVisibility() {
@@ -75,6 +73,7 @@ export default {
             .catch(httpErrorHandler)
             .then(sessionStorage.setItem('users',JSON.stringify(this.user.email)))
                  },
+                 
     },
 }
 </script>

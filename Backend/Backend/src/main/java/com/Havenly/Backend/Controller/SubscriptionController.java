@@ -42,9 +42,7 @@ public class SubscriptionController {
 		if(dto==null) {
 			return ResponseEntity.badRequest().build();
 		}
-//		if(dto.getEmail()==null) {
-//			return ResponseEntity.noContent().build();
-//		}
+
 		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
 			return ResponseEntity.notFound().build();
 		}

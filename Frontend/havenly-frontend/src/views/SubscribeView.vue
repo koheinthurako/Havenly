@@ -55,6 +55,8 @@
       this.login.userIsLoggedIn = true;
       console.log('User is logged in.');
     } else {
+      alert("Log in first to subscribe!");
+        router.push('/login');
       console.error('User email not found in sessionStorage.');
     }
   },
@@ -71,18 +73,15 @@
                                 const statusCode = response?.status
                                 if(statusCode===500){console.log("error")}
                                 if(statusCode===400){alert("You are already subscribed!")}
-                                if(statusCode===204){alert("Email did not parse.")}
+                                if(statusCode===204){alert("Wrong Email format.")}
                                 if(statusCode===404){
-                                alert("Register or login first to subscribe!");
+                                alert("Register first to subscribe!");
                                 router.push('/register');
                               }
                                 }
                             }
                     }
-      
-      if(!this.login.userIsLoggedIn){
-        router.push('/login');
-      }
+
           axios.post("http://localhost:8083/subscribe",this.user)
      .then(function(response){
                 const status=JSON.parse(response.status);
