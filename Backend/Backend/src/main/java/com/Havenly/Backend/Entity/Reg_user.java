@@ -47,6 +47,9 @@ public class Reg_user {
 	private LocalDate date;
 	private LocalTime time;
 	
+//	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	PasswordResetToken  passwordResetToken;
+
 	
 	@OneToOne(mappedBy = "reg_user")
 	private Subscription sub;

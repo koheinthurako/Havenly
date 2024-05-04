@@ -13,6 +13,7 @@ import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Repo.PackageTypesRepo;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+
 public class BackendApplication implements CommandLineRunner{
 
 	public static void main(String[] args) {

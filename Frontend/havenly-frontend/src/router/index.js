@@ -9,7 +9,13 @@ import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
-import IndexUserDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+import loginakm from '../views/LoginView.vue'
+import registerakm from '../views/RegisterView.vue'
+import testPhoto from '../components/Test_Photo/testPhoto.vue'
+import AdminView from '../views/AdminView.vue'
+import AdminLoginView from '../views/AdminLoginView.vue'
+
+
 
 
 
@@ -65,14 +71,22 @@ const routes = [
   },
 
   {
-    path: '/userDashboard',
-    name: 'indexUserDashboard',
-    component: IndexUserDashboard
-  },{
-    path: '/test',
-    name: 'testingOne',
-    component: testingPage
-  }
+    path: '/testphoto',
+    name: 'testphoto',
+    component: testPhoto
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+  component : AdminView
+  },
+  {
+    path: '/admin/login',
+    name: 'AdminLogin',
+  component : AdminLoginView
+  },
+  
+  
 
 ]
 
