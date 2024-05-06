@@ -8,6 +8,9 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
+// import testPhoto from '../components/Test_Photo/testPhoto.vue'
+// import AdminView from '../views/AdminView.vue'
+// import AdminLoginView from '../views/AdminLoginView.vue'
 
 
 
@@ -49,7 +52,8 @@ const routes = [
   {
     path: '/userdashboard',
     name: 'User_dashboard',
-    component: userDashboard
+    component: userDashboard,
+    meta: { requiresAuth: true }
   },
   {
     path: '/testingPage',
@@ -66,13 +70,43 @@ const routes = [
     name: 'tempDoc',
     component: tempDoc
   },
-  
+  // {
+  //   path: '/testphoto',
+  //   name: 'testphoto',
+  //   component: testPhoto
+  // },
 
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  // Check if the route requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Check if user is logged in
+    const user = sessionStorage.getItem('login_user');
+    if (!user) {
+      // If user is not logged in, redirect to login page
+      next('/loginakm');
+    } else {
+      // If user is logged in, proceed to the route
+      next();
+    }
+  } else {
+    // If the route does not require authentication, proceed to the route
+    // console.log("you will go to main")
+    next();
+
+    // const user = sessionStorage.getItem('login_user');
+    // if (to.name === 'profile' && user) {
+    //     next('/userdashboard');
+    // } else {
+    //   next();
+    // }
+  }
 })
 
 export default router

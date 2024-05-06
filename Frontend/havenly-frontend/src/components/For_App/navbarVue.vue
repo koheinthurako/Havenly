@@ -39,7 +39,7 @@
 
           <li class="nav-item">
             <router-link to="/userdashboard"
-              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
           </li>
         </ul>
 
@@ -85,11 +85,25 @@ import { useRouter } from 'vue-router';
 export default {
   name: 'navbarVue',
 
+  // beforeRouteEnter(to, from, next) {
+  //   // Check if the user is logged in
+  //   const user = sessionStorage.getItem('login_user');
+  //   if (!user) {
+  //     // If the user is not logged in, redirect to the login page
+  //     console.log("user is included in session storage")
+  //     next('/loginakm');
+  //   } else {
+  //     // If the user is logged in, proceed to the profile page
+  //     console.log("No user in session storage")
+  //     next();
+  //   }
+  // },
+
   setup() {
     const activeNavLink = ref('');
     const router = useRouter();
 
-    const isNavLinkActive = (id) => {
+    const isNavLinkActiveSetup = (id) => {
       return id === activeNavLink.value;
     };
 
@@ -120,7 +134,7 @@ export default {
 
 
     return {
-      isNavLinkActive
+      isNavLinkActiveSetup
     };
   },
 
@@ -146,6 +160,19 @@ export default {
   },
 
   methods: {
+
+    isNavLinkActive(routeName) {
+      // Return whether the route name matches the current route
+      return this.$route.name === routeName;
+    },
+    
+    // isLoggedIn() {
+    //   // Check if user information is stored in session storage
+    //   console.log("User is included in session storage");
+    //   const user = sessionStorage.getItem('login_user');
+    //   return !!user; // Return true if user is logged in, false otherwise
+    // },
+
     logout() {
       this.$store.dispatch('To_Logout_Action');
       this.$router.push('/home');

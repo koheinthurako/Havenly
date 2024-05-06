@@ -134,7 +134,6 @@ export default {
         fetch('http://localhost:8083/gettestsellpost')
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             data.forEach(post => {
                 this.posts.push({
                     // province: post.locations.province,
