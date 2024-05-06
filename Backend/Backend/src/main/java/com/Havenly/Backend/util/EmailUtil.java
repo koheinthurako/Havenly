@@ -26,7 +26,7 @@ public class EmailUtil {
 	public void sendSetPasswordEmail(String email)throws MessagingException{
 //		MimeMessage mimeMessage=javaMailSender.createMimeMessage();
 //		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-//		
+         System.out.println("hahahahhah");
 		SimpleMailMessage msg=new SimpleMailMessage();
 		msg.setTo(email);
 		msg.setSubject("Set Password");

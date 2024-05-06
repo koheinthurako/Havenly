@@ -181,15 +181,20 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
 	Reg_user user=	regRepo.findByEmail(email);
-	try {
-		emailUtil.sendSetPasswordEmail(user.getEmail());
-	} catch (MessagingException e) {
-		// TODO Auto-generated catch block
-		throw new RuntimeException("Unable to send set password email please try again");
+	if(user!=null) {
+			try {
+				emailUtil.sendSetPasswordEmail(user.getEmail());
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException("Unable to send set password email please try again");
+			}
+				
+				return "Please check your email to set new password to your account";
+			}
+	return "failed to send msg";
+	
 	}
-		
-		return "Please check your email to set new password to your account";
-	}
+	
 	@Override
 	public String setPassword(String email, String newPassword) {
 		// TODO Auto-generated method stub
