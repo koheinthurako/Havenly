@@ -51,7 +51,8 @@ export default {
                                 
                             }
                             }
-                    }
+        }
+        
         axios.post("http://localhost:8083/register",this.user)
 
         .then(function(response){

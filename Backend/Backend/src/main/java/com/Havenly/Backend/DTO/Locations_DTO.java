@@ -23,6 +23,7 @@ public class Locations_DTO {
 	private String latitude;
 	private String longitude;
 	private Countries countries;
+	private String country_name;
 	
 	public Locations convertToEntity(Locations_DTO locationDTO) {
 		Locations location = new Locations();
@@ -39,10 +40,14 @@ public class Locations_DTO {
 	public Locations_DTO convertToObject(Locations location) {
 		Locations_DTO locationDTO = new Locations_DTO();
 		locationDTO.setCountries(location.getCountries());
+//		locationDTO.setCountry_name(countries.getCountry_name());
+		if (location.getCountries() != null) {
+	        locationDTO.setCountry_name(location.getCountries().getCountry_name());
+	    }
 		locationDTO.setLocation_id(location.getLocation_id());
 		locationDTO.setProvince(location.getProvince());
 		locationDTO.setAmphoe(location.getAmphoe());
-		locationDTO.setRegion(locationDTO.region);
+		locationDTO.setRegion(location.getRegion());
 		locationDTO.setLatitude(location.getLatitude());
 		locationDTO.setLongitude(location.getLongitude());
 		return locationDTO;
