@@ -1,15 +1,10 @@
 package com.Havenly.Backend.Service_Impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.Havenly.Backend.DTO.Reg_user_DD;
@@ -181,15 +176,20 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
 	Reg_user user=	regRepo.findByEmail(email);
-	try {
-		emailUtil.sendSetPasswordEmail(user.getEmail());
-	} catch (MessagingException e) {
-		// TODO Auto-generated catch block
-		throw new RuntimeException("Unable to send set password email please try again");
+	if(user!=null) {
+			try {
+				emailUtil.sendSetPasswordEmail(user.getEmail());
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException("Unable to send set password email please try again");
+			}
+				
+				return "Please check your email to set new password to your account";
+			}
+	return "failed to send msg";
+	
 	}
-		
-		return "Please check your email to set new password to your account";
-	}
+	
 	@Override
 	public String setPassword(String email, String newPassword) {
 		// TODO Auto-generated method stub

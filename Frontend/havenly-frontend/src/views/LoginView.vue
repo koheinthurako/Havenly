@@ -31,6 +31,7 @@
 </template>
 <script>
 
+
 import router from '@/router';
 import axios from 'axios';
 
@@ -39,20 +40,23 @@ export default {
     data() {
       return {
         user :{
+           
           email: '',
-          password: ''
+          password:''
+         
         },
         showPassword: false
       };
   },
  
   methods: {
-
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
 
         login() {
+           
+            
             function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
                             const response = error?.response
@@ -63,16 +67,38 @@ export default {
                             }
                     }
           axios.post("http://localhost:8083/login",this.user)
+          
+          
+           
             .then(function(response){
-                    const status=JSON.parse(response.status);
-                    if(status=='200'){
-                        router.push('/');
-                    }
- 
-                        })
+             
+                    // const status=JSON.parse(response.status);
+                    // // const email=JSON.parse(response.email);
+                   
+                    // // if(response)sessionStorage.setItem(JSON.stringify(email ))
+                    
+                    
+                 
+                    console.log(response)
+                    console.log(response.data)
+                    sessionStorage.setItem('login_user',JSON.stringify(response.data))
 
+                    const status=response.status
+                    console.log(status)
+                    if(status=='200'){
+                      
+                      router.push('/');
+                    
+                  }
+                  const aa=response.data
+                  console.log(aa)
+                    
+                        })
+                  // .then(data=>{
+                  //   console.log(data)
+                  // })
             .catch(httpErrorHandler)
-            .then(sessionStorage.setItem('users',JSON.stringify(this.user.email)))
+          
                  },
                  
     },

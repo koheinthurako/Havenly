@@ -32,6 +32,7 @@
     "swiper": "^11.1.1",
     "terser-webpack-plugin": "^5.3.10",
     "v-credit-card": "^1.2.4",
+    "uuid": "^9.0.1",
     "vee-validate": "^4.12.6",
     "vue": "^3.2.13",
     "vue-carousel": "^0.18.0",
