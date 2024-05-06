@@ -75,8 +75,7 @@ public class Reg_user_Controller {
 			 @RequestBody Login login
 	) {
 		
-		Reg_user_DD user = regService
-				.Login(login.getEmail(), login.getPassword());
+		Reg_user_DD user = regService.Login(login.getEmail(), login.getPassword());
 		if (user == null) {
 			return ResponseEntity.badRequest().build();
 		}

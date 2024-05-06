@@ -1,7 +1,7 @@
 <template>
     <div style=" height: 60px; color: white; background-color: #e86f52;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly</em></h1></div>
 
-  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
+  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 80vh;">
       <v-sheet width="400" class="mx-auto">
         <h4 class="flex" style="height: 80px">Registeration Form</h4>
           <v-form ref="form" fast-fail @submit.prevent="signup">

@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class Subscription {
 private int subUserId;
 
 @Column(name = "nrc",nullable = false,unique = true)
+@NotBlank
 private String nrc;
 
 

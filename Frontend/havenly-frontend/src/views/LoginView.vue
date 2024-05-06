@@ -22,6 +22,7 @@
                 <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
 </div></v-col></v-row>
             </v-form>
+            <br>
             <div class="mt-2">
                 <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
             </div>
@@ -67,7 +68,7 @@ export default {
                     if(status=='200'){
                         router.push('/');
                     }
-                    
+ 
                         })
 
             .catch(httpErrorHandler)

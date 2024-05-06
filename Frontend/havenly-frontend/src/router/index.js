@@ -4,8 +4,8 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
-import SubscribeView from '../views/SubscribeView.vue'
-// import SubscribeVue from '@/views/SubscribeVue.vue'
+// import SubscribeView from '../views/SubscribeView.vue'
+import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
 import testPhoto from '@/components/For_Testing/testPhoto.vue'
@@ -27,16 +27,16 @@ const routes = [
     name: 'LoginView',
     component: LoginView
   },
+  // {
+  //   path: '/subscribe',
+  //   name: 'SubscribeView',
+  //   component: SubscribeView
+  // },
   {
     path: '/subscribe',
-    name: 'SubscribeView',
-    component: SubscribeView
+    name: 'SubscribeVue',
+    component: SubscribeVue
   },
-  // {
-  //   path: '/subscribevue',
-  //   name: 'SubscribeVue',
-  //   component: SubscribeVue
-  // },
   {
     path: '/cancel',
     name: 'CancelSubscription',

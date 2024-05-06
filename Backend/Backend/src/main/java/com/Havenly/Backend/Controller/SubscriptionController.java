@@ -40,12 +40,12 @@ public class SubscriptionController {
 	@PostMapping("/subscribe")
 	public ResponseEntity<Subscription_DTO> subscribe(@Valid @RequestBody Subscription_DTO dto){
 		if(dto==null) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.unprocessableEntity().build();
 		}
 
-		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
-			return ResponseEntity.notFound().build();
-		}
+//		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
+//			return ResponseEntity.notFound().build();
+//		}
 		if(this.subRepo.findByNrc(dto.getNrc()) != null) {
 			return ResponseEntity.badRequest().build();
 		}

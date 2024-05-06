@@ -5,16 +5,15 @@
       <v-form fast-fail @submit.prevent="submitForm">
         <v-select
           v-model="selectedNRCCode"
-          :rules="[value => !!value || 'Required']"
           :items="nrcCodes"
           label="Select NRC Code"
           id="nrc_code"
+          @update:model-value="updatePlaces"
           underlined
           required
         ></v-select>  
         <v-select
           v-model="selectedPlace"
-          :rules="[value => !!value || 'Required']"
           :items="places"
           label="Select Place"
           id="name_en"
@@ -23,7 +22,6 @@
         ></v-select>
         <v-select
           v-model="selectedNRCType"
-          :rules="[value => !!value || 'Required']"
           :items="nrcTypes"
           label="Select NRC Type"
           id="selectNRCtype"
@@ -32,7 +30,7 @@
         ></v-select>
         <v-text-field
           v-model="nrcNumber"
-          :rules="[value => !!value || 'Required']"
+          :rules="[value => value.length<7 || 'NRC no. must be 6 numbers at most!']"
           label="NRC Number"
           id="nrc_number"
           underlined
@@ -40,24 +38,26 @@
         ></v-text-field>
         <v-text-field
           v-model="user.email"
-          :rules="[value => !!value || 'Required']"
+          disabled
           label="Email"
           id="email"
           underlined
           required
         ></v-text-field>
+      <v-row justify="space-around">
+      <v-col cols="auto">
+        <div class="text-center">
+    <v-btn type="submit" v-bind:rounded="true" block class="m-2 bg-redbrick text-white mt-3" 
+    style="height: 40px; width: 164px;">Subscribe</v-btn>
+      </div>
+      </v-col> </v-row>
       </v-form>
       <!-- Display the data string -->
       <!-- <div >
         <p>User data string: {{ user.dataString }}</p>
         <p>User email: {{ user.email }}</p>
       </div> -->
-      <v-row justify="space-around">
-      <v-col cols="auto">
-        <div class="text-center">
-        <v-btn type="submit" v-bind:rounded="true" block class="m-2 bg-redbrick text-white mt-3" style="height: 40px; width: 164px;">Subscribe</v-btn>
-      </div>
-      </v-col> </v-row>
+      
       
        <!-- Cancel // Return to home -->
       <div class="mt-2">
@@ -65,6 +65,12 @@
                 <p class="text-body-2">
                   <a href="/home"> Cancel </a>
                 </p>
+                
+<div><v-flex class="grey-text">
+       NRC : {{combinedValues}}
+       <br>
+       logged in as : {{login.userMail}}
+      </v-flex></div>
             </div>
           </v-sheet>
     </div>
@@ -77,46 +83,96 @@
   export default {
     data() {
       return {
-        selectedNRCCode: '',
+        selectedNRCCode: null,
         selectedPlace: null,
-        selectedNRCType: '',
+        selectedNRCType: null,
         nrcNumber: '',
-        email: '',
+        
         nrcData: [],
         
         user: {
           nrc: '',
           email: ''
         },
+        login: {
+            userIsLoggedIn: false,
+            userMail: '',
+          },
       };
     },
+
     computed: {
     nrcCodes() {
       //return this.nrcData.map(item => item.nrc_code);
-      return ['1/','2/','3/','4/','5/','6/','7/','8/','10/','11/','12/','13/','14/'];
+      return ['1','2','3','4','5','6','7','8','10','11','12','13','14'];
     },
     nrcTypes() {
       return ['(N)', '(Other)'];
     },
     places() {
-      return this.nrcData.map(item => item.name_en);
+      return this.nrcData.filter(item => item.nrc_code==this.selectedNRCCode).map(item=>item.name_en);
+    },
+    combinedValues() {
+      const nrcCode = this.selectedNRCCode || '';
+      const nameEn = this.selectedPlace || '';
+      const nrcType = this.selectedNRCType || '';
+      const nrcNum = this.nrcNumber || '';
+      return `${nrcCode}/${nameEn}${nrcType}${nrcNum}`;
+    },
+
+  },
+  watch: {
+    // Watch for changes in selected Values and textField Values
+    selectedNRCCode() {
+      this.updateCombinedValues();
+    },
+    selectedPlace() {
+      this.updateCombinedValues();
+    },
+    selectedNRCType() {
+      this.updateCombinedValues();
+    },
+    nrcNumber() {
+      this.updateCombinedValues();
+    },
+  },
+  created() {
+    // Fetch session data from sessionStorage
+    const userEmail = JSON.parse(sessionStorage.getItem('users'));
+    if (userEmail) {
+      this.login.userMail = userEmail;
+      this.user.email = userEmail;
+      this.login.userIsLoggedIn = true;
+      console.log('User is logged in.');
+    } else {
+      alert("Log in first to subscribe!");
+      console.error('User email not found in sessionStorage.');
+        router.push('/login');
+      
     }
   },
     methods: {
-    
+    updatePlaces(){
+      console.log("selected nrc code");
+      console.log(this.selectedNRCCode);
+      this.selectedPlace = '';
+    },
+    updateCombinedValues() {
+      const nrcCode = this.selectedNRCCode || '';
+      const nameEn = this.selectedPlace || '';
+      const nrcType = this.selectedNRCType || '';
+      const nrcNum = this.nrcNumber || '';
+      this.user.nrc = `${nrcCode}/${nameEn}${nrcType}${nrcNum}`;
+    },
       submitForm() {
-        // Generate the data string and save it along with email
-      const selectedPlaceObj = this.data.find(item => item.name_en === this.selectedPlace);
-      this.user.nrc = `${this.selectedNRCCode}${selectedPlaceObj.name_en}${this.selectedNRCType}${this.nrcNumber}`;
-      this.user.email = this.email;
-        // Reset form after submission
+        
         function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
                             const response = error?.response
                             if(response){
                                 const statusCode = response?.status
                                 if(statusCode===500){console.log("error")}
-                                if(statusCode===400){alert("You are already subscribed!")}
+                                if(statusCode===422){alert("Please fill in nrc data!")}
                                 if(statusCode===404){
                                 alert("Register or login first to subscribe!");
                                 router.push('/register');
@@ -124,7 +180,17 @@
                                 }
                             }
                     }
-          axios.post("http://localhost:8083/subscribe",this.user)
+      if (
+        !this.selectedNRCCode ||
+        !this.selectedPlace ||
+        !this.selectedNRCType ||
+        this.nrcNumber.trim() === ""
+      ) {
+        alert("Please fill in all required fields.");
+        console.log("Please fill in all required fields.");
+        return;
+      }else{
+        axios.post("http://localhost:8083/subscribe",this.user)
      .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status===200){
@@ -133,15 +199,16 @@
                  router.push('/home');
             })
             .catch(httpErrorHandler);
-  
+      }
         this.resetForm();
       },
+
       resetForm() {
-        this.selectedNRCCode = '';
+        this.selectedNRCCode = null;
         this.selectedPlace = null;
-        this.selectedNRCType = '';
+        this.selectedNRCType = null;
         this.nrcNumber = '';
-        this.email = '';
+        this.user.email = '';
       },
 
       fetchData() {
@@ -170,3 +237,10 @@
     }
   };
   </script>
+
+<style>
+    .grey-text {
+    color: #999; 
+  }
+  </style>
+    
