@@ -27,16 +27,19 @@
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="width: 320px; height: 600px;">
-                            <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
+                            <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
+                            </div> -->
+                            <div class="cardImgBox mb-2">
+                                <img :src="post.photo_url" class="w-100 h-100" alt="Card image cap">
                             </div>
                             <div class="card-body p-4 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small opacity-75">{{ post.description }}</p>
-                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                <!-- <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                     <v-icon >mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                </p>
+                                </p> -->
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <v-rating :model-value="4.5" color="danger" density="compact" size="small"
                                         half-increments readonly>
@@ -128,15 +131,15 @@ export default {
 
         fetchPosts() {
         // Make API call to fetch posts from backend
-        fetch('http://localhost:8083/getsellpost')
+        fetch('http://localhost:8083/gettestsellpost')
           .then(response => response.json())
           .then(data => {
             console.log(data);
             data.forEach(post => {
                 this.posts.push({
-                    province: post.locations.province,
-                    region: post.locations.region,
-                    country: post.locations.countries.country_name,
+                    // province: post.locations.province,
+                    // region: post.locations.region,
+                    // country: post.locations.countries.country_name,
                     post_id: post.sell_post_id,
                     title: post.title,
                     description: post.description,
@@ -144,10 +147,10 @@ export default {
                     property_type: post.property_type,
                     area: post.area,
                     price: post.price,
-                    photo_urls: post.photos,
+                    photo_url: 'data:image/jpeg;base64,' + post.image,
                 });
             });
-            console.log(this.posts);
+            // console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="form-body">
-                        <form @submit.prevent="submit" class="w-100 px-4 py-3">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
@@ -100,12 +100,27 @@
                                     <v-file-input counter multiple color="deep-purple-accent-4" chips
                                         truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
                                         prepend-icon="mdi-camera"></v-file-input>
                                 </div>
                             </div> -->
 
+
                             <div class="row justify-content-between">
+                                <div class="col-md-3 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                        truncate-length="15" v-model="image.value.value"
+                                        :error-messages="image.errorMessage.value" :rules="rules"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
+                                        prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
                                 </div>
@@ -114,7 +129,7 @@
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
                                         v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
@@ -258,7 +273,8 @@ export default {
         location_id: '',
         title: '',
         description: '',
-        image: [],
+        // image: [],
+        image: '',
         price: '',
         area: '',
         house_type: '',
@@ -375,7 +391,7 @@ export default {
             }
         },
 
-        methods: { 
+        methods: {
 
             fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
@@ -414,10 +430,10 @@ export default {
 </script>
 
 
-<script setup>
+<!-- <script setup>
     import { ref } from 'vue'
     import { useField } from 'vee-validate'
-    import axios from 'axios';
+    // import axios from 'axios';
 
     /* Field collection */
     const title = useField('title')
@@ -427,6 +443,7 @@ export default {
     const price = useField('price')
     const area = useField('area')
     const image = useField('image')
+    let photoList = null
 
     const HouseTypes = ref([
         'Stand-alone House',
@@ -441,6 +458,11 @@ export default {
 
     const selectedLocation = ref('')
 
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(photoList);
+    }
+
     const submit = async () => {
 
         const formData = {
@@ -450,30 +472,80 @@ export default {
             property_type: propertyTypes.value.value,
             price: price.value.value,
             area: area.value.value,
-            photos: [
-                image.value.value
-            ],
+            photos: photoList,
             locations: {
                 location_id: selectedLocation.value
             }
         };
 
-        console.log(formData);
+        // for (let i = 0; i < image.value.value.length; i++) {
+        //     formData.append('photos', image.value.value[i]);
+        // }
 
-        try {
-            const response = await axios.post('http://localhost:8083/savesellpost', formData)
-            console.log(response.data)
-            title.resetField();
-            Description.resetField();
-            houseTypes.resetField();
-            propertyTypes.resetField();
-            price.resetField();
-            area.resetField();
-            image.resetField();
-        } catch (error) {
-        console.error(error)
-        }
+        // console.log(formData);
 
+        // try {
+        //     const response = await axios.post('http://localhost:8083/savesellpost', formData)
+        //     console.log(response.data)
+        //     title.resetField();
+        //     Description.resetField();
+        //     houseTypes.resetField();
+        //     propertyTypes.resetField();
+        //     price.resetField();
+        //     area.resetField();
+        //     image.resetField();
+        // } catch (error) {
+        // console.error(error)
+        // }
+
+
+/* ---------------------------------------- */
+
+
+// const formData = new FormData();
+
+// // Append other form fields
+// formData.append('title', title.value.value);
+// formData.append('description', Description.value.value);
+// formData.append('house_type', houseTypes.value.value);
+// formData.append('property_type', propertyTypes.value.value);
+// formData.append('price', price.value.value);
+// formData.append('area', area.value.value);
+// formData.append('locations[location_id]', selectedLocation.value.value);
+
+// // Append image files
+// for (let i = 0; i < image.value.value.length; i++) {
+//     formData.append('photos', image.value.value[i].name);
+// }
+
+// console.log(formData);
+
+// fetch('http://localhost:8083/savesellpost', {
+//     method: 'POST',
+//     body: formData,
+//     headers: {
+//         // No need to set Content-Type, FormData handles it automatically
+//     }
+// })
+// .then(response => response.json())
+// .then(data => {
+//     console.log(data);
+//     title.resetField();
+//     Description.resetField();
+//     houseTypes.resetField();
+//     propertyTypes.resetField();
+//     price.resetField();
+//     area.resetField();
+//     image.resetField();
+// })
+// .catch(error => {
+//     console.error(error);
+// });
+
+
+
+
+/* ---------------------------------------- */
 
     // const formData = new FormData();
     // formData.append('sellPost', JSON.stringify({
@@ -483,12 +555,25 @@ export default {
     //     property_type: propertyTypes.value.value,
     //     price: price.value.value,
     //     area: area.value.value,
+    //     photos: photoList,
     //     locations: {
     //         location_id: selectedLocation.value
     //     }
     // }));
 
-    // // Append each file to formData
+    // formData.append('sellPost', {
+    //     title: title.value.value,
+    //     description: Description.value.value,
+    //     house_type: houseTypes.value.value,
+    //     property_type: propertyTypes.value.value,
+    //     price: price.value.value,
+    //     area: area.value.value,
+    //     locations: {
+    //         location_id: selectedLocation.value
+    //     }
+    // });
+
+    // Append each file to formData
     // for (let i = 0; i < image.value.value.length; i++) {
     //     formData.append('photos', image.value.value[i]);
     // }
@@ -512,11 +597,211 @@ export default {
     // } catch (error) {
     //     console.error(error);
     // }
+
+    // const formDataBlob = new Blob([formData], { type: 'multipart/form-data;boundary=' + formData.boundary });
+
+    fetch('http://localhost:8083/savesellpost', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            title.resetField();
+            Description.resetField();
+            houseTypes.resetField();
+            propertyTypes.resetField();
+            price.resetField();
+            area.resetField();
+            image.resetField();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
     }
+
+    
+
+</script> -->
+
+
+
+
+
+
+<script setup>
+    import { ref } from 'vue'
+    import { useField } from 'vee-validate'
+    import axios from 'axios';
+
+    /* Field collection */
+    const title = useField('title')
+    const Description = useField('Description')
+    const houseTypes = useField('houseTypes')
+    const propertyTypes = useField('propertyTypes')
+    const price = useField('price')
+    const area = useField('area')
+    const image = useField('image')
+    let photoList = null
+
+    const HouseTypes = ref([
+        'Stand-alone House',
+        'Two-story House',
+        'Three-story House'
+    ])
+
+    const PropertyTypes = ref([
+        'Condo',
+        'Apartment'
+    ])
+
+    const selectedLocation = ref('')
+
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(title.value.value)
+        console.log(Description.value.value)
+        console.log(photoList[0]);
+        console.log(selectedLocation.value)
+    }
+
+    // const submit = async () => {
+    //     // const formData = new FormData();
+    //     // formData.append('file', photoList[0]); // Assuming image is a File object
+    //     // formData.append('title', title.value.value);
+    //     // formData.append('description', Description.value.value);
+    //     // formData.append('house_type', houseTypes.value.value);
+    //     // formData.append('property_type', propertyTypes.value.value);
+    //     // formData.append('price', price.value.value);
+    //     // formData.append('area', area.value.value);
+    //     // formData.append('locations[location_id]', selectedLocation.value); // Assuming selectedLocation is the location ID
+
+    //     const formData = {
+    //         title: title.value.value,
+    //         description: Description.value.value,
+    //         house_type: houseTypes.value.value,
+    //         property_type: propertyTypes.value.value,
+    //         price: price.value.value,
+    //         area: area.value.value,
+    //         image: photoList[0],
+    //         locations: {
+    //             location_id: selectedLocation.value
+    //         }
+    //     };
+
+    //     console.log(formData);
+
+    //     // fetch('http://localhost:8083/savetestsellpost', {
+    //     //     method: 'POST',
+    //     //     body: formData
+    //     // })
+    //     // .then(response => {
+    //     //     if (!response.ok) {
+    //     //         throw new Error('Network response was not ok');
+    //     //     }
+    //     //     return response.json();
+    //     // })
+    //     // .then(data => {
+    //     //     console.log(data);
+    //     //     title.resetField();
+    //     //     Description.resetField();
+    //     //     houseTypes.resetField();
+    //     //     propertyTypes.resetField();
+    //     //     price.resetField();
+    //     //     area.resetField();
+    //     //     image.resetField();
+    //     // })
+    //     // .catch(error => {
+    //     //     console.error('There was a problem with the fetch operation:', error);
+    //     // });
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8083/savesellpost', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+    //         console.log(response.data);
+    //         title.resetField();
+    //         Description.resetField();
+    //         houseTypes.resetField();
+    //         propertyTypes.resetField();
+    //         price.resetField();
+    //         area.resetField();
+    //         image.resetField();
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+
+
+    const submit = async () => {
+        // const formData = new FormData();
+        // formData.append('file', photoList[0]); // Use 'file' as the key
+        // formData.append('title', title.value.value);
+        // formData.append('description', Description.value.value);
+        // formData.append('house_type', houseTypes.value.value);
+        // formData.append('property_type', propertyTypes.value.value);
+        // formData.append('price', price.value.value);
+        // formData.append('area', area.value.value);
+        // formData.append('locations', selectedLocation.value); // Append the location ID directly
+
+        const formData = {
+            title: title.value.value,
+            description: Description.value.value,
+            house_type: houseTypes.value.value,
+            property_type: propertyTypes.value.value,
+            price: price.value.value,
+            area: area.value.value,
+            file: photoList[0],
+            location_id: selectedLocation.value
+            // locations: {
+            //     location_id: selectedLocation.value
+            // }
+        };
+
+        console.log(formData);
+
+        try {
+            const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+            title.resetField();
+            Description.resetField();
+            houseTypes.resetField();
+            propertyTypes.resetField();
+            price.resetField();
+            area.resetField();
+            image.resetField();
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style>
 .create-post-section {
