@@ -4,13 +4,20 @@
         <v-sheet width="400" class="mx-auto">
           <h4 class="flex" style="height: 80px">Buy Packages</h4>
             <v-form fast-fail @submit.prevent="buyPackages">
-
-              <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']" label="Email" required></v-text-field>                
+              <v-text-field
+          v-model="user.email"
+          disabled
+          label="Email"
+          id="email"
+          underlined
+          required
+        ></v-text-field>
+              <!-- <v-text-field variant="underlined" v-model="user.email" :rules="[value => !!value || 'Required']" label="Email" required></v-text-field>                 -->
               <v-autocomplete variant="underlined" v-model="user.packageType" :rules="[value => !!value || 'Required']" label="Packages" required
                 :auto-select-first="packages.autoSelectFirst"
                 :items="packages.packageNames" 
                 :value="user.packageType"
-                @change="onChange"></v-autocomplete>
+                ></v-autocomplete>
                 <v-row justify="space-around">
       <v-col cols="auto">
         <div class="text-center">
@@ -20,9 +27,13 @@
             </v-form>
             <div class="mt-2">
               <br>
-                <p class="text-body-2">
-                  selected package : {{ user.packageType }}
-                </p>
+                
+                <div><v-flex class="grey-text">
+                  
+                  Recently purchased : {{ login.alreadyPurchased }}
+                
+      </v-flex></div>
+      <br>
                 <p class="text-body-2">
                   <a href="/packages"> Go Back </a>
                 </p>
@@ -42,6 +53,9 @@
             email: '',
             packageType : '',
           },
+          login :{
+    alreadyPurchased: 'None',
+          },
 
           packages : {
             packageNames :
@@ -49,6 +63,29 @@
           }
         };
     },
+    created() {
+    // Fetch session data from sessionStorage
+    const loginUser = sessionStorage.getItem('login_user');
+    const loginUserData = JSON.parse(loginUser);
+    if (loginUser) { 
+      this.user.email = loginUserData.email;
+      console.log('User is logged in.');
+    } else {
+      alert("Log in or register first to buy packages!");
+      console.error('User email not found in sessionStorage.');
+        router.push('/login');
+    }
+    if(loginUserData.userIsSubbed){
+      if(loginUserData.typeOfPackage !== null){
+    this.login.alreadyPurchased= loginUserData.typeOfPackage;
+      console.log("packagetype : ", loginUserData.typeOfPackage);
+      }
+    }
+    else{
+      alert("You must be subscribed to buy our packages!");
+      router.push('/subscribe');
+  }
+  },
     methods: {
         buyPackages() {
           function httpErrorHandler(error) {
@@ -81,4 +118,9 @@
     },
   };
   </script>
+ <style>
+ .grey-text {
+ color: #999; 
+}
+</style> 
   

@@ -69,7 +69,7 @@
 <div><v-flex class="grey-text">
        NRC : {{combinedValues}}
        <br>
-       logged in as : {{login.userMail}}
+       logged in as : {{user.email}}
       </v-flex></div>
             </div>
           </v-sheet>
@@ -94,10 +94,7 @@
           nrc: '',
           email: ''
         },
-        login: {
-            userIsLoggedIn: false,
-            userMail: '',
-          },
+     
       };
     },
 
@@ -138,17 +135,22 @@
   },
   created() {
     // Fetch session data from sessionStorage
-    const userEmail = JSON.parse(sessionStorage.getItem('users'));
-    if (userEmail) {
-      this.login.userMail = userEmail;
-      this.user.email = userEmail;
-      this.login.userIsLoggedIn = true;
+    const loginUser = sessionStorage.getItem('login_user');
+    const loginUserData = JSON.parse(loginUser);
+    if (loginUser) {
+      
+      this.user.email = loginUserData.email;
+
       console.log('User is logged in.');
     } else {
       alert("Log in first to subscribe!");
       console.error('User email not found in sessionStorage.');
         router.push('/login');
       
+    }
+    if(loginUserData.userIsSubbed){
+      alert("You have already subscribed!");
+      router.push('/home');
     }
   },
     methods: {
