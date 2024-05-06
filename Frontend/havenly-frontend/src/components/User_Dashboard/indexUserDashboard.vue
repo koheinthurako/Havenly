@@ -655,7 +655,7 @@ export default {
 #sidebar {
     overflow: hidden;
     position: fixed;
-    top: 10%;
+    top: 8%;
     left: 0;
     width: 70px;
     min-width: 70px;

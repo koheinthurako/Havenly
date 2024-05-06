@@ -20,163 +20,11 @@
 
             </div>
 
-            <!-- <div class="row mb-1">
-                <div v-for="(slide, index) in slides" :style="{ animationDelay: `${index * 0.2}s` }" :key="index"
-                    class="col-md-3">
-
-                    <div class="card-container">
-
-                        <routerlink to="" class="card mb-4"
-                            :class="[animations[index % animations.length], { 'fade-up': animated }]">
-
-                            <div v-if="login_status">
-                                <div class="custom-save">
-                                    <v-icon>mdi-content-save-outline</v-icon>
-                                </div>
-                            </div>
-
-                            <div class="image-container mb-2">
-                                <img :src="slide.image" class="card-img-top" alt="Card image cap">
-                            </div>
-
-                            <div class="card-body p-3">
-                                <div class="d-flex py-0">
-                                    <div class="card-kind">
-                                        <p class="bg-hover" :title="'This post is for ' + slide.type">{{ slide.type }}
-                                        </p>
-                                    </div>
-                                    <div class="heart-sign d-flex ms-auto py-0">
-                                        <div v-if="login_status">
-                                            <v-icon class="ms-auto custom-heart">
-                                                mdi-heart-outline
-                                            </v-icon>
-                                        </div>
-                                        <p class="text-grey ms-1">1500</p>
-                                    </div>
-                                </div>
-                                <div class="card-title w-100 py-0">
-                                    <h3>{{ slide.title }}</h3>
-                                </div>
-                                <div class="w-100 py-0">
-                                    <div class="text-grey ">
-                                        {{ slide.description }}
-                                    </div>
-                                </div>
-                                <div class="w-100 d-flex ">
-                                    <v-rating :model-value="4.5" color="success" density="compact" size="small"
-                                        half-increments readonly></v-rating>
-
-                                    <div class="text-grey">
-                                        4.5 (413)
-                                    </div>
-                                    <p class="ms-auto custom-m fw-bold">
-                                        3450 (kyats)
-                                    </p>
-                                </div>
-                                <div class="w-100 d-flex py-0">
-                                    <v-icon class="custom-icon">mdi-map-marker</v-icon>
-                                    <p class="ms-1">{{ slide.location }}</p>
-                                </div>
-
-                                <v-divider :thickness="2" class="border-opacity-25" />
-                                <div class="d-flex py-0">
-                                    <div class="clock-side d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <p class="ms-1 text-grey">12d 8h 56m</p>
-                                    </div>
-                                    <div class="d-flex ms-auto">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <p class="ms-1 text-grey" title="People watched times">1331</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </routerlink>
-
-                    </div>
-
-                </div>
-            </div> -->
-
-
-
-
             <!-- Render real data from database-->
 
             <div class="row mb-1 g-3">
                 <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-
                     <div class="card-container">
-
-                        <!-- <routerlink to="" class="card mb-4"
-                            :class="[animations[index % animations.length], { 'fade-up': animated }]">
-
-                            <div v-if="login_status">
-                                <div class="custom-save">
-                                    <v-icon>mdi-content-save-outline</v-icon>
-                                </div>
-                            </div>
-
-                            <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
-                                <img :src="url" class="w-100 h-100" alt="Card image cap">
-                            </div>
-
-                            <div class="card-body p-3">
-                                <div class="d-flex py-0">
-                                    <div class="card-kind">
-                                        <h4>{{ post.title }}</h4>
-                                        <p class="small">{{ post.description }}</p>
-                                    </div>
-                                    <div class="heart-sign d-flex ms-auto py-0">
-                                        <div v-if="login_status">
-                                            <v-icon class="ms-auto custom-heart">
-                                                mdi-heart-outline
-                                            </v-icon>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-title w-100 py-0">
-                                    <h3>{{ post.property_type }}</h3>
-                                </div>
-                                <div class="w-100 py-0">
-                                    <div class="text-grey ">
-                                        {{ post.area }}
-                                    </div>
-                                </div>
-                                <div class="w-100 d-flex ">
-                                    <v-rating :model-value="4.5" color="success" density="compact" size="small"
-                                        half-increments readonly></v-rating>
-
-                                    <div class="text-grey">
-                                        4.5 (413)
-                                    </div>
-                                    <p class="ms-auto custom-m fw-bold">
-                                        3450 (kyats)
-                                    </p>
-                                </div>
-                                <div class="w-100 d-flex py-0">
-                                    <v-icon class="custom-icon">mdi-map-marker</v-icon>
-                                    <p class="ms-1">{{ post.price }}</p>
-                                </div>
-
-                                <v-divider :thickness="2" class="border-opacity-25" />
-                                <div class="d-flex py-0">
-                                    <div class="clock-side d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <p class="ms-1 text-grey">12d 8h 56m</p>
-                                    </div>
-                                    <div class="d-flex ms-auto">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <p class="ms-1 text-grey" title="People watched times">1331</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </routerlink> -->
-
-
                         <!-- TZH card styles -->
                         <div class="card" style="width: 320px; height: 600px;">
                             <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
@@ -184,7 +32,11 @@
                             </div>
                             <div class="card-body p-4 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
-                                <p class="card-text small mb-auto opacity-75">{{ post.description }}</p>
+                                <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                    <v-icon >mdi-map-marker-radius</v-icon>
+                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                </p>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <v-rating :model-value="4.5" color="danger" density="compact" size="small"
                                         half-increments readonly>
@@ -276,20 +128,26 @@ export default {
 
         fetchPosts() {
         // Make API call to fetch posts from backend
-        fetch('http://localhost:8083/')
+        fetch('http://localhost:8083/getsellpost')
           .then(response => response.json())
           .then(data => {
-            this.posts = data.map(post => ({ 
-                post_id: post.post_id,
-                title: post.title,
-                description: post.description,
-                house_type: post.house_type,
-                property_type: post.property_type,
-                area: post.area,
-                price: post.price,
-                photo_urls: post.photoUrls,
-             }));
-            // console.log(this.posts);
+            console.log(data);
+            data.forEach(post => {
+                this.posts.push({
+                    province: post.locations.province,
+                    region: post.locations.region,
+                    country: post.locations.countries.country_name,
+                    post_id: post.sell_post_id,
+                    title: post.title,
+                    description: post.description,
+                    house_type: post.house_type,
+                    property_type: post.property_type,
+                    area: post.area,
+                    price: post.price,
+                    photo_urls: post.photos,
+                });
+            });
+            console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

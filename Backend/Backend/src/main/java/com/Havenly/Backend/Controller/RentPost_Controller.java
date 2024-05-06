@@ -24,10 +24,12 @@ public class RentPost_Controller {
 	@Autowired
 	Posts_Repo postsRepo;
 	
-	private int rentCount = 1;
+	private int rentCount;
 	
 	@PostMapping("/saverentpost")
 	public RentPost saveRentPost(@RequestBody RentPost rentpost) {
+		
+		rentCount = (int) rentRepo.count();
 		
 		String customId = "r" + rentCount++;
 		
