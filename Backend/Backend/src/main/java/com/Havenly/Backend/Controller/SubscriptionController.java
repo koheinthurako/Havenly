@@ -43,9 +43,9 @@ public class SubscriptionController {
 			return ResponseEntity.unprocessableEntity().build();
 		}
 
-//		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
-//			return ResponseEntity.notFound().build();
-//		}
+		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
+			return ResponseEntity.notFound().build();
+		}
 		if(this.subRepo.findByNrc(dto.getNrc()) != null) {
 			return ResponseEntity.badRequest().build();
 		}

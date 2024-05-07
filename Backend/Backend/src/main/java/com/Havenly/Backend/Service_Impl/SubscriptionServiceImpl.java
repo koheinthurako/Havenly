@@ -1,9 +1,14 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Subscription_DTO;
+import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Entity.Subscription;
@@ -20,8 +25,6 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 	SubscribeRepo subscribeRepo;
 	@Autowired
 	PackagesRepo packRepo;
-	Packages pack = new Packages();
-	Subscription_DTO subUser = new Subscription_DTO();
 	@Autowired
 	Reg_user_Repo regRepo;
 	@Autowired
@@ -50,59 +53,37 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 		
 	}
 
-//	@Override
-//	public Subscription_DTO freeTrial(Subscription_DTO dto) {
-//		Subscription sub = subUser.convertToEntity(dto);
-//		sub.setTotalAds(2);
-//		sub.setTotalPosts(3);
-//		sub.setName(dto.getName());
-//		sub.setPackageType(dto.getPackageType());
-//		sub.setNrc(dto.getNrc());
-//		Subscription user = subscribeRepo.save(sub);
-//		Subscription_DTO user2 = subUser.convertToObject(user);
-//		return user2;
-//	
-//	}
-//	
-//	@Override
-//	public Subscription_DTO subNormal(Subscription_DTO dto) {
-//		Subscription sub = subUser.convertToEntity(dto);
-//		sub.setTotalAds(10);
-//		sub.setTotalPosts(15);
-//		sub.setName(dto.getName());
-//		sub.setPackageType(dto.getPackageType());
-//		sub.setNrc(dto.getNrc());
-//		Subscription user = subscribeRepo.save(sub);
-//		Subscription_DTO user2 = subUser.convertToObject(user);
-//		return user2;		
-//	}
-//
-//	@Override
-//	public Subscription_DTO subPremium(Subscription_DTO dto) {
-//		Subscription sub = subUser.convertToEntity(dto);
-//		sub.setTotalAds(20);
-//		sub.setTotalPosts(30);
-//		sub.setName(dto.getName());
-//		sub.setPackageType(dto.getPackageType());
-//		sub.setNrc(dto.getNrc());
-//		Subscription user = subscribeRepo.save(sub);
-//		Subscription_DTO user2 = subUser.convertToObject(user);
-//		return user2;
-//	}
 
 	@Override
 	public Subscription_DTO subscribe(Subscription_DTO dto) {
+		Subscription_DTO subUser = new Subscription_DTO();
 		Subscription sub = subUser.convertToEntity(dto);
 		String email = sub.getEmail();
+		String packName = sub.getPackageType();
 		Reg_user reg_user = regRepo.findByEmail(email);
+		
 //		if(regRepo.findByEmail(dto.getEmail())==null){
 //		return null;
 //		}else {		
 			sub.setEmail(sub.getEmail());
 			sub.setNrc(sub.getNrc());
 			sub.setReg_user(reg_user);
+		Packages packUser = new Packages();
+		PackageTypes packTypes = packTypesRepo.findByPackName(packName);
+				
+			packUser.setSub1(sub);
+			packUser.setPackType(packTypes);
+			packUser.setPackDate(LocalDate.now());
+			packUser.setPackTime(LocalDateTime.now());	
+				
+			Packages packUser2 = packRepo.save(packUser);
+				
+			sub.setPackages(packUser2);
+			sub.setPackageType(packName);
+
 			Subscription user = subscribeRepo.save(sub);
 			Subscription_DTO user2 = subUser.convertToObject(user);
+
 			return user2;
 		//}
 		

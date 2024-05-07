@@ -38,10 +38,10 @@
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/userdashboard"
               :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
-          </li>
+          </li> -->
         </ul>
 
         <ul class="navbar-nav">
@@ -69,9 +69,10 @@
               <div v-else>
                 <router-link to="/login" class="nav-link">Login</router-link>
               </div>
+             
             </div>
-            <div v-else>
-              <router-link to="/loginakm" class="nav-link">Login</router-link>
+             <div v-else>
+              <router-link to="/login" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>

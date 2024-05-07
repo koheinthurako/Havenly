@@ -92,7 +92,8 @@
         
         user: {
           nrc: '',
-          email: ''
+          email: '',
+          packageType: 'Free Trial'
         },
      
       };
@@ -101,7 +102,7 @@
     computed: {
     nrcCodes() {
       //return this.nrcData.map(item => item.nrc_code);
-      return ['1','2','3','4','5','6','7','8','10','11','12','13','14'];
+      return ['1','2','3','4','5','6','7','8', '9','10','11','12','13','14'];
     },
     nrcTypes() {
       return ['(N)', '(Other)'];
@@ -174,7 +175,7 @@
                             if(response){
                                 const statusCode = response?.status
                                 if(statusCode===500){console.log("error")}
-                                if(statusCode===422){alert("Please fill in nrc data!")}
+                                if(statusCode===422){console.log("nrc data is empty")}
                                 if(statusCode===404){
                                 alert("Register or login first to subscribe!");
                                 router.push('/register');
@@ -189,11 +190,12 @@
         this.nrcNumber.trim() === ""
       ) {
         alert("Please fill in all required fields.");
-        console.log("Please fill in all required fields.");
+        console.log("required fields missing.");
         return;
       }else{
         axios.post("http://localhost:8083/subscribe",this.user)
      .then(function(response){
+      sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
                 const status=JSON.parse(response.status);
                 if(status===200){
                   alert("Subscribed Successfully!");
@@ -221,7 +223,7 @@
           const statusCode = response?.status
             if(statusCode===500){console.log("error")}
             if(statusCode===404){
-            alert("No data found!");
+            alert("Error loading page.");
                 }
                 console.log("error"); 
                   }

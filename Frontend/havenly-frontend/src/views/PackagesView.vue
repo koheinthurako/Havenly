@@ -54,12 +54,12 @@
             packageType : '',
           },
           login :{
-    alreadyPurchased: 'None',
+    alreadyPurchased: '',
           },
 
           packages : {
             packageNames :
-            ['Free Trial', 'Normal', 'Premium']
+            ['Normal', 'Premium']
           }
         };
     },
@@ -67,6 +67,8 @@
     // Fetch session data from sessionStorage
     const loginUser = sessionStorage.getItem('login_user');
     const loginUserData = JSON.parse(loginUser);
+    const subbedUser = sessionStorage.getItem('subbed_user');
+    const subbedData = JSON.parse(subbedUser);
     if (loginUser) { 
       this.user.email = loginUserData.email;
       console.log('User is logged in.');
@@ -75,10 +77,11 @@
       console.error('User email not found in sessionStorage.');
         router.push('/login');
     }
-    if(loginUserData.userIsSubbed){
+    if(loginUserData.userIsSubbed || subbedData !== null ){
+      console.log("User is subbed.");
       if(loginUserData.typeOfPackage !== null){
-    this.login.alreadyPurchased= loginUserData.typeOfPackage;
-      console.log("packagetype : ", loginUserData.typeOfPackage);
+    this.login.alreadyPurchased= subbedData.packageType;
+      console.log("packagetype : ", this.login.alreadyPurchased);
       }
     }
     else{

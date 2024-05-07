@@ -36,8 +36,6 @@ public class Packages {
 	@Column(name = "purchase_date")
 	private LocalDate packDate;
 	
-//	@Column(name = "package_name")
-//	private String packageName;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="package_type_id")
@@ -47,8 +45,5 @@ public class Packages {
 	@JoinColumn(name="subUser_id", referencedColumnName = "subUserId")
 	private Subscription sub1;
 
-	
-//	@OneToOne(mappedBy = "package_id")
-//	@JsonIgnore
-//	Subscription sub;
+
 }
