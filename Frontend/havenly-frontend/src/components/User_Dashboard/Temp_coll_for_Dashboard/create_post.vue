@@ -1,6 +1,6 @@
 <template>
-    <div class="create-post-section px-5 py-4">
-        <div class="row">
+    <div class="create-post-section py-5">
+        <div class="row mt-5">
             <div class="col-md-7 p-0">
 
                 <!-- TZH Form -->
@@ -344,7 +344,7 @@ export default {
         rules: [
 
             value => {
-                return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
+                return !value || !value.length || value[0].size < 5000000 || 'Avatar size should be less than 5 MB!'
             },
         ],
     }),
@@ -804,6 +804,7 @@ export default {
 
 
 <style>
+
 .create-post-section {
     width: 100%;
     height: auto;

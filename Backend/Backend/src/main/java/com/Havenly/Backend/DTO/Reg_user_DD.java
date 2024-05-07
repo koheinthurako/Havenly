@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.Havenly.Backend.Entity.Reg_user;
+import com.Havenly.Backend.Entity.Subscription;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,8 @@ private int register_id;
 	private String password;
 	private LocalDate date;
 	private LocalTime time;
-
+	private boolean UserIsSubbed;
+	private String typeOfPackage;
 
 public Reg_user covertToEntity(Reg_user_DD dto) {
 	Reg_user user=new Reg_user();
@@ -36,6 +38,8 @@ public Reg_user covertToEntity(Reg_user_DD dto) {
 public Reg_user_DD covertToObject(Reg_user user) {
 	
 	Reg_user_DD dto=new Reg_user_DD();
+	Subscription sub = user.getSub();
+//	String pack = sub.getPackageType();
 	
 	dto.setRegister_id(user.getRegister_id());
 	dto.setName(user.getName());
@@ -44,6 +48,11 @@ public Reg_user_DD covertToObject(Reg_user user) {
 	
 	dto.setDate(user.getDate());
 	dto.setTime(user.getTime());
+	if(sub != null) {
+		dto.setUserIsSubbed(true);
+	}
+//	dto.setTypeOfPackage(pack);
+	
 	
 	return dto;
 	

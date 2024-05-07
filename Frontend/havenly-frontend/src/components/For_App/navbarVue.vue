@@ -16,7 +16,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: 
+            ('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -26,20 +27,25 @@
 
           <li class="nav-item">
             <router-link to="/package"
-              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Package</router-link>
+              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/tempDoc" :class="{ 'nav-link': true, active: isNavLinkActive('blog') }">Blog</router-link>
+            <router-link to="/subscribe"
+              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
           </li>
 
           <li class="nav-item">
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
           </li>
 
-          <li class="nav-item">
-            <router-link to="/userdashboard"
+          <!-- <li class="nav-item">
+            <router-link to="/userDashBoardNew"
               :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
+          </li> -->
+          <li class="nav-item">
+            <router-link to="/userDashBoardNew"
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Create Post</router-link>
           </li>
         </ul>
 
@@ -55,22 +61,22 @@
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li>
+                  </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
                     </div>
                   </li>
                 </ul>
               </div>
-              <div v-else>
+              <!-- <div v-else>
                 <router-link to="/login" class="nav-link">Login</router-link>
-              </div>
+              </div> -->
             </div>
             <div v-else>
-              <router-link to="/loginakm" class="nav-link">Login</router-link>
+              <router-link v-model="loginText" to="/loginakm" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>
@@ -84,20 +90,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 export default {
   name: 'navbarVue',
-
-  // beforeRouteEnter(to, from, next) {
-  //   // Check if the user is logged in
-  //   const user = sessionStorage.getItem('login_user');
-  //   if (!user) {
-  //     // If the user is not logged in, redirect to the login page
-  //     console.log("user is included in session storage")
-  //     next('/loginakm');
-  //   } else {
-  //     // If the user is logged in, proceed to the profile page
-  //     console.log("No user in session storage")
-  //     next();
-  //   }
-  // },
+  loginText: 'Login',
 
   setup() {
     const activeNavLink = ref('');
@@ -160,6 +153,13 @@ export default {
   },
 
   methods: {
+
+    checkLoginOrnot() {
+      const loginUser = sessionStorage.getItem('login_user');
+      if(loginUser) {
+        this.loginText = "Register";        
+      }
+    },
 
     isNavLinkActive(routeName) {
       // Return whether the route name matches the current route
