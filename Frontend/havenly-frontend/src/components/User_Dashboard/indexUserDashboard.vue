@@ -7,7 +7,7 @@
                 </button>
                 <div class="sidebar-logo">
                     <a href="#">Dashboard</a>
-                </div>
+                </div>1
             </div>
             <ul class="sidebar-nav ">
                 <li class="sidebar-item">

@@ -11,6 +11,7 @@ import registerakm from '../views/RegisterView.vue'
 import testPhoto from '../components/Test_Photo/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
+import AdminBanList from '../views/AdminBanList.vue'
 
 
 
@@ -84,6 +85,11 @@ const routes = [
     path: '/admin/login',
     name: 'AdminLogin',
   component : AdminLoginView
+  },
+  {
+    path: '/admin/ban',
+    name: 'AdminBanList',
+    component: AdminBanList
   },
   
   
