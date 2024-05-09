@@ -39,6 +39,7 @@ public class TestSellPost_Controller {
 		return new ResponseEntity<List<TestSellPost>>(testSellRepo.getAllTestPosts(), HttpStatus.OK);
 	}
 	
+	
 	@PostMapping("/savetestsellpost")
 	public ResponseEntity<TestSellPost> saveSellPost(@RequestParam("file") MultipartFile file,
 				@RequestParam("title") String title,
@@ -51,6 +52,26 @@ public class TestSellPost_Controller {
 		return null;
 		
 	}
+	
+	
+//	@PostMapping("/savetestsellpost")
+//	public ResponseEntity<TestSellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
+//				@RequestParam("title") String title,
+//				@RequestParam("description") String description, @RequestParam("price") String price,
+//				@RequestParam("area") String area, @RequestParam("house_type") String house_type,
+//				@RequestParam("property_type") String property_type,
+//				@RequestParam("location_id") Locations location_id
+//			) {
+//		for (MultipartFile file : files) {
+//	        System.out.println("Uploaded file: " + file.getOriginalFilename());
+//	    }
+//		testSellService.savePhotosToDB(files, title, description, price, area, house_type, property_type, location_id);
+//		return null;
+//		
+//	}
+	
+	
+	
 	
 
 }
