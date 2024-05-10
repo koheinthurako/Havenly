@@ -6,35 +6,43 @@
                     <div class="profile-box-data pb-5">
                         <v-img :src="acc_img" class="profile-img" />
                         <form ref="form" fast-fail @submit.prevent="update">
+                            <div class="mt-3 p-3 mx-auto">
+                                <div :v-if="user_data !== null">
 
-                            
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="get_username"
+                                        :value="user_data?.name || ''" placeholder="User Name"></v-text-field>
+
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="gmail" :value="user_data?.gmail || ''"
+                                        placeholder="Gmail" readonly="true"></v-text-field>
+
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="phone" :value="user_data?.phone || ''"
+                                        placeholder="Contact No"></v-text-field>
+                                    <!-- <input type="text" :value="user_data?.name || ''" label="User name">
+                                    <input type="email" :value="user_data?.gmail || ''" label="E-mail">
+                                    <input type="phone" :value="user_data?.phone || ''" label="phone"> -->
+
+                                    <v-text-field v-model="user.name" label="Name"></v-text-field>
+                                    <v-text-field v-model="user.phone" :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone"  ></v-text-field>
+                                    <v-text-field v-model="user.email" label="Email of this account" :rules="[value => !!value || 'Required']" ></v-text-field>
+                                </div>
 
 
-                            <div class="form-control">
-                                <div style="padding:2%"> <h6>Update Information</h6></div>
-
-                                <v-text-field v-model="user.name" label="Name"></v-text-field>
-                                <v-text-field v-model="user.phone" :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone"  ></v-text-field>
-                                <v-text-field v-model="user.email" label="Email of this account" :rules="[value => !!value || 'Required']" ></v-text-field>
+                                <v-row class="w-100">
+                                    <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
+                                        style="text-transform:capitalize;">
+                                        Update
+                                    </v-btn>
+                                </v-row>
                             </div>
-
-
-                            <v-row class="w-100">
-
-                                <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
-                                    style="text-transform:capitalize;">
-                                    Update
-                                </v-btn>
-
-
-                            </v-row>
                         </form>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-sm-12 p-0 ">
-
                 <div class="row-12 p-2">
                     <div class="profile-box">
                         <div class="profile-box-data">
@@ -43,7 +51,8 @@
                                     <h5>Account info status</h5>
                                     <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Ediable<i class="fa-solid fa-check ms-1"></i></p>
+                                        Ediable<i class="fa-solid fa-check ms-1"></i>
+                                    </p>
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
                                 <div class="d-flex justify-space-between">
@@ -51,7 +60,7 @@
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span class="d-flex align-center">
+                                        <span @click="packageDialogOpen" class="d-flex align-center">
                                             <v-icon>mdi-store</v-icon>&nbsp;Check
                                         </span>
                                     </p>
@@ -66,48 +75,65 @@
                                         </span>
                                     </p>
 
+                                    <!-- package dialog start -->
+                                    <v-dialog v-model="packageDialog" class="create-pop-up" persistent>
+                                        <div class="pop-up-subscribe">
+                                            <div class="d-flex justify-space-between">
+                                                <p>Subscribed Package</p>
+                                                <p><span :v-if="user_data !== null">
+                                                        {{ user_data?.subscribe_package || '' }}
+                                                    </span></p>
+                                            </div>
+                                            <v-btn @click="packageDialogClose">Close</v-btn>
+                                        </div>
+                                    </v-dialog>
+                                    <!-- package dialog end -->
+
                                     <!-- Dialog start -->
                                     <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
-
-                                        
-
-
-                                        <form ref="form"  @submit.prevent="submit" class="form-edit2">
+                                        <form @submit.prevent="submit" class="form-edit2">
                                             <v-row cols="12" class="mx-auto mb-3">
                                                 <h3>Change Password</h3>
                                             </v-row>
                                             <button class="close-btn"
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
-                                                <form  @submit.prevent="change" >
-                                            <v-text-field v-model="change_pw.username"
-                                                
-                                                label="G-mail"></v-text-field>
+                                            <div :v-if="user_data !== null">
 
-                                            <v-text-field v-model="change_pw.password"
-                                                
-                                                class="input-group--focused" hint="At least 6 characters"
-                                                label="Current Password" name="input-10-2"
-                                                @click:append="visible = !visible"></v-text-field>
+                                                <v-text-field density="comfortable" clear-icon="mdi-close-circle"
+                                                    clearable rounded="lg" variant="solo" v-model="email.value.value"
+                                                    :value="user_data?.gmail || ''" placeholder="G-mail"
+                                                    readonly="true"></v-text-field>
 
-                                            <v-text-field v-model="change_pw.new_password"
-                                               
-                                                class="input-group--focused" hint="At least 6 characters"
-                                                label="New password" name="input-10-2"
-                                                @click:append="visible1 = !visible1"></v-text-field>
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="profile_password.value.value"
+                                                    :error-messages="profile_password.errorMessage.value"
+                                                    :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[rules.required, rules.min]"
+                                                    :type="visible ? 'text' : 'password'" :value="user_data?.pass || ''"
+                                                    class="input-group--focused" hint="At least 8 characters"
+                                                    label="Password" name="input-10-2"
+                                                    @click:append="visible = !visible"></v-text-field>
 
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="profile_confirm_password.value.value"
+                                                    :error-messages="profile_confirm_password.errorMessage.value"
+                                                    :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[rules.required, rules.min]"
+                                                    :type="visible1 ? 'text' : 'password'" class="input-group--focused"
+                                                    hint="At least 8 characters" label="Password" name="input-10-2"
+                                                    @click:append="visible1 = !visible1"></v-text-field>
+
+                                            </div>
                                             <v-row cols="12" class="w-100 mt-4">
-
-                                                <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
-                                    style="text-transform:capitalize; background-color: #E97559; color: #fff;">
-                                   Change
-                                </v-btn>
-
-                                               
+                                                <div v-if="show">
+                                                    <span>{{ register_info.id }}</span>
+                                                </div>
+                                                <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
+                                                    type="submit">
+                                                    submit
+                                                </v-btn>
                                             </v-row>
                                         </form>
-                                        </form>
-
-
                                     </v-dialog>
                                     <!-- Dialog end -->
 
@@ -124,7 +150,6 @@
                                     </p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -248,31 +273,23 @@ import axios from 'axios'
 export default {
     name: 'profileVue',
 
-      
 
-    data () {
-        
-        
-        
-       return {
-        img : require('@/assets/img/9.jpg'),
-        acc_img : require('@/assets/img/img_avatar.png'),
-        resetdialog : false,
-        
-        user :{
-          name: '',
-          phone:'',
-          email: ''      
+    data: () => ({
+
+        img: require('@/assets/img/9.jpg'),
+        acc_img: require('@/assets/img/img_avatar.png'),
+        resetdialog: false,
+        packageDialog: false,
+        visible: false,
+        visible1: false,
+
+
+        rules: {
+            required: value => !!value || 'Required.',
+            min: v => v.length >= 6 || 'Min 6 characters',
+            emailMatch: () => (`The email and password you entered don't match`),
         },
-
-        change_pw : {
-            username : '',
-            password : '',
-            new_password : ''
-        }
-      };
-    },
-    
+    }),
 
     computed: {
         user_data() {
@@ -285,6 +302,14 @@ export default {
     },
 
     methods: {
+
+        packageDialogOpen() {
+            this.packageDialog = true;
+        },
+
+        packageDialogClose() {
+            this.packageDialog = false;
+        },
 
         openDialog() {
             this.resetdialog = true;
@@ -352,8 +377,65 @@ export default {
 
 </script>
 
+<script setup>
+
+import { useField, useForm } from 'vee-validate'
+// import Swal from 'sweetalert2';
+import store from '../../../store/index.js';
+
+let show = true
+var register_info = store.getters.Take_Userinfo
+
+const { handleSubmit } = useForm({
+    validationSchema: {
+
+        password(value) {
+            if (value?.length >= 6) {
+
+                return true;
+            } else {
+                return 'Cannot be empty!'
+            }
+        },
+
+        confirm_password(value) {
+            if (value?.length >= 6) {
+                return true;
+            } else {
+                return 'Cannot be empty!'
+            }
+        },
+        email(value) {
+            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+            return 'Must be a valid e-mail.'
+        },
+
+    },
+})
+
+const profile_password = useField('password')
+const profile_confirm_password = useField('confirm_password')
+const email = useField('email')
+
+const submit = handleSubmit(values => {
+    if (values.profile_password == values.profile_confirm_password) {
+        console.log("Reached");
+    }
+});
+</script>
 
 <style>
+.pop-up-subscribe {
+
+    width: 500px;
+    height: auto;
+    padding: 40px 60px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: auto;
+}
+
 .form-edit2 {
     margin: 0px auto;
     overflow: hidden;
@@ -381,8 +463,9 @@ export default {
 }
 
 .user-profile {
-    width: 100%;
+    width: 70%;
     height: 100%;
+    margin: auto;
 
     .profile-box {
         padding: 8px;
@@ -408,6 +491,8 @@ export default {
                 margin: left;
                 margin-left: 10px;
             }
+
+
 
             .form-control {
                 width: 100%;

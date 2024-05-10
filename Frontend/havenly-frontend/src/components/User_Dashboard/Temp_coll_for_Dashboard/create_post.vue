@@ -1,680 +1,957 @@
-<!-- <template>
-    <div class="create-post">
-        <div class="create-post-header">
-            <div class="d-flex">
-                <v-icon>mdi-information</v-icon>&nbsp;
-                <h5>For sale</h5>
+<template>
+    <div class="create-post-section py-5">
+        <div class="row mt-5">
+            <div class="col-md-7 p-0">
+
+                <!-- TZH Form -->
+                <div class="create-post">
+                    <div class="form-header">
+                        <v-icon>mdi-information</v-icon>
+                        <p class="mt-3 ms-2">Create Sell Post</p>
+                    </div>
+
+                    <div class="form-body">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        v-model="title.value.value" :counter="10"
+                                        :error-messages="title.errorMessage.value" placeholder="Title"></v-text-field>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                        variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
+                                        :counter="200" :error-messages="Description.errorMessage.value"
+                                        placeholder="Description"></v-textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="p-0 row-1 d-flex">
+                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
+                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
+                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations" :disabled="!selectedRegion" label="Country_id" required></v-select>
+                            </div>
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small"> House Type </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                        variant="solo" rounded="lg" density="compact" v-model="houseTypes.value.value"
+                                        :error-messages="houseTypes.errorMessage.value" :items="HouseTypes"
+                                        placeholder="Select house type"></v-select>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small"> Property Type </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                        variant="solo" rounded="lg" density="compact" v-model="propertyTypes.value.value"
+                                        :error-messages="propertyTypes.errorMessage.value" :items="PropertyTypes"
+                                        placeholder="Select property type"></v-select>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Price($Dollar)<span
+                                            class="text-red">*</span></span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        v-model="price.value.value" :error-messages="price.errorMessage.value"
+                                        placeholder="price"></v-text-field>
+                                </div>
+                            </div>
+
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Area</span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        v-model="area.value.value" placeholder="Area"></v-text-field>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row justify-content-between">
+                                <div class="col-md-3 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                        truncate-length="15" v-model="image.value.value"
+                                        :error-messages="image.errorMessage.value" :rules="rules"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
+                                        prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div> -->
+
+
+                            <div class="row justify-content-between">
+                                <div class="col-md-3 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                        truncate-length="15" v-model="image.value.value"
+                                        :error-messages="image.errorMessage.value" :rules="rules"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
+                                        prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="row justify-content-between">
+                                <div class="col-md-2 col-sm-12">
+                                    <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
+                                </div>
+                            </div> -->
+
+
+                            <div class="w-100 d-flex mt-3 justify-content-end">
+                                <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
+                                    submit
+                                </v-btn>
+
+                                <v-btn @click="handleReset" rounded="xl" color="#525252">
+                                    clear
+                                </v-btn>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-5">
+
+                <div class="display-post-section">
+                    <!-- Show Created post start -->
+                    <div class="w-100 d-flex p-0 m-0">
+                        <span class="mt-2 me-2">Choose an option : </span>
+                        <v-radio-group v-model="change_type" inline>
+                            <v-radio label="Sell posts" value="sell" color="orange"></v-radio>
+                            <v-radio label="Rent Posts" value="rent" color="orange"></v-radio>
+                        </v-radio-group>
+                    </div>
+
+                    <div v-if="change_type === 'sell'">
+                        <div v-for="data in sell_data" :key="data">
+
+                            <div class="display-post">
+                                <div class="row p-0">
+                                    <div class="col-6 p-0">
+                                        <div class="display-left">
+                                            <v-img :src="data.img"></v-img>
+                                            <div class="overlay d-flex mx-auto">
+                                                <v-btn rounded elevation="10" color="warning" class="me-2">Edit
+                                                    post</v-btn>
+                                                <v-btn rounded elevation="10" color="#E86F52" class="">Delete
+                                                    post</v-btn>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-0">
+                                        <div class="display-right">
+
+                                            <h5 class="text-left my-0 px-0">{{ data.title }}</h5>
+                                            <span class="text-grey mb-4">hello world</span>
+
+                                            <p style="line-height: 16px;">Lorem ipsum dolor sit, amet consectetur
+                                                adipisicing elit. Enim iure, ea cum,
+                                                inventore libero nemo saepe sit optio repellendus.....</p>
+                                            <div class="d-flex w-100 justify-space-between">
+                                                <span class="fw-bold"><v-icon>mdi-currency-usd</v-icon>1345
+                                                    Lakh(Kyats)</span>
+                                                <span class="me-3 fw-bold" style="color: #E86F52;">{{ data.type
+                                                    }}</span>
+                                            </div>
+                                            <v-divider class="mx-auto mb-1 mt-2" :thickness="2"></v-divider>
+                                            <div class="px-2 d-flex justify-space-between">
+                                                <div><v-icon color="#E86F52">mdi-eye</v-icon> <span
+                                                        class="mt-1">322</span>
+                                                </div>
+                                                <div><v-icon color="#E86F52">mdi-clock-time-three-outline</v-icon><span
+                                                        class="ms-1 mt-1">3d 8h
+                                                        56m</span></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-else-if="change_type === 'rent'">
+                        <div v-for="data in rent_data" :key="data">
+
+                            <div class="display-post">
+                                <div class="row p-0">
+                                    <div class="col-6 p-0">
+                                        <div class="display-left">
+                                            <v-img :src="data.img"></v-img>
+                                            <div class="overlay d-flex mx-auto">
+                                                <v-btn rounded elevation="10" color="warning" class="me-2">Edit
+                                                    post</v-btn>
+                                                <v-btn rounded elevation="10" color="#E86F52" class="">Delete
+                                                    post</v-btn>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 p-0">
+                                        <div class="display-right">
+
+                                            <h5 class="text-left my-0 px-0">{{ data.title }}</h5>
+                                            <span class="text-grey mb-4">hello world</span>
+
+                                            <p style="line-height: 16px;">Lorem ipsum dolor sit, amet consectetur
+                                                adipisicing elit. Enim iure, ea cum,
+                                                inventore libero nemo saepe sit optio repellendus.....</p>
+                                            <div class="d-flex w-100 justify-space-between">
+                                                <span class="fw-bold"><v-icon>mdi-currency-usd</v-icon>1345
+                                                    Lakh(Kyats)</span>
+                                                <span class="me-3 fw-bold" style="color: #E86F52;">{{ data.type
+                                                    }}</span>
+                                            </div>
+                                            <v-divider class="mx-auto mb-1 mt-2" :thickness="2"></v-divider>
+                                            <div class="px-2 d-flex justify-space-between">
+                                                <div><v-icon color="#E86F52">mdi-eye</v-icon> <span
+                                                        class="mt-1">322</span>
+                                                </div>
+                                                <div><v-icon color="#E86F52">mdi-clock-time-three-outline</v-icon><span
+                                                        class="ms-1 mt-1">3d 8h
+                                                        56m</span></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Show Created Post end -->
+                </div>
+
             </div>
         </div>
-        <br>
-        <div class="create-post-body">
-
-            <form @submit.prevent="submit">
-                <v-text-field v-model="name.value.value" :counter="10" :error-messages="name.errorMessage.value"
-                    label="Title"></v-text-field>
-
-                <v-select v-model="select.value.value" :error-messages="select.errorMessage.value" :items="Types"
-                    label="Select Types"></v-select>
-
-                <v-text-field v-model="phone.value.value" :counter="7" :error-messages="phone.errorMessage.value"
-                    label="Phone Number"></v-text-field>
-
-                <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
-                    label="E-mail"></v-text-field>
-
-                <v-checkbox v-model="checkbox.value.value" :error-messages="checkbox.errorMessage.value" label="Option"
-                    type="checkbox" value="1"></v-checkbox>
-
-                <v-btn class="me-4" type="submit">
-                    submit
-                </v-btn>
-
-                <v-btn @click="handleReset">
-                    clear
-                </v-btn>
-            </form>
-
-        </div>
     </div>
+
 </template>
 
 <script>
-
 export default {
     name: 'create_post',
-
     data: () => ({
-        selectedType: '',
+        location_id: '',
+        title: '',
+        description: '',
+        // image: [],
+        image: '',
+        price: '',
+        area: '',
+        house_type: '',
+        property_type: '',
+        locations: [],
+        selectedCountry: '',
+        selectedProvince: '',
+        selectedAmphoe: '',
+        selectedRegion: '',
+        selectedLocation: '',
+
+        change_type: 'sell',
+
+        sell_data: [
+
+            {
+                id: 1, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+            },
+            {
+                id: 2, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Sell'
+            },
+            {
+                id: 3, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
+            }, {
+                id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Sell'
+            },
+            {
+                id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-5.jpg'), type: 'Sell'
+            }, {
+                id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-6.jpg'), type: 'Sell'
+            },
+            {
+                id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-7.jpg'), type: 'Sell'
+            }, {
+                id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+            }
+
+        ],
+
+        rent_data: [
+
+            {
+                id: 1, title: 'International Playground', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
+            },
+            {
+                id: 2, title: 'Swimming Pool', img: require('@/assets/img/house-6.jpg'), type: 'Rent'
+            },
+            {
+                id: 3, title: 'Shopping Mall', img: require('@/assets/img/house-5.jpg'), type: 'Rent'
+            }, {
+                id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Rent'
+            },
+            {
+                id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
+            }, {
+                id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Rent'
+            },
+            {
+                id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+            }, {
+                id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
+            }
+
+        ],
+
+
+        rules: [
+
+            value => {
+                return !value || !value.length || value[0].size < 5000000 || 'Avatar size should be less than 5 MB!'
+            },
+        ],
     }),
 
-    watch: {
-        selectedType(newValue) {
-            if (newValue === 'Condo') {
-                this.phone.value = '';
-            }
+    computed: {
+
+        uniqueCountries() {
+            return [...new Set(this.locations.map(location => location.country_name))];
+        },
+
+        uniqueProvinces() {
+        // return [...new Set(this.locations.map(location => location.province))];
+            return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
+        },
+
+        uniqueAmphoes() {
+            return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
+        },
+
+        uniqueRegions() {
+            return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+        },
+
+        uniqueLocations() {
+            return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
+        },
+
+        filteredLocations() {
+        return this.locations.filter(location =>
+            location.country_name === this.selectedCountry &&
+            location.province === this.selectedProvince &&
+            location.amphoe === this.selectedAmphoe &&
+            location.region === this.selectedRegion
+        );
         }
-    }
+        },
+
+        mounted() {
+            const cachedData = this.getLocationsFromSessionStorage();
+            if(cachedData) {
+                this.locations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
+        },
+
+        methods: {
+
+            fetchLocations() {
+            fetch('http://localhost:8083/locations/getall')
+            .then(response => response.json())
+            .then(data => {
+                const mappedData = data.map(location => ({
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                }));
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+            })
+            .catch(error => {
+                console.error('Error fetching locations:', error);
+            });
+            },
+
+            getLocationsFromSessionStorage() {
+                const data = sessionStorage.getItem('locations');
+                return data ? JSON.parse(data) : null;
+            },
+            
+            // getLocationIdByRegion(region, selectedRegion) {
+            //     const location = this.locations.find(location => location.region === region);
+            //     return location ? location.location_id : null;
+            // }
+
+    },
+
 }
 </script>
+
+
+<!-- <script setup>
+    import { ref } from 'vue'
+    import { useField } from 'vee-validate'
+    // import axios from 'axios';
+
+    /* Field collection */
+    const title = useField('title')
+    const Description = useField('Description')
+    const houseTypes = useField('houseTypes')
+    const propertyTypes = useField('propertyTypes')
+    const price = useField('price')
+    const area = useField('area')
+    const image = useField('image')
+    let photoList = null
+
+    const HouseTypes = ref([
+        'Stand-alone House',
+        'Two-story House',
+        'Three-story House'
+    ])
+
+    const PropertyTypes = ref([
+        'Condo',
+        'Apartment'
+    ])
+
+    const selectedLocation = ref('')
+
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(photoList);
+    }
+
+    const submit = async () => {
+
+        const formData = {
+            title: title.value.value,
+            description: Description.value.value,
+            house_type: houseTypes.value.value,
+            property_type: propertyTypes.value.value,
+            price: price.value.value,
+            area: area.value.value,
+            photos: photoList,
+            locations: {
+                location_id: selectedLocation.value
+            }
+        };
+
+        // for (let i = 0; i < image.value.value.length; i++) {
+        //     formData.append('photos', image.value.value[i]);
+        // }
+
+        // console.log(formData);
+
+        // try {
+        //     const response = await axios.post('http://localhost:8083/savesellpost', formData)
+        //     console.log(response.data)
+        //     title.resetField();
+        //     Description.resetField();
+        //     houseTypes.resetField();
+        //     propertyTypes.resetField();
+        //     price.resetField();
+        //     area.resetField();
+        //     image.resetField();
+        // } catch (error) {
+        // console.error(error)
+        // }
+
+
+/* ---------------------------------------- */
+
+
+// const formData = new FormData();
+
+// // Append other form fields
+// formData.append('title', title.value.value);
+// formData.append('description', Description.value.value);
+// formData.append('house_type', houseTypes.value.value);
+// formData.append('property_type', propertyTypes.value.value);
+// formData.append('price', price.value.value);
+// formData.append('area', area.value.value);
+// formData.append('locations[location_id]', selectedLocation.value.value);
+
+// // Append image files
+// for (let i = 0; i < image.value.value.length; i++) {
+//     formData.append('photos', image.value.value[i].name);
+// }
+
+// console.log(formData);
+
+// fetch('http://localhost:8083/savesellpost', {
+//     method: 'POST',
+//     body: formData,
+//     headers: {
+//         // No need to set Content-Type, FormData handles it automatically
+//     }
+// })
+// .then(response => response.json())
+// .then(data => {
+//     console.log(data);
+//     title.resetField();
+//     Description.resetField();
+//     houseTypes.resetField();
+//     propertyTypes.resetField();
+//     price.resetField();
+//     area.resetField();
+//     image.resetField();
+// })
+// .catch(error => {
+//     console.error(error);
+// });
+
+
+
+
+/* ---------------------------------------- */
+
+    // const formData = new FormData();
+    // formData.append('sellPost', JSON.stringify({
+    //     title: title.value.value,
+    //     description: Description.value.value,
+    //     house_type: houseTypes.value.value,
+    //     property_type: propertyTypes.value.value,
+    //     price: price.value.value,
+    //     area: area.value.value,
+    //     photos: photoList,
+    //     locations: {
+    //         location_id: selectedLocation.value
+    //     }
+    // }));
+
+    // formData.append('sellPost', {
+    //     title: title.value.value,
+    //     description: Description.value.value,
+    //     house_type: houseTypes.value.value,
+    //     property_type: propertyTypes.value.value,
+    //     price: price.value.value,
+    //     area: area.value.value,
+    //     locations: {
+    //         location_id: selectedLocation.value
+    //     }
+    // });
+
+    // Append each file to formData
+    // for (let i = 0; i < image.value.value.length; i++) {
+    //     formData.append('photos', image.value.value[i]);
+    // }
+
+    // console.log(formData);
+
+    // try {
+    //     const response = await axios.post('http://localhost:8083/savesellpost', formData, {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data'
+    //         }
+    //     });
+    //     console.log(response.data);
+    //     title.resetField();
+    //     Description.resetField();
+    //     houseTypes.resetField();
+    //     propertyTypes.resetField();
+    //     price.resetField();
+    //     area.resetField();
+    //     image.resetField();
+    // } catch (error) {
+    //     console.error(error);
+    // }
+
+    // const formDataBlob = new Blob([formData], { type: 'multipart/form-data;boundary=' + formData.boundary });
+
+    fetch('http://localhost:8083/savesellpost', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            title.resetField();
+            Description.resetField();
+            houseTypes.resetField();
+            propertyTypes.resetField();
+            price.resetField();
+            area.resetField();
+            image.resetField();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    }
+
+    
+
+</script> -->
+
+
+
+
+
 
 <script setup>
-import { ref } from 'vue'
-import { useField, useForm } from 'vee-validate'
+    import { ref } from 'vue'
+    import { useField } from 'vee-validate'
+    import axios from 'axios';
 
-const { handleSubmit, handleReset } = useForm({
-    validationSchema: {
-        name(value) {
-            if (value?.length >= 2) return true
+    /* Field collection */
+    const title = useField('title')
+    const Description = useField('Description')
+    const houseTypes = useField('houseTypes')
+    const propertyTypes = useField('propertyTypes')
+    const price = useField('price')
+    const area = useField('area')
+    const image = useField('image')
+    let photoList = null
 
-            return 'Name needs to be at least 2 characters.'
-        },
-        phone(value) {
-            if (value?.length > 9 && /[0-9-]+/.test(value)) return true
+    const HouseTypes = ref([
+        'Stand-alone House',
+        'Two-story House',
+        'Three-story House'
+    ])
 
-            return 'Phone number needs to be at least 9 digits.'
-        },
-        email(value) {
-            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+    const PropertyTypes = ref([
+        'Condo',
+        'Apartment'
+    ])
 
-            return 'Must be a valid e-mail.'
-        },
-        select(value) {
-            if (value) return true
+    const selectedLocation = ref('')
 
-            return 'Select an item.'
-        },
-        checkbox(value) {
-            if (value === '1') return true
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(title.value.value)
+        console.log(Description.value.value)
+        console.log(photoList[0]);
+        console.log(selectedLocation.value)
+    }
 
-            return 'Must be checked.'
-        },
-    },
-})
-const name = useField('name')
-const phone = useField('phone')
-const email = useField('email')
-const select = useField('select')
-const checkbox = useField('checkbox')
+    // const submit = async () => {
+    //     // const formData = new FormData();
+    //     // formData.append('file', photoList[0]); // Assuming image is a File object
+    //     // formData.append('title', title.value.value);
+    //     // formData.append('description', Description.value.value);
+    //     // formData.append('house_type', houseTypes.value.value);
+    //     // formData.append('property_type', propertyTypes.value.value);
+    //     // formData.append('price', price.value.value);
+    //     // formData.append('area', area.value.value);
+    //     // formData.append('locations[location_id]', selectedLocation.value); // Assuming selectedLocation is the location ID
 
-const Types = ref([
-    'Apartment',
-    'Mini Condo',
-    'Condo',
-    'House',
-    'Land',
-    'Shop Office',
-    'Industrial zone',
-    'Hotel, Restaurant'
-])
+    //     const formData = {
+    //         title: title.value.value,
+    //         description: Description.value.value,
+    //         house_type: houseTypes.value.value,
+    //         property_type: propertyTypes.value.value,
+    //         price: price.value.value,
+    //         area: area.value.value,
+    //         image: photoList[0],
+    //         locations: {
+    //             location_id: selectedLocation.value
+    //         }
+    //     };
 
-const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
-})
+    //     console.log(formData);
+
+    //     // fetch('http://localhost:8083/savetestsellpost', {
+    //     //     method: 'POST',
+    //     //     body: formData
+    //     // })
+    //     // .then(response => {
+    //     //     if (!response.ok) {
+    //     //         throw new Error('Network response was not ok');
+    //     //     }
+    //     //     return response.json();
+    //     // })
+    //     // .then(data => {
+    //     //     console.log(data);
+    //     //     title.resetField();
+    //     //     Description.resetField();
+    //     //     houseTypes.resetField();
+    //     //     propertyTypes.resetField();
+    //     //     price.resetField();
+    //     //     area.resetField();
+    //     //     image.resetField();
+    //     // })
+    //     // .catch(error => {
+    //     //     console.error('There was a problem with the fetch operation:', error);
+    //     // });
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8083/savesellpost', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+    //         console.log(response.data);
+    //         title.resetField();
+    //         Description.resetField();
+    //         houseTypes.resetField();
+    //         propertyTypes.resetField();
+    //         price.resetField();
+    //         area.resetField();
+    //         image.resetField();
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+
+
+    const submit = async () => {
+        // const formData = new FormData();
+        // formData.append('file', photoList[0]); // Use 'file' as the key
+        // formData.append('title', title.value.value);
+        // formData.append('description', Description.value.value);
+        // formData.append('house_type', houseTypes.value.value);
+        // formData.append('property_type', propertyTypes.value.value);
+        // formData.append('price', price.value.value);
+        // formData.append('area', area.value.value);
+        // formData.append('locations', selectedLocation.value); // Append the location ID directly
+
+        const formData = {
+            title: title.value.value,
+            description: Description.value.value,
+            house_type: houseTypes.value.value,
+            property_type: propertyTypes.value.value,
+            price: price.value.value,
+            area: area.value.value,
+            file: photoList[0],
+            location_id: selectedLocation.value
+            // locations: {
+            //     location_id: selectedLocation.value
+            // }
+        };
+
+        console.log(formData);
+
+        try {
+            const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+            title.resetField();
+            Description.resetField();
+            houseTypes.resetField();
+            propertyTypes.resetField();
+            price.resetField();
+            area.resetField();
+            image.resetField();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+
 </script>
 
-<style>
-.create-post {
-    width: 100%;
-    height: auto;
-    padding: 20px 30px;
-    background-color: #fff;
 
 
-    .create-post-header {
-        width: 100%;
-        height: auto;
-        padding: 10px 0px;
-        display: flex;
-        justify-content: center;
-        background-color: #D9EDF7;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
 
-    .create-post-body {
-        border-radius: 10px;
-        box-shadow: 0px 4px 20px -1px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-        background-color: #F5F5F5;
 
-        .slide-left-enter-active,
-        .slide-left-leave-active {
-            transition: transform 0.5s, opacity 0.5s;
-        }
 
-        .slide-left-enter,
-        .slide-left-leave-to {
-            transform: translateX(0px);
-            opacity: 1;
-        }
 
-        .slide-left-leave-active {
-            transform: translateX(-100px);
-            opacity: 0;
-        }
-    }
-}
-</style> -->
 
-<template>
-    <div class="create-post">
-        <div class="create-post-header">
-            <div class="d-flex">
-                <v-icon>mdi-information</v-icon>&nbsp;
-                <h5>For sale</h5>
-            </div>
-        </div>
-        <br>
-        <div class="create-post-body">
 
 
 
-            <form action="/action_page.php">
 
-                <div class="row">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Title<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
 
-                        <input type="text" class="text-input form-control" id="validationServer01" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
 
-                    </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Type<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-
-
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="">Choose one</option>
-                            <option value="volvo">Apartment</option>
-                            <option value="saab">Condo</option>
-                            <option value="fiat">Mini Condo</option>
-                            <option value="audi">Industrial zone</option>
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Floor</span>
-                    </div>
-                    <div class="col-9">
-
-
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="">Choose one</option>
-                            <option value="volvo">floor1</option>
-                            <option value="saab">floor2</option>
-                            <option value="fiat">floor3</option>
-                            <option value="audi">floor4</option>
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Finish State</span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div>
-                            <input type="radio" class="form-check-input" id="Complete" name="finish" required>
-                            <label class="ms-1 form-check-label" for="Complete">Complete</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Currency</span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div class="d-flex align-center justify-space-between">
-                            <div>
-                                <input type="radio" class="form-check-input" id="validationFormCheck1" name="currency"
-                                    required>
-                                <label class="ms-1 form-check-label" for="validationFormCheck1">Myanmar (Kyats)</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="validationFormCheck2" name="currency"
-                                    required>
-                                <label class="ms-1 form-check-label" for="validationFormCheck2">Thai (baht)</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="validationFormCheck3" name="currency"
-                                    required>
-                                <label class="ms-1 form-check-label" for="validationFormCheck3">Us (Dollar)</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Price kyat(Lakh)<span class="text-red">*</span></span>
-
-                    </div>
-                    <div class="col-9">
-
-                        <input type="text" class="text-input form-control" id="validationServer01" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Price Per Sqrt Ft</span>
-                    </div>
-                    <div class="col-9">
-
-                        <input type="text" placeholder="optional" class="text-input form-control"
-                            id="validationServer01" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Price Per Acre</span>
-                    </div>
-                    <div class="col-9">
-
-                        <input type="text" placeholder="optional" class="text-input form-control"
-                            id="validationServer01" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Bank Installment</span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div class="d-flex align-center ">
-                            <div class="me-4">
-                                <input type="radio" class="form-check-input" id="bankinstallmentNo" name="bank"
-                                    required>
-                                <label class="ms-1 form-check-label" for="bankinstallmentNo">No</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="bankinstallmentYes" name="bank"
-                                    required>
-                                <label class="ms-1 form-check-label" for="bankinstallmentYes">Yes</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Area Type</span>
-                    </div>
-                    <div class="col-9 d-flex">
-
-                        <input type="text" placeholder="width" class="text-input form-control" id="width" required>
-                        &nbsp;&nbsp;
-                        <input type="text" placeholder="height" class="text-input form-control" id="height" required>
-
-
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Furnished or not <span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="volov">Choose one</option>
-                            <option value="volvo">No furnished</option>
-                            <option value="saab">Half furnished</option>
-                            <option value="fiat">Full furnished</option>
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Bedroom</span>
-                    </div>
-                    <div class="col-9">
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="volov">Choose one</option>
-                            <option value="volvo">1 room</option>
-                            <option value="volvo">2 room</option>
-                            <option value="volvo">4 room</option>
-                            <option value="volvo">5 room</option>
-                            <option value="volvo">6 room</option>
-                            <option value="volvo">7 room</option>
-                            <option value="volvo">8 room</option>
-                            <option value="volvo">9 room</option>
-                            <option value="volvo">10 room</option>
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Bathroom</span>
-                    </div>
-                    <div class="col-9">
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="volov">Choose one</option>
-                            <option value="volvo">1 room</option>
-                            <option value="volvo">2 room</option>
-                            <option value="volvo">4 room</option>
-                            <option value="volvo">5 room</option>
-                            <option value="volvo">6 room</option>
-                            <option value="volvo">7 room</option>
-                            <option value="volvo">8 room</option>
-                            <option value="volvo">9 room</option>
-                            <option value="volvo">10 room</option>
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Region,state<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="volov">Choose one</option>
-                            <option value="volvo">Yangon</option>
-                            <option value="volvo">Naypyitaw</option>
-                            <option value="volvo">Mandalay</option>
-                            <option value="volvo">Ayawady</option>
-                            <option value="volvo">Pago</option>
-                            <option value="volvo">Shan state</option>
-                            <option value="volvo">Mon state</option>
-
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Township<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-                        <select class="form-select select-input" id="validationServer04"
-                            aria-describedby="validationServer04Feedback" required>
-                            <option selected disabled value="volov">Choose one</option>
-                            <option value="volvo">Yangon</option>
-                            <option value="volvo">Naypyitaw</option>
-                            <option value="volvo">Mandalay</option>
-                            <option value="volvo">Ayawady</option>
-                            <option value="volvo">Pago</option>
-                            <option value="volvo">Shan state</option>
-                            <option value="volvo">Mon state</option>
-
-                        </select>
-                        <div id="validationServer04Feedback" class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Contact,Phone<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-
-                        <input type="number" class="text-input form-control" id="validationServer01" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Advertiser <span class="text-red">*</span> </span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div class="d-flex align-center ">
-                            <div class="me-4">
-                                <input type="radio" class="form-check-input" id="agent" name="Advertiser" required>
-                                <label class="ms-1 form-check-label" for="agent">Agent</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="owner" name="Advertiser" required>
-                                <label class="ms-1 form-check-label" for="owner">Owner</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1 d-flex">Description<span class="text-red">*</span></span>
-                    </div>
-                    <div class="col-9">
-
-                        <div>
-
-                            <textarea class="text-input form-control" id="exampleFormControlTextarea1"
-                                rows="3"></textarea>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Connect project</span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div class="d-flex align-center ">
-                            <div class="me-4">
-                                <input type="radio" class="form-check-input" id="projectno" name="project" required>
-                                <label class="ms-1 form-check-label" for="projectno">No</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="projectyes" name="project" required>
-                                <label class="ms-1 form-check-label" for="projectyes">Yes</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <span class="float-right mt-1">Connect Map</span>
-                    </div>
-                    <div class="col-9 mt-1">
-                        <div class="d-flex align-center ">
-                            <div class="me-4">
-                                <input type="radio" class="form-check-input" id="mapno" name="Map" required>
-                                <label class="ms-1 form-check-label" for="mapno">No</label>
-                            </div>
-                            <div>
-                                <input type="radio" class="form-check-input" id="mapyes" name="Map" required>
-                                <label class="ms-1 form-check-label" for="mapyes">Yes</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row-12 d-flex">
-                    <v-btn elevation="20" class="mt-3 submit-btn ms-auto" type="submit">Submit</v-btn>
-
-                </div>
-
-            </form>
-
-
-
-
-        </div>
-    </div>
-</template>
-
-<script>
-export default {
-    name: 'create_post',
-
-    data() {
-        return {
-            selectedType: '',
-        }
-    },
-
-    watch: {
-        selectedType(newValue) {
-            if (newValue === 'Condo') {
-                // Reset phone number when 'Condo' is selected
-                this.phone.value = '';
-            }
-        }
-    }
-}
-</script>
 
 <style>
-.create-post {
-    overflow: hidden;
+
+.create-post-section {
     width: 100%;
     height: auto;
-    padding: 20px 30px;
-    background-color: #fff;
 
-
-    .create-post-header {
+    /* Create post */
+    .create-post {
+        overflow: hidden;
         width: 100%;
         height: auto;
-        padding: 10px 0px;
-        display: flex;
-        justify-content: center;
-        background-color: #D9EDF7;
-        border-radius: 10px;
-        margin-bottom: 10px;
+        padding: 8px 12px !important;
+
+        background-color: #fff;
+
+        .form-header {
+            background-color: #D9EDF7;
+            padding: 1px 0px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-body {
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+        }
     }
 
-    .create-post-body {
+    /* Display post */
+    .display-post-section {
+        box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+        width: 100%;
+        height: 100%;
+        padding: 6px 16px;
         border-radius: 10px;
-        box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.4);
-        padding: 30px;
-        background-color: #F5F5F5;
 
-        form {
-            width: 80%;
-            margin: auto;
+        /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
 
-            .text-input {
-                width: 100%;
-                padding: 6px 10px;
-                font-size: 16px;
-                border-radius: 6px;
-                box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+        .display-post {
+            width: 100%;
+            max-height: 220px !important;
+            overflow: hidden;
+            background-color: #D9EDF7;
+            box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
+            margin-bottom: 14px;
+            border-radius: 4px;
+            animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
 
-                &:focus {
-                    outline: none;
-                    box-shadow: inset 0px 0px 6px #e86f52;
+            .display-left {
+                position: relative;
+
+                .overlay {
+                    width: 100%;
+                    height: 24%;
+                    left: 0;
+                    bottom: 74px;
+                    position: absolute;
+                    background-color: rgba(255, 255, 255, 0.8);
+                    backdrop-filter: blur(40px);
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    opacity: 0;
+                    transform: translateY(200px);
+                    border-bottom-left-radius: 4px;
+                    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+
+                    .v-btn {
+                        text-transform: capitalize;
+                    }
                 }
             }
 
-            .select-input {
-                overflow: hidden;
-                width: 100%;
-                padding: 6px 10px;
-                font-size: 16px;
-                border-radius: 6px;
-                box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+            .display-right {
+                padding: 10px 20px;
+                background-color: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
+                position: relative;
 
-                &:focus {
-                    outline: none;
-                    box-shadow: inset 0px 0px 6px #e86f52;
+                h5 {
+                    color: #E86F52;
                 }
+
+                p {
+                    text-indent: 30px;
+                }
+
             }
 
-            .form-check-input {
-                border: 3px solid #525252;
-                width: 20px;
-                height: 20px;
-                margin-top: 1px;
-                transition: all 0.1s ease-in-out;
-            }
 
-            .form-check-input:checked {
-                border: 3px solid #e86f52;
-                box-shadow: none;
-                background-color: #e86f52;
-            }
-
-            .submit-btn {
-                background-color: #e86f52;
-                color: #fff;
-                border-radius: 30px;
-                margin: 0 auto;
-            }
         }
 
-        .slide-left-enter-active,
-        .slide-left-leave-active {
-            transition: transform 0.5s, opacity 0.5s;
-        }
-
-        .slide-left-enter,
-        .slide-left-leave-to {
-            transform: translateX(0px);
+        .display-post:hover .overlay {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        .slide-left-leave-active {
-            transform: translateX(-100px);
-            opacity: 0;
-        }
+
+    }
+}
+
+@keyframes aniOne {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    38% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    55% {
+        animation-timing-function: ease-in;
+        transform: scale(0.7);
+    }
+
+    72% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    81% {
+        animation-timing-function: ease-in;
+        transform: scale(0.84);
+    }
+
+    89% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    95% {
+        animation-timing-function: ease-in;
+        transform: scale(0.95);
+    }
+
+    100% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
     }
 }
 </style>

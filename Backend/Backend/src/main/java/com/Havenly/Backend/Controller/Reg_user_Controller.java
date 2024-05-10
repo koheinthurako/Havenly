@@ -7,11 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,16 +25,13 @@ import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
-//import com.Havenly.Backend.Entity.PasswordResetToken;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 //import com.Havenly.Backend.Repo.TokenRepository;
 import com.Havenly.Backend.Service.Reg_user_Service;
-import com.Havenly.Backend.util.EmailUtil;
-
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/")
 public class Reg_user_Controller {
 	
@@ -76,8 +74,7 @@ public class Reg_user_Controller {
 			 @RequestBody Login login
 	) {
 		
-		Reg_user_DD user = regService
-				.Login(login.getEmail(), login.getPassword());
+		Reg_user_DD user = regService.Login(login.getEmail(), login.getPassword());
 		if (user == null) {
 			return ResponseEntity.badRequest().build();
 		}

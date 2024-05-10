@@ -367,95 +367,105 @@ export default createStore({
     Take_Userinfo: (state) => {
       const user = state.registerData.find(user => user.id === state.LoginedId);
       return user ? user : null;
-  }
+    }
 
   },
   mutations: {
 
-    // Register Section start 
-    Register_mut(state, getData) {
-      let temp = 0;
-      const isEmpty = state.registerData.length === 0;
 
-      if (!isEmpty) {
 
-        // If any data exist in registerData check email is Registered or not
-        for (const pp of state.registerData) {
-          for (const gg of getData) {
-            if (pp.gmail == gg.usermail) {
-              if (pp.name == gg.username) {
-                temp = 1;
-              }
-            }
-          }
-        }
+    // // Register Section start 
+    // Register_mut(state, getData) {
+    //   let temp = 0;
+    //   const isEmpty = state.registerData.length === 0;
 
-        // if Eamil is not Registered add as a new user
-        if (temp == 0) {
-          for (const gg of getData) {
-            let id = state.registerData.length+1;
-            state.registerData.push({
-              id: id,
-              name: gg.username,
-              gmail: gg.usermail,
-              pass: gg.password
-            })
-            state.LoginedId = id;
-            localStorage.setItem('LoginedId', state.LoginedId);
-          }
+    //   if (!isEmpty) {
 
-          state.Registered = !state.Registered;
-          localStorage.setItem('Registered', state.Registered);
+    //     // If any data exist in registerData check email is Registered or not
+    //     for (const pp of state.registerData) {
+    //       for (const gg of getData) {
+    //         if (pp.gmail == gg.usermail) {
+    //           if (pp.name == gg.username) {
+    //             temp = 1;
+    //           }
+    //         }
+    //       }
+    //     }
 
-          state.Logined = !state.Logined;
-          localStorage.setItem('Logined', state.Logined);
+    //     // if Eamil is not Registered add as a new user
+    //     if (temp == 0) {
+    //       for (const gg of getData) {
+    //         let id = state.registerData.length + 1;
+    //         state.registerData.push({
+    //           id: id,
+    //           name: gg.username,
+    //           gmail: gg.usermail,
+    //           pass: gg.password,
+    //           phone: gg.phone_no,
+    //           subscribe_id: '',
+    //           subscribe_package: '',
+    //           post_count: '',
+    //         })
+    //         state.LoginedId = id;
+    //         localStorage.setItem('LoginedId', state.LoginedId);
+    //       }
 
-        }
+    //       state.Registered = !state.Registered;
+    //       localStorage.setItem('Registered', state.Registered);
 
-      } else {
+    //       state.Logined = !state.Logined;
+    //       localStorage.setItem('Logined', state.Logined);
 
-        // this section will do when no data exist in DB
-        for (const gg of getData) {
-          let id = state.registerData.length+1;
-          state.registerData.push({
-            id: id,
-            name: gg.username,
-            gmail: gg.usermail,
-            pass: gg.password
-          })
-          state.LoginedId = id;
-          console.log("all data : "+state.registerData.id);
-          localStorage.setItem('LoginedId', state.LoginedId);
-        }
+    //     }
 
-        state.Registered = !state.Registered;
-        localStorage.setItem('Registered', state.Registered);
+    //   } else {
 
-        state.Logined = !state.Logined;
-        localStorage.setItem('Logined', state.Logined);
-      }
-    },
-    // Register Section end
+    //     // this section will do when no data exist in DB
+    //     for (const gg of getData) {
+    //       let id = state.registerData.length + 1;
+    //       state.registerData.push({
+    //         id: id,
+    //         name: gg.username,
+    //         gmail: gg.usermail,
+    //         pass: gg.password,
+    //         phone: gg.phone_no,
+    //         subscribe_id: '',
+    //         subscribe_package: '',
+    //         post_count: '',
+    //       })
+    //       state.LoginedId = id;
+    //       console.log("all data : " + state.registerData.id);
+    //       localStorage.setItem('LoginedId', state.LoginedId);
+    //     }
 
-    // Logout Mutation
-    LogoutMutation(state) {
-      console.log('Logout mutation');
-      console.log("check logout or not "+state.Logined);
-      console.log("check Loginedid "+state.LoginedId);
-      state.Logined = !state.Logined;
-      localStorage.setItem('Logined', state.Logined);
+    //     state.Registered = !state.Registered;
+    //     localStorage.setItem('Registered', state.Registered);
 
-      state.LoginedId = 'none';
-      localStorage.setItem('LoginedId', state.LoginedId);
-    },
+    //     state.Logined = !state.Logined;
+    //     localStorage.setItem('Logined', state.Logined);
+    //   }
+    // },
+    // // Register Section end
 
-    LoginMutation(state, get_id) {
-      state.Logined = !state.Logined;
-      localStorage.setItem('Logined', state.Logined);
+    // // Logout Mutation
+    // LogoutMutation(state) {
+    //   console.log('Logout mutation');
+    //   console.log("check logout or not " + state.Logined);
+    //   console.log("check Loginedid " + state.LoginedId);
+    //   state.Logined = !state.Logined;
+    //   localStorage.setItem('Logined', state.Logined);
 
-      state.LoginedId = get_id;
-      localStorage.setItem('LoginedId', state.LoginedId);
-    }
+    //   state.LoginedId = 'none';
+    //   localStorage.setItem('LoginedId', state.LoginedId);
+    // },
+
+    // LoginMutation(state, get_id) {
+    //   state.Logined = !state.Logined;
+    //   localStorage.setItem('Logined', state.Logined);
+
+    //   state.LoginedId = get_id;
+    //   localStorage.setItem('LoginedId', state.LoginedId);
+    // }
 
   },
   actions: {
@@ -479,7 +489,7 @@ export default createStore({
     // Login Action
     To_Login_Action(context, get_id) {
       context.commit('LoginMutation', get_id);
-    }
+    },
 
   },
   modules: {

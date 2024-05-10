@@ -9,13 +9,13 @@
 </template>
 
 <script>
-
+import navbar_vue from './components/For_App/navbarVue.vue'
 import footer_vue from './components/For_App/footerVue.vue'
 export default {
   name: 'App',
 
   components: {
-
+    navbar_vue,
     footer_vue
   },
 
