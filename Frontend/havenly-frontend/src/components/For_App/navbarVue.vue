@@ -16,7 +16,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: 
+            ('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -26,20 +27,25 @@
 
           <li class="nav-item">
             <router-link to="/package"
-              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Package</router-link>
+              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/tempDoc" :class="{ 'nav-link': true, active: isNavLinkActive('blog') }">Blog</router-link>
+            <router-link to="/subscribe"
+              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
           </li>
 
           <li class="nav-item">
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
           </li>
 
+          <!-- <li class="nav-item">
+            <router-link to="/userDashBoardNew"
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
+          </li> -->
           <li class="nav-item">
-            <router-link to="/userdashboard"
-              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
+            <router-link to="/userDashBoardNew"
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Create Post</router-link>
           </li>
         </ul>
 
@@ -55,22 +61,22 @@
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li>
+                  </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
                     </div>
                   </li>
                 </ul>
               </div>
-              <div v-else>
+              <!-- <div v-else>
                 <router-link to="/login" class="nav-link">Login</router-link>
-              </div>
+              </div> -->
             </div>
             <div v-else>
-              <router-link to="/loginakm" class="nav-link">Login</router-link>
+              <router-link v-model="loginText" to="/loginakm" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>
@@ -84,12 +90,13 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 export default {
   name: 'navbarVue',
+  loginText: 'Login',
 
   setup() {
     const activeNavLink = ref('');
     const router = useRouter();
 
-    const isNavLinkActive = (id) => {
+    const isNavLinkActiveSetup = (id) => {
       return id === activeNavLink.value;
     };
 
@@ -120,7 +127,7 @@ export default {
 
 
     return {
-      isNavLinkActive
+      isNavLinkActiveSetup
     };
   },
 
@@ -146,6 +153,26 @@ export default {
   },
 
   methods: {
+
+    checkLoginOrnot() {
+      const loginUser = sessionStorage.getItem('login_user');
+      if(loginUser) {
+        this.loginText = "Register";        
+      }
+    },
+
+    isNavLinkActive(routeName) {
+      // Return whether the route name matches the current route
+      return this.$route.name === routeName;
+    },
+    
+    // isLoggedIn() {
+    //   // Check if user information is stored in session storage
+    //   console.log("User is included in session storage");
+    //   const user = sessionStorage.getItem('login_user');
+    //   return !!user; // Return true if user is logged in, false otherwise
+    // },
+
     logout() {
       this.$store.dispatch('To_Logout_Action');
       this.$router.push('/home');

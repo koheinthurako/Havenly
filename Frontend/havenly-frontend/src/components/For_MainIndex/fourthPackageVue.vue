@@ -89,7 +89,7 @@
                                     <div>
                                         <blockquote>
                                             <span class="ms-5">
-                                                Your package are very unique and useful.
+                                                Package features are very simple and useful.
                                             </span>
                                             <footer>
                                                 <cite>
@@ -108,8 +108,10 @@
                         <div class="package-check">
                             <div class="package-data my-auto">
                                 <h1>Some valuable feedback from our Subscribers</h1>
-                                <p class="my-3"><span class="ms-5"></span>Unlock the potential of your online presence with our unbeatable website packages. From sleek designs to powerful features, we offer everything you need to stand out in the digital world. Subscribe now and elevate your brand to new heights!</p>
-                                <v-btn :elevation="20" to="/package" class="custom-btn">Go to package <v-icon class="custom-icon mt-1 ms-1">mdi-chevron-double-right</v-icon> </v-btn>
+                                <p class="my-3"><span class="ms-5"></span>Unlock the potential of your real estate business with our packages. 
+                                    We offer everything you need to stand out in the real estate world. 
+                                    Become a subscriber and build your home with us. Get Started with a FREE TRIAL.</p>
+                                <v-btn :elevation="20" to="/subscribe" class="custom-btn">Subscribe now<v-icon class="custom-icon mt-1 ms-1">mdi-chevron-double-right</v-icon> </v-btn>
                             </div>
                         </div>
 

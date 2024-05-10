@@ -7,6 +7,7 @@ import { loadFonts } from './plugins/webfontloader'
 
 // Import Bootstrap styles Need both Css and JS
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './assets/css/main.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
@@ -17,7 +18,8 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 // Import main SCSS file
-import './assets/css/main.scss' // Adjust the path as needed
+import '../src/assets/css/main.scss' // Adjust the path as needed
+
 
 
 

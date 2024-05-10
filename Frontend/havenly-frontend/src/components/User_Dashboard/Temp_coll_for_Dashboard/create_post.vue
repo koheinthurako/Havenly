@@ -1,6 +1,6 @@
 <template>
-    <div class="create-post-section px-5 py-4">
-        <div class="row">
+    <div class="create-post-section py-5">
+        <div class="row mt-5">
             <div class="col-md-7 p-0">
 
                 <!-- TZH Form -->
@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="form-body">
-                        <form @submit.prevent="submit" class="w-100 px-4 py-3">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
@@ -100,12 +100,27 @@
                                     <v-file-input counter multiple color="deep-purple-accent-4" chips
                                         truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
                                         prepend-icon="mdi-camera"></v-file-input>
                                 </div>
                             </div> -->
 
+
                             <div class="row justify-content-between">
+                                <div class="col-md-3 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                        truncate-length="15" v-model="image.value.value"
+                                        :error-messages="image.errorMessage.value" :rules="rules"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
+                                        prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
                                 </div>
@@ -114,7 +129,7 @@
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
                                         v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
@@ -258,7 +273,8 @@ export default {
         location_id: '',
         title: '',
         description: '',
-        image: [],
+        // image: [],
+        image: '',
         price: '',
         area: '',
         house_type: '',
@@ -328,7 +344,7 @@ export default {
         rules: [
 
             value => {
-                return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
+                return !value || !value.length || value[0].size < 5000000 || 'Avatar size should be less than 5 MB!'
             },
         ],
     }),
@@ -371,11 +387,13 @@ export default {
             if(cachedData) {
                 this.locations = cachedData;
             } else {
-                this.fetchLocations();
+                this.
+                
+                Locations();
             }
         },
 
-        methods: { 
+        methods: {
 
             fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
@@ -413,7 +431,6 @@ export default {
 }
 </script>
 
-
 <script setup>
     import { ref } from 'vue'
     import { useField } from 'vee-validate'
@@ -427,6 +444,7 @@ export default {
     const price = useField('price')
     const area = useField('area')
     const image = useField('image')
+    let photoList = null
 
     const HouseTypes = ref([
         'Stand-alone House',
@@ -441,6 +459,8 @@ export default {
 
     const selectedLocation = ref('')
 
+    
+
     const submit = async () => {
 
         const formData = {
@@ -450,19 +470,31 @@ export default {
             property_type: propertyTypes.value.value,
             price: price.value.value,
             area: area.value.value,
-            photos: [
-                image.value.value
-            ],
-            locations: {
-                location_id: selectedLocation.value
-            }
+            file: photoList[0],
+            location_id: selectedLocation.value
         };
 
-        console.log(formData);
+        // const formData = {
+        //     title: title.value.value,
+        //     description: Description.value.value,
+        //     house_type: houseTypes.value.value,
+        //     property_type: propertyTypes.value.value,
+        //     price: price.value.value,
+        //     area: area.value.value,
+        //     files: [photoList],
+        //     location_id: selectedLocation.value
+        // };
+
+        // console.log(formData.files);
+        
 
         try {
-            const response = await axios.post('http://localhost:8083/savesellpost', formData)
-            console.log(response.data)
+            const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
             title.resetField();
             Description.resetField();
             houseTypes.resetField();
@@ -471,54 +503,37 @@ export default {
             area.resetField();
             image.resetField();
         } catch (error) {
-        console.error(error)
+            console.error(error);
         }
+    };
 
-
-    // const formData = new FormData();
-    // formData.append('sellPost', JSON.stringify({
-    //     title: title.value.value,
-    //     description: Description.value.value,
-    //     house_type: houseTypes.value.value,
-    //     property_type: propertyTypes.value.value,
-    //     price: price.value.value,
-    //     area: area.value.value,
-    //     locations: {
-    //         location_id: selectedLocation.value
-    //     }
-    // }));
-
-    // // Append each file to formData
-    // for (let i = 0; i < image.value.value.length; i++) {
-    //     formData.append('photos', image.value.value[i]);
-    // }
-
-    // console.log(formData);
-
-    // try {
-    //     const response = await axios.post('http://localhost:8083/savesellpost', formData, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //         }
-    //     });
-    //     console.log(response.data);
-    //     title.resetField();
-    //     Description.resetField();
-    //     houseTypes.resetField();
-    //     propertyTypes.resetField();
-    //     price.resetField();
-    //     area.resetField();
-    //     image.resetField();
-    // } catch (error) {
-    //     console.error(error);
-    // }
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(title.value.value)
+        console.log(Description.value.value)
+        console.log(photoList);
+        console.log(selectedLocation.value)
     }
-
-
 
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style>
+
 .create-post-section {
     width: 100%;
     height: auto;

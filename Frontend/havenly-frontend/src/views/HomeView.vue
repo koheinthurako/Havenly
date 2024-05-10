@@ -1,9 +1,11 @@
 <template>
   <HelloWorld />
+  <VCreditCard/>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import VCreditCard from 'v-credit-card';
 
 // Components
 import HelloWorld from '../components/HelloWorld.vue';
@@ -13,6 +15,7 @@ export default defineComponent({
 
   components: {
     HelloWorld,
+    VCreditCard,
   },
 });
 </script>
