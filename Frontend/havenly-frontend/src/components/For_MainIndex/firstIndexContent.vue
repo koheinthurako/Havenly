@@ -55,11 +55,15 @@
             </div>
           </form>
         </div>
-        <GoogleMap
+        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
                 :center="center"
                 :zoom="zoom"
                 style="width: 100%; height: 400px; padding-bottom: 50px;">
             <!-- Add markers here if needed -->
+            <!-- <Marker :options="{position: this.center}"/> -->
+            <Marker v-for="(location, index) in mapLocations"
+            :key="index"
+            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
         </GoogleMap>
       </div>
     </div>
@@ -68,13 +72,14 @@
 
 <script>
 import json_data from '../../assets/json/thailand_location.json'
-import { GoogleMap } from '../../../node_modules/vue3-google-map'
+import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 
 export default {
   name: 'firstIndexContent',
 
   components: {
     GoogleMap,
+    Marker
   },
 
   data() {
@@ -86,8 +91,9 @@ export default {
       selectedAmphoe: '',
       selectedRegion: '',
       zipCode: '',
-      center: { lat: 0, lng: 0 }, // Initial center of the map
-      zoom: 10,
+      center: { lat: 16.90177, lng: 96.09596 }, // Initial center of the map
+      zoom: 13,
+      mapLocations: [],
     }
   },
 
@@ -112,18 +118,19 @@ export default {
     
     filteredLocations() {
       return this.locations.filter(location =>
-        location.country_name === this.selectedCountry &&
-        location.province === this.selectedProvince &&
-        location.amphoe === this.selectedAmphoe &&
-        location.district === this.selectedRegion
+        (!this.selectedCountry || location.country_name === this.selectedCountry) &&
+        (!this.selectedProvince || location.province === this.selectedProvince) &&
+        (!this.selectedAmphoe || location.amphoe === this.selectedAmphoe) &&
+        (!this.selectedRegion || location.region === this.selectedRegion)
       );
-    }
+    },
   },
 
   mounted() {
     const cachedData = this.getLocationsFromSessionStorage();
     if(cachedData) {
         this.locations = cachedData;
+        this.mapLocations = cachedData;
     } else {
         this.fetchLocations();
     }
@@ -146,7 +153,7 @@ export default {
           }));
           sessionStorage.setItem('locations', JSON.stringify(mappedData));
           this.locations = mappedData;
-
+          this.mapLocations = mappedData;
       })
       .catch(error => {
           console.error('Error fetching locations:', error);
@@ -159,7 +166,19 @@ export default {
     },
 
     submit() {
-      // Handle form submission
+      this.mapLocations = this.filteredLocations;
+      if (this.mapLocations.length > 0) {
+        const latitudes = this.mapLocations.map(location => parseFloat(location.latitude));
+        const longitudes = this.mapLocations.map(location => parseFloat(location.longitude));
+
+        const centerLat = (Math.min(...latitudes) + Math.max(...latitudes)) / 2;
+        const centerLng = (Math.min(...longitudes) + Math.max(...longitudes)) / 2;
+
+        this.center = { lat: centerLat, lng: centerLng };
+      } else {
+        // If there are no filtered markers, reset the center to the initial value
+        this.center = { lat: 16.90177, lng: 96.09596 };
+      }
       console.log('Form submitted');
     },
 
@@ -174,144 +193,6 @@ export default {
   }
 }
 </script>
-
-
-
-<!-- <script setup>
-import { ref, watch } from 'vue'
-import { useField, useForm } from 'vee-validate'
-
-let ppt = true
-
-const { handleSubmit } = useForm({
-    validationSchema: {
-        selectTypes(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        select(value) {
-            if (value) return true
-
-            return 'Select an item.'
-        },
-
-        selectRegion(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        selectTownShip(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        PriceFrom(value) {
-            if (value) {
-                ppt = false;
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-
-        PriceTo(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        Country(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-    }
-})
-
-const selectTypes = useField('selectTypes')
-const selectRegion = useField('selectRegion')
-const selectTownShip = useField('selectTownShip')
-const select = useField('select')
-const PriceFrom = useField('PriceFrom')
-const PriceTo = useField('PriceTo')
-const Country = useField('Country')
-
-const items = ref([
-    'Apartment',
-    'Mini Condo',
-    'Condo',
-    'House',
-    'Land',
-    'Shop, Office',
-    'Industrial Zone',
-    'Hotel, Restaurant',
-])
-
-const countries = ref([
-    'Myanmar',
-    'Thailand',
-
-])
-
-const prices = ref([
-    '100 (Lakh)',
-    '200 (Lakh)',
-    '300 (Lakh)',
-    '400 (Lakh)',
-    '500 (Lakh)',
-    '600 (Lakh)',
-    '700 (Lakh)',
-    '800 (Lakh)',
-    '900 (Lakh)',
-    '1000 (Lakh)',
-    '1100 (Lakh)',
-    '1200 (Lakh)',
-    '1300 (Lakh)',
-    '1400 (Lakh)',
-    '1500 (Lakh)',
-])
-
-
-const showSubmitButton = ref(false)
-
-watch([selectTypes.value, selectRegion.value, selectTownShip.value], () => {
-    if ((selectTypes.value.value !== '' || selectRegion.value.value !== '' || selectTownShip.value.value !== '')) {
-        showSubmitButton.value = true;
-    } else {
-        showSubmitButton.value = false;
-    }
-})
-
-const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
-})
-
-function clearFields() {
-    showSubmitButton.value = false;
-    selectTypes.value.value = '';
-    selectRegion.value.value = '';
-    selectTownShip.value.value = '';
-    selectTypes.errorMessage.value = '';
-    selectRegion.errorMessage.value = '';
-    selectTownShip.errorMessage.value = '';
-}
-</script> -->
 
 <style scoped>
 .v-select .v-select__selection:hover,

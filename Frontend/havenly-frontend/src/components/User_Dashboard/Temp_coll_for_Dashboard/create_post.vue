@@ -387,7 +387,9 @@ export default {
             if(cachedData) {
                 this.locations = cachedData;
             } else {
-                this.fetchLocations();
+                this.
+                
+                Locations();
             }
         },
 
