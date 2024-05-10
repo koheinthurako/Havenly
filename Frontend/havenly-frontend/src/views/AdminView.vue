@@ -12,10 +12,16 @@
                     
                
                 <ul class="sidebar-nav ">
+                  <li class="sidebar-item">
+                    <a class="sidebar-link"
+                        @click="pushhh()">
+                        <span>Pending Posts</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link"
                         @click="pushy()">
-                        <span>Home</span>
+                        <span>Users</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -145,6 +151,8 @@ import axios from 'axios';
       },
       logout(){
             router.push('/admin/login')
+        }, pushhh(){
+            router.push('/admin/post')
         }
     }
   }

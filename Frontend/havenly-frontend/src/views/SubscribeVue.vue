@@ -199,7 +199,7 @@ created() {
               const status=JSON.parse(response.status);
               if(status===200){
                 alert("Subscribed Successfully!");
-                this.userIsSubbed = true;
+              this.userIsSubbed = true;
                } 
                router.push('/home');
           })
