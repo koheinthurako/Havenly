@@ -136,6 +136,19 @@ export default {
           .then(data => {
             console.log(data);
             data.forEach(post => {
+                // let imageUrls = [];
+                // post.image.forEach(image => {
+                //     const reader = new FileReader();
+                //     reader.onloadend = () => {
+                //     imageUrls.push(reader.result);
+                //     };
+                //     reader.readAsDataURL(image);
+                // });
+
+                // if (post.image && post.image.length > 0) {
+                //     imageUrls = post.image.map(file => URL.createObjectURL(file));
+                // }
+
                 this.posts.push({
                     province: post.locations.province,
                     region: post.locations.region,
@@ -148,9 +161,12 @@ export default {
                     area: post.area,
                     price: post.price,
                     photo_url: 'data:image/jpeg;base64,' + post.image,
+                    // photo_url: [...post.image],
+                    // photo_url: imageUrls,
                 });
             });
             // console.log(this.posts);
+            console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

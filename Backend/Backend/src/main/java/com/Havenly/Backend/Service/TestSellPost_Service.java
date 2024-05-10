@@ -11,10 +11,10 @@ public interface TestSellPost_Service {
 	
 	public TestSellPost saveTestSellPost();
 	
-	public void savePhotosToDB(MultipartFile files, String title, String description, String price,
-			String area, String house_type, String property_type, Locations location_id);
-	
-//	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+//	public void savePhotosToDB(MultipartFile files, String title, String description, String price,
 //			String area, String house_type, String property_type, Locations location_id);
+	
+	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+			String area, String house_type, String property_type, Locations location_id);
 
 }

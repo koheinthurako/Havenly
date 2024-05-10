@@ -463,16 +463,16 @@ export default {
 
     const submit = async () => {
 
-        const formData = {
-            title: title.value.value,
-            description: Description.value.value,
-            house_type: houseTypes.value.value,
-            property_type: propertyTypes.value.value,
-            price: price.value.value,
-            area: area.value.value,
-            file: photoList[0],
-            location_id: selectedLocation.value
-        };
+        // const formData = {
+        //     title: title.value.value,
+        //     description: Description.value.value,
+        //     house_type: houseTypes.value.value,
+        //     property_type: propertyTypes.value.value,
+        //     price: price.value.value,
+        //     area: area.value.value,
+        //     file: photoList[0],
+        //     location_id: selectedLocation.value
+        // };
 
         // const formData = {
         //     title: title.value.value,
@@ -481,31 +481,60 @@ export default {
         //     property_type: propertyTypes.value.value,
         //     price: price.value.value,
         //     area: area.value.value,
-        //     files: [photoList],
+        //     files: [...photoList],
         //     location_id: selectedLocation.value
         // };
 
-        // console.log(formData.files);
+        // console.log(formData.files[0]);
         
 
+        // try {
+        //     const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         }
+        //     });
+        //     console.log(response.data);
+        //     title.resetField();
+        //     Description.resetField();
+        //     houseTypes.resetField();
+        //     propertyTypes.resetField();
+        //     price.resetField();
+        //     area.resetField();
+        //     image.resetField();
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+
+
+        const formData = new FormData();
+        formData.append('title', title.value.value);
+        formData.append('description', Description.value.value);
+        formData.append('house_type', houseTypes.value.value);
+        formData.append('property_type', propertyTypes.value.value);
+        formData.append('price', price.value.value);
+        formData.append('area', area.value.value);
+        formData.append('location_id', selectedLocation.value);
+
+        // Append the files as an array
+        photoList.forEach((file) => {
+            formData.append('files', file);
+        });
+
         try {
-            const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log(response.data);
-            title.resetField();
-            Description.resetField();
-            houseTypes.resetField();
-            propertyTypes.resetField();
-            price.resetField();
-            area.resetField();
-            image.resetField();
+        const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log(response.data);
+        // ...
         } catch (error) {
-            console.error(error);
+        console.error(error);
         }
-    };
+
+    };  
 
     function showUploadPhoto() {
         photoList = Object.values(image.value.value);

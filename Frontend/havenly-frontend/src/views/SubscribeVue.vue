@@ -143,17 +143,20 @@ created() {
     this.user.email = loginUserData.email;
 
     console.log('User is already logged in.');
+    alert("You have already subscribed!");
+    router.push('/');
     // router.push('/')
   } else {
     alert("Log in first to subscribe!");
     console.error('User email not found in sessionStorage.');
-      router.push('/login');
+      router.push('/loginakm');
     
   }
-  if(loginUserData.userIsSubbed){
-    alert("You have already subscribed!");
-    router.push('/');
-  }
+  console.log(loginUserData);
+  // if(loginUserData.userIsSubbed){
+  //   alert("You have already subscribed!");
+  //   router.push('/');
+  // }
 },
   methods: {
   updatePlaces(){

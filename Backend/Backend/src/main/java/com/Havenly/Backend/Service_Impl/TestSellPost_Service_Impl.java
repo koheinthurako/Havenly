@@ -34,59 +34,17 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 		return null;
 	}
 
-	@Override
-	public void savePhotosToDB(MultipartFile file, String title, String description, String price,
-			String area, String house_type, String property_type, Locations location_id) {
-		
-		TestSellPost tp = new TestSellPost();
-//		Locations location = new Locations();
-		
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		
-		if(fileName.contains("..")) {
-			System.out.println("Invalid file format!");
-		} 
-		tp.setTitle(title);
-		tp.setDescription(description);
-		tp.setPrice(price);
-		tp.setArea(area);
-		tp.setHouse_type(house_type);
-		tp.setProperty_type(property_type);
-		tp.setLocations(location_id);
-		
-		try {
-			tp.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		sellCount = (int) testSellRepo.count();
-		sellCount++;
-		String customId = "s" + sellCount;
-		
-		tp.setSell_post_id(customId);
-		tp.setDate(LocalDate.now());
-		tp.setTime(LocalTime.now());
-		
-		testSellRepo.save(tp);
-		
-		Posts post = new Posts();
-		post.setPost_type(customId);
-		post.setStatus("pending");
-		postsRepo.save(post);
-		
-	}
-	
-	
-	
-	
 //	@Override
-//	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+//	public void savePhotosToDB(MultipartFile file, String title, String description, String price,
 //			String area, String house_type, String property_type, Locations location_id) {
 //		
 //		TestSellPost tp = new TestSellPost();
-//		System.out.println(files.toString());
+//		
+//		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//		
+//		if(fileName.contains("..")) {
+//			System.out.println("Invalid file format!");
+//		} 
 //		tp.setTitle(title);
 //		tp.setDescription(description);
 //		tp.setPrice(price);
@@ -95,26 +53,12 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 //		tp.setProperty_type(property_type);
 //		tp.setLocations(location_id);
 //		
-//		StringBuilder imagesStringBuilder = new StringBuilder();
-//		
-//		for(MultipartFile file: files) {
-//			String fileName = LocalDate.now().getYear() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
-//			if(fileName.contains("..")) {
-//				System.out.println("Invalid file format!");
-//				continue;
-//			}
-//			try {
-//	            // Convert image data to base64 string
-//	            String imageData = Base64.getEncoder().encodeToString(file.getBytes());
-//	            // Append image data to the images string, separated by a delimiter (e.g., ";")
-//	            imagesStringBuilder.append(imageData).append(";");
-//	        } catch (IOException e) {
-//	            e.printStackTrace();
-//	        }
-//				
+//		try {
+//			tp.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+//		} catch (IOException e) {
+//			e.printStackTrace();
 //		}
 //		
-//		tp.setImage(imagesStringBuilder.toString());
 //		
 //		sellCount = (int) testSellRepo.count();
 //		sellCount++;
@@ -132,6 +76,65 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 //		postsRepo.save(post);
 //		
 //	}
+	
+	
+	
+	
+	@Override
+	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+			String area, String house_type, String property_type, Locations location_id) {
+		
+		TestSellPost tp = new TestSellPost();
+		System.out.println(files.toString());
+		tp.setTitle(title);
+		tp.setDescription(description);
+		tp.setPrice(price);
+		tp.setArea(area);
+		tp.setHouse_type(house_type);
+		tp.setProperty_type(property_type);
+		tp.setLocations(location_id);
+		
+		StringBuilder imagesStringBuilder = new StringBuilder();
+		
+		for(MultipartFile file: files) {
+			String fileName = LocalDate.now().getYear() + "_" + StringUtils.cleanPath(file.getOriginalFilename());
+			if(fileName.contains("..")) {
+				System.out.println("Invalid file format!");
+				continue;
+			}
+			try {
+	            // Convert image data to base64 string
+//	            String imageData = Base64.getEncoder().encodeToString(file.getBytes());
+	            // Append image data to the images string, separated by a delimiter (e.g., ";")
+//	            imagesStringBuilder.append(imageData).append(";");
+				
+				byte[] fileData = file.getBytes();
+	            // Append raw file data to the images string, separated by a delimiter (e.g., ";")
+	            imagesStringBuilder.append(new String(fileData)).append(";");
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+				
+		}
+		
+		tp.setImage(imagesStringBuilder.toString());
+		
+		sellCount = (int) testSellRepo.count();
+		sellCount++;
+		String customId = "s" + sellCount;
+		
+		tp.setSell_post_id(customId);
+		tp.setDate(LocalDate.now());
+		tp.setTime(LocalTime.now());
+		
+		testSellRepo.save(tp);
+		
+		Posts post = new Posts();
+		post.setPost_type(customId);
+		post.setStatus("pending");
+		postsRepo.save(post);
+		
+	}
 	
 	
 
