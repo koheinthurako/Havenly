@@ -31,7 +31,7 @@
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
                             <div class="cardImgBox mb-2">
-                                <img :src="post.photo_url" class="w-100 h-100" alt="Card image cap">
+                                <img :src="post.photo_url[1]" class="w-100 h-100" alt="Card image cap">
                             </div>
                             <div class="card-body p-3 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
@@ -134,7 +134,6 @@ export default {
         fetch('http://localhost:8083/gettestsellpost')
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             data.forEach(post => {
                 // let imageUrls = [];
                 // post.image.forEach(image => {
@@ -148,8 +147,14 @@ export default {
                 // if (post.image && post.image.length > 0) {
                 //     imageUrls = post.image.map(file => URL.createObjectURL(file));
                 // }
+                // let imageUrls = post.image;
 
-                this.posts.push({
+                // let imageUrls = post.image.map(imageData => {
+                //     return 'data:image/jpeg;base64,' + imageData; // Assuming JPEG format
+                // });
+                let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
+                console.log(imageUrls)
+                this.posts.unshift({
                     province: post.locations.province,
                     region: post.locations.region,
                     country: post.locations.countries.country_name,
@@ -160,13 +165,14 @@ export default {
                     property_type: post.property_type,
                     area: post.area,
                     price: post.price,
-                    photo_url: 'data:image/jpeg;base64,' + post.image,
+                    // photo_url: 'data:image/jpeg;base64,' + post.image,
+                    photo_url: imageUrls,
                     // photo_url: [...post.image],
                     // photo_url: imageUrls,
                 });
+                console.log(typeof(imageUrls))
             });
             // console.log(this.posts);
-            console.log(this.posts);
           })
           .catch(error => {
             console.error('Error fetching photos:', error);

@@ -37,7 +37,7 @@ public class TestSellPost {
 	
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
-	private String image;
+	private String[] image;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")

@@ -6055,3 +6055,4 @@ Caused by: java.lang.ClassNotFoundException: org.apache.el.util.JreCompat cannot
 2024-05-11 00:42:26,226 [Worker-68: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Programming\ITOJT\Havenly\Backend\Backend\src\test\resources
 2024-05-11 01:20:06,640 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@29b0dda2{STOPPING}[12.0.3,sto=0]
 2024-05-11 01:20:06,761 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@7035aad9{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-05-11 20:43:15,912 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.

@@ -528,8 +528,14 @@ export default {
             'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(response.data);
-        // ...
+            console.log(response.data);
+            title.resetField();
+            Description.resetField();
+            houseTypes.resetField();
+            propertyTypes.resetField();
+            price.resetField();
+            area.resetField();
+            image.resetField();
         } catch (error) {
         console.error(error);
         }

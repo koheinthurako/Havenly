@@ -86,7 +86,7 @@ public class TestSellPost_Controller {
 //	    Locations locationId = formData.getLocationId();
 //
 //	    for (MultipartFile file : files) {
-//	        System.out.println("Uploaded file: " + file.getOriginalFilename());
+//	        System.out.println("Uploaded file: " + file);
 //	    }
 //
 //	    testSellService.savePhotosToDB(files, title, description, price, area, houseType, propertyType, locationId);
