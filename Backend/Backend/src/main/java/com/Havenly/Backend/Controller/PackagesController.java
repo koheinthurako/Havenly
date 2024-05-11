@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Havenly.Backend.DTO.Packages_DD;
 import com.Havenly.Backend.DTO.Packages_DTO;
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.Packages;
@@ -41,23 +42,13 @@ public class PackagesController {
 		return new ResponseEntity <Packages_DTO>(packService.showPackage(pack),HttpStatus.OK);
 	}
 	
-	@PostMapping("/purchase")
-	public ResponseEntity <String> purchasePackage(@Valid @RequestBody Subscription_DTO dto){
+	@PostMapping("/payment")
+	public ResponseEntity <String> purchasePackage(@Valid @RequestBody Packages_DD dto){
 		if(dto == null) {
 			return ResponseEntity.badRequest().build();
 		}
-		String email = dto.getEmail();
-		String packType = dto.getPackageType();
-		if(subRepo.findByEmail(dto.getEmail())==null) {
-			return ResponseEntity.notFound().build();
-		}
-//		if (pack.getPayment() == null) {
-//			return ResponseEntity.badRequest().build();
-//		}
-		if (dto.getPackageType() == null) {
-			return ResponseEntity.badRequest().build();
-		}
-		Packages_DTO pack = packService.buyPack(email, packType);
+		
+		Packages_DD pack = packService.buyPack(dto.getEmail(), dto.getPackageType(), dto.getAmount());
 		if (pack == null) {
 			return ResponseEntity.internalServerError().build();
 		}

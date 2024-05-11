@@ -27,7 +27,7 @@
                                 <h3 class="d-flex">
                                     <div>Free</div>&nbsp;&nbsp;Trial
                                 </h3>
-                                <h5>For subscribers only</h5>
+                                <h5>For subscribers</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">$ 0</h1>
@@ -57,10 +57,10 @@
 
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" to="/packages/purchase">
+                                <v-btn elevation="20" class="sub-btn" to="/subscribe">
                                     <div class="toggle-v-l">
                                         <span class="visible">Try Free Trial</span>
-                                        <span class="later-visible">Buy now</span>
+                                        <span class="later-visible">Subscribe now</span>
                                         
                                     </div>
                                 </v-btn>
@@ -75,13 +75,13 @@
                         <div class="temp-package">
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
-                                    <div>Normal</div>&nbsp;&nbsp;package
+                                    <div>{{ items1.name }}</div>&nbsp;&nbsp;package
                                 </h3>
                                 <h5>For average users</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">
-                                    $ 25
+                                    $ {{items1.price}}
                                 </h1>
                             </div>
 
@@ -109,7 +109,7 @@
 
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" to="/packages/purchase">
+                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items1)">
                                     <div class="toggle-v-l">
                                         <span class="visible">Buy Normal</span>
                                         <span class="later-visible">Buy now</span>
@@ -124,13 +124,13 @@
                         <div class="temp-package">
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
-                                    <div>Premium</div>&nbsp;&nbsp;package
+                                    <div>{{items2.name}}</div>&nbsp;&nbsp;package
                                 </h3>
                                 <h5>For real-estate agents</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">
-                                    $ 50
+                                    $ {{items2.price}}
                                 </h1>
                             </div>
 
@@ -159,7 +159,7 @@
 
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" to="/packages/purchase">
+                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items2)">
                                     <div class="toggle-v-l">
                                         <span class="visible">Buy Premium</span>
                                         <span class="later-visible">Buy now</span>
@@ -202,7 +202,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 // import Swal from 'sweetalert2';
 
@@ -210,6 +209,10 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 import { EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+
+import router from '@/router';
+// import axios from 'axios';
+
 export default {
     name: 'tempForPackage',
 
@@ -221,7 +224,8 @@ export default {
 
         return {
             modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
-
+            items1: { name: 'Normal', price: 25},
+            items2: { name: 'Premium',price: 50},
         };
     },
 
@@ -246,6 +250,13 @@ export default {
                 }
             }, 20);
         },
+        parseAndGoNext(item) {
+      // Parse data and store in session storage
+      sessionStorage.setItem('packageName', JSON.stringify(item));
+            
+      // Go to the next page
+      router.push('/packages/payment'); // Assuming you're using Vue Router
+    }
 
     },
 

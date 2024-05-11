@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.DTO.Packages_DD;
 import com.Havenly.Backend.DTO.Packages_DTO;
 import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
@@ -25,9 +26,8 @@ public class PackagesServiceImpl implements PackagesService{
 	@Autowired
 	SubscribeRepo subRepo;
 
-	Packages pack = new Packages(); 
+	Packages_DD pack_dd = new Packages_DD();
 	Packages_DTO pack_dto = new Packages_DTO();
-	
 
 	@Override
 	public boolean delete(Packages pack) {
@@ -44,26 +44,33 @@ public class PackagesServiceImpl implements PackagesService{
 	}
 
 	@Override
-	public boolean payment(String pay) {
-		pack.setPayment(pay);
-		return true;
+	public boolean payment(String packType, int amount) {
+		int total = packTypesRepo.getPriceByPackName(packType);
+		
+		if(amount == total) {
+			return true;
+		}
+		return false;
 	}
 
-	@Override
-	public Packages findById(int pid) {
-		return packRepo.findById(pid).orElse(null);
-	}
 
 	@Override
-	public Packages_DTO buyPack(String email, String packType) {
+	public Packages_DD buyPack(String email, String packType, int amount) {
 		Subscription subUser = subRepo.findByEmail(email);
 		PackageTypes packTypes = packTypesRepo.findByPackName(packType);
-		Packages packUser = new Packages();
-		packUser.setSub1(subUser);
+		Packages packUser = subUser.getPackages();
+		if(packUser==null) {
+			return null;
+		}
+		if(!(this.payment(packType, amount))) {
+			return null;
+		}		
+//		packUser.setSub1(subUser);
 		packUser.setPackType(packTypes);
 		packUser.setPackDate(LocalDate.now());
 		packUser.setPackTime(LocalDateTime.now());	
-			
+		packUser.setPayment("OK");
+		
 		Packages packUser2 = packRepo.save(packUser);
 			
 		subUser.setPackages(packUser2);
@@ -72,15 +79,16 @@ public class PackagesServiceImpl implements PackagesService{
 		subUser.setPackageType(packType);
 		subRepo.save(subUser);
 		
-		Packages_DTO packUser3 = pack_dto.convertToObject(packUser2);
+		Packages_DD packUser3 = pack_dd.convertToObject(packUser2);
 		return packUser3;
+		
 	}
 
 	@Override
 	public Packages_DTO showPackage(Packages_DTO dto) {
 		Packages packUser = pack_dto.convertToEntity(dto);
-		Packages packUser1 = this.findById(packUser.getPackageId());
-		Packages_DTO packUser2 = pack_dto.convertToObject(packUser1);
+		
+		Packages_DTO packUser2 = pack_dto.convertToObject(packUser);
 		return packUser2;
 	}
 

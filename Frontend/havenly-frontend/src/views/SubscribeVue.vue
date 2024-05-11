@@ -138,21 +138,20 @@
     // Fetch session data from sessionStorage
     const loginUser = sessionStorage.getItem('login_user');
     const loginUserData = JSON.parse(loginUser);
-    if (loginUser) {
-      
+    const subbedUser = sessionStorage.getItem('subbed_user');
+    if (loginUser !== null) {    
       this.user.email = loginUserData.email;
-
-      console.log('User is logged in.');
+      console.log('User is logged in.'); 
+      if(loginUserData.nrc !== null || subbedUser !== null){
+      alert("You have already subscribed!");
+      router.push('/packages');
+    }
     } else {
       alert("Log in first to subscribe!");
       console.error('User email not found in sessionStorage.');
-        router.push('/login');
-      
+        router.push('/login'); 
     }
-    if(loginUserData.userIsSubbed){
-      alert("You have already subscribed!");
-      router.push('/home');
-    }
+   
   },
     methods: {
     updatePlaces(){

@@ -10,7 +10,7 @@ import PackagesView from '@/views/PackagesView.vue'
 import testPhoto from '@/components/For_Testing/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
-
+import CreditCard from '@/views/CreditCard.vue'
 
 
 
@@ -32,7 +32,7 @@ const routes = [
     component: SubscribeVue
   },
   {
-    path: '/cancel',
+    path: '/subscribe/cancel',
     name: 'CancelSubscription',
     component: CancelSubscription
   },
@@ -60,7 +60,11 @@ const routes = [
     name: 'packageDoc',
     component: tempDoc
   },
-
+  {
+    path: '/packages/payment',
+    name: 'CreditCard',
+    component: CreditCard
+  },
   {
     path: '/testphoto',
     name: 'testphoto',
