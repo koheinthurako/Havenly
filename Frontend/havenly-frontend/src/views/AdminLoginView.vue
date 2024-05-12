@@ -62,9 +62,10 @@ export default {
           axios.post("http://localhost:8083/admin/login",this.user)
            
             .then(function(response){
+              sessionStorage.setItem('admin_user',JSON.stringify(response.data))
                     const status=JSON.parse(response.status);
                     if(status=='200'){
-                        router.push('/admin');
+                        router.push('/admin/post');
                     }
                     
                         })

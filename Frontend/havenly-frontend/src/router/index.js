@@ -114,7 +114,8 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-  component : AdminView
+  component : AdminView,
+  meta: { requiresAdmin: true }
   },
   {
     path: '/admin/login',
@@ -124,12 +125,15 @@ const routes = [
   {
     path: '/admin/ban',
     name: 'AdminBanList',
-    component: AdminBanList
+    component: AdminBanList,
+    meta: { requiresAdmin: true }
   },
   {
     path: '/admin/post',
     name: 'AdminPost',
-    component: AdminPost
+    component: AdminPost,
+    meta: { requiresAdmin: true },
+   
   },
   
   
@@ -143,7 +147,11 @@ const router = createRouter({
   routes
 })
 
+
 router.beforeEach((to, from, next) => {
+
+  const admin = sessionStorage.getItem('admin_user');
+
   // Check if the route requires authentication
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // Check if user is logged in
@@ -164,11 +172,14 @@ router.beforeEach((to, from, next) => {
         next();
       }
     }
-  } else {
+  } 
+  else if(to.meta.requiresAdmin == true && !admin){
+    next('/admin/login');
+  }
+  else {
     // If the route does not require authentication, proceed to the route
     // console.log("you will go to main")
     next();
-
     // const user = sessionStorage.getItem('login_user');
     // if (to.name === 'profile' && user) {
     //     next('/userdashboard');
@@ -176,6 +187,12 @@ router.beforeEach((to, from, next) => {
     //   next();
     // }
   }
-})
+  
+  
+}
+)
+
+
+
 
 export default router
