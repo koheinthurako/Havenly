@@ -44,8 +44,8 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
           </li> -->
           <li class="nav-item">
-            <router-link to="/userDashBoardNew"
-              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Create Post</router-link>
+            <router-link to="/userdashboard"
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
           </li>
         </ul>
 
@@ -76,7 +76,7 @@
               </div> -->
             </div>
             <div v-else>
-              <router-link v-model="loginText" to="/loginakm" class="nav-link">Login</router-link>
+              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{loginText}}</router-link>
             </div>
           </li>
         </ul>
@@ -90,16 +90,15 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 export default {
   name: 'navbarVue',
-  loginText: 'Login',
 
   setup() {
+    
     const activeNavLink = ref('');
     const router = useRouter();
 
     const isNavLinkActiveSetup = (id) => {
       return id === activeNavLink.value;
     };
-
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -134,10 +133,12 @@ export default {
   data() {
     return {
       activeDataLink: '',
+      loginText: 'Login',
     };
   },
 
   computed: {
+
     user_data() {
       return this.$store.getters.Take_Userinfo
     },
@@ -153,13 +154,6 @@ export default {
   },
 
   methods: {
-
-    checkLoginOrnot() {
-      const loginUser = sessionStorage.getItem('login_user');
-      if(loginUser) {
-        this.loginText = "Register";        
-      }
-    },
 
     isNavLinkActive(routeName) {
       // Return whether the route name matches the current route

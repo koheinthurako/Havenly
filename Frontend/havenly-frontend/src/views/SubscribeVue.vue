@@ -141,11 +141,12 @@ created() {
   if (loginUser) {
     
     this.user.email = loginUserData.email;
-
-    console.log('User is already logged in.');
-    alert("You have already subscribed!");
-    router.push('/');
-    // router.push('/')
+    if(loginUser.userIsSubbed == true) {
+      alert("You have already subscribed!");
+      router.push('/')
+    } else {
+      router.push('/subscribe');
+    }
   } else {
     alert("Log in first to subscribe!");
     console.error('User email not found in sessionStorage.');
@@ -204,7 +205,7 @@ created() {
                 alert("Subscribed Successfully!");
                 this.userIsSubbed = true;
                } 
-               router.push('/home');
+              //  router.push('/home');
           })
           .catch(httpErrorHandler);
     }
@@ -237,7 +238,6 @@ created() {
       .then(response => {
         this.nrcData = response.data; // Store fetched NRC data
         console.log(this.nrcData);
-        console.log("Nrc checking is working")
       })
       .catch(httpErrorHandler);
     }

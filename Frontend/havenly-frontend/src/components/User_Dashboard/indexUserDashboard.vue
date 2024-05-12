@@ -12,58 +12,41 @@
             <ul class="sidebar-nav ">
                 <li class="sidebar-item">
 
-                    <a class="sidebar-link" :class="{ active: activeDash === 'profile' }"
+                    <a class="sidebar-link" :class="{ active: openTab === 'profile' }"
                         @click="changeTab('profile'); toggleSidebar2()">
                         <v-icon>mdi-account</v-icon>
                         <span>Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'all-post' }"
+                    <a class="sidebar-link" :class="{ active: openTab === 'all-post' }"
                         @click="changeTab('all-post'); toggleSidebar2()">
                         <v-icon>mdi-database</v-icon>
                         <span>All post</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'saved-post' }"
-                        @click="changeTab('saved-post'); toggleSidebar2()">
-                        <v-icon>mdi-content-save-all</v-icon>
-                        <span>Saved post</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'create-post' }"
-                        @click="openDialog('create-post'); toggleSidebar2()">
+                    <a class="sidebar-link" :class="{ active: openTab === 'create-sell-post' }"
+                        @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
                         <v-icon>mdi-shape-plus</v-icon>
-                        <span>Create Post</span>
+                        <span>Create Sell Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'create-ads' }"
-                        @click="changeTab('create-ads'); toggleSidebar2()">
+                    <a class="sidebar-link" :class="{ active: openTab === 'create-rent-post' }"
+                        @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
+                        <v-icon>mdi-shape-plus</v-icon>
+                        <span>Create Rent Post</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" :class="{ active: openTab === 'create-ads' }"
+                        @click="changeTabForSub('create-ads'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
                     </a>
                 </li>
-
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'notification' }"
-                        @click="changeTab('notification'); toggleSidebar2()">
-                        <v-icon>mdi-bell-ring</v-icon>
-                        <span>Notification</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: activeDash === 'settings' }"
-                        @click="changeTab('settings'); toggleSidebar2()">
-                        <v-icon>mdi-cog</v-icon>
-                        <span>Setting</span>
-                    </a>
-                </li>
-
-
 
             </ul>
             <div class="d-flex custom-logout" @click="logout" style="cursor:pointer;">
@@ -79,178 +62,9 @@
 
 
 
-        <!-- dialog start -->
-        <v-dialog v-model="dialogDash" class="create-pop-up" persistent>
-
-            <!-- main-close-btn-start -->
-            <v-btn class="main-close" @click="changeTab('profile'); toggleSidebar2(); closeDialog()">
-                <v-icon>mdi-close-circle-outline</v-icon>
-            </v-btn>
-            <!-- main-close-btn-end -->
-
-            <!-- swiper start -->
-            <swiper :keyboard="true" :loop="false" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true"
-                :slidesPerView="'auto'" :navigation="true" :mousewheel="true" :coverflowEffect="{
-                    rotate: 10,
-                    stretch: 0,
-                    depth: 30,
-                    modifier: 2.5,
-                    slideShadows: true,
-                }" :modules="modules" class="mySwiper">
-
-                <!-- package one start -->
-                <swiper-slide>
-                    <div class="temp-package">
-                        <div style="line-height: 0px;">
-                            <h3 class="d-flex">
-                                Create Post for sell
-                            </h3>
-                            <span class="text-grey mt-1">Read some docs.</span>
-                        </div>
 
 
-                        <div class="w-100 mt-5 px-4">
-
-                            <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p1">Over
-                                    all 3
-                                    posts.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p2">Over
-                                    all 3 ads.
-                                </p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p3">3
-                                    images per
-                                    post.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p4">1000
-                                    words per
-                                    post.</p>
-                            </div>
-
-                        </div>
-                        <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                            <v-btn elevation="20" class="sub-btn"
-                                @click="changeTab('create-post-real'); toggleSidebar2(); closeDialog()">
-                                <div class="toggle-v-l">
-                                    <span class="visible">Create</span>
-                                    <span class="later-visible">Sale Post</span>
-                                </div>
-                            </v-btn>
-                        </div>
-                    </div>
-                </swiper-slide>
-                <!-- package one end -->
-
-                <!-- package two start -->
-                <swiper-slide>
-                    <div class="temp-package">
-                        <div style="line-height: 0px;">
-                            <h3 class="d-flex">
-                                Create post for Rent
-                            </h3>
-                            <span class="text-grey mt-1">Read some docs.</span>
-                        </div>
-
-
-                        <div class="w-100 mt-5 px-4">
-
-                            <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p1">Over
-                                    all 3
-                                    posts.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p2">Over
-                                    all 3 ads.
-                                </p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p3">3
-                                    images per
-                                    post.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p4">1000
-                                    words per
-                                    post.</p>
-                            </div>
-
-                        </div>
-                        <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                            <v-btn elevation="20" class="sub-btn"
-                                @click="changeTab('create-post-real'); toggleSidebar2(); closeDialog()">
-                                <div class="toggle-v-l">
-                                    <span class="visible">Create</span>
-                                    <span class="later-visible">Rent Post</span>
-                                </div>
-                            </v-btn>
-                        </div>
-                    </div>
-                </swiper-slide>
-                <!-- package two end -->
-
-                <!-- package three start -->
-                <swiper-slide>
-                    <div class="temp-package">
-                        <div style="line-height: 0px;">
-                            <h3 class="d-flex">
-                                Create post for Hostel
-                            </h3>
-                            <span class="text-grey mt-1">Read some docs.</span>
-                        </div>
-
-
-                        <div class="w-100 mt-5 px-4">
-
-                            <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p1">Over
-                                    all 3
-                                    posts.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p2">Over
-                                    all 3 ads.
-                                </p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p3">3
-                                    images per
-                                    post.</p>
-                            </div>
-                            <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                    class="p4">1000
-                                    words per
-                                    post.</p>
-                            </div>
-
-                        </div>
-                        <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                            <v-btn elevation="20" class="sub-btn"
-                                @click="changeTab('create-post-real'); toggleSidebar2(); closeDialog()">
-                                <div class="toggle-v-l">
-                                    <span class="visible">Create</span>
-                                    <span class="later-visible">Hostel Post</span>
-                                </div>
-                            </v-btn>
-                        </div>
-                    </div>
-                </swiper-slide>
-                <!-- package three end -->
-
-
-
-
-            </swiper>
-            <!-- swiper end -->
-        </v-dialog>
-        <!-- dialog end -->
-
-        <div class="main-data">
+        <div class="main-data px-5 py-4">
 
 
             <div class="row">
@@ -258,34 +72,25 @@
 
 
                     <div v-if="openTab === 'profile'">
-                        <profile />
+                        <profile_page />
                     </div>
                     <div v-else-if="openTab === 'all-post'">
                         <h3>All Post Content</h3>
                         <p>This is where the add post content will be displayed.</p>
                     </div>
-                    <div v-else-if="openTab === 'saved-post'">
-                        <h3>Saved Post Content</h3>
-                        <p>This is where the add post content will be displayed.</p>
+
+                    <div v-else-if="openTab === 'create-sell-post'">
+
+                        <create_sell_post_page />
                     </div>
-                    <div v-else-if="openTab === 'create-post'">
-                        <!-- for nothing ;) -->
-                        <div style="width: 100%; height: 130vh;"></div>
-                    </div>
-                    <div v-else-if="openTab === 'create-post-real'">
-                        <create_post_page />
+
+                    <div v-else-if="openTab === 'create-rent-post'">
+
+                        <create_rent_post_page />
                     </div>
                     <div v-else-if="openTab === 'create-ads'">
                         <h3>Add Ads Content</h3>
                         <p>This is where the add ads content will be displayed.</p>
-                    </div>
-                    <div v-else-if="openTab === 'notification'">
-                        <h3>Notification Content</h3>
-                        <p>This is where the logout content will be displayed.</p>
-                    </div>
-                    <div v-else-if="openTab === 'settings'">
-                        <h3>Settings Content</h3>
-                        <p>This is where the settings content will be displayed.</p>
                     </div>
                 </div>
 
@@ -311,70 +116,36 @@
 </template>
 
 <script>
-import profile from './Temp_coll_for_Dashboard/profileVue.vue'
-
-import create_post_page from './Temp_coll_for_Dashboard/create_post.vue'
-
 
 import Swal from 'sweetalert2';
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
+// page import 
+import profile_page from './Temp_coll_for_Dashboard/profileVue.vue'
+import create_sell_post_page from './Temp_coll_for_Dashboard/create_sell_post.vue'
+import create_rent_post_page from './Temp_coll_for_Dashboard/create_rent_post.vue'
+import router from '@/router';
 
-import 'swiper/css';
-
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-
-import { EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 export default {
     name: 'indexUserDashboard',
+
     components: {
-        profile,
-        create_post_page,
-
-        // for Swiper 
-        Swiper,
-        SwiperSlide,
-    },
-
-    setup() {
-        return {
-            modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
-        };
+        profile_page,
+        create_sell_post_page,
+        create_rent_post_page
     },
 
     data() {
-        const storedDialogDash = localStorage.getItem('dialogDash');
-        const dialogDash = storedDialogDash !== null && storedDialogDash !== undefined ? storedDialogDash === 'true' : false;
+        // const storedDialogDash = localStorage.getItem('dialogDash');
+        // const dialogDash = storedDialogDash !== null && storedDialogDash !== undefined ? storedDialogDash === 'true' : false;
         return {
-            isExpanded: false,
+            isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
-            dialogDash: dialogDash,
-            activeDash: localStorage.getItem('activeDash') || 'profile',
             openTab: localStorage.getItem('openTab') || 'profile',
         };
     },
     methods: {
-        openDialog(tab) {
 
-            if (tab === 'create-post-real') {
-                this.activeDash = 'create-post';
-                this.openTab = 'create-post-real';
-                this.dialogDash = true;
-            } else {
-                this.activeDash = tab;
-                this.openTab = tab;
-                this.dialogDash = true;
-            }
-            localStorage.setItem('dialogDash', this.dialogDash);
-            localStorage.setItem('openTab', tab);
-            localStorage.setItem('activeDash', tab);
-        },
-        closeDialog() {
-            this.dialogDash = false;
-            localStorage.setItem('dialogDash', false);
-        },
 
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
@@ -390,16 +161,19 @@ export default {
         },
 
         changeTab(tab) {
-            if (tab === 'create-post-real') {
-                this.activeDash = 'create-post';
-                this.openTab = 'create-post-real';
-            } else {
-                this.activeDash = tab;
-                this.openTab = tab;
-            }
-            localStorage.setItem('activeDash', this.activeDash);
+            this.openTab = tab;
             localStorage.setItem('openTab', this.openTab);
+        },
 
+        changeTabForSub(tab) {
+            const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
+            if(checkSubUser.userIsSubbed === true) {
+                this.openTab = tab;
+                localStorage.setItem('openTab', this.openTab);
+            } else {
+                alert("This is for subscriber user only. Please subscribe first")
+                router.push('/subscribe');
+            }
         },
 
         closeSidebarOnClickOutside(event) {
@@ -407,6 +181,9 @@ export default {
                 this.isExpanded = false;
             }
         },
+
+
+        // for Logout 
         logout() {
             Swal.fire({
                 title: 'Be careful!',
@@ -429,6 +206,7 @@ export default {
                 }
             });
         }
+
     },
     mounted() {
         window.addEventListener('click', this.closeSidebarOnClickOutside);
@@ -467,161 +245,6 @@ export default {
         }
     }
 
-    .swiper {
-        width: 90%;
-        overflow: hidden;
-
-        .swiper-slide {
-            background-position: center;
-            background-size: cover;
-            width: 340px;
-            height: 400px;
-            filter: blur(3px);
-            transition: all 0.4s ease-in-out;
-            overflow: hidden;
-
-            .temp-package {
-                background-color: #fff;
-                width: 100%;
-                height: 100%;
-                border-radius: 18px;
-                box-shadow: inset 0px 0px 7px rgba(0, 0, 0, 0.6);
-                padding: 40px 20px;
-
-                .v-icon {
-                    color: #e86f52;
-                }
-
-                h3 {
-                    color: #525252;
-                }
-
-                h1 {
-                    span {
-                        color: #525252;
-                    }
-                }
-
-                .temp-btn {
-                    position: relative;
-                    overflow: hidden;
-
-                    .sub-btn {
-                        width: 80%;
-                        padding: 20px 0px;
-                        display: inline-flex;
-                        border-radius: 18px;
-                        text-transform: capitalize;
-                        background-color: #525252;
-                        color: #fff;
-                        cursor: default;
-
-                        .toggle-v-l {
-                            display: inline-block;
-                            height: 100%;
-                            width: 100%;
-                            display: flex;
-                            justify-content: center;
-
-                            .visible,
-                            .later-visible {
-                                transition: all 0.3s ease-in-out;
-                            }
-
-                            .later-visible {
-                                opacity: 0;
-                                position: absolute;
-                                bottom: -100px;
-                                color: #202842;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        .swiper-slide-active {
-            filter: blur(0px);
-
-            .temp-package {
-                background-color: #202842;
-                color: #fff;
-
-                .temp-btn {
-                    .sub-btn {
-                        cursor: pointer;
-                    }
-                }
-
-                .v-icon {
-                    color: rgb(12, 218, 12);
-                }
-
-                h3 {
-
-
-                    color: #fff;
-                }
-
-                h1 {
-                    animation: moveLeftAndBack 0.3s both;
-                    color: #e86f52;
-                }
-
-                .p1 {
-                    animation: moveRightAndBack 0.2s both;
-                }
-
-                .icon-1 {
-                    animation: zoomin 0.22s both;
-                }
-
-                .p2 {
-                    animation: moveRightAndBack 0.3s both;
-                }
-
-                .icon-2 {
-                    animation: zoomin 0.32s both;
-                }
-
-                .p3 {
-                    animation: moveRightAndBack 0.4s both;
-                }
-
-                .icon-3 {
-                    animation: zoomin 0.42s both;
-                }
-
-                .p4 {
-                    animation: moveRightAndBack 0.5s both;
-                }
-
-                .icon-4 {
-                    animation: zoomin 0.52s both;
-                }
-
-                .temp-btn {
-                    position: relative;
-
-                    .sub-btn {
-                        background-color: #e86f52;
-                    }
-
-                    &:hover .visible {
-                        color: #202842;
-                        opacity: 0;
-                        transform: translateY(-50px);
-                    }
-
-                    &:hover .later-visible {
-                        opacity: 1 !important;
-                        bottom: 0px !important;
-                        color: #fff !important;
-                    }
-                }
-            }
-        }
-    }
 }
 
 
@@ -639,7 +262,7 @@ export default {
 
     /* for Desktop */
     .main-data {
-        margin-top: 5%;
+        margin-top: 7%;
     }
 }
 
@@ -662,7 +285,8 @@ export default {
     height: 100vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
-    background-color: #0e2238;
+    padding-top: 43px;
+    background-color: #525252;
     display: flex;
     flex-direction: column;
 

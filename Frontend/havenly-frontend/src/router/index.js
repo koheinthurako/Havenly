@@ -5,17 +5,18 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
-// import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
 // import AdminView from '../views/AdminView.vue'
 // import AdminLoginView from '../views/AdminLoginView.vue'
-import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
+// import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
+import PostsView from '@/views/PostsView.vue'
 
 
 
@@ -68,18 +69,18 @@ const routes = [
     name: 'PackagesView',
     component: PackagesView
   },
-  {
-    path: '/userDashBoardNew',
-    name: 'userDashBoardNew',
-    component: userDashBoardNew,
-    meta: { requiresAuth: true }
-  },
   // {
-  //   path: '/userdashboard',
-  //   name: 'User_dashboard',
-  //   component: userDashboard,
+  //   path: '/userDashBoardNew',
+  //   name: 'userDashBoardNew',
+  //   component: userDashBoardNew,
   //   meta: { requiresAuth: true }
   // },
+  {
+    path: '/userdashboard',
+    name: 'User_dashboard',
+    component: userDashboard,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/testingPage',
     name: 'testingPage',
@@ -94,6 +95,11 @@ const routes = [
     path: '/tempDoc',
     name: 'tempDoc',
     component: tempDoc
+  },
+  {
+    path: '/PostsView',
+    name: 'PostsView',
+    component: PostsView
   },
   // {
   //   path: '/testphoto',
@@ -119,16 +125,18 @@ router.beforeEach((to, from, next) => {
       next('/loginakm');
     } else {
       // If user is logged in, proceed to the route
-      const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
-      if(loginUser.userIsSubbed === false) {
-        alert("You are not subscriber please subscribe first!")
-        next('/subscribe')
-        console.log("you are in subscribe page")
-      } else {
-        console.log("subscribe page to home")
-        next();
-      }
+      // const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+      // if(loginUser.userIsSubbed === false) {
+      //   alert("You are not subscriber please subscribe first!")
+      //   next('/subscribe')
+      //   console.log("you are in subscribe page")
+      // } else {
+      //   console.log("subscribe page to home")
+      //   next();
+      // }
+      next();
     }
+
   } else {
     // If the route does not require authentication, proceed to the route
     // console.log("you will go to main")

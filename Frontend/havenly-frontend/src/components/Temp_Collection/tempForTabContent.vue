@@ -23,7 +23,7 @@
             <!-- Render real data from database-->
 
             <div class="row mb-5 g-3">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 600px;">
@@ -31,7 +31,7 @@
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
                             <div class="cardImgBox mb-2">
-                                <img :src="post.photo_url[1]" class="w-100 h-100" alt="Card image cap">
+                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                             </div>
                             <div class="card-body p-3 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
@@ -75,7 +75,12 @@
 </template>
 
 <script>
+import router from '@/router';
+
+// import postView from '../../views/PostsView.vue';
+
 export default {
+
     name: 'tempVue',
 
     props: {
@@ -84,6 +89,10 @@ export default {
             required: true
         }
     },
+
+    // components: {
+    //     postView,
+    // },
 
     data: () => ({
         posts : [],
@@ -152,8 +161,14 @@ export default {
                 // let imageUrls = post.image.map(imageData => {
                 //     return 'data:image/jpeg;base64,' + imageData; // Assuming JPEG format
                 // });
+                if(post.description.length > 100) {
+                    let des = post.description;
+                    post.description = des.substring(0, 100) + "...";
+                }
+                
                 let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
                 console.log(imageUrls)
+                console.log(post);
                 this.posts.unshift({
                     province: post.locations.province,
                     region: post.locations.region,
@@ -161,7 +176,7 @@ export default {
                     post_id: post.sell_post_id,
                     title: post.title,
                     description: post.description,
-                    house_type: post.house_type,
+                    // house_type: post.house_type,
                     property_type: post.property_type,
                     area: post.area,
                     price: post.price,
@@ -241,6 +256,13 @@ export default {
                 this.animated = !this.animated; // Toggle animated to refresh the animations
             }, 0);
         },
+
+        clickPost(post) {
+            console.log("You clicked post!")
+            console.log(post.post_id);
+            router.push('/PostsView')
+        }
+
     },
 
     watch: {
