@@ -203,7 +203,7 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	
 	@Override
 	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
-	        String area, String house_type, String property_type, Locations location_id) {
+	        String area, String property_type, Locations location_id) {
 
 	    TestSellPost tp = new TestSellPost();
 
@@ -211,7 +211,6 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	    tp.setDescription(description);
 	    tp.setPrice(price);
 	    tp.setArea(area);
-	    tp.setHouse_type(house_type);
 	    tp.setProperty_type(property_type);
 	    tp.setLocations(location_id);
 

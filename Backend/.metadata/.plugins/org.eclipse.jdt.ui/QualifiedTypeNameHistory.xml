@@ -10,7 +10,6 @@
     <fullyQualifiedTypeName name="com.Havenly.Backend.Service.SellPost_Service"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="org.springframework.http.MediaType"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.lang.Byte"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.SellPost"/>
     <fullyQualifiedTypeName name="java.nio.file.Files"/>
@@ -33,7 +32,6 @@
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.TestSellPost_Repo"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Lob"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.Column"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Posts"/>
@@ -45,7 +43,6 @@
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Locations"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.NRC_DTO"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.NRC_Repo"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
@@ -60,4 +57,7 @@
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.MultiPartFormData"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
     <fullyQualifiedTypeName name="jakarta.servlet.MultipartConfigElement"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Column"/>
 </qualifiedTypeNameHistroy>

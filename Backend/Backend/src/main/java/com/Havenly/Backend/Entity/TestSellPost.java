@@ -29,10 +29,13 @@ public class TestSellPost {
 	private LocalDate date;
 	private LocalTime time;
 	private String title;
+	
+	@Column(name = "description", length = 10000)
 	private String description;
+	
 	private String price;
 	private String area;
-	private String house_type;
+//	private String house_type;
 	private String property_type;
 	
 	@Lob
