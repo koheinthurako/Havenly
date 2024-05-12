@@ -83,9 +83,9 @@
                             <div style="padding: 20px;">
                                 <v-row>
                                 <v-col cols="6">
-                                    <v-btn @click="approve()">Approve</v-btn>
+                                    <v-btn @click="approve(post)">Approve</v-btn>
                                 </v-col>
-                                <v-col @click="cancel()" cols="6">
+                                <v-col @click="cancel(post)" cols="6">
                                     <v-btn>Cancel</v-btn>
                                 </v-col>
                             </v-row>
@@ -153,7 +153,7 @@ export default {
           });
       },
 
-      approve(){
+      approve(post){
 
         function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
@@ -167,7 +167,7 @@ export default {
                             }
         }
 
-        axios.put("http://localhost:8083/posts/update",this.posts[0])
+        axios.put("http://localhost:8083/posts/update",post)
         .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status=='200'){
@@ -177,7 +177,7 @@ export default {
             })
             .catch(httpErrorHandler)
       },
-      cancel(){
+      cancel(post){
 
 function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {
@@ -191,7 +191,7 @@ function httpErrorHandler(error) {
                     }
 }
 
-axios.put("http://localhost:8083/posts/decline",this.posts[0])
+axios.put("http://localhost:8083/posts/decline",post)
 .then(function(response){
         const status=JSON.parse(response.status);
         if(status=='200'){
