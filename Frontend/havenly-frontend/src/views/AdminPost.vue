@@ -58,7 +58,7 @@
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
                             <div class="cardImgBox mb-2">
-                                <img :src="post.photo_url" class="w-100 h-100" alt="Card image cap">
+                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                             </div>
                             <div class="card-body p-4 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
@@ -128,6 +128,8 @@ export default {
           .then(data => {
             console.log(data);
             data.forEach(post => {
+                let imgUrls= Array.isArray(post.testsellpostss.image)?post.testsellpostss.image:[post.testsellpostss.image]
+                console.log(post)
                 this.posts.push({
                     post_id :post.post_id,
                     status : post.status,
@@ -143,8 +145,9 @@ export default {
                     property_type: post.testsellpostss.property_type,
                     area: post.testsellpostss.area,
                     price: post.testsellpostss.price,
-                    photo_url: 'data:image/jpeg;base64,' + post.testsellpostss.image,
+                    photo_url: imgUrls,
                 });
+                console.log(imgUrls)
             });
             // console.log(this.posts);
           })

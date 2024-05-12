@@ -24,12 +24,10 @@ import AdminBanList from '../views/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
-<<<<<<< HEAD
+
 import AdminPost from '@/views/AdminPost.vue'
 
-=======
 import PostsView from '@/views/PostsView.vue'
->>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
 
 
 
@@ -109,15 +107,12 @@ const routes = [
     name: 'tempDoc',
     component: tempDoc
   },
-<<<<<<< HEAD
 
-=======
   {
     path: '/PostsView',
     name: 'PostsView',
     component: PostsView
   },
->>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
   // {
   //   path: '/testphoto',
   //   name: 'testphoto',
@@ -185,16 +180,12 @@ router.beforeEach((to, from, next) => {
       // }
       next();
     }
-<<<<<<< HEAD
   } 
   else if(to.meta.requiresAdmin == true && !admin){
     next('/admin/login');
   }
   else {
-=======
 
-  } else {
->>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
     // If the route does not require authentication, proceed to the route
     // console.log("you will go to main")
     next();
