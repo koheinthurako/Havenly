@@ -23,7 +23,7 @@
             <!-- Render real data from database-->
 
             <div class="row mb-5 g-3">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 600px;">
@@ -31,9 +31,9 @@
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
                             <div class="cardImgBox mb-2">
-                                <img :src="post.photo_url" class="w-100 h-100" alt="Card image cap">
+                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                             </div>
-                            <div class="card-body p-4 d-flex flex-column">
+                            <div class="card-body p-3 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small opacity-75">{{ post.description }}</p>
                                 <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
@@ -75,7 +75,12 @@
 </template>
 
 <script>
+import router from '@/router';
+
+// import postView from '../../views/PostsView.vue';
+
 export default {
+
     name: 'tempVue',
 
     props: {
@@ -84,6 +89,10 @@ export default {
             required: true
         }
     },
+
+    // components: {
+    //     postView,
+    // },
 
     data: () => ({
         posts : [],
@@ -134,21 +143,49 @@ export default {
         fetch('http://localhost:8083/gettestsellpost')
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             data.forEach(post => {
-                this.posts.push({
+                // let imageUrls = [];
+                // post.image.forEach(image => {
+                //     const reader = new FileReader();
+                //     reader.onloadend = () => {
+                //     imageUrls.push(reader.result);
+                //     };
+                //     reader.readAsDataURL(image);
+                // });
+
+                // if (post.image && post.image.length > 0) {
+                //     imageUrls = post.image.map(file => URL.createObjectURL(file));
+                // }
+                // let imageUrls = post.image;
+
+                // let imageUrls = post.image.map(imageData => {
+                //     return 'data:image/jpeg;base64,' + imageData; // Assuming JPEG format
+                // });
+                if(post.description.length > 100) {
+                    let des = post.description;
+                    post.description = des.substring(0, 100) + "...";
+                }
+                
+                let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
+                console.log(imageUrls)
+                console.log(post);
+                this.posts.unshift({
                     province: post.locations.province,
                     region: post.locations.region,
                     country: post.locations.countries.country_name,
                     post_id: post.sell_post_id,
                     title: post.title,
                     description: post.description,
-                    house_type: post.house_type,
+                    // house_type: post.house_type,
                     property_type: post.property_type,
                     area: post.area,
                     price: post.price,
-                    photo_url: 'data:image/jpeg;base64,' + post.image,
+                    // photo_url: 'data:image/jpeg;base64,' + post.image,
+                    photo_url: imageUrls,
+                    // photo_url: [...post.image],
+                    // photo_url: imageUrls,
                 });
+                console.log(typeof(imageUrls))
             });
             // console.log(this.posts);
           })
@@ -156,6 +193,40 @@ export default {
             console.error('Error fetching photos:', error);
           });
       },
+
+
+
+    // fetchPosts() {
+    //     // Make API call to fetch posts from backend
+    //     fetch('http://localhost:8083/gettestsellpost')
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         console.log(data);
+    //         data.forEach(post => {
+    //             let images = post.image.split(';');
+    //             let photo_urls = images.map(image => 'data:image/jpeg;base64,' + image); 
+    //             this.posts.push({
+    //                 province: post.locations.province,
+    //                 region: post.locations.region,
+    //                 country: post.locations.countries.country_name,
+    //                 post_id: post.sell_post_id,
+    //                 title: post.title,
+    //                 description: post.description,
+    //                 house_type: post.house_type,
+    //                 property_type: post.property_type,
+    //                 area: post.area,
+    //                 price: post.price,
+    //                 photo_url: photo_urls,
+    //             });
+    //         });
+    //         // console.log(this.posts);
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching photos:', error);
+    //       });
+    //   },
+
+
 
         // Method to limit the number of slides based on the viewport size
         limitSlides(slides) {
@@ -185,6 +256,13 @@ export default {
                 this.animated = !this.animated; // Toggle animated to refresh the animations
             }, 0);
         },
+
+        clickPost(post) {
+            console.log("You clicked post!")
+            console.log(post.post_id);
+            router.push('/PostsView')
+        }
+
     },
 
     watch: {

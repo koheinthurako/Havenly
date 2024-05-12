@@ -1,53 +1,8 @@
 <!-- <template>
     <div class="first-index">
-        <div class="button-group d-flex">
+      <div class="button-group d-flex flex-column">
+        <div class="filterBox">
             <div class="form-header">
-                <h5>Choose location</h5>
-            </div>
-            <form @submit.prevent="submit" class="form-edit">
-                <div class="row">
-                    <div class=" p-0 row-1">
-                        <v-select variant="solo" v-model="selectedProvince" :items="uniqueProvinces"
-                            :error-messages="selectTypes.errorMessage.value" label="Select a province"
-                            required></v-select>
-                        <v-select variant="solo" v-model="selectedAmphoe" :items="uniqueAmphoes"
-                            :error-messages="selectRegion.errorMessage.value" :disabled="!selectedProvince"
-                            label="Select an amphoe" required></v-select>
-                        <v-select variant="solo" v-model="selectedRegion" :items="uniqueDistricts"
-                            :error-messages="selectTownShip.errorMessage.value" :disabled="!selectedAmphoe"
-                            label="Select a district" required></v-select>
-                        <v-text-field variant="solo" v-model="zipCode" label="Zip Code"
-                            :disabled="!selectedRegion"></v-text-field>
-
-                        <div class="form-btn-group" :hidden="!zipCode || !selectedRegion">
-                            <v-btn class="me-3 submit" type="submit">Search</v-btn>
-                            <v-btn class="clear" @click="clearFields">clear</v-btn>
-                        </div>
-                    </div>
-                    <div class=" p-0 row-2">
-                        <v-select variant="solo" v-model="Country.value.value"
-                            :error-messages="Country.errorMessage.value" :items="countries"
-                            label="Select Country" class="bg-white"></v-select>
-                        <v-select variant="solo" v-model="select.value.value"
-                            :error-messages="select.errorMessage.value" :items="items" label="All Types"></v-select>
-                        <v-select variant="solo" v-model="PriceFrom.value.value"
-                            :error-messages="PriceFrom.errorMessage.value" :items="prices"
-                            label="Price range(from)"></v-select>
-                        <v-select variant="solo" v-model="PriceTo.value.value"
-                            :error-messages="PriceTo.errorMessage.value" :items="prices" label="Price range(to)"
-                            :disabled="ppt"></v-select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</template> -->
-
-
-<template>
-    <div class="first-index">
-      <div class="button-group d-flex">
-        <div class="form-header">
           <h5 class="text-white">Choose your desire</h5>
         </div>
         <form @submit.prevent="submit" class="form-edit">
@@ -62,23 +17,70 @@
                 <v-btn class="clear" @click="clearFields">Clear</v-btn>
               </div>
             </div>
-            <!-- <div class="p-0 row-2">
-              <v-select bg-color="white" v-model="Country.value.value" :items="countries" label="Select Country"></v-select>
-              <v-select bg-color="white" v-model="select.value.value" :items="items" label="All Types"></v-select>
-              <v-select bg-color="white" v-model="PriceFrom.value.value" :items="prices" label="Price range(from)"></v-select>
-              <v-select bg-color="white" v-model="PriceTo.value.value" :items="prices" label="Price range(to)" :disabled="ppt"></v-select>
-            </div> -->
           </div>
         </form>
+        </div>
+        <GMapMap>
+            <g-map-map
+                :center="center"
+                :zoom="zoom"
+                style="width: 100%; height: 400px"
+            >
+            </g-map-map>
+        </GMapMap>
+      </div>
+    </div>
+  </template> -->
+
+
+  <template>
+    <div class="first-index mt-5 pt-5">
+      <div class="button-group d-flex flex-column mt-5 py-5">
+        <div class="filterBox">
+          <div class="form-header">
+            <h5 class="text-white">Choose your desire</h5>
+          </div>
+          <form @submit.prevent="submit" class="form-edit">
+            <div class="row">
+              <div class="p-0 row-1">
+                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
+                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
+                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                <div class="form-btn-group" :hidden="!selectedRegion">
+                  <v-btn class="me-3 submit" type="submit">Search</v-btn>
+                  <v-btn class="clear" @click="clearFields">Clear</v-btn>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
+                :center="center"
+                :zoom="zoom"
+                style="width: 100%; height: 400px; padding-bottom: 50px;">
+            <!-- Add markers here if needed -->
+            <!-- <Marker :options="{position: this.center}"/> -->
+            <Marker v-for="(location, index) in mapLocations"
+            :key="index"
+            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
+        </GoogleMap>
       </div>
     </div>
   </template>
 
+
 <script>
 import json_data from '../../assets/json/thailand_location.json'
+import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 
 export default {
   name: 'firstIndexContent',
+
+  components: {
+    GoogleMap,
+    Marker
+  },
 
   data() {
     return {
@@ -89,6 +91,9 @@ export default {
       selectedAmphoe: '',
       selectedRegion: '',
       zipCode: '',
+      center: { lat: 16.90177, lng: 96.09596 }, // Initial center of the map
+      zoom: 13,
+      mapLocations: [],
     }
   },
 
@@ -113,18 +118,19 @@ export default {
     
     filteredLocations() {
       return this.locations.filter(location =>
-        location.country_name === this.selectedCountry &&
-        location.province === this.selectedProvince &&
-        location.amphoe === this.selectedAmphoe &&
-        location.district === this.selectedRegion
+        (!this.selectedCountry || location.country_name === this.selectedCountry) &&
+        (!this.selectedProvince || location.province === this.selectedProvince) &&
+        (!this.selectedAmphoe || location.amphoe === this.selectedAmphoe) &&
+        (!this.selectedRegion || location.region === this.selectedRegion)
       );
-    }
+    },
   },
 
   mounted() {
     const cachedData = this.getLocationsFromSessionStorage();
     if(cachedData) {
         this.locations = cachedData;
+        this.mapLocations = cachedData;
     } else {
         this.fetchLocations();
     }
@@ -147,7 +153,7 @@ export default {
           }));
           sessionStorage.setItem('locations', JSON.stringify(mappedData));
           this.locations = mappedData;
-
+          this.mapLocations = mappedData;
       })
       .catch(error => {
           console.error('Error fetching locations:', error);
@@ -160,7 +166,19 @@ export default {
     },
 
     submit() {
-      // Handle form submission
+      this.mapLocations = this.filteredLocations;
+      if (this.mapLocations.length > 0) {
+        const latitudes = this.mapLocations.map(location => parseFloat(location.latitude));
+        const longitudes = this.mapLocations.map(location => parseFloat(location.longitude));
+
+        const centerLat = (Math.min(...latitudes) + Math.max(...latitudes)) / 2;
+        const centerLng = (Math.min(...longitudes) + Math.max(...longitudes)) / 2;
+
+        this.center = { lat: centerLat, lng: centerLng };
+      } else {
+        // If there are no filtered markers, reset the center to the initial value
+        this.center = { lat: 16.90177, lng: 96.09596 };
+      }
       console.log('Form submitted');
     },
 
@@ -175,144 +193,6 @@ export default {
   }
 }
 </script>
-
-
-
-<!-- <script setup>
-import { ref, watch } from 'vue'
-import { useField, useForm } from 'vee-validate'
-
-let ppt = true
-
-const { handleSubmit } = useForm({
-    validationSchema: {
-        selectTypes(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        select(value) {
-            if (value) return true
-
-            return 'Select an item.'
-        },
-
-        selectRegion(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        selectTownShip(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        PriceFrom(value) {
-            if (value) {
-                ppt = false;
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-
-        PriceTo(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-        Country(value) {
-            if (value) {
-                return true;
-            } else {
-                return 'Select an item.'
-            }
-        },
-
-    }
-})
-
-const selectTypes = useField('selectTypes')
-const selectRegion = useField('selectRegion')
-const selectTownShip = useField('selectTownShip')
-const select = useField('select')
-const PriceFrom = useField('PriceFrom')
-const PriceTo = useField('PriceTo')
-const Country = useField('Country')
-
-const items = ref([
-    'Apartment',
-    'Mini Condo',
-    'Condo',
-    'House',
-    'Land',
-    'Shop, Office',
-    'Industrial Zone',
-    'Hotel, Restaurant',
-])
-
-const countries = ref([
-    'Myanmar',
-    'Thailand',
-
-])
-
-const prices = ref([
-    '100 (Lakh)',
-    '200 (Lakh)',
-    '300 (Lakh)',
-    '400 (Lakh)',
-    '500 (Lakh)',
-    '600 (Lakh)',
-    '700 (Lakh)',
-    '800 (Lakh)',
-    '900 (Lakh)',
-    '1000 (Lakh)',
-    '1100 (Lakh)',
-    '1200 (Lakh)',
-    '1300 (Lakh)',
-    '1400 (Lakh)',
-    '1500 (Lakh)',
-])
-
-
-const showSubmitButton = ref(false)
-
-watch([selectTypes.value, selectRegion.value, selectTownShip.value], () => {
-    if ((selectTypes.value.value !== '' || selectRegion.value.value !== '' || selectTownShip.value.value !== '')) {
-        showSubmitButton.value = true;
-    } else {
-        showSubmitButton.value = false;
-    }
-})
-
-const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
-})
-
-function clearFields() {
-    showSubmitButton.value = false;
-    selectTypes.value.value = '';
-    selectRegion.value.value = '';
-    selectTownShip.value.value = '';
-    selectTypes.errorMessage.value = '';
-    selectRegion.errorMessage.value = '';
-    selectTownShip.errorMessage.value = '';
-}
-</script> -->
 
 <style scoped>
 .v-select .v-select__selection:hover,

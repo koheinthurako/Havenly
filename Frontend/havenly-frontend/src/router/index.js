@@ -5,7 +5,7 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
-// import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
@@ -20,12 +20,16 @@ import AdminBanList from '../views/AdminBanList.vue'
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
 // import AdminView from '../views/AdminView.vue'
 // import AdminLoginView from '../views/AdminLoginView.vue'
-import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
+// import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CancelSubscription from '../views/CancelSubscription.vue'
 import PackagesView from '@/views/PackagesView.vue'
+<<<<<<< HEAD
 import AdminPost from '@/views/AdminPost.vue'
 
+=======
+import PostsView from '@/views/PostsView.vue'
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
 
 
 
@@ -78,18 +82,18 @@ const routes = [
     name: 'PackagesView',
     component: PackagesView
   },
-  {
-    path: '/userDashBoardNew',
-    name: 'userDashBoardNew',
-    component: userDashBoardNew,
-    meta: { requiresAuth: true }
-  },
   // {
-  //   path: '/userdashboard',
-  //   name: 'User_dashboard',
-  //   component: userDashboard,
+  //   path: '/userDashBoardNew',
+  //   name: 'userDashBoardNew',
+  //   component: userDashBoardNew,
   //   meta: { requiresAuth: true }
   // },
+  {
+    path: '/userdashboard',
+    name: 'User_dashboard',
+    component: userDashboard,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/testingPage',
     name: 'testingPage',
@@ -105,7 +109,15 @@ const routes = [
     name: 'tempDoc',
     component: tempDoc
   },
+<<<<<<< HEAD
 
+=======
+  {
+    path: '/PostsView',
+    name: 'PostsView',
+    component: PostsView
+  },
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
   // {
   //   path: '/testphoto',
   //   name: 'testphoto',
@@ -162,21 +174,27 @@ router.beforeEach((to, from, next) => {
       next('/loginakm');
     } else {
       // If user is logged in, proceed to the route
-      const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
-      if(loginUser.userIsSubbed === false) {
-        alert("You are not subscriber please subscribe first!")
-        next('/subscribe')
-        console.log("you are in subscribe page")
-      } else {
-        console.log("subscribe page to home")
-        next();
-      }
+      // const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+      // if(loginUser.userIsSubbed === false) {
+      //   alert("You are not subscriber please subscribe first!")
+      //   next('/subscribe')
+      //   console.log("you are in subscribe page")
+      // } else {
+      //   console.log("subscribe page to home")
+      //   next();
+      // }
+      next();
     }
+<<<<<<< HEAD
   } 
   else if(to.meta.requiresAdmin == true && !admin){
     next('/admin/login');
   }
   else {
+=======
+
+  } else {
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
     // If the route does not require authentication, proceed to the route
     // console.log("you will go to main")
     next();

@@ -25,10 +25,10 @@ public class Posts_Service_Impl implements Posts_Service{
 		Posts new_user = repo.findById(post.getPost_id()).orElse(null);
 //		Posts new_user= new Posts();
 		if(new_user!=null) {
-			new_user.setPost_id(post.getPost_id());
-			new_user.setPost_type(post.getPost_type());
+//			new_user.setPost_id(post.getPost_id());
+//			new_user.setPost_type(post.getPost_type());
 			new_user.setStatus("complete");
-			new_user.setTestsellpostss(post.getTestsellpostss());
+//			new_user.setTestsellpostss(post.getTestsellpostss());
 		}
 		
 		Posts user1=repo.save(new_user);
@@ -39,10 +39,10 @@ public Posts decline(Posts post) {
 		Posts new_user = repo.findById(post.getPost_id()).orElse(null);
 //		Posts new_user= new Posts();
 		if(new_user!=null) {
-			new_user.setPost_id(post.getPost_id());
-			new_user.setPost_type(post.getPost_type());
+//			new_user.setPost_id(post.getPost_id());
+//			new_user.setPost_type(post.getPost_type());
 			new_user.setStatus("Declined");
-			new_user.setTestsellpostss(post.getTestsellpostss());
+//			new_user.setTestsellpostss(post.getTestsellpostss());
 		}
 		
 		Posts user1=repo.save(new_user);
