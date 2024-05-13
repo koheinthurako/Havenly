@@ -274,7 +274,7 @@ export default {
         user_info() {
             return this.$store.getters.Take_Userinfo
         }
-    }
+    },
 
 }
 

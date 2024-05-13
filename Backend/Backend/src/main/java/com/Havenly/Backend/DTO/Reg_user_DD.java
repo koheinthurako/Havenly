@@ -22,7 +22,7 @@ private int register_id;
 	private LocalDate date;
 	private LocalTime time;
 //	private boolean UserIsSubbed;
-	private String packageType;
+	private int packageType;
 	private String nrc;
 
 public Reg_user covertToEntity(Reg_user_DD dto) {
@@ -51,7 +51,7 @@ public Reg_user_DD covertToObject(Reg_user user) {
 
 	if(sub!=null) {
 	dto.setNrc(sub.getNrc().toString());
-	dto.setPackageType(sub.getPackageType().toString());	
+	dto.setPackageType(sub.getPackages().getPackType().getPackageTypeId());	
 	}
 	
 	return dto;

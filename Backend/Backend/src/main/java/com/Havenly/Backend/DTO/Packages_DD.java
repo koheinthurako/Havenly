@@ -13,15 +13,15 @@ import lombok.Setter;
 public class Packages_DD {
 	
 	private int packageId;
-//	private LocalDate expireDate;	
 	private String payment;
 	private LocalDate packDate;
 	private LocalDateTime packTime;
 
-	private int amount;
-//	private boolean userIsPaid;
+	private String amount;
 	private String email;
 	private String packageType;
+	private int availPosts;
+	private int availAds;
 	
 	public Packages convertToEntity(Packages_DD dto) {
 		Packages user=new Packages();
@@ -29,6 +29,9 @@ public class Packages_DD {
 		user.setPayment(dto.getPayment());
 		user.setPackDate(dto.getPackDate());
 		user.setPackTime(dto.getPackTime());
+		user.setAvailPosts(dto.getAvailPosts());
+		user.setAvailAds(dto.getAvailAds());
+		
 		return user;
 	}
 	
@@ -39,8 +42,10 @@ public class Packages_DD {
 		dto.setPayment(user.getPayment());
 		dto.setPackDate(user.getPackDate());
 		dto.setPackTime(user.getPackTime());
+		dto.setAvailPosts(user.getAvailPosts());
+		dto.setAvailAds(user.getAvailAds());
 
-		dto.setPackageType(user.getSub1().getPackageType().toString());	
+		dto.setPackageType(user.getPackType().getPackName());	
 		return dto;
 	}
 }

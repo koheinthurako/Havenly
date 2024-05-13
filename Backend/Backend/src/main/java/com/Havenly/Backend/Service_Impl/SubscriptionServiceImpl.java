@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-
-import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
@@ -58,14 +56,13 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 	public Subscription_DTO subscribe(Subscription_DTO dto) {
 		Subscription_DTO subUser = new Subscription_DTO();
 		Subscription sub = subUser.convertToEntity(dto);
-		String email = sub.getEmail();
-		String packName = sub.getPackageType();
+		String email = dto.getEmail();
+		String packName = dto.getPackageType();
 		Reg_user reg_user = regRepo.findByEmail(email);
 		
 //		if(regRepo.findByEmail(dto.getEmail())==null){
 //		return null;
 //		}else {		
-			sub.setEmail(sub.getEmail());
 			sub.setNrc(sub.getNrc());
 			sub.setReg_user(reg_user);
 		Packages packUser = new Packages();
@@ -79,7 +76,6 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 			Packages packUser2 = packRepo.save(packUser);
 				
 			sub.setPackages(packUser2);
-			sub.setPackageType(packName);
 
 			Subscription user = subscribeRepo.save(sub);
 			Subscription_DTO user2 = subUser.convertToObject(user);

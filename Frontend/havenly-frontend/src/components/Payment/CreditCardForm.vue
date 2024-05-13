@@ -104,15 +104,17 @@ export default {
         console.log("wrong date format");
         return;
       }
-      // Mock submission logic
-      // const isSuccess = Math.random() < 0.8; // Mocking 80% success rate
-      // if (isSuccess) {
-      //   this.message = 'Payment successful!';
-      //   this.messageType = 'success';
-      // } else {
-      //   this.message = 'Payment failed. Please try again.';
-      //   this.messageType = 'error';
-      // }
+    // Check if the input date is in the past
+    // Split the input into month and year
+    let [inputMonth, inputYear] = this.expirationDate.split('/');
+    // Get the current month and year
+    let currentYear = new Date().getFullYear().toString().substr(-2);
+    let currentMonth = ('0' + (new Date().getMonth() + 1)).slice(-2);
+    if (inputYear < currentYear || (inputYear == currentYear && inputMonth < currentMonth)) {
+        alert("Your card is expired");
+        console.log("card is expired");
+        return;
+    }
       function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
                             const response = error?.response

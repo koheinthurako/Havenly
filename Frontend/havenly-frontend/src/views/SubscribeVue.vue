@@ -238,7 +238,7 @@
     mounted() {
       this.fetchData();
     }
-  };
+  }
   </script>
 
 <style>

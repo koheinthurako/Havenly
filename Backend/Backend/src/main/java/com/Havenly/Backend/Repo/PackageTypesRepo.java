@@ -11,6 +11,6 @@ public interface PackageTypesRepo extends JpaRepository<PackageTypes, Integer> {
 	public PackageTypes findByPackName(String packName);
 	
 	@Query(value = "SELECT price FROM package_types WHERE package_name = ?1", nativeQuery = true)
-	public int getPriceByPackName(String packName);
+	public String getPriceByPackName(String packName);
 	
 }

@@ -31,7 +31,7 @@ public class BackendApplication implements CommandLineRunner{
 //        return args -> {
 //        	
 //            List<String> packNames = Arrays.asList("Free Trial", "Normal", "Premium");
-//            List<Integer> prices = Arrays.asList(0, 25, 50);
+//            List<String> prices = Arrays.asList("0", "25", "50");
 //            List<Integer> totalAds = Arrays.asList(2, 10, 20);
 //            List<Integer> totalPosts = Arrays.asList(3, 15, 30); 
 //
