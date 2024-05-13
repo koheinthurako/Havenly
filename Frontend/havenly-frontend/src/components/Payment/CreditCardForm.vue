@@ -7,7 +7,7 @@
         <p>Price : {{user.amount}}</p> 
       </v-flex></div> 
     <v-form fast-fail @submit.prevent="submitForm">
-      <v-text-field v-model="cardNumber" :rules="[value => value.length>11 || 'Card number must be 12 numbers!']" label="Card Number (#### #### #### ####)" required></v-text-field>
+      <v-text-field v-model="cardNumber" :rules="[value => value.length>15 || 'Card number must be at least 16 numbers!']" label="Card Number (#### #### #### ####)" required></v-text-field>
       <v-text-field v-model="cardHolder" label="Card Holder Name" :rules="[value => value.length>0 || 'Name must not be empty!']" required></v-text-field>
       <v-text-field v-model="expirationDate" label="Expiration Date (MM/YY)" :rules="[value => !!value|| 'Date must not be empty!']" required></v-text-field>
       <v-text-field v-model="cvv" label="CVV (###)" :rules="[value => value.length>2 || 'Wrong CVV format!']" required></v-text-field>
@@ -43,7 +43,7 @@ export default {
       user :{
             email: '',
             packageType : '',
-            amount: 0,
+            amount: '',
           },
       login :{
         alreadyPurchased: '',

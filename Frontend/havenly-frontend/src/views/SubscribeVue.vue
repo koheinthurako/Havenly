@@ -143,7 +143,7 @@
       this.user.email = loginUserData.email;
       console.log('User is logged in.'); 
       if(loginUserData.nrc !== null || subbedUser !== null){
-      alert("You have already subscribed!");
+      alert("You are already subscribed!");
       router.push('/packages');
     }
     } else {
@@ -197,7 +197,7 @@
       sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
                 const status=JSON.parse(response.status);
                 if(status===200){
-                  alert("Subscribed Successfully!");
+                  alert("Subscribed Successfully! Enjoy your free trial! :)");
                  } 
                  router.push('/home');
             })

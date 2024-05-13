@@ -5,7 +5,7 @@
         <v-sheet width="400" class="mx-auto">
             <h4 class="flex" style="height: 80px">Sign In</h4>
             <v-form fast-fail @submit.prevent="login">   
-                <v-text-field variant="underlined" v-model="user.email" label="User Name" :rules="[value => !!value || 'Required']" ></v-text-field>
+                <v-text-field variant="underlined" v-model="user.email" label="User Name (Email)" :rules="[value => !!value || 'Required']" ></v-text-field>
                 <v-text-field variant="underlined"
                  v-model="user.password"  :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
@@ -79,7 +79,7 @@ export default {
                     const status=response.status
                     console.log(status)
                     if(status=='200'){
-                      
+                      alert("Logged in successfully!")
                       router.push('/');
                     
                   }

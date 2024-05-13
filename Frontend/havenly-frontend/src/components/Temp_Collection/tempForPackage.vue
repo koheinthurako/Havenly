@@ -224,8 +224,8 @@ export default {
 
         return {
             modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
-            items1: { name: 'Normal', price: 25},
-            items2: { name: 'Premium',price: 50},
+            items1: { name: 'Normal', price: '25'},
+            items2: { name: 'Premium',price: '50'},
         };
     },
 

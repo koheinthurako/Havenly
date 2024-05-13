@@ -5,8 +5,6 @@ import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import CancelSubscription from '../views/CancelSubscription.vue'
-import PackagesView from '@/views/PackagesView.vue'
 import testPhoto from '@/components/For_Testing/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
@@ -30,16 +28,6 @@ const routes = [
     path: '/subscribe',
     name: 'SubscribeVue',
     component: SubscribeVue
-  },
-  {
-    path: '/subscribe/cancel',
-    name: 'CancelSubscription',
-    component: CancelSubscription
-  },
-  {
-    path: '/packages/purchase',
-    name: 'PackagesView',
-    component: PackagesView
   },
   {
     path: '/Home',
