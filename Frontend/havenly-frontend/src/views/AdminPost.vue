@@ -129,6 +129,10 @@ export default {
             console.log(data);
             data.forEach(post => {
                 let imgUrls= Array.isArray(post.testsellpostss.image)?post.testsellpostss.image:[post.testsellpostss.image]
+                if(post.testsellpostss.description.length > 100) {
+                    let des = post.testsellpostss.description;
+                    post.testsellpostss.description = des.substring(0, 100) + "...";
+                }
                 console.log(post)
                 this.posts.push({
                     post_id :post.post_id,

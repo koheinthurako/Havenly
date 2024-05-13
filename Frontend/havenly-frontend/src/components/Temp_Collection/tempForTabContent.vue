@@ -1,6 +1,6 @@
 <template>
     <div class="tempOf-tabContent">
-        <div class="container">
+        <div class="mx-5 px-5">
 
             <div class="content-data d-flex mt-1 mb-3">
 
@@ -259,7 +259,7 @@ export default {
 
         clickPost(post) {
             console.log("You clicked post!")
-            console.log(post.post_id);
+            console.log(post.title);
             router.push('/PostsView')
         }
 
