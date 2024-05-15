@@ -3,12 +3,15 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,11 +34,16 @@ public class RentPost {
 	private LocalDate date;
 	private LocalTime time;
 	private String title;
+	
+	@Column(name = "description", length = 10000)
 	private String description;
-	private String[] photos;
+	
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String[] image;
+	
 	private String price;
 	private String area;
-	private String house_type;
 	private String property_type;
 	private String deposit;
 	private String least_contract;
@@ -47,5 +55,9 @@ public class RentPost {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	Locations locations;
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "testrentposts")
+	Posts posts;
 
 }

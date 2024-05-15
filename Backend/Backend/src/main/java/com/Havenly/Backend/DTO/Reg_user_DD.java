@@ -13,48 +13,49 @@ import lombok.Setter;
 @Setter
 public class Reg_user_DD {
 	
-private int register_id;
+	private int register_id;
+		
+		private String name;
+		private String phone;
+		private String email;
+		private String password;
+		private LocalDate date;
+		private LocalTime time;
+	//	private boolean UserIsSubbed;
+		private int packageType;
+		private String nrc;
 	
-	private String name;
-	private String phone;
-	private String email;
-	private String password;
-	private LocalDate date;
-	private LocalTime time;
-	private boolean UserIsSubbed;
-	private String typeOfPackage;
-
-public Reg_user covertToEntity(Reg_user_DD dto) {
-	Reg_user user=new Reg_user();
-	user.setRegister_id(dto.getRegister_id());
-	user.setName(dto.getName());
-	user.setPhone(dto.getPhone());
-	user.setEmail(dto.getEmail());
-	user.setPassword(dto.getPassword());
-	user.setDate(dto.getDate());
-	user.setTime(dto.getTime());
-	return user;
-}
-public Reg_user_DD covertToObject(Reg_user user) {
-	
-	Reg_user_DD dto=new Reg_user_DD();
-	Subscription sub = user.getSub();
-//	String pack = sub.getPackageType();
-	
-	dto.setRegister_id(user.getRegister_id());
-	dto.setName(user.getName());
-	dto.setPhone(user.getPhone());
-	dto.setEmail(user.getEmail());
-	
-	dto.setDate(user.getDate());
-	dto.setTime(user.getTime());
-	if(sub != null) {
-		dto.setUserIsSubbed(true);
+	public Reg_user covertToEntity(Reg_user_DD dto) {
+		Reg_user user=new Reg_user();
+		user.setRegister_id(dto.getRegister_id());
+		user.setName(dto.getName());
+		user.setPhone(dto.getPhone());
+		user.setEmail(dto.getEmail());
+		user.setPassword(dto.getPassword());
+		user.setDate(dto.getDate());
+		user.setTime(dto.getTime());
+		return user;
 	}
-//	dto.setTypeOfPackage(pack);
 	
+	public Reg_user_DD covertToObject(Reg_user user) {
+		
+		Reg_user_DD dto=new Reg_user_DD();
+		Subscription sub = user.getSub();
+		
+		dto.setRegister_id(user.getRegister_id());
+		dto.setName(user.getName());
+		dto.setPhone(user.getPhone());
+		dto.setEmail(user.getEmail());
+		
+		dto.setDate(user.getDate());
+		dto.setTime(user.getTime());
 	
-	return dto;
-	
-}
+		if(sub!=null) {
+		dto.setNrc(sub.getNrc().toString());
+		dto.setPackageType(sub.getPackages().getPackType().getPackageTypeId());	
+		}
+		
+		return dto;
+		
+	}
 }

@@ -17,7 +17,7 @@ public class PackageTypesDTO {
 
 private int packageTypeId;
 	private String packName;
-	private int price;
+	private String price;
 	private int total_posts;
 	private int total_ads;
 	

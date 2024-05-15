@@ -7,30 +7,24 @@
                         <v-img :src="acc_img" class="profile-img" />
                         <form ref="form" fast-fail @submit.prevent="update">
                             <div class="mt-3 p-3 mx-auto">
-                                <div :v-if="user_data !== null">
 
-                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                        rounded="lg" variant="solo" v-model="get_username"
-                                        :value="user_data?.name || ''" placeholder="User Name"></v-text-field>
-
-                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                        rounded="lg" variant="solo" v-model="gmail" :value="user_data?.gmail || ''"
-                                        placeholder="Gmail" readonly="true"></v-text-field>
-
-                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                        rounded="lg" variant="solo" v-model="phone" :value="user_data?.phone || ''"
-                                        placeholder="Contact No"></v-text-field>
-                                    <!-- <input type="text" :value="user_data?.name || ''" label="User name">
+                                <!-- <input type="text" :value="user_data?.name || ''" label="User name">
                                     <input type="email" :value="user_data?.gmail || ''" label="E-mail">
                                     <input type="phone" :value="user_data?.phone || ''" label="phone"> -->
 
-                                    <v-text-field v-model="user.name" label="Name"></v-text-field>
-                                    <v-text-field v-model="user.phone" :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone"  ></v-text-field>
-                                    <v-text-field v-model="user.email" label="Email of this account" :rules="[value => !!value || 'Required']" ></v-text-field>
-                                </div>
+                                <v-text-field variant="solo" density="comfortable" clear-icon="mdi-close-circle"
+                                    clearable rounded="lg" v-model="user.name" :rules="[validateName]"
+                                    label="Username"></v-text-field>
 
+                                <v-text-field class="mt-2" variant="solo" density="comfortable"
+                                    clear-icon="mdi-close-circle" clearable rounded="lg" v-model="user.phone"
+                                    :rules="[validatePhone]" label="Phone no."></v-text-field>
 
-                                <v-row class="w-100">
+                                <v-text-field class="mt-2" variant="solo" density="comfortable"
+                                    clear-icon="mdi-close-circle" clearable rounded="lg" v-model="user.email"
+                                    label="Email of this account" :rules="[validateGmail]"></v-text-field>
+
+                                <v-row class="w-100 mt-3">
                                     <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
                                         style="text-transform:capitalize;">
                                         Update
@@ -60,7 +54,7 @@
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span @click="packageDialogOpen" class="d-flex align-center">
+                                        <span class="d-flex align-center">
                                             <v-icon>mdi-store</v-icon>&nbsp;Check
                                         </span>
                                     </p>
@@ -70,26 +64,13 @@
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span class="d-flex align-center" @click="openDialog">
+                                        <span @click="openDialog" class="d-flex align-center">
                                             <v-icon>mdi-lock</v-icon>&nbsp;Reset
                                         </span>
                                     </p>
 
-                                    <!-- package dialog start -->
-                                    <v-dialog v-model="packageDialog" class="create-pop-up" persistent>
-                                        <div class="pop-up-subscribe">
-                                            <div class="d-flex justify-space-between">
-                                                <p>Subscribed Package</p>
-                                                <p><span :v-if="user_data !== null">
-                                                        {{ user_data?.subscribe_package || '' }}
-                                                    </span></p>
-                                            </div>
-                                            <v-btn @click="packageDialogClose">Close</v-btn>
-                                        </div>
-                                    </v-dialog>
-                                    <!-- package dialog end -->
 
-                                    <!-- Dialog start -->
+                                    <!--Reset Password Dialog start -->
                                     <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
                                         <form @submit.prevent="submit" class="form-edit2">
                                             <v-row cols="12" class="mx-auto mb-3">
@@ -97,37 +78,29 @@
                                             </v-row>
                                             <button class="close-btn"
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
-                                            <div :v-if="user_data !== null">
 
-                                                <v-text-field density="comfortable" clear-icon="mdi-close-circle"
-                                                    clearable rounded="lg" variant="solo" v-model="email.value.value"
-                                                    :value="user_data?.gmail || ''" placeholder="G-mail"
-                                                    readonly="true"></v-text-field>
+                                            <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                                rounded="lg" variant="solo" v-model="reset.gmail"
+                                                :rules="[validateGmail]" label="G-mail"></v-text-field>
 
-                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                    v-model="profile_password.value.value"
-                                                    :error-messages="profile_password.errorMessage.value"
-                                                    :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
-                                                    :rules="[rules.required, rules.min]"
-                                                    :type="visible ? 'text' : 'password'" :value="user_data?.pass || ''"
-                                                    class="input-group--focused" hint="At least 8 characters"
-                                                    label="Password" name="input-10-2"
-                                                    @click:append="visible = !visible"></v-text-field>
+                                            <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                v-model="reset.password"
+                                                :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+                                                :rules="[validateResetPassword]" :type="visible ? 'text' : 'password'"
+                                                class="input-group--focused" hint="At least 8 characters"
+                                                label="New password" name="input-10-2"
+                                                @click:append="visible = !visible"></v-text-field>
 
-                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                    v-model="profile_confirm_password.value.value"
-                                                    :error-messages="profile_confirm_password.errorMessage.value"
-                                                    :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                                    :rules="[rules.required, rules.min]"
-                                                    :type="visible1 ? 'text' : 'password'" class="input-group--focused"
-                                                    hint="At least 8 characters" label="Password" name="input-10-2"
-                                                    @click:append="visible1 = !visible1"></v-text-field>
+                                            <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                v-model="reset.confirm_password"
+                                                :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                :rules="[validateResetConfirmPassword]"
+                                                :type="visible1 ? 'text' : 'password'" class="input-group--focused"
+                                                hint="At least 8 characters" label="Confirm password" name="input-10-2"
+                                                @click:append="visible1 = !visible1"></v-text-field>
 
-                                            </div>
                                             <v-row cols="12" class="w-100 mt-4">
-                                                <div v-if="show">
-                                                    <span>{{ register_info.id }}</span>
-                                                </div>
+
                                                 <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
                                                     type="submit">
                                                     submit
@@ -135,7 +108,7 @@
                                             </v-row>
                                         </form>
                                     </v-dialog>
-                                    <!-- Dialog end -->
+                                    <!--Reset Password Dialog end -->
 
 
                                 </div>
@@ -276,13 +249,28 @@ export default {
 
     data: () => ({
 
+        // Main Error Point Rendering without data, Initialize with empty string
+        get_username: '',
+        gmail: '',
+        phone: '',
+        user: {
+            name: '',
+            phone: '',
+            email: ''
+        },
+
+        // for Password reset dialog (optional)
+        reset: {
+            gmail: '',
+            password: '',
+            confirm_password: '',
+        },
+
         img: require('@/assets/img/9.jpg'),
         acc_img: require('@/assets/img/img_avatar.png'),
         resetdialog: false,
-        packageDialog: false,
         visible: false,
         visible1: false,
-
 
         rules: {
             required: value => !!value || 'Required.',
@@ -292,84 +280,118 @@ export default {
     }),
 
     computed: {
-        user_data() {
-            if (this.$store.getters.get_LoginedId) {
-                return this.$store.getters.Take_Userinfo;
-            } else {
-                return null;
-            }
-        }
+
     },
 
     methods: {
 
-        packageDialogOpen() {
-            this.packageDialog = true;
-        },
-
-        packageDialogClose() {
-            this.packageDialog = false;
+        closeDialog() {
+            this.resetdialog = false;
         },
 
         openDialog() {
             this.resetdialog = true;
         },
 
-        closeDialog() {
-            this.resetdialog = false;
+        // User name validation
+        validateName(value) {
+            if (!value) {
+                return 'Required';
+            } else if (value.length < 5) {
+                return 'Name must be at least 5 characters long';
+            }
+            return true;
+        },
+        // Phone Validation
+        validatePhone(value) {
+            if (!value) {
+                return 'Required';
+            } else if (value.length != 11) {
+                return 'It need to be 11 numbers.';
+            }
+            return true;
+        },
+        // Gmail validation
+        validateGmail(value) {
+            const gmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            if (!value) {
+                return 'Required';
+            } else if (!gmailRegex.test(value)) {
+                return 'Please enter a valid Gmail address';
+            }
+            return true;
+        },
+        // Password Validation
+        validateResetPassword(value) {
+            if (!value) {
+                return 'Required';
+            } else if (value.length < 5) {
+                return 'Password is weak!';
+            }
+            return true;
+        },
+        // Confirm Password Validation 
+        validateResetConfirmPassword(value) {
+            if (!value) {
+                return 'Required';
+            } else if (value.length < 5) {
+                return 'Password is weak!'
+            } else if (value != this.reset.password) {
+                return 'Passwords do not match';
+            }
+            return true;
         },
 
-        update(){
+        update() {
 
             function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===404){alert("Upadte Information failed!!!   Please check your E-mail and fill again!!")}
-                                if(statusCode===500){alert("Upadte Information failed!!!   Please check your Phone number and fill again!!")}
-                            }
-                            }
+                if (axios.isAxiosError(error)) {
+                    const response = error?.response
+                    if (response) {
+                        const statusCode = response?.status
+                        if (statusCode === 404) { alert("Upadte Information failed!!!   Please check your E-mail and fill again!!") }
+                        if (statusCode === 500) { alert("Upadte Information failed!!!   Please check your Phone number and fill again!!") }
                     }
-
-
-
-            axios.put("http://localhost:8083/profile/update",this.user)
-            .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                  alert("updated Successfully")
                 }
-            })
-            .catch(httpErrorHandler)
-                 
+            }
+
+
+
+            axios.put("http://localhost:8083/profile/update", this.user)
+                .then(function (response) {
+                    const status = JSON.parse(response.status);
+                    if (status == '200') {
+                        alert("updated Successfully")
+                    }
+                })
+                .catch(httpErrorHandler)
+
         },
 
-        change(){
+        change() {
             function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===404 || statusCode===400){alert("Password Update Unsuccessful!! Please fill your G-mail and Password again!!!")}
-                            }
-                            }
+                if (axios.isAxiosError(error)) {
+                    const response = error?.response
+                    if (response) {
+                        const statusCode = response?.status
+                        if (statusCode === 404 || statusCode === 400) { alert("Password Update Unsuccessful!! Please fill your G-mail and Password again!!!") }
                     }
-
-
-
-            axios.put("http://localhost:8083/pwdUpdate",this.change_pw)
-            .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                  alert(" Password Updated Successfully")
                 }
-            })
-            .catch(httpErrorHandler)
-            this.user.name='',
-                  this.change_pw.username='',
-                  this.change_pw.password='',
-                  this.change_pw.new_password=''
+            }
+
+
+            axios.put("http://localhost:8083/pwdUpdate", this.change_pw)
+                .then(function (response) {
+                    const status = JSON.parse(response.status);
+                    if (status == '200') {
+                        alert(" Password Updated Successfully")
+                    }
+                })
+                .catch(httpErrorHandler)
+            this.user.name = '',
+                this.change_pw.username = '',
+                this.change_pw.password = '',
+                this.change_pw.new_password = ''
         }
 
     }
@@ -377,53 +399,6 @@ export default {
 
 </script>
 
-<script setup>
-
-import { useField, useForm } from 'vee-validate'
-// import Swal from 'sweetalert2';
-import store from '../../../store/index.js';
-
-let show = true
-var register_info = store.getters.Take_Userinfo
-
-const { handleSubmit } = useForm({
-    validationSchema: {
-
-        password(value) {
-            if (value?.length >= 6) {
-
-                return true;
-            } else {
-                return 'Cannot be empty!'
-            }
-        },
-
-        confirm_password(value) {
-            if (value?.length >= 6) {
-                return true;
-            } else {
-                return 'Cannot be empty!'
-            }
-        },
-        email(value) {
-            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
-
-            return 'Must be a valid e-mail.'
-        },
-
-    },
-})
-
-const profile_password = useField('password')
-const profile_confirm_password = useField('confirm_password')
-const email = useField('email')
-
-const submit = handleSubmit(values => {
-    if (values.profile_password == values.profile_confirm_password) {
-        console.log("Reached");
-    }
-});
-</script>
 
 <style>
 .pop-up-subscribe {
@@ -448,12 +423,12 @@ const submit = handleSubmit(values => {
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
 
     .close-btn {
-        
+
         position: absolute;
         top: 10px;
         right: 10px;
         font-size: 20px;
-        
+
     }
 
     .submit,
@@ -501,7 +476,7 @@ const submit = handleSubmit(values => {
                 border: none;
 
 
-                
+
 
             }
 

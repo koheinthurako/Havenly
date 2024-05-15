@@ -1,5 +1,7 @@
 package com.Havenly.Backend.Repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -11,9 +13,7 @@ import com.Havenly.Backend.Entity.RentPost;
 @EnableJpaRepositories
 public interface RentPost_Repo extends JpaRepository<RentPost, String>{
 	
-//	@Query(value = "select count(rent_post_id) from rentpost")
-//	long getRentPostCount();
-
-	@Query("SELECT COUNT(rp) FROM RentPost rp")
-	long getRentPostCount();
+	@Query(value = "select p.post_id, p.post_type, p.status, rp.*, l.province, l.region, c.country from posts p, rentpost rp, locations l, countries c where l.country_id = c.country_id and rp.location_id = l.location_id and rp.rent_post_id = p.post_type and p.status='complete';", nativeQuery = true)
+	public List<RentPost> getAllRentPosts();
+	
 }

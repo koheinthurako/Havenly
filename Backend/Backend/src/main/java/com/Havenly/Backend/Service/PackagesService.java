@@ -2,15 +2,13 @@ package com.Havenly.Backend.Service;
 
 import org.springframework.stereotype.Service;
 
-import com.Havenly.Backend.DTO.Packages_DTO;
-import com.Havenly.Backend.Entity.Packages;
+import com.Havenly.Backend.DTO.Packages_DD;
 
 @Service
 public interface PackagesService {
 
-	Packages findById(int pid);
-	Packages_DTO showPackage(Packages_DTO pack);
-	boolean payment(String pay);
-	boolean delete(Packages pack);
-	Packages_DTO buyPack(String nrc, String packType);
+	Packages_DD showPackage(Packages_DD pack);
+	boolean payment(String pay, String amount);
+	boolean delete(Packages_DD pack);
+	Packages_DD buyPack(String nrc, String packType, String amount);
 }
