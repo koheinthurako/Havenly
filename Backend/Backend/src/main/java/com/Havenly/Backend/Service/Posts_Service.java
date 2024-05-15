@@ -9,7 +9,8 @@ import com.Havenly.Backend.Entity.Posts;
 @Service
 public interface Posts_Service {
 	
-	public List<Posts> getAllPosts();
+	public List<Posts> getAllPendingPosts();
+	public List<Posts> getAllCompletePosts();
 	public Posts update(Posts post);
 	public Posts decline(Posts post);
 

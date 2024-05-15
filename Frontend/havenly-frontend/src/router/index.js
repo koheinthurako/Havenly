@@ -9,25 +9,15 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
-
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
-
-
-
-// import testPhoto from '../components/Test_Photo/testPhoto.vue'
-// import AdminView from '../views/AdminView.vue'
-// import AdminLoginView from '../views/AdminLoginView.vue'
 // import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import CancelSubscription from '../views/CancelSubscription.vue'
-import PackagesView from '@/views/PackagesView.vue'
-
-import AdminPost from '@/views/AdminPost.vue'
-
+import CreditCard from '@/views/CreditCard.vue'
 import PostsView from '@/views/PostsView.vue'
+import AdminPost from '@/views/AdminPost.vue'
 
 
 
@@ -60,6 +50,11 @@ const routes = [
     name: 'registerakm',
     component: registerakm
   },
+  // {
+  //   path: '/subscribe',
+  //   name: 'SubscribeView',
+  //   component: SubscribeView
+  // },
   {
     path: '/loginakm',
     name: 'loginakm',
@@ -70,22 +65,16 @@ const routes = [
     name: 'SubscribeVue',
     component: SubscribeVue
   },
-  {
-    path: '/cancel',
-    name: 'CancelSubscription',
-    component: CancelSubscription
-  },
-  {
-    path: '/packages/purchase',
-    name: 'PackagesView',
-    component: PackagesView
-  },
   // {
   //   path: '/userDashBoardNew',
   //   name: 'userDashBoardNew',
   //   component: userDashBoardNew,
   //   meta: { requiresAuth: true }
   // },
+  {
+    path: '/Home',
+    redirect: '/',
+  },
   {
     path: '/userdashboard',
     name: 'User_dashboard',
@@ -107,7 +96,11 @@ const routes = [
     name: 'tempDoc',
     component: tempDoc
   },
-
+  {
+    path: '/packages/payment',
+    name: 'CreditCard',
+    component: CreditCard
+  },
   {
     path: '/PostsView',
     name: 'PostsView',

@@ -36,6 +36,10 @@
                             <div class="card-body p-3 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <div class="d-flex mb-3 justify-content-between">
+                                    <span class="small opacity-75">Deposit : {{ post.deposit }}</span>
+                                    <span class="small opacity-75">Contract : {{ post.least_contract }}</span>
+                                </div>
                                 <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                     <v-icon >mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
@@ -140,52 +144,60 @@ export default {
 
         fetchPosts() {
         // Make API call to fetch posts from backend
-        fetch('http://localhost:8083/gettestsellpost')
+        fetch('http://localhost:8083/posts/allComplete')
           .then(response => response.json())
           .then(data => {
             data.forEach(post => {
-                // let imageUrls = [];
-                // post.image.forEach(image => {
-                //     const reader = new FileReader();
-                //     reader.onloadend = () => {
-                //     imageUrls.push(reader.result);
-                //     };
-                //     reader.readAsDataURL(image);
-                // });
-
-                // if (post.image && post.image.length > 0) {
-                //     imageUrls = post.image.map(file => URL.createObjectURL(file));
-                // }
-                // let imageUrls = post.image;
-
-                // let imageUrls = post.image.map(imageData => {
-                //     return 'data:image/jpeg;base64,' + imageData; // Assuming JPEG format
-                // });
-                if(post.description.length > 100) {
-                    let des = post.description;
-                    post.description = des.substring(0, 100) + "...";
+                if(post.testrentposts) {
+                    console.log(post);
+                    if(post.testrentposts.description.length > 100) {
+                        let des = post.testrentposts.description;
+                        post.testrentposts.description = des.substring(0, 100) + "...";
+                    }
+                    
+                    let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                    console.log(imageUrls)
+                    console.log(post);
+                    this.posts.unshift({
+                        province: post.testrentposts.locations.province,
+                        region: post.testrentposts.locations.region,
+                        country: post.testrentposts.locations.countries.country_name,
+                        post_id: post.testrentposts.sell_post_id,
+                        title: post.testrentposts.title,
+                        description: post.testrentposts.description,
+                        property_type: post.testrentposts.property_type,
+                        area: post.testrentposts.area,
+                        price: post.testrentposts.price,
+                        deposit: post.testrentposts.deposit,
+                        least_contract: post.testrentposts.least_contract,
+                        photo_url: imageUrls,
+                    });
+                    console.log(typeof(imageUrls))
+                } else if (post.testsellpostss) {
+                    console.log(post);
+                    if(post.testsellpostss.description.length > 100) {
+                        let des = post.testsellpostss.description;
+                        post.testsellpostss.description = des.substring(0, 100) + "...";
+                    }
+                    
+                    let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                    console.log(imageUrls)
+                    console.log(post);
+                    this.posts.unshift({
+                        province: post.testsellpostss.locations.province,
+                        region: post.testsellpostss.locations.region,
+                        country: post.testsellpostss.locations.countries.country_name,
+                        post_id: post.testsellpostss.sell_post_id,
+                        title: post.testsellpostss.title,
+                        description: post.testsellpostss.description,
+                        property_type: post.testsellpostss.property_type,
+                        area: post.testsellpostss.area,
+                        price: post.testsellpostss.price,
+                        photo_url: imageUrls,
+                    });
+                    console.log(typeof(imageUrls))
                 }
                 
-                let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
-                console.log(imageUrls)
-                console.log(post);
-                this.posts.unshift({
-                    province: post.locations.province,
-                    region: post.locations.region,
-                    country: post.locations.countries.country_name,
-                    post_id: post.sell_post_id,
-                    title: post.title,
-                    description: post.description,
-                    // house_type: post.house_type,
-                    property_type: post.property_type,
-                    area: post.area,
-                    price: post.price,
-                    // photo_url: 'data:image/jpeg;base64,' + post.image,
-                    photo_url: imageUrls,
-                    // photo_url: [...post.image],
-                    // photo_url: imageUrls,
-                });
-                console.log(typeof(imageUrls))
             });
             // console.log(this.posts);
           })

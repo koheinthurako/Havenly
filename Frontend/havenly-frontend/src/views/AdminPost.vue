@@ -123,35 +123,59 @@ export default {
        methods :{
         fetchPosts() {
         // Make API call to fetch posts from backend
-       fetch('http://localhost:8083/posts/all      ')
+       fetch('http://localhost:8083/posts/allPending')
           .then(response => response.json())
           .then(data => {
             console.log(data);
             data.forEach(post => {
-                let imgUrls= Array.isArray(post.testsellpostss.image)?post.testsellpostss.image:[post.testsellpostss.image]
-                if(post.testsellpostss.description.length > 100) {
-                    let des = post.testsellpostss.description;
-                    post.testsellpostss.description = des.substring(0, 100) + "...";
+                if(post.testrentposts) {
+                    let imgUrls= Array.isArray(post.testrentposts.image)?post.testrentposts.image:[post.testrentposts.image]
+                    if(post.testrentposts.description.length > 100) {
+                        let des = post.testrentposts.description;
+                        post.testrentposts.description = des.substring(0, 100) + "...";
+                    }
+                    console.log(post)
+                    this.posts.unshift({
+                        post_id :post.post_id,
+                        status : post.status,
+                        province: post.testrentposts.locations.province,
+                        region: post.testrentposts.locations.region,
+                        country: post.testrentposts.locations.countries.country_name,
+                        title: post.testrentposts.title,
+                        description: post.testrentposts.description,
+                        house_type: post.testrentposts.house_type,
+                        property_type: post.testrentposts.property_type,
+                        area: post.testrentposts.area,
+                        price: post.testrentposts.price,
+                        deposit: post.testrentposts.deposit,
+                        least_contract: post.testrentposts.least_contract,
+                        photo_url: imgUrls,
+                    });
+                    console.log(imgUrls)
+                } else if (post.testsellpostss) {
+                    let imgUrls= Array.isArray(post.testsellpostss.image)?post.testsellpostss.image:[post.testsellpostss.image]
+                    if(post.testsellpostss.description.length > 100) {
+                        let des = post.testsellpostss.description;
+                        post.testsellpostss.description = des.substring(0, 100) + "...";
+                    }
+                    console.log(post)
+                    this.posts.unshift({
+                        post_id :post.post_id,
+                        status : post.status,
+                        province: post.testsellpostss.locations.province,
+                        region: post.testsellpostss.locations.region,
+                        country: post.testsellpostss.locations.countries.country_name,
+                        title: post.testsellpostss.title,
+                        description: post.testsellpostss.description,
+                        house_type: post.testsellpostss.house_type,
+                        property_type: post.testsellpostss.property_type,
+                        area: post.testsellpostss.area,
+                        price: post.testsellpostss.price,
+                        photo_url: imgUrls,
+                    });
+                    console.log(imgUrls)
                 }
-                console.log(post)
-                this.posts.push({
-                    post_id :post.post_id,
-                    status : post.status,
-                    province: post.testsellpostss.locations.province,
-                    region: post.testsellpostss.locations.region,
-                    country: post.testsellpostss.locations.countries.country_name,
-                   
-                   
-                    
-                    title: post.testsellpostss.title,
-                    description: post.testsellpostss.description,
-                    house_type: post.testsellpostss.house_type,
-                    property_type: post.testsellpostss.property_type,
-                    area: post.testsellpostss.area,
-                    price: post.testsellpostss.price,
-                    photo_url: imgUrls,
-                });
-                console.log(imgUrls)
+                
             });
             // console.log(this.posts);
           })

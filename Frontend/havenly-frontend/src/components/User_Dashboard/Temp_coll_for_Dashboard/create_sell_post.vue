@@ -5,9 +5,15 @@
 
                 <!-- TZH Form -->
                 <div class="create-post">
-                    <div class="header mb-3">
-                        <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Create Sell Post</p>
+                    <div class="header mb-3 d-flex justify-content-between px-5">
+                        <div class="d-flex align-items-center">
+                            <v-icon>mdi-information</v-icon>
+                            <p class="mt-3 ms-2">Create Sell Post</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span>Available Posts : </span>
+                            <h5 class="text-red m-0">&nbsp; 15</h5>
+                        </div>
                     </div>
 
                     <div class="body">
@@ -32,7 +38,7 @@
                                 <div class="col-md-9 col-sm-12 py-0">
                                     <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
-                                        :counter="200" :error-messages="Description.errorMessage.value"
+                                        :counter="10000" :error-messages="Description.errorMessage.value"
                                         placeholder="Description"></v-textarea>
                                 </div>
                             </div>

@@ -167,7 +167,7 @@ export default {
 
         changeTabForSub(tab) {
             const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-            if(checkSubUser.userIsSubbed === true) {
+            if(checkSubUser.packageType) {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {
