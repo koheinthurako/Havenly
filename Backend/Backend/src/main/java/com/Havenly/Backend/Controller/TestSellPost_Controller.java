@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Entity.Locations;
-import com.Havenly.Backend.Entity.MultiPartFormData;
-import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.TestSellPost;
-import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Repo.TestSellPost_Repo;
 import com.Havenly.Backend.Service.TestSellPost_Service;
 

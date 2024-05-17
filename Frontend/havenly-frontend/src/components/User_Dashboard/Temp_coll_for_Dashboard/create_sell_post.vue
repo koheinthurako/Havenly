@@ -12,7 +12,7 @@
                         </div>
                         <div class="d-flex align-items-center">
                             <span>Available Posts : </span>
-                            <h5 class="text-red m-0">&nbsp; 15</h5>
+                            <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
                         </div>
                     </div>
 
@@ -228,7 +228,7 @@ export default {
         selectedAmphoe: '',
         selectedRegion: '',
         selectedLocation: '',
-
+        availPosts: '',
         change_type: 'sell',
 
         sell_data: [
@@ -334,6 +334,10 @@ export default {
                 
                 Locations();
             }
+
+            const subUserData = JSON.parse(sessionStorage.getItem('sub_user'));
+            this.availPosts = subUserData.availPosts;
+            console.log(this.availPosts);
         },
 
         methods: {

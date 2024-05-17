@@ -25,6 +25,7 @@ import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
+import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 //import com.Havenly.Backend.Repo.TokenRepository;
 import com.Havenly.Backend.Service.Reg_user_Service;
@@ -58,9 +59,14 @@ public class Reg_user_Controller {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/getLoginUser")
+	public ResponseEntity<Reg_user_DTO> getById() {
+		return null;
+	}
+	
 //	@GetMapping("/getSubUserInfo")
-//	public ResponseEntity<Reg_user_DD> getSubUserInfo() {
-//		return new ResponseEntity<Reg_user_DD>(userRepo.getSubUserInfo(), HttpStatus.OK);
+//	public ResponseEntity<List<Reg_user>> getSubUserInfo() {
+//		return new ResponseEntity<List<Reg_user>>(userRepo.getSubUserInfo(), HttpStatus.OK);
 //	}
 	
 	@PostMapping("/register")

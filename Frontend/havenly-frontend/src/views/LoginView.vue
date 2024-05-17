@@ -43,6 +43,7 @@ data() {
       password:''
      
     },
+    sub_user: [],
     showPassword: false
   };
 },
@@ -86,7 +87,20 @@ togglePasswordVisibility() {
                 const status=response.status
                 console.log(status)
                 if(status=='200'){
-                  
+
+                  axios.get('http://localhost:8083/subscribe/getSubUserInfo')
+                  .then(response => {
+                    sessionStorage.setItem('sub_user',JSON.stringify(response.data))
+                  })
+                  .catch(error => {
+                    console.error('Error fetching data:', error); // Handle the error
+                  });              
+                  // fetch('http://localhost:8083/subscribe/getSubUserInfo')
+                  //   .then(response => response.json())
+                  //   .then(data => {
+                  //     console.log(data);
+                  //   })
+
                   router.push('/');
                 
               }

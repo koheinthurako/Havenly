@@ -3,6 +3,8 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,18 +15,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Packages {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int packageId;
 	
 	@Column(name = "payment")
@@ -44,10 +50,12 @@ public class Packages {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="package_type_id")
+	@JsonIgnore
 	private PackageTypes packType;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="subUser_id", referencedColumnName = "subUserId")
+	@JsonIgnore
 	private Subscription sub1;
 
 
