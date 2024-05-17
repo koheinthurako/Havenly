@@ -2,6 +2,9 @@ package com.Havenly.Backend.Entity;
 
 
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +13,9 @@ import lombok.Setter;
 @Setter
 public class Login {
 	
-	
-
+	    @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+	    private int id;
 		@NotBlank
 		private String email;
 

@@ -2,11 +2,13 @@ package com.Havenly.Backend.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -45,8 +47,10 @@ public class Reg_user {
 	private LocalDate date;
 	private LocalTime time;
 	
-	
-	
-	
+//	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	PasswordResetToken  passwordResetToken;
 
+	
+	@OneToOne(mappedBy = "reg_user")
+	private Subscription sub;
 }

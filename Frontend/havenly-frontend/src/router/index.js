@@ -1,3 +1,4 @@
+
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 // import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
@@ -8,7 +9,15 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 // import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
-import testPhoto from '../components/Test_Photo/testPhoto.vue'
+// import testPhoto from '../components/Test_Photo/testPhoto.vue'
+import AdminView from '../views/AdminView.vue'
+import AdminLoginView from '../views/AdminLoginView.vue'
+import AdminBanList from '../views/AdminBanList.vue'
+// import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
+import SubscribeVue from '@/views/SubscribeVue.vue'
+import CreditCard from '@/views/CreditCard.vue'
+import PostsView from '@/views/PostsView.vue'
+import AdminPost from '@/views/AdminPost.vue'
 
 import postDetailView from '../components/For_MainIndex/Side_Pages_For_Mainindex/post_detail_view.vue'
 
@@ -43,15 +52,36 @@ const routes = [
     name: 'registerakm',
     component: registerakm
   },
+  // {
+  //   path: '/subscribe',
+  //   name: 'SubscribeView',
+  //   component: SubscribeView
+  // },
   {
     path: '/loginakm',
     name: 'loginakm',
     component: loginakm
   },
   {
+    path: '/subscribe',
+    name: 'SubscribeVue',
+    component: SubscribeVue
+  },
+  // {
+  //   path: '/userDashBoardNew',
+  //   name: 'userDashBoardNew',
+  //   component: userDashBoardNew,
+  //   meta: { requiresAuth: true }
+  // },
+  {
+    path: '/Home',
+    redirect: '/',
+  },
+  {
     path: '/userdashboard',
     name: 'User_dashboard',
-    component: userDashboard
+    component: userDashboard,
+    meta: { requiresAuth: true }
   },
   // {
   //   path: '/testingPage',
@@ -69,9 +99,9 @@ const routes = [
     component: tempDoc
   },
   {
-    path: '/testphoto',
-    name: 'testphoto',
-    component: testPhoto
+    path: '/packages/payment',
+    name: 'CreditCard',
+    component: CreditCard
   },
   {
     path: '/postDetailView',
@@ -85,5 +115,55 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+
+  const admin = sessionStorage.getItem('admin_user');
+
+  // Check if the route requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Check if user is logged in
+    const user = sessionStorage.getItem('login_user');
+    if (!user) {
+      // If user is not logged in, redirect to login page
+      alert("You are not login please login first!")
+      next('/loginakm');
+    } else {
+      // If user is logged in, proceed to the route
+      // const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+      // if(loginUser.userIsSubbed === false) {
+      //   alert("You are not subscriber please subscribe first!")
+      //   next('/subscribe')
+      //   console.log("you are in subscribe page")
+      // } else {
+      //   console.log("subscribe page to home")
+      //   next();
+      // }
+      next();
+    }
+  }
+  else if (to.meta.requiresAdmin == true && !admin) {
+    next('/admin/login');
+  }
+  else {
+
+    // If the route does not require authentication, proceed to the route
+    // console.log("you will go to main")
+    next();
+    // const user = sessionStorage.getItem('login_user');
+    // if (to.name === 'profile' && user) {
+    //     next('/userdashboard');
+    // } else {
+    //   next();
+    // }
+  }
+
+
+}
+)
+
+
+
 
 export default router

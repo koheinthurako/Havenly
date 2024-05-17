@@ -66,7 +66,7 @@ export default {
                 { title: 'phone xiaomi Restaurant' },
                 { title: 'phone vivo Land' },
             ],
-            activeTab: 0
+            activeTab: 1 // Set the default active tab to the first tab
         };
     },
     computed: {
