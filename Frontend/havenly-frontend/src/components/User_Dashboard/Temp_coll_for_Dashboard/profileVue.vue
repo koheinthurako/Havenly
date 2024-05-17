@@ -8,11 +8,23 @@
                         <form @submit.prevent="submit">
 
 
-                            <div class="form-control">
+                            <div class="mt-3 p-3 mx-auto">
                                 <div :v-if="user_data !== null">
-                                    <input type="text" :value="user_data?.name || ''" :counter="10" label="User name">
+
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="get_username"
+                                        :value="user_data?.name || ''" placeholder="User Name"></v-text-field>
+
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="gmail" :value="user_data?.gmail || ''"
+                                        placeholder="Gmail" readonly="true"></v-text-field>
+
+                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
+                                        rounded="lg" variant="solo" v-model="phone" :value="user_data?.phone || ''"
+                                        placeholder="Contact No"></v-text-field>
+                                    <!-- <input type="text" :value="user_data?.name || ''" label="User name">
                                     <input type="email" :value="user_data?.gmail || ''" label="E-mail">
-                                    <input type="phone" :value="user_data?.phone || ''" label="phone">
+                                    <input type="phone" :value="user_data?.phone || ''" label="phone"> -->
 
                                 </div>
                             </div>
@@ -50,7 +62,7 @@
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span class="d-flex align-center">
+                                        <span @click="packageDialogOpen" class="d-flex align-center">
                                             <v-icon>mdi-store</v-icon>&nbsp;Check
                                         </span>
                                     </p>
@@ -65,9 +77,22 @@
                                         </span>
                                     </p>
 
+                                    <!-- package dialog start -->
+                                    <v-dialog v-model="packageDialog" class="create-pop-up" persistent>
+                                        <div class="pop-up-subscribe">
+                                            <div class="d-flex justify-space-between">
+                                                <p>Subscribed Package</p>
+                                                <p><span :v-if="user_data !== null">
+                                                        {{ user_data?.subscribe_package || '' }}
+                                                    </span></p>
+                                            </div>
+                                            <v-btn @click="packageDialogClose">Close</v-btn>
+                                        </div>
+                                    </v-dialog>
+                                    <!-- package dialog end -->
+
                                     <!-- Dialog start -->
                                     <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
-
 
                                         <form @submit.prevent="submit" class="form-edit2">
                                             <v-row cols="12" class="mx-auto mb-3">
@@ -75,24 +100,40 @@
                                             </v-row>
                                             <button class="close-btn"
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
+                                            <div :v-if="user_data !== null">
 
-                                            <v-text-field v-model="email.value.value"
-                                                :error-messages="email.errorMessage.value"
-                                                label="G-mail"></v-text-field>
+                                                <v-text-field density="comfortable" clear-icon="mdi-close-circle"
+                                                    clearable rounded="lg" variant="solo" v-model="email.value.value"
+                                                    :value="user_data?.gmail || ''" placeholder="G-mail"
+                                                    readonly="true"></v-text-field>
 
-                                            <v-text-field v-model="password.value.value"
-                                                :error-messages="password.errorMessage.value"
-                                                class="input-group--focused" hint="At least 6 characters"
-                                                label="Current Password" name="input-10-2"
-                                                @click:append="visible = !visible"></v-text-field>
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="profile_password.value.value"
+                                                    :error-messages="profile_password.errorMessage.value"
+                                                    :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[rules.required, rules.min]"
+                                                    :type="visible ? 'text' : 'password'" :value="user_data?.pass || ''"
+                                                    class="input-group--focused" hint="At least 8 characters"
+                                                    label="Password" name="input-10-2"
+                                                    @click:append="visible = !visible"></v-text-field>
 
-                                            <v-text-field v-model="confirm_password.value.value"
-                                                :error-messages="confirm_password.errorMessage.value"
-                                                class="input-group--focused" hint="At least 6 characters"
-                                                label="New password" name="input-10-2"
-                                                @click:append="visible1 = !visible1"></v-text-field>
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="profile_confirm_password.value.value"
+                                                    :error-messages="profile_confirm_password.errorMessage.value"
+                                                    :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[rules.required, rules.min]"
+                                                    :type="visible1 ? 'text' : 'password'" class="input-group--focused"
+                                                    hint="At least 8 characters" label="Password" name="input-10-2"
+                                                    @click:append="visible1 = !visible1"></v-text-field>
+
+                                            </div>
+
 
                                             <v-row cols="12" class="w-100 mt-4">
+
+                                                <div v-if="show">
+                                                    <span>{{ register_info.id }}</span>
+                                                </div>
 
                                                 <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
                                                     type="submit">
@@ -251,6 +292,10 @@ export default {
         img: require('@/assets/img/9.jpg'),
         acc_img: require('@/assets/img/img_avatar.png'),
         resetdialog: false,
+        packageDialog: false,
+        visible: false,
+        visible1: false,
+
 
         rules: {
             required: value => !!value || 'Required.',
@@ -271,6 +316,14 @@ export default {
 
     methods: {
 
+        packageDialogOpen() {
+            this.packageDialog = true;
+        },
+
+        packageDialogClose() {
+            this.packageDialog = false;
+        },
+
         openDialog() {
             this.resetdialog = true;
         },
@@ -287,7 +340,11 @@ export default {
 <script setup>
 
 import { useField, useForm } from 'vee-validate'
+// import Swal from 'sweetalert2';
+import store from '../../../store/index.js';
 
+let show = true
+var register_info = store.getters.Take_Userinfo
 
 const { handleSubmit, handleReset } = useForm({
     validationSchema: {
@@ -317,26 +374,28 @@ const { handleSubmit, handleReset } = useForm({
     },
 })
 
-const password = useField('password')
-const confirm_password = useField('confirm_password')
+const profile_password = useField('password')
+const profile_confirm_password = useField('confirm_password')
 const email = useField('email')
 
-function showAlert(data) {
-    alert(
-        data
-    )
-}
-
 const submit = handleSubmit(values => {
-    if (values.password !== values.confirm_password) {
-        showAlert("Password didn't match!");
-    } else {
-        showAlert("Correct Password!");
+    if (values.profile_password == values.profile_confirm_password) {
+        console.log("Reached");
     }
 });
 </script>
 
 <style>
+.pop-up-subscribe {
+
+    width: 500px;
+    height: auto;
+    padding: 40px 60px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: auto;
+}
+
 .form-edit2 {
     margin: 0px auto;
     overflow: hidden;
@@ -362,8 +421,9 @@ const submit = handleSubmit(values => {
 }
 
 .user-profile {
-    width: 100%;
+    width: 70%;
     height: 100%;
+    margin: auto;
 
     .profile-box {
         padding: 8px;
@@ -388,6 +448,8 @@ const submit = handleSubmit(values => {
                 border-radius: 50%;
                 margin: auto;
             }
+
+
 
             .form-control {
                 width: 100%;

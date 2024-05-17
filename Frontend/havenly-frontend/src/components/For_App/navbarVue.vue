@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg p-0">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <h2>Havenly</h2>
