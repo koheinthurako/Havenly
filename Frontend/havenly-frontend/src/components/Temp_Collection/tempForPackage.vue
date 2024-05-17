@@ -60,7 +60,7 @@
                                     <div class="toggle-v-l">
                                         <span class="visible">Try Free Trial</span>
                                         <span class="later-visible">Subscribe now</span>
-                                        
+
                                     </div>
                                 </v-btn>
 
@@ -80,7 +80,7 @@
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">
-                                    $ {{items1.price}}
+                                    $ {{ items1.price }}
                                 </h1>
                             </div>
 
@@ -122,34 +122,31 @@
                         <!-- package three start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
-<<<<<<< HEAD
-                                <h3 class="d-flex me-auto">
+                                <<<<<<< HEAD <h3 class="d-flex me-auto">
                                     <div>Premium</div>&nbsp;&nbsp;package
-                                </h3>
-                                <h5 class="me-auto">For genius user</h5>
-=======
-                                <h3 class="d-flex">
-                                    <div>{{items2.name}}</div>&nbsp;&nbsp;package
-                                </h3>
-                                <h5>For real-estate agents</h5>
->>>>>>> 8b942dc6506e908237ebd1831b14a3ef623300f7
+                                    </h3>
+                                    <h5 class="me-auto">For genius user</h5>
+                                    =======
+                                    <h3 class="d-flex">
+                                        <div>{{ items2.name }}</div>&nbsp;&nbsp;package
+                                    </h3>
+                                    <h5>For real-estate agents</h5>
+                                    >>>>>>> 8b942dc6506e908237ebd1831b14a3ef623300f7
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">
-                                    $ {{items2.price}}
+                                    $ {{ items2.price }}
                                 </h1>
                             </div>
 
                             <div class="w-100 px-4">
 
                                 <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p
-                                        class="p1">Up to 30
+                                    <p class="p1">Up to 30
                                         posts a month.</p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p
-                                        class="p2">Up to 20 ads a month.
+                                    <p class="p2">Up to 20 ads a month.
                                     </p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
@@ -206,14 +203,9 @@
 </template>
 
 
-<<<<<<< HEAD
 <!-- <script>
 import { Swiper as Swiper2, SwiperSlide as SwiperSlide2 } from 'swiper/vue';
 
-=======
-<script>
-import { Swiper, SwiperSlide } from 'swiper/vue';
->>>>>>> 8b942dc6506e908237ebd1831b14a3ef623300f7
 import 'swiper/css';
 
 
