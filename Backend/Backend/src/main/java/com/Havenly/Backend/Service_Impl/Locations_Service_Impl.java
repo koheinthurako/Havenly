@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.Locations_Service;
 import com.Havenly.Backend.DTO.Locations_DTO;
 import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Repo.Locations_Repo;
-import com.Havenly.Backend.Service.Locations_Service;
 
 @Configuration
 public class Locations_Service_Impl implements Locations_Service{

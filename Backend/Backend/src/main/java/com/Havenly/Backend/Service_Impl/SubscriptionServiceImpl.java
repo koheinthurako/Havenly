@@ -3,6 +3,7 @@ package com.Havenly.Backend.Service_Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.SubscriptionService;
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Reg_user;
@@ -11,7 +12,6 @@ import com.Havenly.Backend.Repo.PackageTypesRepo;
 import com.Havenly.Backend.Repo.PackagesRepo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 import com.Havenly.Backend.Repo.SubscribeRepo;
-import com.Havenly.Backend.Service.SubscriptionService;
 
 @Configuration
 public class SubscriptionServiceImpl implements SubscriptionService{

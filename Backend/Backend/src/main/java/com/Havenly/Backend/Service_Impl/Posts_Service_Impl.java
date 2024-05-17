@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.Posts_Service;
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Repo.Posts_Repo;
-import com.Havenly.Backend.Service.Posts_Service;
 
 @Configuration
 public class Posts_Service_Impl implements Posts_Service{

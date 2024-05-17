@@ -7,11 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +20,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
-//import com.Havenly.Backend.Repo.TokenRepository;
 import com.Havenly.Backend.Service.Reg_user_Service;
+import com.Havenly.Backend.util.EmailUtil;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -49,6 +50,9 @@ public class Reg_user_Controller {
 	
 	@Autowired
 	PasswordEncoder pwencoder;
+	
+	@Autowired
+	EmailUtil emailUtil;
 	
 	
 	
@@ -149,13 +153,13 @@ public class Reg_user_Controller {
 //	}
 	
 	
-	@PutMapping("/forgotpassword")
-	public ResponseEntity<String> forgotpassword(@RequestParam String email){
+	@PutMapping("/forgotpassword/{email}")
+	public ResponseEntity<String> forgotpassword(@PathVariable String email){
 		return new ResponseEntity<>(regService.forgotPassword(email),HttpStatus.OK);
 	}
 	
-	@PutMapping("/setpassword")
-	public ResponseEntity<String> setPassword(@RequestParam String email,@RequestHeader String newPassword){
+	@PutMapping("/setpassword/{email}/{newPassword}")
+	public ResponseEntity<String> setPassword(@PathVariable String email,@PathVariable String newPassword){
 		return new ResponseEntity<>(regService.setPassword(email,newPassword),HttpStatus.OK);
 	}
 	

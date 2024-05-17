@@ -16,9 +16,7 @@ public class EmailUtil {
 	@Autowired
 	 JavaMailSender javaMailSender;
 	
-	public void setMailSender(JavaMailSender mailSender) {  
-        this.javaMailSender = mailSender;  
-    }  
+	
 	
 	
 	public void sendSetPasswordEmail(String email)throws MessagingException{
@@ -29,11 +27,11 @@ public class EmailUtil {
 		msg.setTo(email);
 		msg.setSubject("Set Password");
 		msg.setText("""
-				<div>
-				<a href="http://localhost:8083/setpassword?email=%s">click to set password</a>
-				</div>
+				
+				<a href="http://localhost:8080/akmakmset">click to set password</a>
+				
 				""".formatted(email) );
-		
+		System.out.println("akmakm");
 		javaMailSender.send(msg);
 
 		

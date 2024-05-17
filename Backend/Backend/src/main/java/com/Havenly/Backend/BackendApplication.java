@@ -9,8 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import com.Havenly.Backend.Entity.PackageTypes;
-import com.Havenly.Backend.Repo.PackageTypesRepo;
+
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 

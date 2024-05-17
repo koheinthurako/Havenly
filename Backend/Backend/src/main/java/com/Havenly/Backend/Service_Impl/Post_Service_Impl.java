@@ -3,9 +3,10 @@ package com.Havenly.Backend.Service_Impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
+import com.Havenly.Backend.Service.Post_Service;
 import com.Havenly.Backend.Entity.Post;
 import com.Havenly.Backend.Repo.Post_Repo;
-import com.Havenly.Backend.Service.Post_Service;
 
 
 @Configuration
