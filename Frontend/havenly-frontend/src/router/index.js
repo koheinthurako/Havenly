@@ -14,6 +14,7 @@ import registerakm from '../views/RegisterView.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
+import ResetPassword from '../views/ResetPassword.vue'
 
 
 
@@ -28,6 +29,7 @@ import PackagesView from '@/views/PackagesView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 
 import PostsView from '@/views/PostsView.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 
 
 
@@ -80,6 +82,16 @@ const routes = [
     name: 'PackagesView',
     component: PackagesView
   },
+{
+  path: '/forgot',
+  name: 'ForgotPassword',
+  component: ForgotPassword
+},
+{
+  path: '/akmakmset',
+  name: 'ResetPassword',
+  component: ResetPassword
+},
   // {
   //   path: '/userDashBoardNew',
   //   name: 'userDashBoardNew',
