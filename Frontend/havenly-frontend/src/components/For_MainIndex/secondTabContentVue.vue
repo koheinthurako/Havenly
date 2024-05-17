@@ -1,19 +1,18 @@
 <template>
     <div class="second-tabContent">
         <div class="second-tabContent-data">
-            <div class="tab-carousel-content m-auto my-2" :style="{ transform: `translateX(${offset}px)` }">
+            <div class="tab-carousel-content m-auto" :style="{ transform: `translateX(${offset}px)` }">
 
                 <div class="tabContent-header">
-
                     <h3>Welcome to Havenly</h3>
                 </div>
 
-                <div class="d-none d-md-block button-bar">
+                <div class="d-none d-md-block button-bar mb-2 py-4">
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                            :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button "
-                            @click="openTab(visibleStartIndex + index)"
+                            :elevation="10" :key="index" style="text-transform:capitalize;"
+                            class="tab-carousel-button w-25" @click="openTab(visibleStartIndex + index)"
                             :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                             {{ button }}
                         </v-btn>
@@ -21,10 +20,10 @@
                 </div>
 
 
-                <div class="d-block d-sm-none">
+                <div class="d-block d-sm-none mb-5">
                     <v-btn size="small"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                        :elevation="20" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
+                        :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
                         @click="openTab(visibleStartIndex + index)"
                         :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                         {{ button }}
@@ -52,10 +51,11 @@ export default {
     },
     data() {
         return {
-            buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office', 'Restaurant', 'Land'],
+
+            buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office'],
             offset: 0,
             visibleStartIndex: 0,
-            visibleButtons: 5,
+            visibleButtons: 3,
             contents: [
                 { title: 'phone apple Condo' },
                 { title: 'phone samsung Apartment' },
@@ -79,6 +79,7 @@ export default {
     },
     mounted() {
 
+
         const savedTab = localStorage.getItem('activeTab');
         if (savedTab !== null) {
             this.activeTab = parseInt(savedTab);
@@ -95,6 +96,7 @@ export default {
     },
 
     methods: {
+
         saveScrollPosition() {
             sessionStorage.setItem('scrollPosition', window.scrollY);
         },

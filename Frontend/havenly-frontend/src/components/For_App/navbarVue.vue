@@ -16,7 +16,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/home" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -30,8 +30,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/tempDoc"
-              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Documentation</router-link>
+            <router-link to="/tempDoc" :class="{ 'nav-link': true, active: isNavLinkActive('blog') }">Blog</router-link>
           </li>
 
           <li class="nav-item">
@@ -39,7 +38,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
+            <router-link to="/userdashboard"
+              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
           </li>
         </ul>
 
@@ -70,7 +70,7 @@
               </div>
             </div>
             <div v-else>
-              <router-link to="/register" class="nav-link">Register</router-link>
+              <router-link to="/loginakm" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>
@@ -104,7 +104,7 @@ export default {
         } else if (scrollPosition < 2900) {
           activeNavLink.value = 'package';
         } else if (scrollPosition < 3500) {
-          activeNavLink.value = 'documentation';
+          activeNavLink.value = 'blog';
         } else {
           activeNavLink.value = 'contact';
         }
