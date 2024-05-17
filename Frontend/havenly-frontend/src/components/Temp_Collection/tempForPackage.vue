@@ -170,7 +170,7 @@
                                 </v-btn>
                             </div>
                         </div>
-                        <!-- package three end -->
+
                     </swiper-slide2>
 
                 </swiper2>
@@ -203,15 +203,11 @@
 </template>
 
 
-<script>
-<<<<<<< HEAD
-import { Swiper, SwiperSlide } from 'swiper/vue';
-=======
+<!-- <script>
 import { Swiper as Swiper2, SwiperSlide as SwiperSlide2 } from 'swiper/vue';
->>>>>>> 7b9688d94d5f5f8b1e28f8cb42e2a2ce3cd69766
 
 import 'swiper/css';
-// import Swal from 'sweetalert2';
+
 
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -256,16 +252,6 @@ export default {
 
     },
 
-    // setup() {
-
-    //     return {
-    //         modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
-
-    //     };
-
-    // },
-
-
     computed: {
         user_info() {
             return this.$store.getters.Take_Userinfo
@@ -274,4 +260,4 @@ export default {
 
 }
 
-</script>
+</script> -->
