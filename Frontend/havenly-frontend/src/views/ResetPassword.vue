@@ -98,7 +98,10 @@
                          alert("Failed!!")
                      
                   }
+                
          axios.put(`http://localhost:8083/setpassword/${email}/${newPassword}`)
+       
+
         
         
          
