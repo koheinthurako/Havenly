@@ -20,7 +20,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
-                        @click="changeTab('all-post'); toggleSidebar2()">
+                        @click="changeTabForSub('all-post'); toggleSidebar2()">
                         <v-icon>mdi-post</v-icon>
                         <span>All post</span>
                     </a>
@@ -445,7 +445,12 @@ export default {
     white-space: nowrap;
     border-left: 5px solid transparent;
     text-decoration: none;
+    transition: 0.2s;
     cursor: pointer;
+}
+
+#sidebar .sidebar-item .sideTextLink:hover {
+    background-color: #e86f52;
 }
 
 </style>

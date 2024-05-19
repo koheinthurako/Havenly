@@ -399,8 +399,10 @@ export default {
 
 <script setup>
     import { ref } from 'vue'
+    import { getCurrentInstance } from 'vue';
     import { useField } from 'vee-validate'
     import axios from 'axios';
+    import router from '@/router';
 
     /* Field collection */
     const title = useField('title')
@@ -437,6 +439,8 @@ export default {
     // } else {
     //     console.log("Checking count letter false!")
     // }
+
+    const { proxy } = getCurrentInstance();
 
     const submit = async () => {
 
@@ -500,13 +504,18 @@ export default {
         });
 
         try {
-        const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data'
+            if(proxy.availPosts > 0) {
+                const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response.data);
+                window.location.reload();
+            } else {
+                alert("Your package is gone! Please buy another package!");
+                router.push('/package');
             }
-        });
-            console.log(response.data);
-            window.location.reload();
         } catch (error) {
         console.error(error);
         }

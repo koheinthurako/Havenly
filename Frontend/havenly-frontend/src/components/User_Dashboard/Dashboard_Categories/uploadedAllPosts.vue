@@ -6,7 +6,7 @@
                 <div v-for="post in posts" :key="post.post_id" class="col-md-3">
                     <div class="card-container">
                         <!-- TZH card styles -->
-                        <div class="card" style="height: 490px;">
+                        <div class="card cursor-pointer" style="height: 520px;">
                             <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
@@ -29,7 +29,7 @@
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                 </p>
                                 
-                                <div class="buttonBox d-flex justify-content-between gap-3">
+                                <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
                                     <button @click="editPost(post)" class="btn btn-outline-danger w-100">Edit</button>
                                     <button class="btn btn-danger w-100">Delete</button>
                                 </div>
@@ -178,5 +178,13 @@ import axios from 'axios';
 </script>
 
 <style>
+
+    .card-container .card {
+        transition: 0.2s
+    }
+
+    .card-container .card:hover {
+        transform: scale(1.007);
+    }
 
 </style>

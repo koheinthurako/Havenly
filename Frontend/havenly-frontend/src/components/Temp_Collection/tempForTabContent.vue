@@ -23,7 +23,7 @@
             <!-- Render real data from database-->
 
             <div class="row mb-5 g-3">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
+                <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 600px;">
@@ -106,6 +106,10 @@ export default {
     }),
 
     computed: {
+
+        limitedPosts() {
+            return this.posts.slice(0, 8); // posts array မှ 8 ခုကိုသာ ဖြတ်ယူပါမည်
+        },
 
         slides() {
             let slides = [];

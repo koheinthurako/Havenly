@@ -366,15 +366,20 @@ export default {
         fetchSubUserInfo() {
                 const user = JSON.parse(sessionStorage.getItem('login_user'));
                   const registerId = user.register_id;
-                  console.log("registerId to send backend to show subUser informations : " + registerId)
+                  console.log("registerId to send backend to show subUser informations from rent post : " + registerId)
                   axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
                       params: {
                           registerId: registerId
                       }
                   })
                   .then(response => {
-                    console.log(response.data);
-                    this.availPosts = response.data.availPosts
+                    console.log(response.data.availPosts);
+                    let posts = response.data.availPosts;
+                    console.log("avail posts : " + posts)
+                    this.availPosts = response.data.availPosts;
+                    console.log(this.availPosts);
+                    // this.availPosts = response.data.availPosts
+                    // console.log(this.availPosts);
                   })
                   .catch(error => {
                     console.error('Error fetching data:', error); // Handle the error
@@ -389,8 +394,11 @@ export default {
 
 <script setup>
     import { ref } from 'vue'
+    import { getCurrentInstance } from 'vue';
     import { useField } from 'vee-validate'
     import axios from 'axios';
+    import router from '@/router';
+
 
     /* Field collection */
     const title = useField('title')
@@ -421,6 +429,8 @@ export default {
     const selectedLocation = ref('')
     const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
     const subUserId = subUser.subUserId;
+    // const availPosts = ref('')
+    const { proxy } = getCurrentInstance();
 
     const submit = async () => {
 
@@ -441,16 +451,37 @@ export default {
     });
 
     try {
-    const response = await axios.post('http://localhost:8083/saverentpost', formData, {
-        headers: {
-        'Content-Type': 'multipart/form-data'
+        if(proxy.availPosts > 0) {
+            const response = await axios.post('http://localhost:8083/saverentpost', formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+            window.location.reload();
+        } else {
+            alert("Your package is gone! Please buy another package!");
+            router.push('/package');
         }
-    });
-        console.log(response.data);
-        window.location.reload();
     } catch (error) {
         console.error(error);
     }
+
+    // if(availPosts.value > 0) {
+    //     try {
+    //         const response = await axios.post('http://localhost:8083/saverentpost', formData, {
+    //             headers: {
+    //             'Content-Type': 'multipart/form-data'
+    //             }
+    //         });
+    //             console.log(response.data);
+    //             window.location.reload();
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // } else {
+    //     alert("Your package is gone! Please buy another package!");
+    // }
 
     };  
 
@@ -460,6 +491,7 @@ export default {
         console.log(Description.value.value)
         console.log(photoList);
         console.log(selectedLocation.value)
+        console.log(proxy.availPosts)
     }
 
 </script>

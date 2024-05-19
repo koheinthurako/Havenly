@@ -202,8 +202,8 @@
                 if(status===200){
                   alert("Subscribed Successfully! Enjoy your free trial! :)");
                   this.userIsSubbed = true;
+                  router.push('/');
                  } 
-                 router.push('/');
             })
             .catch(httpErrorHandler);
       }
