@@ -10,18 +10,29 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
-import AdminView from '../views/AdminView.vue'
-import AdminLoginView from '../views/AdminLoginView.vue'
-import AdminBanList from '../views/AdminBanList.vue'
+// import AdminView from '../views/AdminView.vue'
+// import AdminLoginView from '../views/AdminLoginView.vue'
+// import AdminBanList from '../views/AdminBanList.vue'
 // import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CreditCard from '@/views/CreditCard.vue'
-import PostsView from '@/views/PostsView.vue'
+
+// For Posts
+import postDetailView from '@/views/PostDetailView.vue'
+import AllPostView from '@/views/AllPostView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 
-import postDetailView from '../components/For_MainIndex/Side_Pages_For_Mainindex/post_detail_view.vue'
+
+// Design is same with i myanmay house ;)
+// import TempPostDetailView from '../components/For_MainIndex/Side_Pages_For_Mainindex/post_detail_view.vue'
+// import { componentsPlugin } from 'bootstrap-vue'
 
 const routes = [
+  {
+    path: '/admin/post',
+    name: 'admin',
+    component: AdminPost
+  },
   // {
   //   path: '/home',
   //   redirect: '/home'
@@ -81,7 +92,7 @@ const routes = [
     path: '/userdashboard',
     name: 'User_dashboard',
     component: userDashboard,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
   // {
   //   path: '/testingPage',
@@ -104,10 +115,20 @@ const routes = [
     component: CreditCard
   },
   {
-    path: '/postDetailView',
-    name: 'Post_Details',
+    path: '/post/detail/view/:id Success',
+    name: 'postDetailView',
     component: postDetailView
-  }
+  },
+  {
+    path: '/post/allposts/view/:postType Success',
+    name: 'AllPostView',
+    component: AllPostView
+  },
+  // {
+  //   path: '/temp/post/detail',
+  //   name: 'temppostdetail',
+  //   component: TempPostDetailView
+  // }
 
 ]
 

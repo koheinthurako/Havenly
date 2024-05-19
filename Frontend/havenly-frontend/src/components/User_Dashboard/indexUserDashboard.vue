@@ -27,7 +27,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }" 
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
                         @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
                         <v-icon>mdi-shape-plus</v-icon>
                         <span>Create Sell Post</span>
@@ -123,7 +123,7 @@ import Swal from 'sweetalert2';
 import profile_page from './Temp_coll_for_Dashboard/profileVue.vue'
 import create_sell_post_page from './Temp_coll_for_Dashboard/create_sell_post.vue'
 import create_rent_post_page from './Temp_coll_for_Dashboard/create_rent_post.vue'
-import router from '@/router';
+// import router from '@/router';
 
 
 export default {
@@ -166,14 +166,17 @@ export default {
         },
 
         changeTabForSub(tab) {
-            const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-            if(checkSubUser.packageType) {
-                this.openTab = tab;
-                localStorage.setItem('openTab', this.openTab);
-            } else {
-                alert("This is for subscriber user only. Please subscribe first")
-                router.push('/subscribe');
-            }
+            // const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
+
+            this.openTab = tab;
+            localStorage.setItem('openTab', this.openTab);
+            // if (checkSubUser.packageType) {
+            //     this.openTab = tab;
+            //     localStorage.setItem('openTab', this.openTab);
+            // } else {
+            //     alert("This is for subscriber user only. Please subscribe first")
+            //     router.push('/subscribe');
+            // }
         },
 
         closeSidebarOnClickOutside(event) {
@@ -444,5 +447,4 @@ export default {
     text-decoration: none;
     cursor: pointer;
 }
-
 </style>

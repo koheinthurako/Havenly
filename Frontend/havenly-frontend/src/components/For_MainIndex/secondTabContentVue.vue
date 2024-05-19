@@ -20,7 +20,7 @@
                 </div>
 
 
-                <div class="d-block d-sm-none mb-5">
+                <!-- <div class="d-block d-sm-none mb-5">
                     <v-btn size="small"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
                         :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
@@ -29,7 +29,7 @@
                         {{ button }}
                     </v-btn>
 
-                </div>
+                </div> -->
 
 
             </div>
@@ -55,16 +55,16 @@ export default {
             buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office'],
             offset: 0,
             visibleStartIndex: 0,
-            visibleButtons: 3,
+            visibleButtons: 4,
             contents: [
-                { title: 'phone apple Condo' },
-                { title: 'phone samsung Apartment' },
-                { title: 'phone xiaomi House' },
-                { title: 'phone vivo Hostel' },
-                { title: 'phone apple Industrial' },
-                { title: 'phone samsung Office' },
-                { title: 'phone xiaomi Restaurant' },
-                { title: 'phone vivo Land' },
+                { title: 'Condo' },
+                { title: 'Apartment' },
+                { title: 'House' },
+                { title: 'Hostel' },
+                { title: 'Industrial' },
+                { title: 'Office' },
+                { title: 'Restaurant' },
+                { title: 'Land' },
             ],
             activeTab: 1 // Set the default active tab to the first tab
         };
