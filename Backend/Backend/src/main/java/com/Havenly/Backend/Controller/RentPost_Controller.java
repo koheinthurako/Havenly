@@ -34,6 +34,7 @@ public class RentPost_Controller {
 	
 	@PostMapping("/saverentpost")
 	public ResponseEntity<TestSellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
+				@RequestParam("subUserId") int subUserId,
 				@RequestParam("title") String title,
 				@RequestParam("description") String description, @RequestParam("price") String price,
 				@RequestParam("area") String area,
@@ -45,7 +46,7 @@ public class RentPost_Controller {
 		for (MultipartFile file : files) {
 	        System.out.println("Uploaded file: " + file.getOriginalFilename());
 	    }
-		rentService.savePhotosToDB(files, title, description, price, area, property_type, deposit, least_contract, location_id);
+		rentService.saveRentPost(files, subUserId, title, description, price, area, property_type, deposit, least_contract, location_id);
 		return null;
 		
 	}

@@ -202,8 +202,8 @@ export default {
         .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status=='200'){
-                  alert("Approved Successfully")
-
+                    alert("Approved Successfully")
+                    window.location.reload();
                 }
             })
             .catch(httpErrorHandler)

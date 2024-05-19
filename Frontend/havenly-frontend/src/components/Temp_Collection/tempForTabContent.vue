@@ -37,8 +37,8 @@
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small opacity-75">{{ post.description }}</p>
                                 <div class="d-flex mb-3 justify-content-between">
-                                    <span class="small opacity-75">Deposit : {{ post.deposit }}</span>
-                                    <span class="small opacity-75">Contract : {{ post.least_contract }}</span>
+                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
+                                    <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
                                 </div>
                                 <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                     <v-icon >mdi-map-marker-radius</v-icon>

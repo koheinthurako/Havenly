@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Subscription_DTO;
@@ -46,8 +47,8 @@ public class SubscriptionController {
 //	}
 	
 	@GetMapping("/subscribe/getSubUserInfo")
-	public ResponseEntity<Subscription_DTO> getSubUserInfo() {
-		return new ResponseEntity<Subscription_DTO>(subRepo.getSubUserInfo(), HttpStatus.OK);
+	public ResponseEntity<Subscription_DTO> getSubUserInfo(@RequestParam int registerId) {
+		return new ResponseEntity<Subscription_DTO>(subRepo.getSubUserInfo(registerId), HttpStatus.OK);
 	}
 	
 	

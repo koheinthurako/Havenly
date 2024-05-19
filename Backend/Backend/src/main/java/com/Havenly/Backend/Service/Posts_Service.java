@@ -11,6 +11,7 @@ public interface Posts_Service {
 	
 	public List<Posts> getAllPendingPosts();
 	public List<Posts> getAllCompletePosts();
+	public List<Posts> getAllPosts(int subUserId);
 	public Posts update(Posts post);
 	public Posts decline(Posts post);
 

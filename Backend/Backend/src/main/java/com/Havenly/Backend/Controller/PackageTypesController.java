@@ -30,8 +30,8 @@ public class PackageTypesController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity <PackageTypesDTO> save(@Valid @RequestBody PackageTypesDTO dto){
-		return new ResponseEntity <PackageTypesDTO>(packTypesService.save(dto),HttpStatus.OK);
+	public ResponseEntity <List<PackageTypesDTO>> save(@Valid @RequestBody List<PackageTypesDTO> dto){
+		return new ResponseEntity <List<PackageTypesDTO>>(packTypesService.saveAll(dto),HttpStatus.OK);
 		
 	}
 	

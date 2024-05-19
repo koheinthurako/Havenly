@@ -38,7 +38,7 @@ public class Posts {
 	RentPost testrentposts;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
-	@JoinColumn(name="subUser_id")
+	@JoinColumn(name="sub_user_id")
 	private Subscription subUser;
 	
 	

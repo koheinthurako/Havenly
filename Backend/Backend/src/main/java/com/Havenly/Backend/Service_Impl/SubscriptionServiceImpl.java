@@ -56,6 +56,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription sub = subUser.convertToEntity(dto);
 		String email = dto.getEmail();
 		String packName = dto.getPackageType();
+		System.out.println("PackName : " + packName);
 		Reg_user reg_user = regRepo.findByEmail(email);
 
 //		if(regRepo.findByEmail(dto.getEmail())==null){
@@ -65,9 +66,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		sub.setReg_user(reg_user);
 		Packages packUser = new Packages();
 		PackageTypes packTypes = packTypesRepo.findByPackName(packName);
-
 		packUser.setSub1(sub);
 		packUser.setPackType(packTypes);
+		packUser.setAvailPosts(packTypes.getTotal_posts());
+		packUser.setAvailAds(packTypes.getTotal_ads());
 		packUser.setPackDate(LocalDate.now());
 		packUser.setPackTime(LocalDateTime.now());
 

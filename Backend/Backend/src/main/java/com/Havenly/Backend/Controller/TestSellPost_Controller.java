@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Entity.Locations;
+import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.TestSellPost;
+import com.Havenly.Backend.Repo.PackagesRepo;
 import com.Havenly.Backend.Repo.TestSellPost_Repo;
 import com.Havenly.Backend.Service.TestSellPost_Service;
 
@@ -32,6 +35,9 @@ public class TestSellPost_Controller {
 	
 	@Autowired
 	TestSellPost_Repo repo;
+	
+	@Autowired
+	PackagesRepo packRepo;
 	
 //	private int sellCount;
 	
@@ -57,6 +63,7 @@ public class TestSellPost_Controller {
 	
 	@PostMapping("/savetestsellpost")
 	public ResponseEntity<TestSellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
+				@RequestParam("subUserId") int subUserId,
 				@RequestParam("title") String title,
 				@RequestParam("description") String description, @RequestParam("price") String price,
 				@RequestParam("area") String area,
@@ -66,10 +73,15 @@ public class TestSellPost_Controller {
 		for (MultipartFile file : files) {
 	        System.out.println("Uploaded file: " + file.getOriginalFilename());
 	    }
-		testSellService.savePhotosToDB(files, title, description, price, area, property_type, location_id);
+		testSellService.saveSellPost(files, subUserId, title, description, price, area, property_type, location_id);
 		return null;
 		
 	}
+	
+//	@PutMapping("/updatePackagePost")
+//	public void updatePackagePost() {
+//		packRepo.updatePost(5, 1);
+//	}
 	
 	
 	

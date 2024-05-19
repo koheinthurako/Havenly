@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.Subscription;
@@ -17,11 +18,12 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 //			, nativeQuery = true)
 //	public List<Subscription_DTO> getSubUserInfo();
 
-	@Query("SELECT new com.Havenly.Backend.DTO.Subscription_DTO(sub.subUserId, sub.nrc, reg.email, reg.name, reg.phone, sub.subStartDate, sub.subStartTime, pack.packType.packName, pack.packType.price, pack.packType.total_posts ) " +
+	@Query("SELECT new com.Havenly.Backend.DTO.Subscription_DTO(sub.subUserId, sub.nrc, reg.email, reg.name, reg.phone, sub.subStartDate, sub.subStartTime, pack.packType.packName, pack.packType.price, pack.availPosts ) " +
 	           "FROM Subscription sub " +
 	           "LEFT JOIN sub.reg_user reg " +
-	           "LEFT JOIN sub.packages pack")
+	           "LEFT JOIN sub.packages pack " +
+	           "WHERE reg.register_id = :registerId")
 //    List<Subscription_DTO> getSubUserInfo();
-	Subscription_DTO getSubUserInfo();
+	Subscription_DTO getSubUserInfo(@Param("registerId") int registerId);
 
 }
