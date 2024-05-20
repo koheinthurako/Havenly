@@ -43,8 +43,8 @@ public class Reg_user_Controller {
 	@Autowired
 	Reg_user_Service regService;
 	
-	@Autowired
-	Reg_user_Repo regRepo;
+//	@Autowired
+//	Reg_user_Repo regRepo;
 	
 	@Autowired
 	TokenRepo tokenRepo;
@@ -81,6 +81,11 @@ public class Reg_user_Controller {
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Reg_user_DTO>> getAll() {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getLoginUser")
+	public ResponseEntity<Reg_user_DTO> getById() {
+		return null;
 	}
 	
 //	@GetMapping("/getSubUserInfo")

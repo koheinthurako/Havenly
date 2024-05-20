@@ -16,7 +16,7 @@ import lombok.Setter;
 public class PackageTypes {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int packageTypeId;
 	
 	@Column(name = "package_name", length=30, nullable = false)

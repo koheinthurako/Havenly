@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +18,13 @@ import com.Havenly.Backend.Service.TestSellPost_Service;
 import com.Havenly.Backend.Entity.Ban_user;
 
 import com.Havenly.Backend.Entity.Locations;
+import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Posts;
+import com.Havenly.Backend.Entity.Subscription;
 import com.Havenly.Backend.Entity.TestSellPost;
+import com.Havenly.Backend.Repo.PackagesRepo;
 import com.Havenly.Backend.Repo.Posts_Repo;
+import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.Repo.TestSellPost_Repo;
 
 @Configuration
@@ -30,6 +35,12 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	
 	@Autowired
 	Posts_Repo postsRepo;
+	
+	@Autowired
+	PackagesRepo packageRepo;
+	
+	@Autowired
+	SubscribeRepo subRepo;
 	
 	private int sellCount;
 
@@ -205,8 +216,7 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	
 	
 	@Override
-
-	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+	public void saveSellPost(MultipartFile[] files, int subUserId, String title, String description, String price,
 	        String area, String property_type, Locations location_id) {
 
 	    TestSellPost tp = new TestSellPost();
@@ -252,11 +262,27 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	    tp.setTime(LocalTime.now());
 
 	    testSellRepo.save(tp);
-
+	    
+	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
 	    Posts post = new Posts();
 	    post.setPost_type(customId);
 	    post.setStatus("pending");
+	    post.setSubUser(subUser);
 	    postsRepo.save(post);
+	    
+	    Packages pack = packageRepo.findByUserId(subUserId);
+	    if (pack == null) {
+	        throw new RuntimeException("Package not found for user ID: " + subUserId);
+	    } else {
+	    	int postCount = pack.getAvailPosts()-1;
+	    	System.out.println("UpdatePost method ko thwar call p");
+	    	System.out.println("postCount value : " + postCount);
+		    packageRepo.updatePost(postCount, subUserId);
+		    System.out.println("Successfully updated avail_posts in database!");
+	    }
+	    
+	    
+	    
 	}
 
 

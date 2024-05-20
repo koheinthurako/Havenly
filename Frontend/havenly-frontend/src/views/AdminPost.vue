@@ -191,6 +191,7 @@ export default {
                             console.log(imgUrls)
                         }
 
+<<<<<<< HEAD
                     });
                     // console.log(this.posts);
                 })
@@ -200,6 +201,19 @@ export default {
         },
 
         approve(post) {
+=======
+        axios.put("http://localhost:8083/posts/update",post)
+        .then(function(response){
+                const status=JSON.parse(response.status);
+                if(status=='200'){
+                    alert("Approved Successfully")
+                    window.location.reload();
+                }
+            })
+            .catch(httpErrorHandler)
+      },
+      cancel(post){
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
 
             function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {

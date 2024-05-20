@@ -27,8 +27,12 @@
             <!-- Render real data from database-->
             <!-- :to="{ name: 'postDetail', params: { id: encryptId(post.p_id) } }" -->
             <div class="row mb-5 g-3">
+<<<<<<< HEAD
                 <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3"
                     @click="gotoDetailView(post.post_id)">
+=======
+                <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 550px;">
@@ -41,11 +45,18 @@
                             </div>
                             <div class="card-body p-3 d-flex flex-column">
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
+<<<<<<< HEAD
                                 <p class="card-text small opacity-75" style="text-indent: 30px">{{
                                     truncateText(post.description, 75) }}</p>
                                 <div class="d-flex mb-3 mt-3 justify-content-between">
                                     <span class="small opacity-75">Deposit : Deposit</span>
                                     <span class="small opacity-75">Contract : Contract</span>
+=======
+                                <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <div class="d-flex mb-3 justify-content-between">
+                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
+                                    <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
                                 </div>
                                 <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                     <v-icon>mdi-map-marker-radius</v-icon>
@@ -121,6 +132,7 @@ export default {
 
     computed: {
 
+<<<<<<< HEAD
         // slides() {
         //     let slides = [];
         //     const titleParts = this.content.title.split(' ');
@@ -139,6 +151,22 @@ export default {
 
             // Return only the first four filtered posts
             return filteredPosts.slice(0, 4);
+=======
+        limitedPosts() {
+            return this.posts.slice(0, 8); // posts array မှ 8 ခုကိုသာ ဖြတ်ယူပါမည်
+        },
+
+        slides() {
+            let slides = [];
+            const titleParts = this.content.title.split(' ');
+            console.log(this.content.title);
+            if (titleParts.length === 3) {
+                const firstWord = titleParts[0];
+                const secondWord = titleParts[1];
+                slides = this.$store.state[firstWord].filter(slide => slide.category === secondWord);
+            }
+            return this.limitSlides(slides);
+>>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
         },
 
 

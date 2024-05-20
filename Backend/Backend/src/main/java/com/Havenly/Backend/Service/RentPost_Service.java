@@ -7,7 +7,7 @@ import com.Havenly.Backend.Entity.Locations;
 @Service
 public interface RentPost_Service {
 
-	public void savePhotosToDB(MultipartFile[] files, String title, String description, String price,
+	public void saveRentPost(MultipartFile[] files, int subUserId, String title, String description, String price,
 			String area, String property_type, String deposit, String least_contract, Locations location_id);
 	
 }

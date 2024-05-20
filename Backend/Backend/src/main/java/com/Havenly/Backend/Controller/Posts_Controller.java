@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.Entity.Posts;
@@ -20,6 +21,11 @@ public class Posts_Controller {
 	
 	@Autowired
 	Posts_Service service;
+	
+	@GetMapping("/allPosts")
+	public ResponseEntity<List<Posts>> getAllPosts(@RequestParam int subUserId){
+		return new ResponseEntity<List<Posts>>(service.getAllPosts(subUserId),HttpStatus.OK);
+	}
 	
 	@GetMapping("/allPending")
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){
