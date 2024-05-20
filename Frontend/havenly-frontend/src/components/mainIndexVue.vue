@@ -42,9 +42,10 @@
 
             <br><br>
             <div class="popup-data">
-                <div v-for="data in items" :key="data">
+                <div v-for="(data, index) in items" :key="index">
                     <div class="row box-content">
-                        <div class="col-1 toggle-btn" @click="getData(data.title, data.type, data.name)">
+                        <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === index }"
+                            @click="getData(data.title, data.type, data.name, index)">
                             <v-icon>mdi-menu-left</v-icon>
                         </div>
                         <div class="col-4 p-0">
@@ -110,7 +111,7 @@ export default {
 
     data: () => ({
 
-        notificationCount: 4,
+        notificationCount: 8,
 
         items: [
             { id: 1, title: 'John Lwin', img: require('@/assets/img/1.jpg'), type: 'panda', name: 'condo' },
@@ -125,7 +126,9 @@ export default {
         ],
     }),
 
+
     methods: {
+
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
             const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
@@ -159,17 +162,19 @@ export default {
         const isPopupVisible = ref(false);
         const isPopupDisable = ref(false);
         const isCardVisible = ref(false);
+        const activeButton = ref(null);
         const userData = ref({
             name: '',
             email: '',
             phone: ''
         });
 
-        const getData = (name, email, phone) => {
+        const getData = (name, email, phone, index) => {
             userData.value.name = name;
             userData.value.email = email;
             userData.value.phone = phone;
             isCardVisible.value = true;
+            activeButton.value = index;
         };
 
         const hideCard = () => {
@@ -214,6 +219,7 @@ export default {
         };
 
         return {
+            activeButton,
             showBackToTop,
             scrollToTop,
             isPopupVisible,
@@ -241,6 +247,11 @@ export default {
 </script>
 
 <style>
+.notiActive {
+    transform: rotate(180deg) !important;
+    color: red !important;
+}
+
 #backToTopBtn {
     display: block;
     position: fixed;

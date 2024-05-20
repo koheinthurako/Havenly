@@ -2,21 +2,21 @@
 
     <div class="all-post-view">
         <v-container>
-            <div class="row">
-                <div class="col-md-8 col-sm-12">
+            <div class="row px-5">
+                <div class="col-md-8 col-sm-12" style="border: 1px solid red;">
                     <div class="left">
                         <div class="header">
                             <h4>See all post of {{ data }} </h4>
                             <v-icon>mdi-chevron-double-right</v-icon>
 
                             <div class="display-posts">
-                                <!-- <TempAllPost /> -->
-                                hello world
+                                <TempAllPost />
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 d-none d-sm-block">
+                <div class="col-md-4 d-none d-sm-block" style="border: 1px solid green;">
                     <div class="right">
                         hello world right
                     </div>
@@ -31,7 +31,7 @@
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8'
 
-// import TempAllPost from '@/views/TempCollection/TempForAllPostView.vue'
+import TempAllPost from '@/views/TempCollection/TempForAllPostView.vue'
 
 export default {
     name: 'AllPostView',
@@ -45,7 +45,7 @@ export default {
     },
 
     components: {
-        // TempAllPost,
+        TempAllPost,
     },
 
     mounted() {

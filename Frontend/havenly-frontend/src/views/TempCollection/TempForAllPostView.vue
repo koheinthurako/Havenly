@@ -1,5 +1,7 @@
 <template>
-    <h2>Hello world again</h2>
+    <div class="view-posts">
+        hello world bb
+    </div>
 </template>
 
 
