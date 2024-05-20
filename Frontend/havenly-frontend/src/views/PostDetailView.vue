@@ -484,6 +484,7 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+        postGetId: null,
 
         imageDialog: false,
 
@@ -598,7 +599,15 @@ export default {
         //     this.fetchRelated(this.postData.type, this.$route.params.id);
         // });
 
-        this.fetchPost(this.$route.params.id);
+
+
+        this.postGetId = sessionStorage.getItem('postId');
+        if (!this.postGetId) {
+            console.error('No postType found in sessionStorage');
+        } else {
+            this.fetchPost(this.postGetId);
+            // console.log('postType:', this.postType);
+        }
     }
 
 }

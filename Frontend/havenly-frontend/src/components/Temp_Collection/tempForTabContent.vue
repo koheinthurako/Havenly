@@ -133,8 +133,6 @@ export default {
         //     return this.limitSlides(slides);
         // },
 
-
-
         displayedPosts() {
             // Filter posts based on the selected type
             const filteredPosts = this.showPosts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
@@ -176,18 +174,27 @@ export default {
         },
 
         gotoDetailView(postId) {
-            const encryptedId = this.encryptId(postId);
-            this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
+
+            const encryptData = this.encryptId(postId);
+            sessionStorage.setItem('postId', encryptData);
+            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
         },
 
         gotoAllView(data) {
-            // const encryptedData = this.encryptId(data);
-            this.$router.push({ name: 'AllPostView', params: { postType: data } });
+            const encryptData = this.encryptData(data);
+            sessionStorage.setItem('getPostType', encryptData);
+            this.$router.push({ name: 'AllPostView', params: { postType: `${encryptData} Success` } });
         },
 
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
             const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        encryptData(data) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(data, secretKey).toString()
             return encryptedId
         },
 

@@ -139,8 +139,14 @@ export default {
             return parseInt(decryptedId, 10);
         },
         gotoDetailView(postId) {
-            const encryptedId = this.encryptId(postId);
-            this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
+
+            // const encryptedId = this.encryptId(postId);
+            // this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
+
+            const encryptData = this.encryptId(postId);
+            localStorage.setItem('postId', encryptData);
+            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+
         },
 
     },
@@ -158,8 +164,6 @@ export default {
             email: '',
             phone: ''
         });
-
-
 
         const getData = (name, email, phone) => {
             userData.value.name = name;

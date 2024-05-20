@@ -115,12 +115,12 @@ const routes = [
     component: CreditCard
   },
   {
-    path: '/post/detail/view/:id Success',
+    path: '/post/detail/view/:id',
     name: 'postDetailView',
     component: postDetailView
   },
   {
-    path: '/post/allposts/view/:postType Success',
+    path: '/post/allposts/view/:postType',
     name: 'AllPostView',
     component: AllPostView
   },

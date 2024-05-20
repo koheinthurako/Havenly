@@ -1,5 +1,5 @@
 <template>
-    <h2>Hello world</h2>
+    <h2>Hello world again</h2>
 </template>
 
 
