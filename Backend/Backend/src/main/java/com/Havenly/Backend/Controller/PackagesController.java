@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Havenly.Backend.DTO.Packages_DTO;
-import com.Havenly.Backend.DTO.Subscription_DTO;
-import com.Havenly.Backend.Entity.Packages;
-import com.Havenly.Backend.Entity.Subscription;
+import com.Havenly.Backend.DTO.Packages_DD;
 import com.Havenly.Backend.Repo.PackagesRepo;
 import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.Service.PackagesService;
@@ -32,33 +29,19 @@ public class PackagesController {
 	SubscribeRepo subRepo;
 
 	@GetMapping("/my-package")
-	public ResponseEntity <Packages_DTO> showPurchased(@Valid @RequestBody Packages_DTO pack){
-		if(pack.getPackageId()<=0) {
+	public ResponseEntity <Packages_DD> showPurchased(@Valid @RequestBody Packages_DD pack){
+		if(pack==null) {
 			return ResponseEntity.badRequest().build();
 		}
-		if(packRepo.findById(pack.getPackageId())==null) {
-			return ResponseEntity.notFound().build();
-		}
-		return new ResponseEntity <Packages_DTO>(packService.showPackage(pack),HttpStatus.OK);
+		return new ResponseEntity <Packages_DD>(packService.showPackage(pack),HttpStatus.OK);
 	}
 	
-	@PostMapping("/purchase")
-	public ResponseEntity <String> purchasePackage(@Valid @RequestBody Subscription_DTO dto){
+	@PostMapping("/payment")
+	public ResponseEntity <String> purchasePackage(@Valid @RequestBody Packages_DD dto){
 		if(dto == null) {
 			return ResponseEntity.badRequest().build();
-		}
-		String email = dto.getEmail();
-		String packType = dto.getPackageType();
-		if(subRepo.findByEmail(dto.getEmail())==null) {
-			return ResponseEntity.notFound().build();
-		}
-//		if (pack.getPayment() == null) {
-//			return ResponseEntity.badRequest().build();
-//		}
-		if (dto.getPackageType() == null) {
-			return ResponseEntity.badRequest().build();
-		}
-		Packages_DTO pack = packService.buyPack(email, packType);
+		}	
+		Packages_DD pack = packService.buyPack(dto.getEmail(), dto.getPackageType(), dto.getAmount());
 		if (pack == null) {
 			return ResponseEntity.internalServerError().build();
 		}
@@ -66,18 +49,14 @@ public class PackagesController {
 	}
 	
 	@DeleteMapping("/cancel-package")
-	public ResponseEntity <String> cancelPack(@Valid @RequestBody Subscription_DTO dto){
+	public ResponseEntity <String> cancelPack(@Valid @RequestBody Packages_DD dto){
 		if(dto == null) {
 			return ResponseEntity.badRequest().build();
 		}
-		String nrc = dto.getNrc();
-		Subscription sub = subRepo.findByNrc(nrc);		
-
-		if (sub == null) {
+		if (dto.getEmail() == null) {
 			return ResponseEntity.notFound().build();
 		}
-		Packages pack = sub.getPackages();
-		boolean isDeleted = packService.delete(pack);
+		boolean isDeleted = packService.delete(dto);
 		if (isDeleted) {
 			return new ResponseEntity<String>(HttpStatus.OK);
 		}

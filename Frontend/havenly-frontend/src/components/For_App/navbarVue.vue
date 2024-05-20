@@ -11,13 +11,15 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/testingPage" class="nav-link">Testing</router-link>
-          </li>
+          </li> -->
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: 
-            ('home') }">Home</router-link>
+            <router-link to="/" :class="{
+              'nav-link': true, active:
+                ('home')
+            }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -39,6 +41,7 @@
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
           </li>
 
+
           <!-- <li class="nav-item">
             <router-link to="/userDashBoardNew"
               :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
@@ -48,6 +51,7 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
           </li>
         </ul>
+
 
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -76,7 +80,7 @@
               </div> -->
             </div>
             <div v-else>
-              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{loginText}}</router-link>
+              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{ loginText }}</router-link>
             </div>
           </li>
         </ul>
@@ -91,8 +95,9 @@ import { useRouter } from 'vue-router';
 export default {
   name: 'navbarVue',
 
+
   setup() {
-    
+
     const activeNavLink = ref('');
     const router = useRouter();
 
@@ -132,6 +137,7 @@ export default {
 
   data() {
     return {
+      notificationCount: 5,
       activeDataLink: '',
       loginText: 'Login',
     };
@@ -159,7 +165,7 @@ export default {
       // Return whether the route name matches the current route
       return this.$route.name === routeName;
     },
-    
+
     // isLoggedIn() {
     //   // Check if user information is stored in session storage
     //   console.log("User is included in session storage");

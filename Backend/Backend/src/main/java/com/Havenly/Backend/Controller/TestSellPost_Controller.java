@@ -40,7 +40,7 @@ public class TestSellPost_Controller {
 	
 	@GetMapping("/gettestsellpost")
 	public ResponseEntity<List<TestSellPost>> getAllTestSellPosts() {
-		return new ResponseEntity<List<TestSellPost>>(repo.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<TestSellPost>>(repo.getAllTestSellPosts(), HttpStatus.OK);
 	}
 	
 	

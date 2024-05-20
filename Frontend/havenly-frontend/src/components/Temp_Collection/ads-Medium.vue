@@ -213,7 +213,8 @@ export default {
     /* For Desktop */
     .ads-medium-page {
         .card-img-medium {
-            margin-left: 40px;
+            margin: 0px 8px;
+
         }
     }
 }

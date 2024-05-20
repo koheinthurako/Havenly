@@ -21,9 +21,14 @@ public class Posts_Controller {
 	@Autowired
 	Posts_Service service;
 	
-	@GetMapping("/all")
-	public ResponseEntity<List<Posts>> getAllPosts(){
-		return new ResponseEntity<List<Posts>>(service.getAllPosts(),HttpStatus.OK);
+	@GetMapping("/allPending")
+	public ResponseEntity<List<Posts>> getAllPendingPosts(){
+		return new ResponseEntity<List<Posts>>(service.getAllPendingPosts(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/allComplete")
+	public ResponseEntity<List<Posts>> getAllCompletePosts(){
+		return new ResponseEntity<List<Posts>>(service.getAllCompletePosts(),HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")

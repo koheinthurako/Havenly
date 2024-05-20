@@ -1,18 +1,11 @@
 package com.Havenly.Backend.Entity;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +31,9 @@ public class Posts {
 	@JoinColumn(name = "sell_post_id", referencedColumnName = "sell_post_id")
 	TestSellPost testsellpostss;
 	
-
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")
+	RentPost testrentposts;
 	
 	
 }

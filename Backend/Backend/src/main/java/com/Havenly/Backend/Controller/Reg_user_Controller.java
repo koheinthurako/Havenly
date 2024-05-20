@@ -83,6 +83,11 @@ public class Reg_user_Controller {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
 	}
 	
+//	@GetMapping("/getSubUserInfo")
+//	public ResponseEntity<Reg_user_DD> getSubUserInfo() {
+//		return new ResponseEntity<Reg_user_DD>(userRepo.getSubUserInfo(), HttpStatus.OK);
+//	}
+	
 	@PostMapping("/register")
 	public ResponseEntity<Reg_user_DTO> register(@Valid @RequestBody Reg_user_DTO dto){
 		dto.setDate(LocalDate.now());
@@ -106,6 +111,7 @@ public class Reg_user_Controller {
 	
 		return ResponseEntity.ok().body(user);
 	}
+	
 	
 	@PutMapping("/profile/update")
 	public ResponseEntity<Reg_user_DD> updateProfile( @RequestBody  Reg_user_DD user) {

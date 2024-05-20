@@ -7,19 +7,19 @@
                 </button>
                 <div class="sidebar-logo">
                     <a href="#">Dashboard</a>
-                </div>1
+                </div>
             </div>
             <ul class="sidebar-nav ">
                 <li class="sidebar-item">
 
-                    <a class="sidebar-link" :class="{ active: openTab === 'profile' }"
+                    <a class="sideTextLink" :class="{ active: openTab === 'profile' }"
                         @click="changeTab('profile'); toggleSidebar2()">
                         <v-icon>mdi-account</v-icon>
                         <span>Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: openTab === 'all-post' }"
+                    <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
                         @click="changeTab('all-post'); toggleSidebar2()">
                         <v-icon>mdi-database</v-icon>
                         <span>All post</span>
@@ -27,21 +27,21 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: openTab === 'create-sell-post' }"
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
                         @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
                         <v-icon>mdi-shape-plus</v-icon>
                         <span>Create Sell Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: openTab === 'create-rent-post' }"
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
                         @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
                         <v-icon>mdi-shape-plus</v-icon>
                         <span>Create Rent Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" :class="{ active: openTab === 'create-ads' }"
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads' }"
                         @click="changeTabForSub('create-ads'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
@@ -54,7 +54,7 @@
                     <v-icon>mdi-logout</v-icon>
                 </button>
                 <div class="sidebar-logo">
-                    <a class="sidebar-link">Logout</a>
+                    <a class="sideTextLink">Logout</a>
                 </div>
             </div>
 
@@ -167,7 +167,10 @@ export default {
 
         changeTabForSub(tab) {
             const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-            if(checkSubUser.userIsSubbed === true) {
+
+            this.openTab = tab;
+            localStorage.setItem('openTab', this.openTab);
+            if (checkSubUser.packageType) {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {
@@ -321,7 +324,7 @@ export default {
 }
 
 #sidebar:not(.expand) .sidebar-logo,
-#sidebar:not(.expand) a.sidebar-link span {
+#sidebar:not(.expand) a.sideTextLink span {
     display: none;
 }
 
@@ -332,7 +335,7 @@ export default {
     .sidebar-item {
         position: relative;
 
-        a.sidebar-link {
+        a.sideTextLink {
             padding: .625rem 1.625rem;
             color: #FFF;
             display: block;
@@ -388,7 +391,7 @@ export default {
     opacity: 1;
 }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+#sidebar.expand .sideTextLink[data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;
     content: "";
@@ -401,7 +404,7 @@ export default {
     transition: all .3s ease-out;
 }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+#sidebar.expand .sideTextLink[data-bs-toggle="collapse"].collapsed::after {
     transform: rotate(45deg);
     transition: all .3s ease-out;
 }
@@ -430,5 +433,18 @@ export default {
     .v-icon {
         color: #525252;
     }
+}
+
+#sidebar .sidebar-item .sideTextLink {
+    background-color: none;
+    text-decoration: none;
+    color: #fff;
+    padding: .625rem 1.625rem;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 5px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
 }
 </style>

@@ -22,7 +22,7 @@ public class PackageTypes {
 	@Column(name = "package_name", length=30, nullable = false)
 	private String packName;
 	@Column(name = "price", nullable = false)
-	private int price;
+	private String price;
 	@Column(name = "total_posts", nullable = false)
 	private int total_posts;
 	@Column(name = "total_ads", nullable = false)

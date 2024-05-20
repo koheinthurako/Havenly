@@ -16,13 +16,23 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 	
 	
 	
-	@Query(value = "SELECT p.post_id AS post_id, p.post_type AS post_type, p.status AS status, sp.sell_post_id AS sell_post_id, sp.date AS date, sp.time AS time, sp.title AS title, sp.description AS description, sp.price AS price, sp.area AS area, sp.property_type AS property_type, sp.image AS image, l.province AS province, l.region AS region, c.country AS country " +
-            "FROM posts p " +
-            "INNER JOIN test_sell_post sp ON p.post_type = sp.sell_post_id " +
-            "INNER JOIN locations l ON sp.location_id = l.location_id " +
-            "INNER JOIN countries c ON l.country_id = c.country_id " +
+	@Query(value = "SELECT p.post_id, p.post_type, p.status, tp.sell_post_id, rp.rent_post_id, COALESCE (tp.title, rp.title) AS title, COALESCE(tp.description, rp.description) AS description,COALESCE(tp.area, rp.area) AS area, COALESCE(tp.price, rp.price) AS price, COALESCE(tp.date, rp.date) AS date, COALESCE(tp.time, rp.time) AS time, COALESCE(tp.image, rp.image) AS image, COALESCE(tp.property_type, rp.property_type) AS property_type, COALESCE(tp.location_id, rp.location_id) AS location_id, rp.deposit, rp.least_contract, l.province, l.region, c.country " +
+            "FROM posts as p " +
+			"LEFT JOIN rentpost as rp ON p.post_type = rp.rent_post_id " +
+            "LEFT JOIN test_sell_post tp ON p.post_type = tp.sell_post_id " +
+            "LEFT JOIN locations l ON tp.location_id = l.location_id " +
+            "LEFT JOIN countries c ON l.country_id = c.country_id " +
             "WHERE p.status = 'pending'", nativeQuery = true)
-	public List<Posts> getAllPosts();
+	public List<Posts> getAllPendingPosts();
 	
+	
+	@Query(value = "SELECT p.post_id, p.post_type, p.status, tp.sell_post_id, rp.rent_post_id, COALESCE (tp.title, rp.title) AS title, COALESCE(tp.description, rp.description) AS description,COALESCE(tp.area, rp.area) AS area, COALESCE(tp.price, rp.price) AS price, COALESCE(tp.date, rp.date) AS date, COALESCE(tp.time, rp.time) AS time, COALESCE(tp.image, rp.image) AS image, COALESCE(tp.property_type, rp.property_type) AS property_type, COALESCE(tp.location_id, rp.location_id) AS location_id, rp.deposit, rp.least_contract, l.province, l.region, c.country " +
+            "FROM posts as p " +
+			"LEFT JOIN rentpost as rp ON p.post_type = rp.rent_post_id " +
+            "LEFT JOIN test_sell_post tp ON p.post_type = tp.sell_post_id " +
+            "LEFT JOIN locations l ON tp.location_id = l.location_id " +
+            "LEFT JOIN countries c ON l.country_id = c.country_id " +
+            "WHERE p.status = 'complete'", nativeQuery = true)
+	public List<Posts> getAllCompletePosts();
 
 }

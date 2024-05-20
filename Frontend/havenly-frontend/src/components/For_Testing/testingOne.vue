@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template>
+  =======
+  <!-- <template>
+>>>>>>> 7b9688d94d5f5f8b1e28f8cb42e2a2ce3cd69766
 
   <div style="margin-top: 7%;"></div>
   <div class="w-100 d-flex p-0 m-0">
@@ -48,6 +52,15 @@
           clear
         </v-btn>
       </form>
+<<<<<<< HEAD
+=======
+
+      <v-btn @click="count++">plus</v-btn>
+      <p>{{ count }}</p>
+
+
+
+>>>>>>> 7b9688d94d5f5f8b1e28f8cb42e2a2ce3cd69766
     </div>
   </div>
 </template>
@@ -79,6 +92,11 @@ export default {
 import { ref } from 'vue'
 import { useField, useForm } from 'vee-validate'
 
+<<<<<<< HEAD
+=======
+const count = ref(0)
+
+>>>>>>> 7b9688d94d5f5f8b1e28f8cb42e2a2ce3cd69766
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
     name(value) {
@@ -157,6 +175,52 @@ const submit = handleSubmit(values => {
     transform: translateX(-200px);
   }
 }
+<<<<<<< HEAD
+
+@keyframes upward {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-50px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.fade_in {
+  animation: ScaleIn 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+}
+
+.fade_out {
+  animation: myAnim 0.1s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+}
+
+@keyframes ScaleIn {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes myAnim {
+  0% {
+    transform: rotate(0);
+    transform-origin: top;
+  }
+
+  100% {
+    display: none;
+    transform: rotate(360deg);
+    transform-origin: top;
+  }
+=======
 
 @keyframes upward {
   0% {
@@ -202,4 +266,112 @@ const submit = handleSubmit(values => {
     transform-origin: top;
   }
 }
-</style>
+</style> -->
+  <!-- 
+<template>
+  <div>
+    <swiper :style="{
+      '--swiper-navigation-color': '#fff',
+      '--swiper-pagination-color': '#fff',
+    }" :spaceBetween="10" :navigation="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></swiper-slide>
+    </swiper>
+    <swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true" :watchSlidesProgress="true"
+      :modules="modules" class="mySwiper">
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide>
+      <swiper-slide><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></swiper-slide>
+    </swiper>
+  </div>
+</template>
+<script>
+import { ref, onMounted } from 'vue';
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
+// import required modules
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
+export default {
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    const thumbsSwiper = ref(null);
+
+    const setThumbsSwiper = (swiper) => {
+      thumbsSwiper.value = swiper;
+    };
+
+    onMounted(() => {
+      thumbsSwiper.value.slideTo(0);
+    });
+
+    return {
+      thumbsSwiper,
+      setThumbsSwiper,
+      modules: [FreeMode, Navigation, Thumbs],
+    };
+  },
+};
+</script>
+
+
+
+<style>
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide .v-img {
+  display: block;
+  width: 100%;
+  height: auto;
+>>>>>>> 7b9688d94d5f5f8b1e28f8cb42e2a2ce3cd69766
+}
+</style> -->

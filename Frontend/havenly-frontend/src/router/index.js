@@ -1,12 +1,12 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
-import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
+// import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
-import testingPage from '../components/For_Testing/testingOne.vue'
+// import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 
@@ -18,22 +18,42 @@ import ResetPassword from '../views/ResetPassword.vue'
 
 
 
+
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
 // import AdminView from '../views/AdminView.vue'
 // import AdminLoginView from '../views/AdminLoginView.vue'
+// import AdminBanList from '../views/AdminBanList.vue'
 // import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import CancelSubscription from '../views/CancelSubscription.vue'
-import PackagesView from '@/views/PackagesView.vue'
+import CreditCard from '@/views/CreditCard.vue'
 
+// For Posts
+import postDetailView from '@/views/PostDetailView.vue'
+import AllPostView from '@/views/AllPostView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 
-import PostsView from '@/views/PostsView.vue'
+
+// import PostsView from '@/views/PostsView.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 
 
+// Design is same with i myanmay house ;)
+// import TempPostDetailView from '../components/For_MainIndex/Side_Pages_For_Mainindex/post_detail_view.vue'
+// import { componentsPlugin } from 'bootstrap-vue'
 
 const routes = [
+  {
+    path: '/admin/post',
+    name: 'admin',
+    component: AdminPost,
+    meta: { requiresAdmin: true }
+  },
+  {
+    path: '/admin/ban',
+    name: 'AdminBanList',
+    component: AdminBanList,
+    meta: { requiresAdmin: true }
+  },
   // {
   //   path: '/home',
   //   redirect: '/home'
@@ -47,10 +67,12 @@ const routes = [
     name: 'home',
     component: HomeIndex
   },
+
+  // change with temp For Package
   {
     path: '/package',
     name: 'package',
-    component: tempPackage
+    component: tempDoc
   },
   {
     path: '/register',
@@ -62,6 +84,11 @@ const routes = [
     name: 'registerakm',
     component: registerakm
   },
+  // {
+  //   path: '/subscribe',
+  //   name: 'SubscribeView',
+  //   component: SubscribeView
+  // },
   {
     path: '/loginakm',
     name: 'loginakm',
@@ -72,16 +99,17 @@ const routes = [
     name: 'SubscribeVue',
     component: SubscribeVue
   },
-  {
-    path: '/cancel',
-    name: 'CancelSubscription',
-    component: CancelSubscription
-  },
-  {
-    path: '/packages/purchase',
-    name: 'PackagesView',
-    component: PackagesView
-  },
+
+  // {
+  //   path: '/cancel',
+  //   name: 'CancelSubscription',
+  //   component: CancelSubscription
+  // },
+  // {
+  //   path: '/packages/purchase',
+  //   name: 'PackagesView',
+  //   component: PackagesView
+  // },
 {
   path: '/forgot',
   name: 'ForgotPassword',
@@ -92,6 +120,19 @@ const routes = [
   name: 'ResetPassword',
   component: ResetPassword
 },
+{
+  path: '/admin',
+  name: 'AdminView',
+  component: AdminView,
+  meta: { requiresAdmin: true }
+},
+{
+  path: '/admin/login',
+  name: 'AdminLoginView',
+  component: AdminLoginView
+
+},
+
   // {
   //   path: '/userDashBoardNew',
   //   name: 'userDashBoardNew',
@@ -99,16 +140,20 @@ const routes = [
   //   meta: { requiresAuth: true }
   // },
   {
+    path: '/Home',
+    redirect: '/',
+  },
+  {
     path: '/userdashboard',
     name: 'User_dashboard',
     component: userDashboard,
     meta: { requiresAuth: true }
   },
-  {
-    path: '/testingPage',
-    name: 'testingPage',
-    component: testingPage
-  },
+  // {
+  //   path: '/testingPage',
+  //   name: 'testingPage',
+  //   component: testingPage
+  // },
   {
     path: '/login',
     name: 'login',
@@ -119,45 +164,26 @@ const routes = [
     name: 'tempDoc',
     component: tempDoc
   },
-
   {
-    path: '/PostsView',
-    name: 'PostsView',
-    component: PostsView
+    path: '/packages/payment',
+    name: 'CreditCard',
+    component: CreditCard
+  },
+  {
+    path: '/post/detail/view/:id',
+    name: 'postDetailView',
+    component: postDetailView
+  },
+  {
+    path: '/post/allposts/view/:postType',
+    name: 'AllPostView',
+    component: AllPostView
   },
   // {
-  //   path: '/testphoto',
-  //   name: 'testphoto',
-  //   component: testPhoto
-  // },
-  {
-    path: '/admin',
-    name: 'Admin',
-  component : AdminView,
-  meta: { requiresAdmin: true }
-  },
-  {
-    path: '/admin/login',
-    name: 'AdminLogin',
-  component : AdminLoginView
-  },
-  {
-    path: '/admin/ban',
-    name: 'AdminBanList',
-    component: AdminBanList,
-    meta: { requiresAdmin: true }
-  },
-  {
-    path: '/admin/post',
-    name: 'AdminPost',
-    component: AdminPost,
-    meta: { requiresAdmin: true },
-   
-  },
-  
-  
-
-  
+  //   path: '/temp/post/detail',
+  //   name: 'temppostdetail',
+  //   component: TempPostDetailView
+  // }
 
 ]
 
@@ -192,8 +218,8 @@ router.beforeEach((to, from, next) => {
       // }
       next();
     }
-  } 
-  else if(to.meta.requiresAdmin == true && !admin){
+  }
+  else if (to.meta.requiresAdmin == true && !admin) {
     next('/admin/login');
   }
   else {
@@ -208,8 +234,8 @@ router.beforeEach((to, from, next) => {
     //   next();
     // }
   }
-  
-  
+
+
 }
 )
 

@@ -16,7 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Subscription_DTO {
 	private int subUserId;
-	private String name;
 	private String nrc;
 	private String email;
 	private LocalDate subStartDate;
@@ -29,12 +28,9 @@ public class Subscription_DTO {
 		Subscription subUser = new Subscription();
 		subUser.setSubUserId(dto.subUserId);
 		subUser.setNrc(dto.getNrc());
-		subUser.setEmail(dto.getEmail());
-		subUser.setPackageType(dto.getPackageType());
 		subUser.setSubStartDate(dto.getSubStartDate());
 		subUser.setSubStartTime(dto.getSubStartTime());
 
-		
 		return subUser;
 		
 	}
@@ -42,12 +38,12 @@ public class Subscription_DTO {
 	public Subscription_DTO convertToObject(Subscription subUser) {
 		Subscription_DTO dto = new Subscription_DTO();
 		dto.setSubUserId(subUser.getSubUserId());
-		dto.setEmail(subUser.getEmail());
 		dto.setNrc(subUser.getNrc());
-		dto.setPackageType(subUser.getPackageType());
 		dto.setSubStartDate(subUser.getSubStartDate());
 		dto.setSubStartTime(subUser.getSubStartTime());
-
+		
+		dto.setEmail(subUser.getReg_user().getEmail());
+		dto.setPackageType(subUser.getPackages().getPackType().getPackName());
 		return dto;
 		
 	}
