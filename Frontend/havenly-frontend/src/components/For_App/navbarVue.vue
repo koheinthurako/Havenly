@@ -11,9 +11,9 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/testingPage" class="nav-link">Testing</router-link>
-          </li>
+          </li> -->
 
           <li class="nav-item">
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
@@ -31,35 +31,35 @@
 
           <li class="nav-item">
             <router-link to="/subscribe"
-              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
+              :class="{ 'nav-link': true, active: isNavLinkActive('subscribe') }">Subscribe</router-link>
           </li>
 
           <li class="nav-item">
             <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
           </li>
 
-          <!-- <li class="nav-item">
-            <router-link to="/userdashboard"
-              :class="{ 'nav-link': true, active: isNavLinkActive('about') }">Profile</router-link>
+          <!-- <li class="nav-item" v-if="login_status">
+            <router-link to="/profile"
+              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
           </li> -->
         </ul>
 
         <ul class="navbar-nav">
           <li class="nav-item">
-            <div v-if="register_statue">
+            <!-- <div v-if="register_statue"> -->
               <div v-if="login_status">
                 <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                   <v-icon class=" me-1">mdi-account-box</v-icon>{{ user_data.name }}
                 </button>
                 <ul class="dropdown-menu p-0">
                   <li>
-                    <router-link to="/userdashboard" class="dropdown-item"><v-icon
+                    <router-link to="/user-profile" class="dropdown-item"><v-icon
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
-                  <li>
+                  <!-- <li>
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li>
+                  </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
                     </div>
@@ -70,10 +70,10 @@
                 <router-link to="/login" class="nav-link">Login</router-link>
               </div>
              
-            </div>
-             <div v-else>
+            <!-- </div> -->
+             <!-- <div v-else>
               <router-link to="/login" class="nav-link">Login</router-link>
-            </div>
+            </div> -->
           </li>
         </ul>
       </div>
@@ -84,6 +84,8 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import router from '@/router';
+
 export default {
   name: 'navbarVue',
 
@@ -95,6 +97,9 @@ export default {
       return id === activeNavLink.value;
     };
 
+    // const isLoggedIn = computed(() => {
+    //   return !!sessionStorage.getItem('login_user');
+    // });
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -122,35 +127,40 @@ export default {
 
 
     return {
-      isNavLinkActive
+      isNavLinkActive,
+      // isLoggedIn
     };
   },
 
   data() {
     return {
       activeDataLink: '',
+      loginUserData: null
     };
   },
-
+ created(){
+  const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+this.loginUserData = loginUser;
+ },
   computed: {
     user_data() {
-      return this.$store.getters.Take_Userinfo
-    },
-
-    register_statue() {
-      return this.$store.getters.RegisterData
+      return this.loginUserData;
     },
 
     login_status() {
-      return this.$store.getters.LoginData
+      return !!this.user_data;
     }
 
   },
 
   methods: {
     logout() {
-      this.$store.dispatch('To_Logout_Action');
-      this.$router.push('/home');
+      console.log('Logout');
+      sessionStorage.clear();
+     router.push("/").then(() => {
+          // Reload the page after navigation
+          window.location.reload();
+        });
     }
   }
 };

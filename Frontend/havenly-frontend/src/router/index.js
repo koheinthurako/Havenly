@@ -9,7 +9,7 @@ import testPhoto from '@/components/For_Testing/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import CreditCard from '@/views/CreditCard.vue'
-
+import profileVue from '../components/User_Dashboard/Temp_coll_for_Dashboard/profileVue.vue'
 
 
 
@@ -28,6 +28,11 @@ const routes = [
     path: '/subscribe',
     name: 'SubscribeVue',
     component: SubscribeVue
+  },
+  {
+    path: '/user-profile',
+    name: 'profileVue',
+    component: profileVue
   },
   {
     path: '/Home',

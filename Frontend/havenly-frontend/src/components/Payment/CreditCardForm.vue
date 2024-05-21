@@ -3,7 +3,7 @@
   <v-sheet width="400" class="mx-auto">
     <h4 class="flex" style="height: 80px">Payment for purchasing Package</h4>
     <div><v-flex class="grey-text">
-        <p>Chosen Package : {{user.packageType}}</p>  
+        <p>Chosen Package : {{user.packageName}}</p>  
         <p>Price : {{user.amount}}</p> 
       </v-flex></div> 
     <v-form fast-fail @submit.prevent="submitForm">
@@ -42,7 +42,7 @@ export default {
 
       user :{
             email: '',
-            packageType : '',
+            packageName : '',
             amount: '',
           },
       login :{
@@ -52,7 +52,7 @@ export default {
   },
   created() {
     // Fetch session data from sessionStorage
-    const packageData = JSON.parse(sessionStorage.getItem('packageName'));
+    const packageData = JSON.parse(sessionStorage.getItem('packageData'));
     if(packageData!==null){
       this.user.packageType=packageData.name;
       this.user.amount=packageData.price;
@@ -62,20 +62,20 @@ export default {
       console.log("no package data in session storage!");
     }
     const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    const subbedData = JSON.parse(sessionStorage.getItem('subbed_user'));
+    // const subbedData = JSON.parse(sessionStorage.getItem('subbed_user'));
     if (loginUserData !==null ) { 
       this.user.email = loginUserData.email;
       console.log('User is logged in.');
       if(loginUserData.nrc !== null){
         console.log("User is subbed."); 
-        this.login.alreadyPurchased= loginUserData.packageType;
-        console.log("packagetype : ", this.login.alreadyPurchased);
-      }
-    else if(subbedData !== null ){
-      console.log("User is subbed.");   
-    this.login.alreadyPurchased= subbedData.packageType;
-      console.log("packagetype : ", this.login.alreadyPurchased);
-    }
+        this.login.alreadyPurchased = loginUserData.packageName;
+        console.log("package : ", this.login.alreadyPurchased);
+       }
+    // else if(subbedData !== null ){
+    //   console.log("User is subbed.");   
+    // this.login.alreadyPurchased = subbedData.packageName;
+    //   console.log("package : ", this.login.alreadyPurchased);
+    // }
     else{
       console.log("user is not subbed!");
       alert("You must be subscribed to buy our packages!");
@@ -139,8 +139,13 @@ export default {
                  } 
                  sessionStorage.setItem('packageUser',JSON.stringify(response.data))
                  router.push('/home');
+
+                let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
+                userData.packageName = this.user.packageName;
+                sessionStorage.setItem('login_user', JSON.stringify(userData));
             })
             .catch(httpErrorHandler)
+
     }
   }
 }
@@ -149,5 +154,6 @@ export default {
 <style>
     .grey-text {
     color: #999; 
+    vertical-align: auto;
   }
   </style>

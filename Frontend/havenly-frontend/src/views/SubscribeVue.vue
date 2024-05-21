@@ -30,7 +30,7 @@
         ></v-select>
         <v-text-field
           v-model="nrcNumber"
-          :rules="[value => value.length<7 || 'NRC no. must be 6 numbers at most!']"
+          :rules="[value => value.length>5 || 'NRC no. must be 6 numbers at most!']"
           label="NRC Number"
           id="nrc_number"
           underlined
@@ -93,7 +93,7 @@
         user: {
           nrc: '',
           email: '',
-          packageType: 'Free Trial'
+          packageName: 'Free Trial'
         },
      
       };
@@ -138,11 +138,11 @@
     // Fetch session data from sessionStorage
     const loginUser = sessionStorage.getItem('login_user');
     const loginUserData = JSON.parse(loginUser);
-    const subbedUser = sessionStorage.getItem('subbed_user');
+    // const subbedUser = sessionStorage.getItem('subbed_user');
     if (loginUser !== null) {    
       this.user.email = loginUserData.email;
       console.log('User is logged in.'); 
-      if(loginUserData.nrc !== null || subbedUser !== null){
+      if(loginUserData.nrc !== null){
       alert("You are already subscribed!");
       router.push('/packages');
     }
@@ -194,15 +194,21 @@
       }else{
         axios.post("http://localhost:8083/subscribe",this.user)
      .then(function(response){
-      sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
+      // sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
                 const status=JSON.parse(response.status);
                 if(status===200){
                   alert("Subscribed Successfully! Enjoy your free trial! :)");
                  } 
                  router.push('/home');
+
+                let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
+                userData.nrc = this.user.nrc;
+                userData.packageName = this.user.packageName;
+                sessionStorage.setItem('login_user', JSON.stringify(userData));
             })
             .catch(httpErrorHandler);
       }
+
         this.resetForm();
       },
 

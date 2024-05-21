@@ -80,8 +80,10 @@ export default {
                     console.log(status)
                     if(status=='200'){
                       alert("Logged in successfully!")
-                      router.push('/');
-                    
+                      router.push('/').then(() => {
+          // Reload the page after navigation
+          window.location.reload();
+        });
                   }
                   const aa=response.data
                   console.log(aa)

@@ -252,7 +252,7 @@ export default {
         },
         parseAndGoNext(item) {
       // Parse data and store in session storage
-      sessionStorage.setItem('packageName', JSON.stringify(item));
+      sessionStorage.setItem('packageData', JSON.stringify(item));
             
       // Go to the next page
       router.push('/packages/payment'); // Assuming you're using Vue Router

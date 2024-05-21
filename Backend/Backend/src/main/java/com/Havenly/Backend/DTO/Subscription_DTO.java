@@ -25,7 +25,7 @@ public class Subscription_DTO {
 	
 	public Subscription convertToEntity(Subscription_DTO dto) {
 		Subscription subUser = new Subscription();
-		subUser.setSubUserId(dto.subUserId);
+		subUser.setSubUserId(dto.getSubUserId());
 		subUser.setNrc(dto.getNrc());
 		subUser.setSubStartDate(dto.getSubStartDate());
 		subUser.setSubStartTime(dto.getSubStartTime());

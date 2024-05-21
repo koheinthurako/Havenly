@@ -72,6 +72,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 			packUser.setPackType(packTypes);
 			packUser.setPackDate(LocalDate.now());
 			packUser.setPackTime(LocalDateTime.now());	
+			packUser.setAvailPosts(packTypes.getTotal_posts());
+			packUser.setAvailAds(packTypes.getTotal_ads());
 				
 			Packages packUser2 = packRepo.save(packUser);
 				
