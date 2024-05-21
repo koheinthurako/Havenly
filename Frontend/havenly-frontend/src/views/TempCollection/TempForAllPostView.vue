@@ -88,7 +88,7 @@ export default {
             items: [
                 { id: 1, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/1.jpg'), settype: 'Sell', posttype: 'Condo', postroom: 'Single room', area: 200, price: '4000' },
                 { id: 2, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/2.jpg'), settype: 'Sell', posttype: 'Apartment', postroom: 'Double room', area: 1200, price: '4000' },
-                { id: 3, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/3.jpg'), settype: 'sell', posttype: 'Apartment', postroom: 'Single room', area: 1600, price: '4000' },
+                { id: 3, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/3.jpg'), settype: 'Sell', posttype: 'Apartment', postroom: 'Single room', area: 1600, price: '4000' },
                 { id: 4, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/4.jpg'), settype: 'Sell', posttype: 'Condo', postroom: 'Double room', area: 1800, price: '5000' },
                 { id: 5, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/5.jpg'), settype: 'Rent', posttype: 'Condo', postroom: 'Single room', area: 400, price: '3400' },
                 { id: 6, title: 'LuxPride by Wallaya Villas', img: require('@/assets/img/6.jpg'), settype: 'Rent', posttype: 'Condo', postroom: 'Single room', area: 2000, price: '2500' },
