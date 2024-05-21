@@ -14,6 +14,41 @@ $font-family: "Roboto", sans-serif;
   }
 }
 
+.notiActive {
+  transform: rotate(180deg) !important;
+  color: red !important;
+}
+
+#backToTopBtn {
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  padding: 16px 17px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  background-color: #e97559;
+  color: white;
+  border: none;
+  z-index: 2000;
+  font-weight: bold;
+  box-shadow: 0px 4px 28px 2px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(-800px);
+  transition: all 0.3s ease-in-out;
+}
+
+#backToTopBtn:hover {
+  background-color: #b13d20;
+}
+
+#backToTopBtn.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @mixin header-absolute {
   left: 0;
   top: 0;
@@ -29,7 +64,7 @@ $font-family: "Roboto", sans-serif;
 
 /* filter image start  */
 @mixin filter_above_img {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
 }
@@ -1139,11 +1174,14 @@ body {
 /* For Fourth Package End */
 
 /* For All Post View start */
+
+/* For main */
 .all-post-view {
+  background-color: #fff;
   padding-top: 80px;
   .left {
     .header {
-      h4 {
+      h3 {
         display: inline-block;
         color: #e86f52;
         border-bottom: 3px dashed #525252;
@@ -1151,7 +1189,142 @@ body {
       }
     }
   }
+  .right {
+    .filter-search {
+      border-radius: 12px;
+      border: 2px solid #525252;
+      position: relative;
+      margin-bottom: 10px;
+      transition: all 0.3s ease-in-out;
+      .header {
+        @include header-absolute();
+      }
+      .body {
+        padding: 14px 10px;
+        line-height: 7px;
+        .v-radio {
+          border: 1px solid #e83b4f;
+          padding-right: 7px;
+          border-radius: 10px;
+          margin-top: 6px;
+          margin-bottom: -9px;
+        }
+        .search-btn {
+          @include info-btn-outline();
+          border-color: #e86f52;
+          width: 45%;
+          background-color: #e86f52;
+          color: #fff;
+        }
+        .all-btn {
+          @include info-btn-outline();
+          border-color: #e86f52;
+          color: #000;
+          width: 45%;
+        }
+      }
+    }
+  }
 }
+
+/* For Temp */
+.view-posts {
+  border-radius: 8px;
+  margin: 0px 1px;
+  overflow: hidden;
+  box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.3);
+  .left {
+    position: relative;
+    // box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    .v-img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .show-icon {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      padding: 0px 6px;
+      @include filter_above_img();
+
+      .sell {
+        .v-icon {
+          font-size: 30px;
+        }
+        span {
+          font-size: 22px;
+          margin-top: -1px;
+          font-weight: bold;
+        }
+      }
+
+      .v-icon {
+        color: #e86f52;
+      }
+      span {
+        color: #000;
+      }
+      .like-btn {
+        @include info-btn-outline();
+        border-color: #e86f52;
+      }
+    }
+  }
+
+  .right {
+    border: 1px solid #525252;
+    border-left: none;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    h5 {
+      color: #e86f52;
+    }
+    .types {
+      .v-icon {
+        color: #e86f52;
+      }
+      .direct-btn {
+        float: right;
+        @include info-btn-outline();
+        border-color: #14a44d;
+        .v-icon {
+          color: #14a44d;
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .money {
+        margin-bottom: -3px;
+        color: #e86f52;
+        .v-icon {
+          font-size: 30px;
+        }
+        span {
+          font-size: 22px;
+        }
+        p {
+          font-size: 18px;
+          margin-left: 3px;
+          margin-top: 2px;
+        }
+      }
+      .detail-btn {
+        @include info-btn-outline();
+        border-color: #e86f52;
+      }
+    }
+  }
+}
+
 /* For All posts view end */
 
 /* For fifth Doc Page start */
@@ -1943,7 +2116,7 @@ body {
         .fav-btn,
         .share-btn,
         .report-btn {
-          @include info-btn-outline;
+          @include info-btn-outline();
           background-color: transparent;
           margin-right: 6px;
         }

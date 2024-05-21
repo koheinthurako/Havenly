@@ -147,7 +147,7 @@ export default {
             // this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
 
             const encryptData = this.encryptId(postId);
-            localStorage.setItem('postId', encryptData);
+            sessionStorage.setItem('postId', encryptData);
             this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
 
         },
@@ -212,7 +212,7 @@ export default {
             isCardVisible.value = false;
             setTimeout(() => {
                 btn_display.value = !btn_display.value;
-            }, 100);
+            }, 400);
 
             // to counter error
             btn_display.value = true;
@@ -245,40 +245,3 @@ export default {
 }
 
 </script>
-
-<style>
-.notiActive {
-    transform: rotate(180deg) !important;
-    color: red !important;
-}
-
-#backToTopBtn {
-    display: block;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99;
-    padding: 16px 17px;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
-    background-color: #E97559;
-    color: white;
-    border: none;
-    z-index: 2000;
-    font-weight: bold;
-    box-shadow: 0px 4px 28px 2px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transform: translateY(-800px);
-    transition: all 0.3s ease-in-out;
-}
-
-#backToTopBtn:hover {
-    background-color: #b13d20;
-}
-
-#backToTopBtn.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-</style>
