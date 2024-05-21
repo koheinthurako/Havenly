@@ -3,11 +3,11 @@
         <div class="second-tabContent-data">
             <div class="tab-carousel-content m-auto" :style="{ transform: `translateX(${offset}px)` }">
 
-                <!-- <div class="tabContent-header"-->
+                <!-- <div class="tabContent-header">
                     <h3>Welcome to Havenly</h3>
-                    </div>
+                </div> -->
 
-                <div class="d-none d-md-block button-bar">
+                <div class="d-none d-md-block button-bar mb-2 py-4">
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
@@ -39,7 +39,7 @@
 
         </div>
         <TabContent v-if="activeTab !== null" :content="contents[activeTab]" />
-
+    </div>
 </template>
 
 <script>

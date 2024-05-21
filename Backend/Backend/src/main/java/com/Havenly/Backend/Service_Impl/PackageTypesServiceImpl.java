@@ -16,7 +16,7 @@ public class PackageTypesServiceImpl implements PackageTypesService{
 	@Autowired
 	PackageTypesRepo packTypesRepo;
 	
-	PackageTypesDTO dto = new PackageTypesDTO();
+	PackageTypesDTO packageTypeDTO = new PackageTypesDTO();
 	
 	@Override
 	public List<PackageTypesDTO> getAll() {
@@ -24,17 +24,27 @@ public class PackageTypesServiceImpl implements PackageTypesService{
 		List<PackageTypesDTO> packDTO = new ArrayList<PackageTypesDTO>();
 		packDTO.clear();
 		for(PackageTypes p : packTypes) {
-			packDTO.add(dto.convertToObject(p));
+			packDTO.add(packageTypeDTO.convertToObject(p));
 		}
 		return packDTO;
 	}
 
 	@Override
-	public PackageTypesDTO save(PackageTypesDTO packDTO) {
-		PackageTypes packTypes = dto.convertToEntity(packDTO);
-		PackageTypes newPackTypes = packTypesRepo.save(packTypes);
-		PackageTypesDTO packTypesDTO = dto.convertToObject(newPackTypes);
-		return packTypesDTO;
+	public List<PackageTypesDTO> saveAll(List<PackageTypesDTO> packDTO) {
+//		PackageTypes packTypes = dto.convertToEntity(packDTO);
+//		PackageTypes newPackTypes = packTypesRepo.save(packTypes);
+//		PackageTypesDTO packTypesDTO = dto.convertToObject(newPackTypes);
+		List<PackageTypes> packageTypes = new ArrayList<PackageTypes>();
+		for(PackageTypesDTO dto : packDTO) {
+			packageTypes.add(packageTypeDTO.convertToEntity(dto));
+		}
+		List<PackageTypes> packageTypeLists = packTypesRepo.saveAll(packageTypes);
+		List<PackageTypesDTO> packDTOLists = new ArrayList<PackageTypesDTO>();
+		for(PackageTypes pack: packageTypeLists) {
+			packDTOLists.add(packageTypeDTO.convertToObject(pack));
+		}
+		
+		return packDTOLists;
 	}
 
 

@@ -1,49 +1,55 @@
 package com.Havenly.Backend.Controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.Havenly.Backend.Entity.Posts;
+import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Entity.RentPost;
-import com.Havenly.Backend.Repo.Posts_Repo;
+import com.Havenly.Backend.Entity.TestSellPost;
 import com.Havenly.Backend.Repo.RentPost_Repo;
+import com.Havenly.Backend.Service.RentPost_Service;
 
 @RestController
 @RequestMapping("/")
 public class RentPost_Controller {
 	
 	@Autowired
-	RentPost_Repo rentRepo;
+	RentPost_Service rentService;
 	
 	@Autowired
-	Posts_Repo postsRepo;
+	RentPost_Repo rentRepo;
 	
-	private int rentCount;
+	@GetMapping("/getallrentposts")
+	public ResponseEntity<List<RentPost>> getAllRentPosts() {
+		return new ResponseEntity<List<RentPost>>(rentRepo.getAllRentPosts(), HttpStatus.OK);
+	}
 	
 	@PostMapping("/saverentpost")
-	public RentPost saveRentPost(@RequestBody RentPost rentpost) {
+	public ResponseEntity<TestSellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
+				@RequestParam("subUserId") int subUserId,
+				@RequestParam("title") String title,
+				@RequestParam("description") String description, @RequestParam("price") String price,
+				@RequestParam("area") String area,
+				@RequestParam("property_type") String property_type,
+				@RequestParam("deposit") String deposit,
+				@RequestParam("least_contract") String least_contract,
+				@RequestParam("location_id") Locations location_id
+			) {
+		for (MultipartFile file : files) {
+	        System.out.println("Uploaded file: " + file.getOriginalFilename());
+	    }
+		rentService.saveRentPost(files, subUserId, title, description, price, area, property_type, deposit, least_contract, location_id);
+		return null;
 		
-		rentCount = (int) rentRepo.count();
-		
-		String customId = "r" + rentCount++;
-		
-		rentpost.setRent_post_id(customId);
-		rentpost.setDate(LocalDate.now());
-		rentpost.setTime(LocalTime.now());
-		rentRepo.save(rentpost);
-		
-		Posts post = new Posts();
-		post.setPost_type(customId);
-		post.setStatus("pending");
-		postsRepo.save(post);
-		
-		return rentpost;
 	}
+	
 	
 }

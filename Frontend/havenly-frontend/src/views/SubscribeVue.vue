@@ -87,6 +87,7 @@
         selectedPlace: null,
         selectedNRCType: null,
         nrcNumber: '',
+        userIsSubbed: '',
         
         nrcData: [],
         
@@ -139,6 +140,7 @@
     const loginUser = sessionStorage.getItem('login_user');
     const loginUserData = JSON.parse(loginUser);
     // const subbedUser = sessionStorage.getItem('subbed_user');
+    // const subbedUser = sessionStorage.getItem('subbed_user');
     if (loginUser !== null) {    
       this.user.email = loginUserData.email;
       console.log('User is logged in.'); 
@@ -149,7 +151,7 @@
     } else {
       alert("Log in first to subscribe!");
       console.error('User email not found in sessionStorage.');
-        router.push('/login'); 
+        router.push('/loginakm'); 
     }
    
   },
@@ -198,6 +200,8 @@
                 const status=JSON.parse(response.status);
                 if(status===200){
                   alert("Subscribed Successfully! Enjoy your free trial! :)");
+                  this.userIsSubbed = true;
+                  router.push('/');
                  } 
                  router.push('/home');
 
@@ -212,13 +216,13 @@
         this.resetForm();
       },
 
-      resetForm() {
-        this.selectedNRCCode = null;
-        this.selectedPlace = null;
-        this.selectedNRCType = null;
-        this.nrcNumber = '';
-        this.user.email = '';
-      },
+    resetForm() {
+      this.selectedNRCCode = null;
+      this.selectedPlace = null;
+      this.selectedNRCType = null;
+      this.nrcNumber = '';
+      this.user.email = '';
+    },
 
       fetchData() {
         function  httpErrorHandler(error) {
@@ -248,8 +252,8 @@
   </script>
 
 <style>
-    .grey-text {
-    color: #999; 
-  }
-  </style>
-    
+  .grey-text {
+  color: #999; 
+}
+</style>
+  

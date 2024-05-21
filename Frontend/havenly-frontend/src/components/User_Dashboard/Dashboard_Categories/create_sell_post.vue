@@ -1,17 +1,23 @@
 <template>
-    <div class="create-post-section px-5 py-4">
+    <div class="create-sell-post-section px-4">
         <div class="row">
             <div class="col-md-7 p-0">
 
                 <!-- TZH Form -->
                 <div class="create-post">
-                    <div class="form-header">
-                        <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Create Sell Post</p>
+                    <div class="header mb-3 d-flex justify-content-between px-5">
+                        <div class="d-flex align-items-center">
+                            <v-icon>mdi-information</v-icon>
+                            <p class="mt-3 ms-2">Create Sell Post</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span>Available Posts : </span>
+                            <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                        </div>
                     </div>
 
-                    <div class="form-body">
-                        <form @submit.prevent="submit" class="w-100 px-4 py-3">
+                    <div class="body">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
@@ -26,24 +32,30 @@
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span> </span>
+                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span>
+                                    </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
                                     <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
-                                        :counter="200" :error-messages="Description.errorMessage.value"
+                                        :counter="10000" :error-messages="Description.errorMessage.value"
                                         placeholder="Description"></v-textarea>
                                 </div>
                             </div>
                             <hr>
                             <div class="p-0 row-1 d-flex">
-                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
-                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
-                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations" :disabled="!selectedRegion" label="Country_id" required></v-select>
+                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries"
+                                    label="Select country" required></v-select>
+                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces"
+                                    :disabled="!selectedCountry" label="Select province" required></v-select>
+                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes"
+                                    :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
+                                    :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations"
+                                    :disabled="!selectedRegion" label="Country_id" required></v-select>
                             </div>
-                            <div class="row justify-content-between">
+                            <!-- <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small"> House Type </span>
                                 </div>
@@ -53,7 +65,7 @@
                                         :error-messages="houseTypes.errorMessage.value" :items="HouseTypes"
                                         placeholder="Select house type"></v-select>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
@@ -61,7 +73,8 @@
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="propertyTypes.value.value"
+                                        variant="solo" rounded="lg" density="compact"
+                                        v-model="propertyTypes.value.value"
                                         :error-messages="propertyTypes.errorMessage.value" :items="PropertyTypes"
                                         placeholder="Select property type"></v-select>
                                 </div>
@@ -100,12 +113,28 @@
                                     <v-file-input counter multiple color="deep-purple-accent-4" chips
                                         truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
                                         prepend-icon="mdi-camera"></v-file-input>
                                 </div>
                             </div> -->
 
+
                             <div class="row justify-content-between">
+                                <div class="col-md-3 col-sm-12 py-0">
+                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
+                                    </span>
+                                </div>
+                                <div class="col-md-9 col-sm-12 py-0">
+                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                        truncate-length="15" v-model="image.value.value"
+                                        :error-messages="image.errorMessage.value" :rules="rules"
+                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
+                                        prepend-icon="mdi-camera"></v-file-input>
+                                </div>
+                            </div>
+
+
+                            <!-- <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
                                 </div>
@@ -114,7 +143,7 @@
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
                                         v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
@@ -134,116 +163,45 @@
 
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-5 p-0">
+                <!-- Display post section start -->
 
-                <div class="display-post-section">
-                    <!-- Show Created post start -->
-                    <div class="w-100 d-flex p-0 m-0">
-                        <span class="mt-2 me-2">Choose an option : </span>
-                        <v-radio-group v-model="change_type" inline>
-                            <v-radio label="Sell posts" value="sell" color="orange"></v-radio>
-                            <v-radio label="Rent Posts" value="rent" color="orange"></v-radio>
-                        </v-radio-group>
+                <div class="display-post">
+
+                    <div class="header mb-3">
+                        <v-icon>mdi-information</v-icon>
+                        <p class="mt-3 ms-2">Recently created Sell posts</p>
                     </div>
 
-                    <div v-if="change_type === 'sell'">
-                        <div v-for="data in sell_data" :key="data">
+                    <div class="body">
 
-                            <div class="display-post">
-                                <div class="row p-0">
-                                    <div class="col-6 p-0">
-                                        <div class="display-left">
-                                            <v-img :src="data.img"></v-img>
-                                            <div class="overlay d-flex mx-auto">
-                                                <v-btn rounded elevation="10" color="warning" class="me-2">Edit
-                                                    post</v-btn>
-                                                <v-btn rounded elevation="10" color="#E86F52" class="">Delete
-                                                    post</v-btn>
-                                            </div>
-                                        </div>
+                        <!-- post card start -->
+                        <div class="post-card bg-white" v-for="data in rent_data" :key="data">
+                            <div class="row">
+                                <div class="col-6 p-0 m-0 left-edit">
+
+                                    <div class="top-section">
+                                        <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                        {{ data.type }}
+
                                     </div>
-                                    <div class="col-6 p-0">
-                                        <div class="display-right">
 
-                                            <h5 class="text-left my-0 px-0">{{ data.title }}</h5>
-                                            <span class="text-grey mb-4">hello world</span>
-
-                                            <p style="line-height: 16px;">Lorem ipsum dolor sit, amet consectetur
-                                                adipisicing elit. Enim iure, ea cum,
-                                                inventore libero nemo saepe sit optio repellendus.....</p>
-                                            <div class="d-flex w-100 justify-space-between">
-                                                <span class="fw-bold"><v-icon>mdi-currency-usd</v-icon>1345
-                                                    Lakh(Kyats)</span>
-                                                <span class="me-3 fw-bold" style="color: #E86F52;">{{ data.type
-                                                    }}</span>
-                                            </div>
-                                            <v-divider class="mx-auto mb-1 mt-2" :thickness="2"></v-divider>
-                                            <div class="px-2 d-flex justify-space-between">
-                                                <div><v-icon color="#E86F52">mdi-eye</v-icon> <span
-                                                        class="mt-1">322</span>
-                                                </div>
-                                                <div><v-icon color="#E86F52">mdi-clock-time-three-outline</v-icon><span
-                                                        class="ms-1 mt-1">3d 8h
-                                                        56m</span></div>
-                                            </div>
-
-                                        </div>
+                                    <v-img :src="data.img"></v-img>
+                                    <div class="btn-section">
+                                        <v-btn to="/detailview">&nbsp;&nbsp; edit &nbsp;&nbsp;</v-btn>
+                                        <v-btn>delete</v-btn>
                                     </div>
+
                                 </div>
                             </div>
 
                         </div>
+                        <!-- post card end -->
+
                     </div>
-                    <div v-else-if="change_type === 'rent'">
-                        <div v-for="data in rent_data" :key="data">
-
-                            <div class="display-post">
-                                <div class="row p-0">
-                                    <div class="col-6 p-0">
-                                        <div class="display-left">
-                                            <v-img :src="data.img"></v-img>
-                                            <div class="overlay d-flex mx-auto">
-                                                <v-btn rounded elevation="10" color="warning" class="me-2">Edit
-                                                    post</v-btn>
-                                                <v-btn rounded elevation="10" color="#E86F52" class="">Delete
-                                                    post</v-btn>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 p-0">
-                                        <div class="display-right">
-
-                                            <h5 class="text-left my-0 px-0">{{ data.title }}</h5>
-                                            <span class="text-grey mb-4">hello world</span>
-
-                                            <p style="line-height: 16px;">Lorem ipsum dolor sit, amet consectetur
-                                                adipisicing elit. Enim iure, ea cum,
-                                                inventore libero nemo saepe sit optio repellendus.....</p>
-                                            <div class="d-flex w-100 justify-space-between">
-                                                <span class="fw-bold"><v-icon>mdi-currency-usd</v-icon>1345
-                                                    Lakh(Kyats)</span>
-                                                <span class="me-3 fw-bold" style="color: #E86F52;">{{ data.type
-                                                    }}</span>
-                                            </div>
-                                            <v-divider class="mx-auto mb-1 mt-2" :thickness="2"></v-divider>
-                                            <div class="px-2 d-flex justify-space-between">
-                                                <div><v-icon color="#E86F52">mdi-eye</v-icon> <span
-                                                        class="mt-1">322</span>
-                                                </div>
-                                                <div><v-icon color="#E86F52">mdi-clock-time-three-outline</v-icon><span
-                                                        class="ms-1 mt-1">3d 8h
-                                                        56m</span></div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Show Created Post end -->
                 </div>
+
+                <!-- Display post section end -->
 
             </div>
         </div>
@@ -258,7 +216,8 @@ export default {
         location_id: '',
         title: '',
         description: '',
-        image: [],
+        // image: [],
+        image: '',
         price: '',
         area: '',
         house_type: '',
@@ -269,7 +228,7 @@ export default {
         selectedAmphoe: '',
         selectedRegion: '',
         selectedLocation: '',
-
+        availPosts: '',
         change_type: 'sell',
 
         sell_data: [
@@ -328,7 +287,7 @@ export default {
         rules: [
 
             value => {
-                return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
+                return !value || !value.length || value[0].size < 5000000 || 'Avatar size should be less than 5 MB!'
             },
         ],
     }),
@@ -371,11 +330,18 @@ export default {
             if(cachedData) {
                 this.locations = cachedData;
             } else {
-                this.fetchLocations();
+                this.
+                
+                Locations();
             }
+
+            // const subUserData = JSON.parse(sessionStorage.getItem('sub_user'));
+            // this.availPosts = subUserData.availPosts;
+            // console.log(this.availPosts);
+            this.fetchSubUserInfo();
         },
 
-        methods: { 
+        methods: {
 
             fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
@@ -402,6 +368,24 @@ export default {
                 const data = sessionStorage.getItem('locations');
                 return data ? JSON.parse(data) : null;
             },
+
+            fetchSubUserInfo() {
+                const user = JSON.parse(sessionStorage.getItem('login_user'));
+                  const registerId = user.register_id;
+                  console.log("registerId to send backend to show subUser informations : " + registerId)
+                  axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                      params: {
+                          registerId: registerId
+                      }
+                  })
+                  .then(response => {
+                    console.log(response.data);
+                    this.availPosts = response.data.availPosts
+                  })
+                  .catch(error => {
+                    console.error('Error fetching data:', error); // Handle the error
+                  });
+            },
             
             // getLocationIdByRegion(region, selectedRegion) {
             //     const location = this.locations.find(location => location.region === region);
@@ -413,112 +397,158 @@ export default {
 }
 </script>
 
-
 <script setup>
     import { ref } from 'vue'
+    import { getCurrentInstance } from 'vue';
     import { useField } from 'vee-validate'
     import axios from 'axios';
+    import router from '@/router';
 
     /* Field collection */
     const title = useField('title')
     const Description = useField('Description')
-    const houseTypes = useField('houseTypes')
+    // const houseTypes = useField('houseTypes')
     const propertyTypes = useField('propertyTypes')
     const price = useField('price')
     const area = useField('area')
     const image = useField('image')
-
-    const HouseTypes = ref([
-        'Stand-alone House',
-        'Two-story House',
-        'Three-story House'
-    ])
+    let photoList = null
 
     const PropertyTypes = ref([
         'Condo',
-        'Apartment'
+        'Apartment',
+        'House'
     ])
 
+    // const HouseTypes = ref([
+    //     'Stand-alone House',
+    //     'Two-story House',
+    //     'Three-story House'
+    // ])
+
+    
+
     const selectedLocation = ref('')
+    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+    console.log(subUser.subUserId);
+    const subUserId = subUser.subUserId;
+
+    
+    // if(Description.value.value.length > 100) {
+    //     console.log("Yes it is longer than 100!")
+    // } else {
+    //     console.log("Checking count letter false!")
+    // }
+
+    const { proxy } = getCurrentInstance();
 
     const submit = async () => {
 
-        const formData = {
-            title: title.value.value,
-            description: Description.value.value,
-            house_type: houseTypes.value.value,
-            property_type: propertyTypes.value.value,
-            price: price.value.value,
-            area: area.value.value,
-            photos: [
-                image.value.value
-            ],
-            locations: {
-                location_id: selectedLocation.value
-            }
-        };
+        // const formData = {
+        //     title: title.value.value,
+        //     description: Description.value.value,
+        //     house_type: houseTypes.value.value,
+        //     property_type: propertyTypes.value.value,
+        //     price: price.value.value,
+        //     area: area.value.value,
+        //     file: photoList[0],
+        //     location_id: selectedLocation.value
+        // };
 
-        console.log(formData);
+        // const formData = {
+        //     title: title.value.value,
+        //     description: Description.value.value,
+        //     house_type: houseTypes.value.value,
+        //     property_type: propertyTypes.value.value,
+        //     price: price.value.value,
+        //     area: area.value.value,
+        //     files: [...photoList],
+        //     location_id: selectedLocation.value
+        // };
+
+        // console.log(formData.files[0]);
+        
+
+        // try {
+        //     const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data'
+        //         }
+        //     });
+        //     console.log(response.data);
+        //     title.resetField();
+        //     Description.resetField();
+        //     houseTypes.resetField();
+        //     propertyTypes.resetField();
+        //     price.resetField();
+        //     area.resetField();
+        //     image.resetField();
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        
+
+        const formData = new FormData();
+        formData.append('subUserId', subUserId);
+        formData.append('title', title.value.value);
+        formData.append('description', Description.value.value);
+        // formData.append('house_type', houseTypes.value.value);
+        formData.append('property_type', propertyTypes.value.value);
+        formData.append('price', price.value.value);
+        formData.append('area', area.value.value);
+        formData.append('location_id', selectedLocation.value);
+        // Append the files as an array
+        photoList.forEach((file) => {
+            formData.append('files', file);
+        });
 
         try {
-            const response = await axios.post('http://localhost:8083/savesellpost', formData)
-            console.log(response.data)
-            title.resetField();
-            Description.resetField();
-            houseTypes.resetField();
-            propertyTypes.resetField();
-            price.resetField();
-            area.resetField();
-            image.resetField();
+            if(proxy.availPosts > 0) {
+                const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response.data);
+                window.location.reload();
+            } else {
+                alert("Your package is gone! Please buy another package!");
+                router.push('/package');
+            }
         } catch (error) {
-        console.error(error)
+        console.error(error);
         }
 
+    };  
 
-    // const formData = new FormData();
-    // formData.append('sellPost', JSON.stringify({
-    //     title: title.value.value,
-    //     description: Description.value.value,
-    //     house_type: houseTypes.value.value,
-    //     property_type: propertyTypes.value.value,
-    //     price: price.value.value,
-    //     area: area.value.value,
-    //     locations: {
-    //         location_id: selectedLocation.value
-    //     }
-    // }));
-
-    // // Append each file to formData
-    // for (let i = 0; i < image.value.value.length; i++) {
-    //     formData.append('photos', image.value.value[i]);
-    // }
-
-    // console.log(formData);
-
-    // try {
-    //     const response = await axios.post('http://localhost:8083/savesellpost', formData, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //         }
-    //     });
-    //     console.log(response.data);
-    //     title.resetField();
-    //     Description.resetField();
-    //     houseTypes.resetField();
-    //     propertyTypes.resetField();
-    //     price.resetField();
-    //     area.resetField();
-    //     image.resetField();
-    // } catch (error) {
-    //     console.error(error);
-    // }
+    function showUploadPhoto() {
+        photoList = Object.values(image.value.value);
+        console.log(title.value.value)
+        console.log(Description.value.value)
+        console.log(photoList);
+        console.log(selectedLocation.value)
     }
-
-
 
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style>
+
 .create-post-section {
     width: 100%;
     height: auto;
@@ -539,7 +569,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .form-body {
@@ -552,7 +582,8 @@ export default {
 
     /* Display post */
     .display-post-section {
-        box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+        /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
+        background-color: #d3d3d3;
         width: 100%;
         height: 100%;
         padding: 6px 16px;

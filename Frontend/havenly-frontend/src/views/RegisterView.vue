@@ -57,9 +57,10 @@ export default {
 
         .then(function(response){
                 const status=JSON.parse(response.status);
-                if(status=='200'){alert("Registered Successfully! Please login to proceed. :)");
-                        router.push('/login');
-              }
+                if(status=='200'){
+                  alert("Registered Successfully")
+                  router.push('/loginakm');
+                }
             })
             .catch(httpErrorHandler)
             this.user.name='',

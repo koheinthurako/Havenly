@@ -16,7 +16,8 @@
           </li> -->
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: 
+            ('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -25,7 +26,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/packages"
+            <router-link to="/package"
               :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
@@ -57,8 +58,10 @@
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
                   <!-- <li>
+                  <!-- <li>
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
+                  </li> -->
                   </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
@@ -66,7 +69,7 @@
                   </li>
                 </ul>
               </div>
-              <div v-else>
+              <!-- <div v-else>
                 <router-link to="/login" class="nav-link">Login</router-link>
               </div>
              
@@ -90,10 +93,11 @@ export default {
   name: 'navbarVue',
 
   setup() {
+    
     const activeNavLink = ref('');
     const router = useRouter();
 
-    const isNavLinkActive = (id) => {
+    const isNavLinkActiveSetup = (id) => {
       return id === activeNavLink.value;
     };
 
@@ -143,6 +147,7 @@ export default {
 this.loginUserData = loginUser;
  },
   computed: {
+
     user_data() {
       return this.loginUserData;
     },
@@ -154,6 +159,19 @@ this.loginUserData = loginUser;
   },
 
   methods: {
+
+    isNavLinkActive(routeName) {
+      // Return whether the route name matches the current route
+      return this.$route.name === routeName;
+    },
+    
+    // isLoggedIn() {
+    //   // Check if user information is stored in session storage
+    //   console.log("User is included in session storage");
+    //   const user = sessionStorage.getItem('login_user');
+    //   return !!user; // Return true if user is logged in, false otherwise
+    // },
+
     logout() {
       console.log('Logout');
       sessionStorage.clear();

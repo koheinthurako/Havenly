@@ -3,6 +3,8 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +25,7 @@ import lombok.Setter;
 public class Reg_user {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int register_id;
 	
 	@Column(name = "name",length = 40,nullable = false	)
@@ -52,5 +54,6 @@ public class Reg_user {
 
 	
 	@OneToOne(mappedBy = "reg_user")
+	@JsonIgnore
 	private Subscription sub;
 }

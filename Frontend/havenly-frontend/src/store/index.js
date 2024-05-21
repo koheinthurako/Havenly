@@ -374,98 +374,98 @@ export default createStore({
 
 
 
-    // Register Section start 
-    Register_mut(state, getData) {
-      let temp = 0;
-      const isEmpty = state.registerData.length === 0;
+    // // Register Section start 
+    // Register_mut(state, getData) {
+    //   let temp = 0;
+    //   const isEmpty = state.registerData.length === 0;
 
-      if (!isEmpty) {
+    //   if (!isEmpty) {
 
-        // If any data exist in registerData check email is Registered or not
-        for (const pp of state.registerData) {
-          for (const gg of getData) {
-            if (pp.gmail == gg.usermail) {
-              if (pp.name == gg.username) {
-                temp = 1;
-              }
-            }
-          }
-        }
+    //     // If any data exist in registerData check email is Registered or not
+    //     for (const pp of state.registerData) {
+    //       for (const gg of getData) {
+    //         if (pp.gmail == gg.usermail) {
+    //           if (pp.name == gg.username) {
+    //             temp = 1;
+    //           }
+    //         }
+    //       }
+    //     }
 
-        // if Eamil is not Registered add as a new user
-        if (temp == 0) {
-          for (const gg of getData) {
-            let id = state.registerData.length + 1;
-            state.registerData.push({
-              id: id,
-              name: gg.username,
-              gmail: gg.usermail,
-              pass: gg.password,
-              phone: gg.phone_no,
-              subscribe_id: '',
-              subscribe_package: '',
-              post_count: '',
-            })
-            state.LoginedId = id;
-            localStorage.setItem('LoginedId', state.LoginedId);
-          }
+    //     // if Eamil is not Registered add as a new user
+    //     if (temp == 0) {
+    //       for (const gg of getData) {
+    //         let id = state.registerData.length + 1;
+    //         state.registerData.push({
+    //           id: id,
+    //           name: gg.username,
+    //           gmail: gg.usermail,
+    //           pass: gg.password,
+    //           phone: gg.phone_no,
+    //           subscribe_id: '',
+    //           subscribe_package: '',
+    //           post_count: '',
+    //         })
+    //         state.LoginedId = id;
+    //         localStorage.setItem('LoginedId', state.LoginedId);
+    //       }
 
-          state.Registered = !state.Registered;
-          localStorage.setItem('Registered', state.Registered);
+    //       state.Registered = !state.Registered;
+    //       localStorage.setItem('Registered', state.Registered);
 
-          state.Logined = !state.Logined;
-          localStorage.setItem('Logined', state.Logined);
+    //       state.Logined = !state.Logined;
+    //       localStorage.setItem('Logined', state.Logined);
 
-        }
+    //     }
 
-      } else {
+    //   } else {
 
-        // this section will do when no data exist in DB
-        for (const gg of getData) {
-          let id = state.registerData.length + 1;
-          state.registerData.push({
-            id: id,
-            name: gg.username,
-            gmail: gg.usermail,
-            pass: gg.password,
-            phone: gg.phone_no,
-            subscribe_id: '',
-            subscribe_package: '',
-            post_count: '',
-          })
-          state.LoginedId = id;
-          console.log("all data : " + state.registerData.id);
-          localStorage.setItem('LoginedId', state.LoginedId);
-        }
+    //     // this section will do when no data exist in DB
+    //     for (const gg of getData) {
+    //       let id = state.registerData.length + 1;
+    //       state.registerData.push({
+    //         id: id,
+    //         name: gg.username,
+    //         gmail: gg.usermail,
+    //         pass: gg.password,
+    //         phone: gg.phone_no,
+    //         subscribe_id: '',
+    //         subscribe_package: '',
+    //         post_count: '',
+    //       })
+    //       state.LoginedId = id;
+    //       console.log("all data : " + state.registerData.id);
+    //       localStorage.setItem('LoginedId', state.LoginedId);
+    //     }
 
-        state.Registered = !state.Registered;
-        localStorage.setItem('Registered', state.Registered);
+    //     state.Registered = !state.Registered;
+    //     localStorage.setItem('Registered', state.Registered);
 
-        state.Logined = !state.Logined;
-        localStorage.setItem('Logined', state.Logined);
-      }
-    },
-    // Register Section end
+    //     state.Logined = !state.Logined;
+    //     localStorage.setItem('Logined', state.Logined);
+    //   }
+    // },
+    // // Register Section end
 
-    // Logout Mutation
-    LogoutMutation(state) {
-      console.log('Logout mutation');
-      console.log("check logout or not " + state.Logined);
-      console.log("check Loginedid " + state.LoginedId);
-      state.Logined = !state.Logined;
-      localStorage.setItem('Logined', state.Logined);
+    // // Logout Mutation
+    // LogoutMutation(state) {
+    //   console.log('Logout mutation');
+    //   console.log("check logout or not " + state.Logined);
+    //   console.log("check Loginedid " + state.LoginedId);
+    //   state.Logined = !state.Logined;
+    //   localStorage.setItem('Logined', state.Logined);
 
-      state.LoginedId = 'none';
-      localStorage.setItem('LoginedId', state.LoginedId);
-    },
+    //   state.LoginedId = 'none';
+    //   localStorage.setItem('LoginedId', state.LoginedId);
+    // },
 
-    LoginMutation(state, get_id) {
-      state.Logined = !state.Logined;
-      localStorage.setItem('Logined', state.Logined);
+    // LoginMutation(state, get_id) {
+    //   state.Logined = !state.Logined;
+    //   localStorage.setItem('Logined', state.Logined);
 
-      state.LoginedId = get_id;
-      localStorage.setItem('LoginedId', state.LoginedId);
-    }
+    //   state.LoginedId = get_id;
+    //   localStorage.setItem('LoginedId', state.LoginedId);
+    // }
 
   },
   actions: {
