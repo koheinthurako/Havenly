@@ -451,12 +451,10 @@ export default {
     transition: 0.2s;
     cursor: pointer;
 }
-<<<<<<< HEAD
-=======
+
 
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
 }
 
->>>>>>> branch 'TZHDeveloping' of https://github.com/koheinthurako/Havenly.git
 </style>
