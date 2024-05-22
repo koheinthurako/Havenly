@@ -1,0 +1,556 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Roboto", sans-serif;
+}
+* .bg-redbrick {
+  background-color: #e86f52;
+}
+
+:root {
+  --main-bg: ;
+  --main-color: "";
+  --main-theme-bg: #e86f52;
+  --main-theme-color: ;
+}
+
+.dark-mode {
+  --main-bg: ;
+  --main-color: "";
+  --main-theme-bg: #e86f52;
+  --main-theme-color: ;
+}
+
+/* For Navbar Start */
+.navbar {
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.97;
+  background-color: transparent;
+  box-shadow: 0px 10px 28px 2px rgba(241, 232, 232, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+.navbar .bg-red {
+  background-color: #e86f52 !important;
+}
+
+/* For Navbar End */
+/* For First Index start */
+.first-index {
+  width: 100%;
+  height: 100vh;
+  background-image: url(../img/main-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-color: #525252;
+}
+
+.first-index::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 300;
+}
+
+/* For First Index end */
+/* For Second Tab Content start */
+.second-tabContent {
+  width: 100%;
+  background-color: #f6f5f2;
+}
+.second-tabContent .second-tabContent-data {
+  display: flex;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header {
+  margin: auto;
+  width: 180px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  background-color: #ffffff !important;
+  margin-bottom: 10px;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header h3 {
+  margin: auto;
+  color: #e86f52;
+  padding: 5px 10px;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header .bar::before,
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header .bar::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 61px;
+  background-color: #e86f52;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header .bar::before {
+  margin-top: 0px;
+  margin-left: -2px;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tabContent-header .bar::after {
+  margin-top: 0px;
+  margin-left: 180px;
+}
+.second-tabContent .second-tabContent-data .tab-carousel-content .tab-carousel-button {
+  transition: all 0.3s ease-in-out;
+}
+
+.tempOf-tabContent .content-data .red {
+  font-weight: bold;
+  color: red;
+}
+.tempOf-tabContent .card-container {
+  transition: all 0.3s ease-in-out;
+}
+.tempOf-tabContent .card-container .card {
+  cursor: pointer;
+}
+.tempOf-tabContent .card-container .card-body .text-row {
+  line-height: 4px;
+}
+.tempOf-tabContent .card-container .card-body .text-row p {
+  color: red;
+}
+.tempOf-tabContent .card-container .card-body .btn-row {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+.tempOf-tabContent .card-container .card-body .btn-row .v-btn {
+  padding: 8px 16px;
+  text-transform: capitalize;
+  width: 40%;
+  background-color: #ddd;
+  color: #000;
+  box-shadow: 0px 10px 28px -4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+.tempOf-tabContent .card-container .card-body .footer-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+/* For Second Tab Content End */
+/* For Third Carousel start */
+.third-item-carousel {
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+  padding: 60px 0px;
+}
+
+/* For Third Carousel End */
+/* For Fourth Package start */
+.fourth-package {
+  width: 100%;
+  height: auto;
+  background-color: #46424a;
+}
+.fourth-package .fourth-package-data .fourth-package-header {
+  margin: auto;
+  width: 300px;
+  height: 60px;
+  display: flex;
+  position: relative;
+  background-color: #ffffff !important;
+  margin-bottom: 10px;
+  box-shadow: 0px 10px 30px 4px rgba(205, 200, 200, 0.5);
+}
+.fourth-package .fourth-package-data .fourth-package-header h3 {
+  margin: auto;
+  color: red;
+  padding: 5px 10px;
+}
+.fourth-package .fourth-package-data .fourth-package-header .bar::before,
+.fourth-package .fourth-package-data .fourth-package-header .bar::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 61px;
+  background-color: red;
+}
+.fourth-package .fourth-package-data .fourth-package-header .bar::before {
+  margin-top: 0px;
+  margin-left: -2px;
+}
+.fourth-package .fourth-package-data .fourth-package-header .bar::after {
+  margin-top: 0px;
+  margin-left: 300px;
+}
+
+/* For Fourth Package End */
+/* For Contact Page start */
+.contact-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #46424A;
+}
+.contact-page .contact-data {
+  width: 85%;
+  height: auto;
+  color: #fff;
+}
+
+/* For Contact Page end */
+@media only screen and (min-width: 768px) {
+  /* For Navbar Start */
+  .navbar .navbar-nav {
+    gap: 10px;
+  }
+  .navbar .navbar-nav .nav-item {
+    background-color: transparent;
+    padding: 2px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  .navbar .navbar-nav .nav-item:hover {
+    background-color: var(--main-theme-bg);
+    box-shadow: 0px 8px 24px -1px rgba(0, 0, 0, 0.2);
+  }
+  .navbar .navbar-nav .nav-item:hover .nav-link {
+    color: #fff;
+  }
+  .navbar .navbar-nav .nav-item:last-child {
+    background-color: transparent;
+    border: 2px solid #fff;
+  }
+  .navbar .navbar-nav .nav-item:last-child:hover {
+    box-shadow: none;
+    background-color: #fff;
+  }
+  .navbar .navbar-nav .nav-item:last-child:hover .nav-link {
+    color: var(--main-theme-bg);
+  }
+  /* For Navbar End */
+  /* For First Index start */
+  .first-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .first-index .button-group {
+    z-index: 450;
+    width: 80%;
+    height: auto;
+    padding: 6px;
+    border-radius: 10px;
+    position: relative;
+  }
+  .first-index .button-group .form-header {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-top: 5px solid #fff;
+    border-left: 5px solid #fff;
+    border-right: 5px solid #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .first-index .button-group .form-header h5 {
+    color: #000;
+  }
+  .first-index .button-group .form-edit {
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 6px;
+  }
+  .first-index .button-group .form-edit .v-select {
+    z-index: 400;
+    height: 110px;
+    font-size: 24px;
+    width: 30%;
+    font-weight: bold;
+    color: #000;
+    background-color: transparent !important;
+  }
+  .first-index .button-group .form-edit .form-btn-group {
+    z-index: 390;
+    right: 10px;
+    bottom: 100px;
+    position: absolute;
+    padding-top: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 30px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 10px;
+  }
+  .first-index .button-group .form-edit .form-btn-group .submit {
+    background-color: var(--main-theme-bg);
+    color: #fff;
+    text-transform: capitalize;
+  }
+  /* For First Index end */
+  /* For Second Tab Content start */
+  .second-tabContent {
+    width: 100%;
+    height: auto;
+    padding: 60px 0px;
+  }
+  .second-tabContent .active {
+    background-color: #e86f52 !important;
+    color: #fff;
+  }
+  .tempOf-tabContent .content-data .red {
+    font-weight: bold;
+    color: red;
+  }
+  .tempOf-tabContent .card-container:hover {
+    transform: scale(1.1);
+  }
+  /* For Second Tab Content End */
+  /* For Third Carousel start */
+  /* For Third Carousel End */
+  /* For Fourth Package start */
+  .fourth-package {
+    width: 100%;
+    height: auto;
+    padding: 100px 0px;
+  }
+  .fourth-package .fourth-package-data {
+    width: 80%;
+    margin: auto;
+  }
+  .fourth-package .fourth-package-data .row {
+    justify-content: space-around;
+  }
+  .fourth-package .fourth-package-data .card {
+    box-shadow: 0px 10px 30px -2px rgba(0, 0, 0, 0.3);
+  }
+  /* For Fourth Package End */
+  /* For Contact Page start */
+  .contact-page {
+    width: 100%;
+    height: 100vh;
+  }
+  /* For Contact Page end */
+}
+@media only screen and (max-width: 767px) {
+  /* For First Index start */
+  .first-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 75vh;
+  }
+  .first-index .button-group {
+    position: absolute;
+    margin-top: 50px;
+    z-index: 450;
+    width: 100%;
+    height: auto;
+    gap: none;
+    position: relative;
+  }
+  .first-index .button-group .form-header {
+    position: absolute;
+    top: -46px;
+    right: 49px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-top: 5px solid #fff;
+    border-left: 5px solid #fff;
+    border-right: 5px solid #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .first-index .button-group .form-header h5 {
+    color: #000;
+  }
+  .first-index .button-group .form-edit {
+    width: 80%;
+    margin: auto;
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .first-index .button-group .form-edit .v-select {
+    z-index: 400;
+    width: 100%;
+  }
+  .first-index .button-group .form-edit .form-btn-group {
+    z-index: 390;
+    margin-top: -22px;
+    margin-left: 173px;
+    position: absolute;
+    padding-top: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .first-index .button-group .form-edit .form-btn-group .submit {
+    background-color: var(--main-theme-bg);
+    color: #fff;
+    text-transform: capitalize;
+  }
+  /* For First Index end */
+  /* For Second Tab Content start */
+  .second-tabContent {
+    width: 100%;
+    height: auto;
+    padding: 40px 0px;
+  }
+  .second-tabContent .active {
+    background-color: #e86f52 !important;
+    color: #fff;
+  }
+  .tempOf-tabContent .card-container {
+    width: 75%;
+    margin: auto;
+  }
+  .tempOf-tabContent .card-container:hover {
+    box-shadow: 0px 10px 28px -4px rgba(0, 0, 0, 0.42);
+  }
+  /* For Second Tab Content End */
+  /* For Third Carousel start */
+  /* For Third Carousel End */
+  /* For Fourth Package start */
+  .fourth-package {
+    width: 100%;
+    height: auto;
+    padding: 40px 0px;
+  }
+  .fourth-package .fourth-package-data {
+    width: 100%;
+  }
+  .fourth-package .fourth-package-data .card {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  /* For Fourth Package End */
+  /* For Contact Page start */
+  .contact-page {
+    padding: 30px 0px;
+    width: 100%;
+    height: auto;
+  }
+  /* For Contact Page end */
+}
+/* Define keyframe animations */
+@keyframes fadeUpAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes zoomInUp {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(300px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes zoomInDown {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(-300px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes fadeDownAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(-300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeRightAnimation {
+  from {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeLeftAnimation {
+  from {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.zoom-in-up {
+  animation: zoomInUp 0.7s both;
+}
+
+.zoom-in-down {
+  animation: zoomInDown 0.7s both;
+}
+
+/* Apply fade-up animation to elements with the fade-up class */
+.fade-up {
+  animation: fadeUpAnimation 0.7s both;
+}
+
+/* Apply fade-down animation to elements with the fade-down class */
+.fade-down {
+  animation: fadeDownAnimation 0.7s both;
+}
+
+/* Apply fade-right animation to elements with the fade-right class */
+.fade-right {
+  animation: fadeRightAnimation 0.7s both;
+}
+
+/* Apply fade-left animation to elements with the fade-left class */
+.fade-left {
+  animation: fadeLeftAnimation 0.7s both;
+}
+
+/*# sourceMappingURL=style.css.map */
