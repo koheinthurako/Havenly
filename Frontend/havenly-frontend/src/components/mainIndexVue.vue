@@ -42,9 +42,10 @@
 
             <br><br>
             <div class="popup-data">
-                <div v-for="data in items" :key="data">
+                <div v-for="(data, index) in items" :key="index">
                     <div class="row box-content">
-                        <div class="col-1 toggle-btn" @click="getData(data.title, data.type, data.name)">
+                        <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === index }"
+                            @click="getData(data.title, data.type, data.name, index)">
                             <v-icon>mdi-menu-left</v-icon>
                         </div>
                         <div class="col-4 p-0">
@@ -110,7 +111,7 @@ export default {
 
     data: () => ({
 
-        notificationCount: 4,
+        notificationCount: 8,
 
         items: [
             { id: 1, title: 'John Lwin', img: require('@/assets/img/1.jpg'), type: 'panda', name: 'condo' },
@@ -125,7 +126,9 @@ export default {
         ],
     }),
 
+
     methods: {
+
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
             const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
@@ -144,7 +147,7 @@ export default {
             // this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
 
             const encryptData = this.encryptId(postId);
-            localStorage.setItem('postId', encryptData);
+            sessionStorage.setItem('postId', encryptData);
             this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
 
         },
@@ -159,17 +162,19 @@ export default {
         const isPopupVisible = ref(false);
         const isPopupDisable = ref(false);
         const isCardVisible = ref(false);
+        const activeButton = ref(null);
         const userData = ref({
             name: '',
             email: '',
             phone: ''
         });
 
-        const getData = (name, email, phone) => {
+        const getData = (name, email, phone, index) => {
             userData.value.name = name;
             userData.value.email = email;
             userData.value.phone = phone;
             isCardVisible.value = true;
+            activeButton.value = index;
         };
 
         const hideCard = () => {
@@ -207,13 +212,14 @@ export default {
             isCardVisible.value = false;
             setTimeout(() => {
                 btn_display.value = !btn_display.value;
-            }, 100);
+            }, 400);
 
             // to counter error
             btn_display.value = true;
         };
 
         return {
+            activeButton,
             showBackToTop,
             scrollToTop,
             isPopupVisible,
@@ -239,35 +245,3 @@ export default {
 }
 
 </script>
-
-<style>
-#backToTopBtn {
-    display: block;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99;
-    padding: 16px 17px;
-    border-radius: 50%;
-    font-size: 22px;
-    cursor: pointer;
-    background-color: #E97559;
-    color: white;
-    border: none;
-    z-index: 2000;
-    font-weight: bold;
-    box-shadow: 0px 4px 28px 2px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transform: translateY(-800px);
-    transition: all 0.3s ease-in-out;
-}
-
-#backToTopBtn:hover {
-    background-color: #b13d20;
-}
-
-#backToTopBtn.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-</style>
