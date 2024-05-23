@@ -16,9 +16,14 @@ public class Posts_Service_Impl implements Posts_Service {
 	Posts_Repo repo;
 	
 	@Override
-	public List<Posts> getAllPosts(int subUserId) {
-		return repo.getAllPosts(subUserId);
+	public List<Posts> getAllSubuserPosts(int subUserId) {
+		return repo.getAllSubuserPosts(subUserId);
 	}
+	
+//	@Override
+//	public List<Posts> getAllSubuserRentPosts(int subUserId) {
+//		return repo.getAllSubuserRentPosts(subUserId);
+//	}
 
 	@Override
 	public List<Posts> getAllPendingPosts() {
@@ -61,6 +66,8 @@ public class Posts_Service_Impl implements Posts_Service {
 		Posts user1 = repo.save(new_user);
 		return user1;
 	}
+
+	
 
 	
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.Havenly.Backend.DTO.RentPost_DTO;
 import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.TestSellPost;
@@ -18,7 +19,7 @@ import com.Havenly.Backend.Repo.RentPost_Repo;
 import com.Havenly.Backend.Service.RentPost_Service;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/rentpost")
 public class RentPost_Controller {
 	
 	@Autowired
@@ -30,6 +31,11 @@ public class RentPost_Controller {
 	@GetMapping("/getallrentposts")
 	public ResponseEntity<List<RentPost>> getAllRentPosts() {
 		return new ResponseEntity<List<RentPost>>(rentRepo.getAllRentPosts(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/allSubuserRentPosts")
+	public ResponseEntity<List<RentPost>> getAllSubuserRentPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<RentPost>>(rentService.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
 	}
 	
 	@PostMapping("/saverentpost")
