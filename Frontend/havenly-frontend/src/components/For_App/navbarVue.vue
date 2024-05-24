@@ -58,10 +58,8 @@
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
                   <!-- <li>
-                  <!-- <li>
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li> -->
                   </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
@@ -69,14 +67,10 @@
                   </li>
                 </ul>
               </div>
-              <!-- <div v-else>
+              <div v-else>
                 <router-link to="/login" class="nav-link">Login</router-link>
-              </div>
              
-            <!-- </div> -->
-             <!-- <div v-else>
-              <router-link to="/login" class="nav-link">Login</router-link>
-            </div> -->
+            </div> 
           </li>
         </ul>
       </div>
@@ -131,7 +125,7 @@ export default {
 
 
     return {
-      isNavLinkActive,
+      isNavLinkActiveSetup,
       // isLoggedIn
     };
   },

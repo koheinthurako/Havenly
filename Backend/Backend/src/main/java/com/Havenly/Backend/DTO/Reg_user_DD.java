@@ -28,7 +28,7 @@ public class Reg_user_DD {
 	private int packageTypeId;
 	private String packageName;
 	private String nrc;
-	private String [] profileImg;
+	private String profileImg;
 	
 	public Reg_user covertToEntity(Reg_user_DD dto) {
 		Reg_user user=new Reg_user();
@@ -58,9 +58,10 @@ public class Reg_user_DD {
 		
 		if(sub!=null) {
 			dto.setNrc(sub.getNrc().toString());
-			dto.setPackageTypeId(sub.getPackages().getPackType().getPackageTypeId());	
+			dto.setPackageTypeId(sub.getPackages().getPackType().getPackageTypeId());
+			dto.setPackageName(sub.getPackages().getPackType().getPackName());	
 			}
-			dto.setPackageName(sub.getPackages().getPackType().getPackName());
+			
 			return dto;
 		
 	}

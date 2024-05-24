@@ -62,7 +62,6 @@ export default {
       console.log("no package data in session storage!");
     }
     const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    // const subbedData = JSON.parse(sessionStorage.getItem('subbed_user'));
     if (loginUserData !==null ) { 
       this.user.email = loginUserData.email;
       console.log('User is logged in.');
@@ -84,7 +83,7 @@ export default {
     } else {
       alert("Log in or register first to buy packages!");
       console.error('User email not found in sessionStorage.');
-      router.push('/login');
+      router.push('/loginakm');
       
     }
    

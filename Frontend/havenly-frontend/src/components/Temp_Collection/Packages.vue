@@ -1,22 +1,30 @@
 <template>
+  <div class="d-flex align-center justify-center" style="height: 130vh">
      <div class="temp-package-data">
             <div class="temp-header-row ">
                 <div>
-                    <p>Join us, {{  }}</p>
+                    <p>Join us, {{user.name}}</p>
                     <h3 class="my-2 mx-auto">Choose a package according to your needs!</h3>
                 </div>
     <v-container> 
       <v-row>
         <v-col cols="12">
           <swiper
-            :slides-per-view="3"
-            :space-between="30"
-            mousewheel="true"
-            pagination
-            navigation
+          :keyboard="true" :loop="false" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true"
+             :slides-per-view="3" :space-between="30" :mousewheel="true"
+            :navigation = "true"
+            :coverflowEffect="{
+                        rotate: 10,
+                        stretch: 10,
+                        depth: 120,
+                        modifier: 1.5,
+                        // slideShadows: true,
+                    }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper"
           >
-            <swiper-slide v-for="item in items" :key="item.id">
-              <v-card class="w-300 px-3">
+            <swiper-slide v-for="item in items" :key="item.packageTypeId">
+              <div class="temp-package">
+                            <div style="line-height: 0px;">
+              <v-card class="w-200 h-100 px-3">
                 <v-card-title>{{ item.packName }}&nbsp;&nbsp;package</v-card-title>
                 <v-card-text>
                     <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
@@ -37,12 +45,13 @@
       </div>
                 </v-card-actions>
               </v-card>
+            </div></div>
             </swiper-slide>
           </swiper>
         </v-col>
       </v-row>
     </v-container>
-    </div></div>
+    </div></div></div>
   </template>
   
   <script>
@@ -51,7 +60,9 @@
   import 'swiper/css';
   import 'swiper/css/navigation'; 
   import 'swiper/css/pagination'; 
-  
+  import router from '@/router';
+  import { EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+
   export default {
     name: 'PackagesVue',
 
@@ -59,10 +70,27 @@
       Swiper,
       SwiperSlide
     },
+    setup() {
+        return {
+    modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+              };
+    },
     data() {
       return {
-        items: []
+        items: [],
+        user: {
+          name:'John Doe'
+        }
       };
+    },
+    created(){
+    const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
+    if (loginUserData ==null ) { 
+        // router.push("/");
+        console.log("User is not logged in.");     
+    }else{
+      this.user.name = loginUserData.name;
+    }
     },
     mounted() {
       this.fetchData();
@@ -81,16 +109,19 @@
           });
     },
     handleAction(item) {
-    
-      if (item.id === 1) {
+      if( item.packageTypeId !== null){
+        if (item.packageTypeId === 1) {
         router.push("/Subscribe");
-      } else if (item.id === 2) {
-        sessionStorage.setItem('packageName', JSON.stringify(item[1]));
+      } 
+      else {
+        sessionStorage.setItem('packageName', JSON.stringify(item[item.packageTypeId-1]));
         router.push('/packages/payment');
-      } else if (item.id === 3) {
-        sessionStorage.setItem('packageName', JSON.stringify(item[2]));
-        router.push('/packages/payment');
-      } else {
+      // } else if (item.id === 3) {
+      //   sessionStorage.setItem('packageName', JSON.stringify(item[item.id-1]));
+      //   router.push('/packages/payment');
+      }
+      }
+       else {
         console.log('ERROR parsing DATA for packages.', item);
       }
     },

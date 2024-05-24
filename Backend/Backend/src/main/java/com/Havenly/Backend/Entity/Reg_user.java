@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -49,8 +50,9 @@ public class Reg_user {
 	private LocalDate date;
 	private LocalTime time;
 	
-//	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//	PasswordResetToken  passwordResetToken;
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String profileImg;
 
 	
 	@OneToOne(mappedBy = "reg_user")

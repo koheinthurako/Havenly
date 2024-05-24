@@ -2,8 +2,6 @@ package com.Havenly.Backend.Controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Subscription_DTO;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.Service.SubscriptionService;

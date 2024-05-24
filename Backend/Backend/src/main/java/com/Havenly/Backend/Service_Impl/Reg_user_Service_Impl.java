@@ -1,11 +1,18 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
@@ -66,10 +73,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 			return user2;
 
 				}
-		
-		
-		
-		return null;
+	return null;
 	}
 	@Override
 	public Reg_user_DD Login(String gmail, String password) {
@@ -84,8 +88,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}
+	
 	@Override
-	public Reg_user_DD update(String name,String phone,String gmail) {
+	public Reg_user_DD update(String name,String phone,String gmail, MultipartFile img) {
 		
 		Reg_user updateUser=regRepo.findByEmail(gmail);
 		if (updateUser == null) {
@@ -93,10 +98,28 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		updateUser.setName(name);
 		updateUser.setPhone(phone);
+		if(img != null && !img.isEmpty()) {
+		
+			 String fileName = LocalDate.now().getYear() + "_" + StringUtils.cleanPath(img.getOriginalFilename());
+		        if(fileName.contains("..")) {
+		            System.out.println("Invalid file format!");
+		        }
+		        System.out.println("----------------------------------------------------------------");
+		        System.out.println("File Name when upload from frontend : " + fileName);
+		        System.out.println("----------------------------------------------------------------");
+		        try {
+		            byte[] imageBytes  = img.getBytes();
+		            String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+		            String imageUrl = "data:image/jpeg;base64,"+base64Encoded;
+		        	updateUser.setProfileImg(imageUrl);		        
+		        	} catch (IOException e) {
+		            e.printStackTrace();
+		        } 
+		}
+	
 		Reg_user user2=regRepo.save(updateUser);
 		Reg_user_DD user4=user3.covertToObject(user2);
 		
-
 		return user4;
 	}
 	@Override
@@ -197,6 +220,13 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		user.setPassword(this.pwencoder.encode(newPassword));
 		regRepo.save(user);
 		return "New password is set succeessfully.";
+	}
+	
+	@Override
+	public Reg_user_DTO getById(int id) {
+		Reg_user user = regRepo.findById(id);
+		Reg_user_DTO dto = user_dto.covertToObject(user);
+		return dto;
 	}
 	
 	

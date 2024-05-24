@@ -72,14 +72,7 @@ togglePasswordVisibility() {
       
        
         .then(function(response){
-         
-                // const status=JSON.parse(response.status);
-                // // const email=JSON.parse(response.email);
-               
-                // // if(response)sessionStorage.setItem(JSON.stringify(email ))
-                
-                
-             
+
                 console.log(response)
                 console.log(response.data)
                 sessionStorage.setItem('login_user',JSON.stringify(response.data))
@@ -94,12 +87,8 @@ togglePasswordVisibility() {
         });
                   }
                   const aa=response.data
-                  console.log(aa)
-                    
+                  console.log(aa)    
                         })
-                  // .then(data=>{
-                  //   console.log(data)
-                  // })
             .catch(httpErrorHandler)
           
                  },

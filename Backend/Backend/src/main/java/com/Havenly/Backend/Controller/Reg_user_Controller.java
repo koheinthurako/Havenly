@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
@@ -50,18 +52,16 @@ public class Reg_user_Controller {
 	
 	@Autowired
 	PasswordEncoder pwencoder;
-	
-	
-	
-	
+
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Reg_user_DTO>> getAll() {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getLoginUser")
-	public ResponseEntity<Reg_user_DTO> getById() {
-		return null;
+	public ResponseEntity<Reg_user_DTO> getById(@RequestParam int registerId) {
+		
+		return new ResponseEntity<Reg_user_DTO>(regService.getById(registerId),HttpStatus.OK);
 	}
 	
 //	@GetMapping("/getSubUserInfo")
@@ -95,14 +95,22 @@ public class Reg_user_Controller {
 	
 	
 	@PutMapping("/profile/update")
-	public ResponseEntity<Reg_user_DD> updateProfile( @RequestBody  Reg_user_DD user) {
-		
-		Reg_user_DD updatedUser = regService.update(user.getName(),user.getPhone(),user.getEmail());
+	public ResponseEntity<Reg_user_DD> updateProfile(
+			@RequestParam("profileImg") MultipartFile profileImg,
+			@RequestParam("name") String name, 
+			@RequestParam("phone") String phone, 
+			@RequestParam("email") String email
+			) {
+		if (profileImg != null) {
+	        System.out.println("Uploaded file: " + profileImg.getOriginalFilename());
+	    }
+		Reg_user_DD updatedUser = regService.update(name,phone,email,profileImg);
 		if (updatedUser == null) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok().body(updatedUser);
 	}
+	
 	@PutMapping("/pwdUpdate")
 	public ResponseEntity<Reg_user_DTO> updatePassword( @RequestBody Change_password change) {
 		
