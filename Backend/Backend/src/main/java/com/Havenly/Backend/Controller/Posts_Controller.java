@@ -5,12 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Service.Posts_Service;
@@ -35,6 +30,11 @@ public class Posts_Controller {
 	@GetMapping("/allComplete")
 	public ResponseEntity<List<Posts>> getAllCompletePosts(){
 		return new ResponseEntity<List<Posts>>(service.getAllCompletePosts(),HttpStatus.OK);
+	}
+
+	@GetMapping("/getPostById/{id}")
+	public ResponseEntity<Posts> getPostById(@PathVariable String id) {
+		return new ResponseEntity<>(service.getPostById(id), HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")

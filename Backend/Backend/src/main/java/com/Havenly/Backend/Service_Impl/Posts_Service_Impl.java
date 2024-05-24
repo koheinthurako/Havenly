@@ -1,6 +1,7 @@
 package com.Havenly.Backend.Service_Impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -62,6 +63,10 @@ public class Posts_Service_Impl implements Posts_Service {
 		return user1;
 	}
 
-	
+	@Override
+	public Posts getPostById(String id) {
+		return repo.getPostById(id);
+	}
+
 
 }

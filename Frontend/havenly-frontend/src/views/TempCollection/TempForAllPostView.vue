@@ -25,53 +25,68 @@
         </v-row>
     </v-container> -->
 
-    <div class="view-posts row p-0 mb-3 mt-2" v-for="item in paginatedItems" :key="item.id">
-        <div class="col-6 left p-0 m-0">
-            <v-img :src="item.img" />
-            <div class="show-icon">
-                <div class="sell d-flex"><v-icon class="me-2">mdi-format-list-bulleted-type</v-icon>
-                    <span>{{ item.settype }}&nbsp;post</span>
+    <div v-if="paginatedItems != ''">
+
+        <!-- view post start -->
+        <div class="view-posts row p-0 mb-3 mt-2" v-for="item in paginatedItems" :key="item.id">
+            <div class="col-6 left p-0 m-0">
+                <v-img :src="item.photo_url[0]" />
+                <div class="show-icon">
+                    <div class="sell d-flex"><v-icon class="me-2">mdi-format-list-bulleted-type</v-icon>
+                        <span>{{ changeToType(item.post_id) }}&nbsp;post</span>
+                    </div>
+                    <v-btn class="like-btn"><v-icon class="me-2">mdi-thumb-up-outline</v-icon><span>Like</span></v-btn>
                 </div>
-                <v-btn class="like-btn"><v-icon class="me-2">mdi-thumb-up-outline</v-icon><span>Like</span></v-btn>
+            </div>
+            <div class="col-6 p-2 right">
+                <h5 class="ps-1">{{ truncateText(item.title, 30) }}</h5>
+                <hr class="mx-2 my-3">
+                <div class="types">
+                    <div><v-icon class="me-1">mdi-map-marker-radius</v-icon><span>{{ item.region }} , {{ item.province
+                            }} , {{ item.country }}</span>
+                    </div>
+                    <div><v-icon class="me-1">mdi-office-building</v-icon><span>{{ item.property_type }}</span></div>
+                    <div class="row p-0">
+                        <div class="col-6">
+                            <div class="d-flex"><v-icon class="me-1">mdi-bed-king</v-icon><span>Hello
+                                </span></div>
+                            <div class="d-flex"><v-icon class="me-1"
+                                    style="transform:rotate(45deg);">mdi-arrow-all</v-icon><span>{{
+                                        item.area }} ft
+                                </span></div>
+                        </div>
+                        <div class="col-6">
+                            <v-btn class="direct-btn" readonly><v-icon>mdi-check-circle</v-icon>direct owner</v-btn>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mx-2 my-2">
+                <div class="footer py-0 my-0">
+                    <div class="money d-flex"><v-icon>mdi-currency-usd</v-icon><span>{{ item.price }}</span>
+                        <p>(kyats)</p>
+                    </div>
+                    <v-btn @click="goToDetail(item.post_id)" class="detail-btn d-flex">See detail <v-icon
+                            class="me-2">mdi-chevron-double-right</v-icon></v-btn>
+                </div>
             </div>
         </div>
-        <div class="col-6 p-2 right">
-            <h5 class="ps-1">{{ truncateText(item.title, 30) }}</h5>
-            <hr class="mx-2 my-3">
-            <div class="types">
-                <div><v-icon class="me-1">mdi-map-marker-radius</v-icon><span>Region / province / country</span>
-                </div>
-                <div><v-icon class="me-1">mdi-office-building</v-icon><span>{{ item.posttype }}</span></div>
-                <div class="row p-0">
-                    <div class="col-6">
-                        <div class="d-flex"><v-icon class="me-1">mdi-bed-king</v-icon><span>{{ item.postroom }}
-                            </span></div>
-                        <div class="d-flex"><v-icon class="me-1"
-                                style="transform:rotate(45deg);">mdi-arrow-all</v-icon><span>{{
-                                    item.area }} ft
-                            </span></div>
-                    </div>
-                    <div class="col-6">
-                        <v-btn class="direct-btn" readonly><v-icon>mdi-check-circle</v-icon>direct owner</v-btn>
-                    </div>
-                </div>
-            </div>
-            <hr class="mx-2 my-2">
-            <div class="footer py-0 my-0">
-                <div class="money d-flex"><v-icon>mdi-currency-usd</v-icon><span>{{ item.price }}</span>
-                    <p>(kyats)</p>
-                </div>
-                <v-btn class="detail-btn d-flex">See detail <v-icon
-                        class="me-2">mdi-chevron-double-right</v-icon></v-btn>
-            </div>
-        </div>
+        <!-- view post end -->
+
+
     </div>
+    <div v-else>
+        <h4>No post available!</h4>
+    </div>
+
+
 
     <v-pagination active-color="#e86f52" rounded="circle" v-model="currentPage" :length="totalPages"
         @input="onPageChange"></v-pagination>
 </template>
 
 <script>
+import AES from 'crypto-js/aes'
+import Utf8 from 'crypto-js/enc-utf8';
 export default {
     props: {
         data: {
@@ -83,6 +98,7 @@ export default {
 
     data() {
         return {
+            posts: [],
             itemsPerPage: 10,
             currentPage: 1,
             items: [
@@ -108,91 +124,72 @@ export default {
         };
     },
     computed: {
-        totalPages() {
-            return Math.ceil(this.items.length / this.itemsPerPage);
+
+        displayedPosts() {
+            console.log("Reached");
+            console.log(this.posts);
+            // Filter posts based on the selected type
+            const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === 'condo');
+
+            // Return only the first four filtered posts
+            return filteredPosts;
         },
-        //     return this.items.filter(item => {
-        //         let matchesSetPost = true;
-        //         let matchesPostType = true;
-        //         let matchesRoom = true;
-        //         let matchesArea = true;
 
-        //         if (this.data) {
-        //             if (this.data.setPost) {
-        //                 matchesSetPost = item.settype.toLowerCase() === this.data.setPost.toLowerCase();
-        //             }
-        //             if (this.data.postType) {
-        //                 matchesPostType = item.posttype.toLowerCase() === this.data.postType.toLowerCase();
-        //             }
-        //             if (this.data.room) {
-        //                 matchesRoom = item.postroom.toLowerCase() === this.data.room.toLowerCase();
-        //             }
-        //             if (this.data.area) {
-        //                 console.log(this.data.area);
-        //                 const { operator, value, min, max } = this.data.area;
-        //                 switch (operator) {
-        //                     case '<':
-        //                         matchesArea = item.area < value;
-        //                         break;
-        //                     case '>':
-        //                         matchesArea = item.area > value;
-        //                         break;
-        //                     case 'between':
-        //                         matchesArea = item.area >= min && item.area <= max;
-        //                         break;
-        //                     default:
-        //                         matchesArea = true;
-        //                 }
-        //             }
-        //         }
 
-        //         return matchesSetPost && matchesPostType && matchesRoom && matchesArea;
-        //     });
-        // },
+        totalPages() {
+            return Math.ceil(this.posts.length / this.itemsPerPage);
+        },
 
         filteredItems() {
-            return this.items.filter(item => {
-                let matchesSetPost = true;
+            return this.posts.filter(item => {
+                // let matchesSetPost = true;
                 let matchesPostType = true;
-                let matchesRoom = true;
-                let matchesArea = true;
+                // let matchesRoom = true;
+                // let matchesArea = true;
+
+                console.log("Reached Filter ");
+                // take session storage
 
                 if (this.data) {
-                    if (this.data.setPost) {
-                        matchesSetPost = item.settype.toLowerCase() === this.data.setPost.toLowerCase();
-                    }
+                    // console.log("Reached Post's type : ", item.property_type);
+                    // console.log("Reached filter type : ", this.data.setPost);
+                    // if (this.data.setPost) {
+                    //     matchesSetPost = item.settype.toLowerCase() === this.data.setPost.toLowerCase();
+                    // }
                     if (this.data.postType) {
-                        matchesPostType = item.posttype.toLowerCase() === this.data.postType.toLowerCase();
+
+                        matchesPostType = item.property_type.toLowerCase() === this.data.postType.toLowerCase();
                     }
-                    if (this.data.room) {
-                        matchesRoom = item.postroom.toLowerCase() === this.data.room.toLowerCase();
-                    }
-                    if (this.data.area) {
+                    // if (this.data.room) {
+                    //     matchesRoom = item.postroom.toLowerCase() === this.data.room.toLowerCase();
+                    // }
+                    // if (this.data.area) {
 
-                        if (this.processString(this.data.area)[0] < 3) {
-                            // console.log("length 2");
-                            // console.log("Get condition", this.processString(this.data.area)[3]);
-                            // console.log("Get Max", this.processString(this.data.area)[4]);
+                    //     if (this.processString(this.data.area)[0] < 3) {
+                    //         // console.log("length 2");
+                    //         // console.log("Get condition", this.processString(this.data.area)[3]);
+                    //         // console.log("Get Max", this.processString(this.data.area)[4]);
 
-                            if (this.processString(this.data.area)[3] === 'above') {
-                                matchesArea = item.area >= this.processString(this.data.area)[4];
-                            } else {
-                                matchesArea = item.area <= this.processString(this.data.area)[4];
-                            }
-                        } else {
-                            // console.log("length 4");
-                            // console.log("Get condition : ", this.processString(this.data.area)[1]);
-                            // console.log("Get Lower ", this.processString(this.data.area)[2]);
-                            // console.log("Get Max ", this.processString(this.data.area)[4]);
+                    //         if (this.processString(this.data.area)[3] === 'above') {
+                    //             matchesArea = item.area >= this.processString(this.data.area)[4];
+                    //         } else {
+                    //             matchesArea = item.area <= this.processString(this.data.area)[4];
+                    //         }
+                    //     } else {
+                    //         // console.log("length 4");
+                    //         // console.log("Get condition : ", this.processString(this.data.area)[1]);
+                    //         // console.log("Get Lower ", this.processString(this.data.area)[2]);
+                    //         // console.log("Get Max ", this.processString(this.data.area)[4]);
 
-                            matchesArea = this.processString(this.data.area)[2] < item.area && item.area < this.processString(this.data.area)[4];
-                        }
+                    //         matchesArea = this.processString(this.data.area)[2] < item.area && item.area < this.processString(this.data.area)[4];
+                    //     }
 
-                    }
+                    // }
                 }
 
                 // console.log(`matchesSetPost: ${matchesSetPost}, matchesPostType: ${matchesPostType}, matchesRoom: ${matchesRoom}, matchesArea: ${matchesArea}`);
-                return matchesSetPost && matchesPostType && matchesRoom && matchesArea;
+                // return matchesSetPost && matchesPostType && matchesRoom && matchesArea;
+                return matchesPostType;
             });
         },
 
@@ -201,10 +198,112 @@ export default {
             const end = start + this.itemsPerPage;
             return this.filteredItems.slice(start, end);
         }
+    },
 
+    mounted() {
+        this.fetchPosts();
 
     },
+
     methods: {
+
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        goToDetail(data) {
+            // router.push('/PostsView')
+            const encryptData = this.encryptId(data);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+        },
+
+        changeToType(data) {
+            if (data) {
+                const first_char = data[0].toLowerCase();
+                if (first_char == 's') {
+                    return "Sell";
+                } else {
+                    return "Rent";
+                }
+            }
+        },
+
+
+        // firstly fetch all posts and filter
+        fetchPosts() {
+            // Make API call to fetch posts from backend
+            fetch('http://localhost:8083/posts/allComplete')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(post => {
+                        if (post.testrentposts) {
+                            console.log("see all posts " + post);
+                            if (post.testrentposts.description.length > 100) {
+                                let des = post.testrentposts.description;
+                                post.testrentposts.description = des.substring(0, 100) + "...";
+                            }
+
+                            let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                            console.log("see all images " + imageUrls)
+                            console.log("See all posts 2" + post);
+                            this.posts.unshift({
+                                province: post.testrentposts.locations.province,
+                                region: post.testrentposts.locations.region,
+                                country: post.testrentposts.locations.countries.country_name,
+                                post_id: post.testrentposts.sell_post_id,
+                                title: post.testrentposts.title,
+                                description: post.testrentposts.description,
+                                property_type: post.testrentposts.property_type,
+                                area: post.testrentposts.area,
+                                price: post.testrentposts.price,
+                                deposit: post.testrentposts.deposit,
+                                least_contract: post.testrentposts.least_contract,
+                                photo_url: imageUrls,
+                            });
+                            console.log(typeof (imageUrls))
+                        } else if (post.testsellpostss) {
+                            console.log(post);
+                            if (post.testsellpostss.description.length > 100) {
+                                let des = post.testsellpostss.description;
+                                post.testsellpostss.description = des.substring(0, 100) + "...";
+                            }
+
+                            let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                            console.log(imageUrls)
+                            console.log(post);
+                            this.posts.unshift({
+                                province: post.testsellpostss.locations.province,
+                                region: post.testsellpostss.locations.region,
+                                country: post.testsellpostss.locations.countries.country_name,
+                                post_id: post.testsellpostss.sell_post_id,
+                                title: post.testsellpostss.title,
+                                description: post.testsellpostss.description,
+                                property_type: post.testsellpostss.property_type,
+                                area: post.testsellpostss.area,
+                                price: post.testsellpostss.price,
+                                photo_url: imageUrls,
+                            });
+                            console.log(typeof (imageUrls))
+                        }
+
+                    });
+                    // console.log(this.posts);
+                })
+                .catch(error => {
+                    console.error('Error fetching photos:', error);
+                });
+        },
+
+
+        decryptData(encryptedId) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+            const decryptData = decryptedBytes.toString(Utf8);
+            return decryptData;
+        },
 
         processString(str) {
             if (this.data.area != null) {

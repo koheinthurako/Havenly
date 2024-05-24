@@ -1,6 +1,7 @@
 package com.Havenly.Backend.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,6 @@ public interface Posts_Service {
 	public List<Posts> getAllPosts(int subUserId);
 	public Posts update(Posts post);
 	public Posts decline(Posts post);
+	Posts getPostById(String id);
 
 }

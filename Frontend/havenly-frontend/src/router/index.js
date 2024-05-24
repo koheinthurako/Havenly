@@ -1,12 +1,14 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
-// import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
-import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
+import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
+
+// Documentation ?
+// import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
-// import testingPage from '../components/For_Testing/testingOne.vue'
+import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 
@@ -15,8 +17,6 @@ import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
 import ResetPassword from '../views/ResetPassword.vue'
-
-
 
 
 // import testPhoto from '../components/Test_Photo/testPhoto.vue'
@@ -70,9 +70,9 @@ const routes = [
 
   // change with temp For Package
   {
-    path: '/package',
-    name: 'package',
-    component: tempDoc
+    path: '/package/details',
+    name: 'tempPackage',
+    component: tempPackage
   },
   {
     path: '/register',
@@ -110,28 +110,28 @@ const routes = [
   //   name: 'PackagesView',
   //   component: PackagesView
   // },
-{
-  path: '/forgot',
-  name: 'ForgotPassword',
-  component: ForgotPassword
-},
-{
-  path: '/akmakmset',
-  name: 'ResetPassword',
-  component: ResetPassword
-},
-{
-  path: '/admin',
-  name: 'AdminView',
-  component: AdminView,
-  meta: { requiresAdmin: true }
-},
-{
-  path: '/admin/login',
-  name: 'AdminLoginView',
-  component: AdminLoginView
+  {
+    path: '/forgot',
+    name: 'ForgotPassword',
+    component: ForgotPassword
+  },
+  {
+    path: '/akmakmset',
+    name: 'ResetPassword',
+    component: ResetPassword
+  },
+  {
+    path: '/admin',
+    name: 'AdminView',
+    component: AdminView,
+    meta: { requiresAdmin: true }
+  },
+  {
+    path: '/admin/login',
+    name: 'AdminLoginView',
+    component: AdminLoginView
 
-},
+  },
 
   // {
   //   path: '/userDashBoardNew',
@@ -149,20 +149,15 @@ const routes = [
     component: userDashboard,
     meta: { requiresAuth: true }
   },
-  // {
-  //   path: '/testingPage',
-  //   name: 'testingPage',
-  //   component: testingPage
-  // },
+  {
+    path: '/testingPage',
+    name: 'testingPage',
+    component: testingPage
+  },
   {
     path: '/login',
     name: 'login',
     component: login
-  },
-  {
-    path: '/tempDoc',
-    name: 'tempDoc',
-    component: tempDoc
   },
   {
     path: '/packages/payment',

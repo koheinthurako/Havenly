@@ -141,6 +141,7 @@ export default {
             const decryptedId = decryptedBytes.toString(Utf8);
             return parseInt(decryptedId, 10);
         },
+
         gotoDetailView(postId) {
 
             // const encryptedId = this.encryptId(postId);
@@ -149,7 +150,6 @@ export default {
             const encryptData = this.encryptId(postId);
             sessionStorage.setItem('postId', encryptData);
             this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-
         },
 
     },
@@ -179,6 +179,7 @@ export default {
 
         const hideCard = () => {
             isCardVisible.value = false;
+            activeButton.value = null;
         };
 
         const scrollFunction = () => {
@@ -205,6 +206,7 @@ export default {
             isPopupVisible.value = true;
             isPopupDisable.value = false;
             btn_display.value = !btn_display.value;
+            activeButton.value = null;
         };
         const hidePopup = () => {
 

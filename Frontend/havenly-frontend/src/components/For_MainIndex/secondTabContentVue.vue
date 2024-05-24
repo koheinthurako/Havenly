@@ -55,7 +55,7 @@ export default {
             buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office'],
             offset: 0,
             visibleStartIndex: 0,
-            visibleButtons: 4,
+            visibleButtons: 3,
             contents: [
                 { title: 'Condo' },
                 { title: 'Apartment' },
@@ -75,7 +75,9 @@ export default {
         },
         isNextButtonHidden() {
             return this.visibleStartIndex + this.visibleButtons >= this.buttons.length;
-        }
+        },
+
+
     },
     mounted() {
 

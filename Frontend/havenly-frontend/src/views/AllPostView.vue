@@ -72,13 +72,11 @@ export default {
         return {
             // get datas
             setType: 'sell',
-            selectedArea: null,
-            selectedType: null,
-            selectedRoom: null,
-
+            selectedArea: '',
+            selectedType: '',
+            selectedRoom: '',
             tempPageData: null,
             tempPageKey: 0,
-
             isScrolled: false,
             getName: '',
             getPostType: null,
@@ -97,6 +95,16 @@ export default {
             console.error('No postType found in sessionStorage');
         } else {
             this.changeName(this.getPostType);
+
+            const data = {
+                setPost: '',
+                postType: this.changeName(this.getPostType),
+                area: '',
+                room: '',
+            };
+            this.tempPageData = data;
+            this.tempPageKey += 1;
+
         }
 
         window.addEventListener('scroll', this.handleScroll);
@@ -107,6 +115,7 @@ export default {
     },
 
     methods: {
+
         handleScroll() {
             this.isScrolled = window.scrollY >= 15;
             console.log(this.isScrolled);
@@ -161,7 +170,11 @@ export default {
         },
 
         sendDataToTempPage() {
-            // const areaRange = this.mapAreaValue(this.selectedArea);
+            if (this.selectedType) {
+                this.changeName(this.encryptData(this.selectedType));
+            }
+
+
             const data = {
                 setPost: this.setType,
                 postType: this.selectedType,
@@ -170,9 +183,15 @@ export default {
             };
             this.tempPageData = data;
             this.tempPageKey += 1;
+
         },
 
         getAllFromTempPage() {
+
+            this.getPostType = sessionStorage.getItem('getPostType');
+            if (this.getPostType) {
+                this.changeName(this.getPostType);
+            }
 
             // first clean the fields
             this.selectedType = '';

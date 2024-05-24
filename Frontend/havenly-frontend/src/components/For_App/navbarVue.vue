@@ -11,47 +11,36 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
+
+          <li class="nav-item">
+            <router-link to="/testingPage" :class="{ active: isActive('/testingPage') }"
+              class=" nav-link">Testing</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/" :class="{ active: isActive('/') }" class=" nav-link">
+              Home</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/package/details" :class="{ active: isActive('/package/details') }" class=" nav-link">
+              Packages</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/subscribe" class=" nav-link"
+              :class="{ active: isActive('/subscribe') }">Subscribe</router-link>
+          </li>
+
           <!-- <li class="nav-item">
-            <router-link to="/testingPage" class="nav-link">Testing</router-link>
+            <router-link to="/" class=" nav-link" :class="{ active: isActive('/') }">Contact</router-link>
           </li> -->
 
           <li class="nav-item">
-            <router-link to="/" :class="{
-              'nav-link': true, active:
-                ('home')
-            }">Home</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/"
-              :class="{ 'nav-link': true, active: isNavLinkActive('category') }">Category</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/package"
-              :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/subscribe"
-              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
-          </li>
-
-
-          <!-- <li class="nav-item">
-            <router-link to="/userDashBoardNew"
-              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
-          </li> -->
-          <li class="nav-item">
-            <router-link to="/userdashboard"
-              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
+            <router-link to="/userdashboard" class=" nav-link"
+              :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
         </ul>
-
 
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -90,50 +79,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+
 export default {
   name: 'navbarVue',
 
-
-  setup() {
-
-    const activeNavLink = ref('');
-    const router = useRouter();
-
-    const isNavLinkActiveSetup = (id) => {
-      return id === activeNavLink.value;
-    };
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (router.currentRoute.value.path === '/') {
-        if (scrollPosition >= -10 && scrollPosition < 350) {
-          activeNavLink.value = 'home';
-        } else if (scrollPosition < 2100) {
-          activeNavLink.value = 'category';
-        } else if (scrollPosition < 2900) {
-          activeNavLink.value = 'package';
-        } else if (scrollPosition < 3500) {
-          activeNavLink.value = 'blog';
-        } else {
-          activeNavLink.value = 'contact';
-        }
-      } else if (router.currentRoute.value.path === '/package') {
-        activeNavLink.value = 'package';
-      }
-    };
-
-
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll);
-    });
-
-
-    return {
-      isNavLinkActiveSetup
-    };
-  },
 
   data() {
     return {
@@ -160,10 +109,8 @@ export default {
   },
 
   methods: {
-
-    isNavLinkActive(routeName) {
-      // Return whether the route name matches the current route
-      return this.$route.name === routeName;
+    isActive(route) {
+      return this.$route.path === route;
     },
 
     // isLoggedIn() {
