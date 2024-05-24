@@ -11,5 +11,6 @@ public interface Interest_Service {
 
 	public Interest save(int user_id,int posts_id);
 	public List<Interest> getAll();
+	public List<Interest> getAllInterestForNoti();
 	
 }

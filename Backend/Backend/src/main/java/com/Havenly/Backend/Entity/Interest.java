@@ -16,15 +16,15 @@ import lombok.Setter;
 public class Interest {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "register_id", referencedColumnName = "register_id")
-	Reg_user user;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "post_id", referencedColumnName = "post_id")
-	Posts posts;
+    @JoinColumn(name = "register_id", referencedColumnName = "register_id")
+    private Reg_user reg_user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    private Posts posts;
 
 }

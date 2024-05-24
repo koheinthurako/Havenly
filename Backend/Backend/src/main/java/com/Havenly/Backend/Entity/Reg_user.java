@@ -67,8 +67,8 @@ public class Reg_user {
 	private Subscription sub;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "user")
-	List<Interest> interest;
+    @OneToMany(mappedBy = "reg_user")
+    private List<Interest> interest;
 	
 	
 	 public String getResetToken() {

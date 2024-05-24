@@ -37,7 +37,7 @@ public class Interest_Service_Impl implements Interest_Service{
 		
 		Interest in=new Interest();
 		in.setPosts(pp1);
-		in.setUser(user1);
+		in.setReg_user(user1);
 		return repo.save(in);
 	}
 
@@ -45,6 +45,12 @@ public class Interest_Service_Impl implements Interest_Service{
 	public List<Interest> getAll() {
 		// TODO Auto-generated method stub
 		return repo.findAll();
+	}
+
+	@Override
+	public List<Interest> getAllInterestForNoti() {
+		// TODO Auto-generated method stub
+		return repo.getAllInterestForNoti();
 	}
 
 }
