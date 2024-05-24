@@ -42,16 +42,16 @@
 
             <br><br>
             <div class="popup-data">
-                <div v-for="data in items" :key="data">
+                <div v-for="obj in objs" :key="obj.id">
                     <div class="row box-content">
-                        <div class="col-1 toggle-btn" @click="getData(data.title, data.type, data.name)">
+                        <div class="col-1 toggle-btn" @click="getData(obj.name, obj.email, obj.phone)">
                             <v-icon>mdi-menu-left</v-icon>
                         </div>
                         <div class="col-4 p-0">
-                            <v-img :src="data.img" class="me-auto" alt="" />
+                            <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
                         </div>
                         <div class="col-7 p-0 ps-2 right">
-                            <span>{{ data.title }}</span> just interested your post.
+                            <span>{{ obj.name }}</span> just interested your post.
                         </div>
                     </div>
                 </div>
@@ -102,8 +102,8 @@ import contactpage from './For_MainIndex/ContactVue.vue'
 
 import { ref, onMounted, onUnmounted } from 'vue';
 
-import AES from 'crypto-js/aes'
-import Utf8 from 'crypto-js/enc-utf8';
+// import AES from 'crypto-js/aes'
+// import Utf8 from 'crypto-js/enc-utf8';
 
 export default {
     name: 'mainIndexVue',
@@ -112,32 +112,43 @@ export default {
 
         notificationCount: 4,
 
-        items: [
-            { id: 1, title: 'John Lwin', img: require('@/assets/img/1.jpg'), type: 'panda', name: 'condo' },
-            { id: 2, title: 'Lwin moe', img: require('@/assets/img/2.jpg'), type: 'snake', name: 'apartment' },
-            { id: 3, title: 'Moe moe', img: require('@/assets/img/3.jpg'), type: 'balloon', name: 'white' },
-            { id: 4, title: 'Moe aye', img: require('@/assets/img/4.jpg'), type: 'tiger', name: 'flying' },
-            { id: 5, title: 'Thida', img: require('@/assets/img/1.jpg'), type: 'panda', name: 'condo' },
-            { id: 6, title: 'Nu Nu', img: require('@/assets/img/2.jpg'), type: 'snake', name: 'apartment' },
-            { id: 7, title: 'Aye aye', img: require('@/assets/img/3.jpg'), type: 'balloon', name: 'white' },
-            { id: 8, title: 'Hla hla', img: require('@/assets/img/4.jpg'), type: 'tiger', name: 'flying' },
-
-        ],
+        objs: [],
     }),
+    mounted(){
+        this.fetchPosts();
+      },
 
     methods: {
-        encryptId(id) {
-            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
-            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
-            return encryptedId
-        },
-
-        decryptId(encryptedId) {
-            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
-            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
-            const decryptedId = decryptedBytes.toString(Utf8);
-            return parseInt(decryptedId, 10);
-        },
+        fetchPosts() {
+       // Make API call to fetch posts from backend
+      fetch('http://localhost:8083/interest/getAllNoti')
+         .then(response => response.json())
+         .then(data => {
+           console.log(data);
+           data.forEach(obj => {
+                if (obj.posts.testsellpostss) {
+                   let imgUrls= Array.isArray(obj.posts.testsellpostss.image)?obj.posts.testsellpostss.image:[obj.posts.testsellpostss.image]
+                  
+                   console.log(obj)
+                   this.objs.unshift({
+                      id: obj.id,
+                      register_id:obj.reg_user.register_id,
+                      name:obj.reg_user.name,
+                      phone:obj.reg_user.phone,
+                      email:obj.reg_user.email,
+                      post_id:obj.posts.post_id,
+                       photo_url: imgUrls,
+                   });
+                   console.log(imgUrls)
+               }
+               
+           });
+           // console.log(this.posts);
+         })
+         .catch(error => {
+           console.error('Error fetching photos:', error);
+         });
+     },
         gotoDetailView(postId) {
 
             // const encryptedId = this.encryptId(postId);

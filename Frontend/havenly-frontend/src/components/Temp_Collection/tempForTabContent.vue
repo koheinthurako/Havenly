@@ -23,7 +23,7 @@
             <!-- Render real data from database-->
 
             <div class="row mb-5 g-3">
-                <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
+                <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3">
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 600px;">
@@ -57,14 +57,7 @@
                                 </div>
                                 <v-divider :thickness="2" class="border-opacity-25 d-block"/>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <span class="ms-1 text-grey">12d 8h 56m</span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <span class="ms-1 text-grey" title="People watched times">1331</span>
-                                    </div>
+                                    <div> <v-btn class="mt-2 me-3 bg-redbrick text-white" @click="interest(post.id)" >Interest</v-btn></div>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +72,8 @@
 </template>
 
 <script>
-import router from '@/router';
+// import router from '@/router';
+import axios from 'axios';
 
 // import postView from '../../views/PostsView.vue';
 
@@ -163,6 +157,7 @@ export default {
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
+                           id:post.post_id,
                         province: post.testrentposts.locations.province,
                         region: post.testrentposts.locations.region,
                         country: post.testrentposts.locations.countries.country_name,
@@ -188,6 +183,7 @@ export default {
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
+                        id:post.post_id,
                         province: post.testsellpostss.locations.province,
                         region: post.testsellpostss.locations.region,
                         country: post.testsellpostss.locations.countries.country_name,
@@ -200,6 +196,9 @@ export default {
                         photo_url: imageUrls,
                     });
                     console.log(typeof(imageUrls))
+                    console.log("aaaa")
+                    console.log(post.post_id)
+
                 }
                 
             });
@@ -208,6 +207,16 @@ export default {
           .catch(error => {
             console.error('Error fetching photos:', error);
           });
+      },
+
+      interest(id){
+        const user = JSON.parse(sessionStorage.getItem('login_user'));
+                const UserId = user.register_id;
+                const idd=JSON.parse(id);
+      axios.post(`http://localhost:8083/interest/add/${UserId}/${idd}`)
+        
+    
+  
       },
 
 
@@ -273,11 +282,11 @@ export default {
             }, 0);
         },
 
-        clickPost(post) {
-            console.log("You clicked post!")
-            console.log(post.title);
-            router.push('/PostsView')
-        }
+        // clickPost(post) {
+        //     console.log("You clicked post!")
+        //     console.log(post.title);
+        //     router.push('/PostsView')
+        // }
 
     },
 
