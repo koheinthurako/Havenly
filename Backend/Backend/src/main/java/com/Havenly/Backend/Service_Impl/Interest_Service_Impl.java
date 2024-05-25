@@ -48,9 +48,10 @@ public class Interest_Service_Impl implements Interest_Service{
 	}
 
 	@Override
-	public List<Interest> getAllInterestForNoti() {
+	public List<Interest> getAllInterestForNoti(Integer id) {
 		// TODO Auto-generated method stub
-		return repo.getAllInterestForNoti();
+		
+		return repo.getAllInterestForNoti(id);
 	}
 
 }

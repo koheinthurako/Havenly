@@ -13,8 +13,14 @@ import com.Havenly.Backend.Entity.Interest;
 @EnableJpaRepositories
 public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 
-	@Query(value = "select distinct i.id,r.register_id,r.name,r.phone,r.email,p.post_id,t.image from interest i,reg_user r,posts p,test_sell_post t where i.register_id=r.register_id and i.post_id=p.post_id;"
+	@Query(value = " SELECT DISTINCT i.id, r.register_id, r.name, r.phone, r.email, p.post_id, t.image "
+			+ "                   FROM interest i"
+			+ "                   JOIN posts p ON i.post_id = p.post_id "
+			+ "                   JOIN reg_user r ON r.register_id = i.register_id "
+			+ "                   JOIN test_sell_post t ON p.sell_post_id = t.sell_post_id"
+			+ "                   WHERE p.sub_user_id=?"
+			
 		,
     nativeQuery = true)
-public List<Interest> getAllInterestForNoti();
+public List<Interest> getAllInterestForNoti(Integer id);
 }

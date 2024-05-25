@@ -31,8 +31,8 @@ public class Interest_Controller {
 		return new ResponseEntity<List<Interest>>(in_service.getAll(),HttpStatus.OK);
 	}
 	
-	@GetMapping("/getAllNoti")
-	public ResponseEntity<List<Interest>> getAllNoti(){
-		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(),HttpStatus.OK);
+	@GetMapping("/getAllNoti/{id}")
+	public ResponseEntity<List<Interest>> getAllNoti(@PathVariable Integer id){
+		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
 	}
 }
