@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
-                                <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
                                 <!-- <div class="d-flex mb-3 justify-content-between">
                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
                                     <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
@@ -88,7 +88,7 @@
                                             <div class="col-md-9 col-sm-12">
                                                 <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                                     rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                                    v-model="currentPost.title" placeholder="Title"></v-text-field>
+                                                    v-model="title" placeholder="Title"></v-text-field>
                                             </div>
                                         </div>
 
@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="col-md-9 col-sm-12 py-0">
                                                 <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                                    variant="solo" rounded="lg" density="compact" v-model="currentPost.description"
+                                                    variant="solo" rounded="lg" density="compact" v-model="fullDescription"
                                                     :counter="10000"
                                                     placeholder="Description"></v-textarea>
                                             </div>
@@ -125,7 +125,7 @@
                                             <div class="col-md-9 col-sm-12">
                                                 <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                                     variant="solo" rounded="lg" density="compact"
-                                                    v-model="currentPost.property_type" :items="PropertyTypes"
+                                                    v-model="property_type" :items="PropertyTypes"
                                                     placeholder="Select property type"></v-select>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                             <div class="col-md-9 col-sm-12">
                                                 <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                                     rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                                    v-model="currentPost.price" placeholder="price"></v-text-field>
+                                                    v-model="price" placeholder="price"></v-text-field>
                                             </div>
                                         </div>
 
@@ -149,11 +149,31 @@
                                             <div class="col-md-9 col-sm-12">
                                                 <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                                     rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                                    v-model="currentPost.area" placeholder="Area"></v-text-field>
+                                                    v-model="area" placeholder="Area"></v-text-field>
+                                            </div>
+                                        </div>
+                                        <div v-if="currentPost.deposit" class="row justify-content-between">
+                                            <div class="col-md-2 col-sm-12">
+                                                <span class="float-left mt-2 small">Deposit</span>
+                                            </div>
+                                            <div class="col-md-9 col-sm-12">
+                                                <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                                    rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                                    v-model="deposit" placeholder="Deposit"></v-text-field>
+                                            </div>
+                                        </div>
+                                        <div v-if="currentPost.least_contract" class="row justify-content-between">
+                                            <div class="col-md-2 col-sm-12">
+                                                <span class="float-left mt-2 small">Least Contract</span>
+                                            </div>
+                                            <div class="col-md-9 col-sm-12">
+                                                <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                                    rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                                    v-model="least_contract" placeholder="Least Contract"></v-text-field>
                                             </div>
                                         </div>
 
-                                        <div class="row justify-content-between">
+                                        <!-- <div class="row justify-content-between">
                                             <div class="col-md-3 col-sm-12 py-0">
                                                 <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
                                                 </span>
@@ -164,13 +184,31 @@
                                                     accept="image/png, image/jpeg, image/bmp" 
                                                     prepend-icon="mdi-camera"></v-file-input>
                                             </div>
+                                        </div> -->
+
+                                        <div :key="forceRerender">
+                                            <div class="row justify-content-between">
+                                                <div class="col-md-3 col-sm-12 py-0">
+                                                    <span class="float-left mt-2 small">Replace Image<span class="text-red">*</span></span>
+                                                </div>
+                                                <div class="col-md-9 col-sm-12 py-0 d-flex flex-row">
+                                                    <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
+                                                        <img :src="photo" class="img-thumbnail" @click="setClickedPhotoIndex(index)" alt="Current Post Image">
+                                                    </div>
+                                                    <!-- <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
+                                                        <img :src="photo" class="img-thumbnail" @click="setClickedPhotoIndex(index)" alt="Current Post Image">
+                                                    </div> -->
+                                                    <!-- Hidden file input -->
+                                                    <input type="file" ref="fileInput" style="display: none;" @change="handleFileChange">
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger">Save changes</button>
+                                    <button type="button" class="btn btn-danger" @click="submit(currentPost)">Save changes</button>
                                 </div>
                             </div>
                         </div>
@@ -198,53 +236,78 @@
 
 <script>
 import axios from 'axios';
+import { toRaw, shallowRef } from 'vue';
 // import * as bootstrap from 'bootstrap';
+
+function dataURLtoFile(dataUrl) {
+  const arr = dataUrl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], 'resizedImage.jpg', { type: mime });
+}
 
     export default {
         name: 'uploadedAllPosts',
 
         data: () => ({
             posts : [],
-            currentPost: {},
+            currentPost: shallowRef({}),
+            location_id: '',
             title: '',
-            description: '',
-            propertyTypes: '',
+            shortDescription: '',
+            fullDescription: '',
+            property_type: '',
             price: '',
+            area: '',
+            deposit: '',
+            least_contract: '',
             locations: [],
-            image: [],
+            selectedCountry: '',
+            selectedProvince: '',
+            selectedAmphoe: '',
+            selectedRegion: '',
+            selectedLocation: '',
+            image: shallowRef([]),
+            clickedPhotoIndex: null,
+            forceRerender: false,
         }),
 
         computed: {
 
-                // uniqueCountries() {
-                //     return [...new Set(this.locations.map(location => location.country_name))];
-                // },
+                uniqueCountries() {
+                    return [...new Set(this.locations.map(location => location.country_name))];
+                },
 
-                // uniqueProvinces() {
-                // // return [...new Set(this.locations.map(location => location.province))];
-                //     return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
-                // },
+                uniqueProvinces() {
+                // return [...new Set(this.locations.map(location => location.province))];
+                    return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
+                },
 
-                // uniqueAmphoes() {
-                //     return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
-                // },
+                uniqueAmphoes() {
+                    return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
+                },
 
-                // uniqueRegions() {
-                //     return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
-                // },
+                uniqueRegions() {
+                    return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+                },
 
-                // uniqueLocations() {
-                //     return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
-                // },
+                uniqueLocations() {
+                    return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
+                },
 
-                // filteredLocations() {
-                // return this.locations.filter(location =>
-                //     location.country_name === this.selectedCountry &&
-                //     location.province === this.selectedProvince &&
-                //     location.amphoe === this.selectedAmphoe &&
-                //     location.region === this.selectedRegion
-                // );
-                // }
+                filteredLocations() {
+                return this.locations.filter(location =>
+                    location.country_name === this.selectedCountry &&
+                    location.province === this.selectedProvince &&
+                    location.amphoe === this.selectedAmphoe &&
+                    location.region === this.selectedRegion
+                );
+                }
             },
 
         mounted() {
@@ -291,6 +354,169 @@ import axios from 'axios';
                 console.log(images);
             },
 
+            setClickedPhotoIndex(index) {
+                this.clickedPhotoIndex = index;
+                this.$refs.fileInput.click();
+                console.log(this.title);
+                console.log(this.fullDescription);
+                console.log(this.selectedLocation);
+                console.log(this.property_type);
+                console.log(this.price);
+                console.log(this.area);
+                console.log(this.deposit);
+                console.log(this.least_contract);
+                // console.log(this.image);
+            },
+
+            handleFileChange(event) {
+                const file = event.target.files[0];
+                const maxSize = 30 * 1024 * 1024; // 30 MB
+                if (file.size > maxSize) {
+                    alert('File size exceeds the limit of 30 MB.');
+                    return;
+                }
+                console.log(file.size);
+                const clickedIndex = this.clickedPhotoIndex;
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        this.currentPost.photo_url.splice(clickedIndex, 1, reader.result);
+                        this.forceRerender = !this.forceRerender;
+                    };
+                    reader.readAsDataURL(file);
+                    console.log(this.currentPost.photo_url);
+                }
+            },
+
+
+
+            async submit(currentPost) {
+                const formData = new FormData();
+                
+                formData.append('postId', currentPost.post_id);
+                formData.append('title', this.title);
+                formData.append('description', this.fullDescription);
+                formData.append('property_type', this.property_type);
+                formData.append('price', this.price);
+                formData.append('area', this.area);
+                formData.append('location_id', this.selectedLocation);
+
+                for (const base64String of currentPost.photo_url) {
+                    // Convert base64 string to Blob object
+                    const blob = await this.base64ToBlob(base64String);
+                    const resizedFile = await this.resizeImage(blob);
+                    formData.append('files', resizedFile);
+                }
+
+                if(this.currentPost.rentPostId) {
+                    const rentId = currentPost.rentPostId;
+                    formData.append('rentPostId', rentId);
+                    formData.append('deposit', this.deposit);
+                    formData.append('least_contract', this.least_contract);
+                    try {
+                        const response = await axios.put('http://localhost:8083/rentpost/editRentPost', formData, {
+                        });
+                        console.log(response.data);
+                        window.location.reload();
+                    } catch (error) {
+                        if (error.response) {
+                            console.error('Error response:', error.response);
+                            console.error('Error response data:', error.response.data);
+                            console.error('Error response status:', error.response.status);
+                            if (error.response.status === 413) {
+                                alert('File size exceeds the limit!');
+                            } else if (error.response.status === 400) {
+                                alert('Bad Request');
+                            } else {
+                                alert(`Error: ${error.response.status} - ${error.response.data}`);
+                            }
+                        } else if (error.request) {
+                            console.error('Error request:');
+                            alert('No response received from server.');
+                        } else {
+                            alert('An error occurred while updating the post.');
+                        }
+                    }
+                } else if(this.currentPost.sellPostId) {
+                    const sellId = currentPost.sellPostId;
+                    formData.append('sellPostId', sellId);
+                    try {
+                        const response = await axios.put('http://localhost:8083/sellpost/editsellpost', formData, {
+                        });
+                        console.log(response.data);
+                        window.location.reload();
+                    } catch (error) {
+                        if (error.response) {
+                            console.error('Error response:', error.response);
+                            console.error('Error response data:', error.response.data);
+                            console.error('Error response status:', error.response.status);
+                            if (error.response.status === 413) {
+                                alert('File size exceeds the limit!');
+                            } else if (error.response.status === 400) {
+                                alert('Bad Request');
+                            } else {
+                                alert(`Error: ${error.response.status} - ${error.response.data}`);
+                            }
+                        } else if (error.request) {
+                            console.error('Error request:');
+                            alert('No response received from server.');
+                        } else {
+                            alert('An error occurred while updating the post.');
+                        }
+                    }
+                }
+            },
+
+            async base64ToBlob(base64String) {
+                const byteCharacters = atob(base64String.split(',')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                return new Blob([byteArray], { type: 'image/jpeg' }); // Change type if needed
+            },
+
+            async resizeImage(file) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            const maxWidth = 800; // Set your desired maximum width
+                            const maxHeight = 600; // Set your desired maximum height
+                            let width = img.width;
+                            let height = img.height;
+
+                            // Calculate new dimensions while maintaining aspect ratio
+                            if (width > height) {
+                                if (width > maxWidth) {
+                                    height *= maxWidth / width;
+                                    width = maxWidth;
+                                }
+                            } else {
+                                if (height > maxHeight) {
+                                    width *= maxHeight / height;
+                                    height = maxHeight;
+                                }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            // Convert the canvas content to base64
+                            const resizedDataUrl = canvas.toDataURL('image/jpeg'); // Change format if needed
+                            resolve(dataURLtoFile(resizedDataUrl));
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            },
+
             fetchPosts() {
                 const user = JSON.parse(sessionStorage.getItem('sub_user'));
                 const subUserId = user.subUserId;
@@ -301,12 +527,14 @@ import axios from 'axios';
                       }
                 })
                 .then(response => {
-                    console.log(response.data)
                     response.data.forEach(post => {
                         if(post.testrentposts) {
-                            if(post.testrentposts.description.length > 60) {
-                                let des = post.testrentposts.description;
-                                post.testrentposts.description = des.substring(0, 60) + "...";
+                            console.log(post);
+                            let des = post.testrentposts.description;
+                            let shortDescription;
+                            if(des.length > 60) {
+                                shortDescription = des.substring(0, 60) + "...";
+                                // post.testrentposts.description = des.substring(0, 60) + "...";
                             }
                             
                             let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
@@ -314,11 +542,15 @@ import axios from 'axios';
                             console.log(post);
                             this.posts.unshift({
                                 post_id: post.post_id,
+                                rentPostId: post.testrentposts.rent_post_id,
                                 province: post.testrentposts.locations.province,
                                 region: post.testrentposts.locations.region,
+                                amphoe: post.testrentposts.locations.amphoe,
+                                location_id: post.testrentposts.locations.location_id,
                                 country: post.testrentposts.locations.countries.country_name,
                                 title: post.testrentposts.title,
-                                description: post.testrentposts.description,
+                                shortDescription: shortDescription,
+                                fullDescription: post.testrentposts.description,
                                 property_type: post.testrentposts.property_type,
                                 area: post.testrentposts.area,
                                 price: post.testrentposts.price,
@@ -331,9 +563,11 @@ import axios from 'axios';
                             console.log(typeof(imageUrls))
                         } else if (post.testsellpostss) {
                             console.log(post);
-                            if(post.testsellpostss.description.length > 60) {
-                                let des = post.testsellpostss.description;
-                                post.testsellpostss.description = des.substring(0, 60) + "...";
+                            let des = post.testsellpostss.description;
+                            let shortDescription;
+                            if(des.length > 60) {
+                                shortDescription = des.substring(0, 60) + "...";
+                                // post.testrentposts.description = des.substring(0, 60) + "...";
                             }
                             
                             let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
@@ -341,11 +575,15 @@ import axios from 'axios';
                             console.log(post);
                             this.posts.unshift({
                                 post_id: post.post_id,
+                                sellPostId: post.testsellpostss.sell_post_id,
                                 province: post.testsellpostss.locations.province,
                                 region: post.testsellpostss.locations.region,
+                                amphoe: post.testsellpostss.locations.amphoe,
+                                location_id: post.testsellpostss.locations.location_id,
                                 country: post.testsellpostss.locations.countries.country_name,
                                 title: post.testsellpostss.title,
-                                description: post.testsellpostss.description,
+                                shortDescription: shortDescription,
+                                fullDescription: post.testsellpostss.description,
                                 property_type: post.testsellpostss.property_type,
                                 area: post.testsellpostss.area,
                                 price: post.testsellpostss.price,
@@ -360,25 +598,24 @@ import axios from 'axios';
             },
 
             editPost(post) {
-                this.currentPost = { ...post };
+                this.currentPost = toRaw(post);
+                this.title = this.currentPost.title;
+                this.fullDescription = this.currentPost.fullDescription;
+                this.property_type = this.currentPost.property_type;
+                this.price = this.currentPost.price;
+                this.area = this.currentPost.area;
+                if(this.currentPost.rentPostId) {
+                    this.deposit = this.currentPost.deposit;
+                    this.least_contract = this.currentPost.least_contract;
+                }
+                this.selectedCountry = post.country;
+                this.selectedProvince = post.province;
+                this.selectedAmphoe = post.amphoe;
+                this.selectedRegion = post.region;
+                this.selectedLocation = post.location_id;
+                
                 console.log(this.currentPost);
-                // this.showModal();
-                console.log(post.title + " ko click lite tl")
-                const { post_id } = post;
-                // console.log(Object.values(post));
-                console.log(post_id);
             },
-
-            // showModal() {
-            //     // Ensure the modal element is available before initializing the modal
-            //     this.$nextTick(() => {
-            //         const modalElement = document.getElementById('editModal');
-            //         if (modalElement) {
-            //             const editModal = new bootstrap.Modal(modalElement);
-            //             editModal.show();
-            //         }
-            //     });
-            // },
 
         getStatusClass(status) {
             switch (status) {
@@ -410,6 +647,48 @@ import axios from 'axios';
         'Apartment',
         'House'
     ])
+
+    // let photoList = null
+
+    // const submit = async (currentPost) => {
+
+    //     if(currentPost.rentPostId) {
+    //         const rentId = currentPost.rentPostId;
+
+    //         const formData = new FormData();
+    //         formData.append('rentPostId', rentId);
+    //         formData.append('title', title);
+    //         formData.append('description', fullDescription);
+    //         formData.append('property_type', property_type);
+    //         formData.append('price', price);
+    //         formData.append('area', area);
+    //         formData.append('deposit', deposit);
+    //         formData.append('least_contract', least_contract.value.value);
+    //         formData.append('location_id', selectedLocation.value);
+    //         photoList.forEach((file) => {
+    //             formData.append('files', file);
+    //         });
+
+    //         try {
+    //             if(proxy.availPosts > 0) {
+    //                 const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
+    //                     headers: {
+    //                     'Content-Type': 'multipart/form-data'
+    //                     }
+    //                 });
+    //                 console.log(response.data);
+    //                 window.location.reload();
+    //             } else {
+    //                 alert("Your package is gone! Please buy another package!");
+    //                 router.push('/package');
+    //             }
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+        
+
+    // }
 
 </script>
 

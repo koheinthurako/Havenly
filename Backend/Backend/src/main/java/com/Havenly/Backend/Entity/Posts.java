@@ -31,7 +31,7 @@ public class Posts {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sell_post_id", referencedColumnName = "sell_post_id")
-	TestSellPost testsellpostss;
+	SellPost testsellpostss;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")

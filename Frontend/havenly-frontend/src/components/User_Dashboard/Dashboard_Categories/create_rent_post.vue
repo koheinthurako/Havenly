@@ -489,38 +489,38 @@ export default {
 
     const submit = async () => {
 
-    const formData = new FormData();
-    formData.append('subUserId', subUserId);
-    formData.append('title', title.value.value);
-    formData.append('description', Description.value.value);
-    // formData.append('house_type', houseTypes.value.value);
-    formData.append('property_type', propertyTypes.value.value);
-    formData.append('price', price.value.value);
-    formData.append('area', area.value.value);
-    formData.append('deposit', deposit.value.value);
-    formData.append('least_contract', least_contract.value.value);
-    formData.append('location_id', selectedLocation.value);
-    // Append the files as an array
-    photoList.forEach((file) => {
-        formData.append('files', file);
-    });
+        const formData = new FormData();
+        formData.append('subUserId', subUserId);
+        formData.append('title', title.value.value);
+        formData.append('description', Description.value.value);
+        // formData.append('house_type', houseTypes.value.value);
+        formData.append('property_type', propertyTypes.value.value);
+        formData.append('price', price.value.value);
+        formData.append('area', area.value.value);
+        formData.append('deposit', deposit.value.value);
+        formData.append('least_contract', least_contract.value.value);
+        formData.append('location_id', selectedLocation.value);
+        // Append the files as an array
+        photoList.forEach((file) => {
+            formData.append('files', file);
+        });
 
-    try {
-        if(proxy.availPosts > 0) {
-            const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
-                headers: {
-                'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log(response.data);
-            window.location.reload();
-        } else {
-            alert("Your package is gone! Please buy another package!");
-            router.push('/package');
+        try {
+            if(proxy.availPosts > 0) {
+                const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response.data);
+                window.location.reload();
+            } else {
+                alert("Your package is gone! Please buy another package!");
+                router.push('/package');
+            }
+        } catch (error) {
+            console.error(error);
         }
-    } catch (error) {
-        console.error(error);
-    }
 
     // if(availPosts.value > 0) {
     //     try {

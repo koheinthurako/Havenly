@@ -32,6 +32,11 @@ public class Posts_Controller {
 //		return new ResponseEntity<List<Posts>>(service.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
 //	}
 	
+	@GetMapping("/getPostById")
+	public ResponseEntity<Posts> getPostById(@RequestParam int postId) {
+		return new ResponseEntity<Posts>(service.getPostById(postId), HttpStatus.OK);
+	}
+	
 	@GetMapping("/allPending")
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){
 		return new ResponseEntity<List<Posts>>(service.getAllPendingPosts(),HttpStatus.OK);
@@ -46,6 +51,7 @@ public class Posts_Controller {
 	public ResponseEntity<Posts> update(@RequestBody Posts post){
 		return new ResponseEntity<Posts>(service.update(post),HttpStatus.OK);
 	}
+	
 	@PutMapping("/decline")
 	public ResponseEntity<Posts> decline(@RequestBody Posts post){
 		return new ResponseEntity<Posts>(service.decline(post),HttpStatus.OK);

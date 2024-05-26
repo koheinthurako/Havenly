@@ -505,7 +505,7 @@ export default {
 
         try {
             if(proxy.availPosts > 0) {
-                const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
+                const response = await axios.post('http://localhost:8083/sellpost/savesellpost', formData, {
                     headers: {
                     'Content-Type': 'multipart/form-data'
                     }

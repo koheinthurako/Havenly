@@ -3,6 +3,7 @@ package com.Havenly.Backend.Repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.Havenly.Backend.DTO.RentPost_DTO;
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.RentPost;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 @EnableJpaRepositories
@@ -21,6 +24,11 @@ public interface RentPost_Repo extends JpaRepository<RentPost, String>{
 	
 	@Query(value = "select p.post_id, p.post_type, p.sub_user_id, p.status, rp.* from  rentpost rp, posts p where rp.rent_post_id = p.rent_post_id and p.sub_user_id = ? and p.status = 'complete';", nativeQuery = true)
 	List<RentPost> getAllSubuserRentPosts(int subUserId);
+	
+//	@Modifying
+//    @Transactional
+//    @Query(value = "UPDATE packages SET avail_posts = ?1 WHERE sub_user_id = ?2", nativeQuery = true)
+//	public void updatePost();
 	
 //	@Query(value = "SELECT new com.Havenly.Backend.DTO.RentPost_DTO(rp.date, rp.time, rp.title, rp.description, rp.image, rp.price, rp.area, rp.property_type, rp.deposit, rp.least_contract, p.post_id, p.post_type, p.status ) " +
 //			"FROM RentPost rp " +

@@ -36,6 +36,11 @@ public class Posts_Service_Impl implements Posts_Service {
 		// TODO Auto-generated method stub
 		return repo.getAllCompletePosts();
 	}
+	
+	@Override
+	public Posts getPostById(int postId) {
+		return repo.findById(postId).orElse(null);
+	}
 
 	public Posts update(Posts post) {
 
@@ -66,6 +71,8 @@ public class Posts_Service_Impl implements Posts_Service {
 		Posts user1 = repo.save(new_user);
 		return user1;
 	}
+
+	
 
 	
 

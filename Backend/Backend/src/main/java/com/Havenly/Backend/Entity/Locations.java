@@ -44,7 +44,7 @@ public class Locations {
 	
 	@JsonIgnore
 	@OneToOne(mappedBy = "locations")
-	TestSellPost testSellPost;
+	SellPost testSellPost;
 	
 //	@JsonIgnore
 //	@OneToOne(mappedBy = "locations")

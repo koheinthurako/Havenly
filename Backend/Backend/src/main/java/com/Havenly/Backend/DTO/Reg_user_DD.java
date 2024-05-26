@@ -26,7 +26,6 @@ public class Reg_user_DD {
 		private String password;
 		private LocalDate date;
 		private LocalTime time;
-	//	private boolean UserIsSubbed;
 		private String nrc;
 		private int packageType;
 	
