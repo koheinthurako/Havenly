@@ -9,7 +9,7 @@ import { defineComponent } from 'vue';
 import CreditCardForm from '@/components/Payment/CreditCardForm.vue';
 
 export default defineComponent({
-  name: 'CreditCard',
+  name: 'PaymentVue',
 
   components: {
     // HelloWorld,

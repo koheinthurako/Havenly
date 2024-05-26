@@ -38,10 +38,7 @@ public class SubscriptionController {
 		return new ResponseEntity <>(subService.cancel(dto),HttpStatus.OK);		
 	}
 	
-//	@GetMapping("/subscribe/getSubUserInfo")
-//	public ResponseEntity<List<Subscription_DTO>> getSubUserInfo() {
-//		return new ResponseEntity<List<Subscription_DTO>>(subRepo.getSubUserInfo(), HttpStatus.OK);
-//	}
+
 	
 	@GetMapping("/subscribe/getSubUserInfo")
 	public ResponseEntity<Subscription_DTO> getSubUserInfo(@RequestParam int registerId) {

@@ -27,7 +27,6 @@ import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 //import com.Havenly.Backend.Repo.TokenRepository;
 import com.Havenly.Backend.Service.Reg_user_Service;

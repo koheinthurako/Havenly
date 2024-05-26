@@ -16,7 +16,7 @@ import AdminBanList from '../views/AdminBanList.vue'
 // import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import Payment from '@/views/Payment.vue'
-import Packages from '@/components/Temp_Collection/Packages.vue'
+// import Packages from '@/components/Temp_Collection/Packages.vue'
 import profileVue from '@/components/User_Dashboard/Dashboard_Categories/profileVue.vue'
 import PostsView from '@/views/PostsView.vue'
 import AdminPost from '@/views/AdminPost.vue'
@@ -38,15 +38,11 @@ const routes = [
     component: HomeIndex
   },
   {
-    path: '/package',
+    path: '/packages',
     name: 'package',
     component: tempPackage
   },
-  {
-    path: '/packages',
-    name: 'PackageVue',
-    component: Packages
-  },
+
   {
     path: '/register',
     name: 'register',

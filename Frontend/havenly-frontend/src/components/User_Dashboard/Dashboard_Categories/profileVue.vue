@@ -72,12 +72,20 @@
                             </div>
                         </form> -->
                    
-        <!-- Profile Information with Single Edit Button -->
+        <!-- Edit or logout -->
         <div class="d-flex justify-center mt-2">
           <p
-            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
-            <span class="d-flex align-center" @click="openEditDialog">
+            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer; width: 90px; height:35px"
+            class="mr-2">
+            <span class="d-flex align-center" @click="openEditDialog" style="width: 100%; justify-content: center;">
               <v-icon>mdi-pencil</v-icon>&nbsp;Edit
+            </span>
+          </p>
+          <p
+            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer; width: 90px; height:35px"
+            class="ml-2">
+            <span class="d-flex align-center" @click="logout" style="width: 100%; justify-content: center;">
+              Logout
             </span>
           </p>
         </div>
@@ -91,7 +99,7 @@
               <v-icon>mdi-close-circle</v-icon>
             </button>
             <div class="profile-pic">
-          
+
             <div class="profile-img-container1" @click="triggerFileInput">
           <v-img
             :src="profileImage|| profilePicture"
@@ -133,11 +141,14 @@
                 placeholder="Enter your phone number"
               ></v-text-field>
             </div>
+        
+            <p>
             <v-row cols="12" class="w-100 mt-4">
-              <v-btn elevation="10" class="submit ms-auto me-3" type="update">
+              <v-btn class="submit ms-auto me-3"  type="update" style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
                 Update
               </v-btn>
             </v-row>
+        </p>
           </form>
         </v-dialog>
         <!-- Edit Dialog End -->
@@ -229,31 +240,20 @@
                                                     @click:append="visible1 = !visible1"></v-text-field>
 
                                             </div>
+                                            <p>
                                             <v-row cols="12" class="w-100 mt-4">
-                                                <div v-if="show">
-                                                    <span>{{ user_data.id }}</span>
-                                                </div>
-                                                <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
-                                                    type="submit">
-                                                    submit
+                                                <v-btn @click="handleSubmit" class="submit ms-auto me-3" type="submit"
+                                                style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                                                    Reset
                                                 </v-btn>
-                                            </v-row>
+                                            </v-row></p>
                                         </form>
                                     </v-dialog>
                                     <!-- Dialog end -->
 
 
                                 </div>
-                                <!-- <div class="d-flex justify-space-between">
-                                    <p class="fw-bold">Change location</p>
-                                    <p
-                                        style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
-
-                                        <span class="d-flex align-center">
-                                            <v-icon>mdi-map-marker-radius</v-icon>&nbsp;Change
-                                        </span>
-                                    </p>
-                                </div> -->
+                               
                             </div>
                         </div>
                     </div>
@@ -265,9 +265,10 @@
                             <div class="p-3">
                                 <div class="d-flex w-100 p-0 justify-space-between">
                                     <h5>Account progress status</h5>
-                                    <p
+                                    <!-- <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Editable<i class="fa-solid fa-check ms-1"></i></p>
+                                        Editable<i class="fa-solid fa-check ms-1"></i>
+                                    </p> -->
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
                                 <div class="d-flex justify-space-between">
@@ -290,18 +291,6 @@
                                         </span>
                                     </p>
                                 </div>
-                                <!-- <div class="d-flex justify-space-between">
-                                    <p class="fw-bold">Request an event</p>
-                                    <p
-                                        style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
-
-                                        <span class="d-flex align-center">
-                                            <v-icon>mdi-calendar-edit</v-icon>&nbsp;Create
-                                        </span>
-
-
-                                    </p>
-                                </div> -->
 
                             </div>
 
@@ -349,6 +338,8 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
+
+import Swal from 'sweetalert2';
 
 export default {
     name: 'profileVue',
@@ -493,28 +484,28 @@ handleFileUpload(event) {
         formData.append('profileImg', this.selectedFile);
       } 
                
-    // if (this.selectedFile) {          
-    //             this.user.profilePicture=this.selectedFile;
-    // }
-            axios.put("http://localhost:8083/profile/update",formData, {
-                    headers: {
-                    'Content-Type': 'multipart/form-data'
-                    }
-        })
-            .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                  alert("Profile updated successfully!");
-                let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
-                userData.name = this.user.name;
-                userData.phone = this.user.phone;
-                userData.profilePicture = this.selectedFile;
-                sessionStorage.setItem('login_user', JSON.stringify(userData));       
-                }
-            })
-            .catch(httpErrorHandler)  
-            window.location.reload();
- 
+      try {
+    const response = await axios.put("http://localhost:8083/profile/update", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    const status = response.status;
+    if (status === 200) {
+      alert("Profile updated successfully!");
+
+      let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
+      userData.name = this.user.name;
+      userData.phone = this.user.phone;
+      userData.profilePicture = this.selectedFile;
+      sessionStorage.setItem('login_user', JSON.stringify(userData));
+
+      window.location.reload();
+    }
+  } catch (error) {
+    httpErrorHandler(error);
+  }
         },
 
         change(){
@@ -532,7 +523,7 @@ handleFileUpload(event) {
             .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status=='200'){
-                  alert(" Password Updated Successfully")
+                  alert(" Password Updated Successfully!")
                 }
             })
             .catch(httpErrorHandler)
@@ -540,6 +531,32 @@ handleFileUpload(event) {
                   this.change_pw.username='',
                   this.change_pw.password='',
                   this.change_pw.new_password=''
+        },
+
+        logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: "Are you sure you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#E86F52',
+                cancelButtonColor: '#999'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.clear();
+        router.push("/").then(() => {
+          // Reload the page after navigation
+          window.location.reload();
+        });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    this.$router.push('/userdashboard');
+                }
+                else {
+                    this.$router.push('/userdashboard'); // Redirect to dashboard after timeout
+                }
+            });
         }
 
     }
@@ -552,7 +569,7 @@ handleFileUpload(event) {
 import { useField, useForm } from 'vee-validate'
 // import Swal from 'sweetalert2';
 
-let show = true
+// let show = true
 
 const { handleSubmit } = useForm({
     validationSchema: {
@@ -594,6 +611,37 @@ const submit = handleSubmit(values => {
 </script>
 
 <style>
+
+
+.create-pop-up {
+    width: 100%;
+    height: auto;
+    z-index: 100;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .main-close {
+        position: absolute;
+        top: -50px;
+        right: 0;
+        padding: 0;
+        z-index: 300;
+        width: 30px !important;
+        height: 62px;
+        border-radius: 50%;
+        background-color: #e86f52;
+        color: #fff;
+        box-shadow: 0px 6px 20px -2px rgba(0, 0, 0, 0.3);
+
+        .v-icon {
+            font-size: 24px;
+        }
+    }
+
+}
+
 .profile-pic{
     padding: 8px;
     padding-bottom: 10px;
@@ -719,16 +767,9 @@ const submit = handleSubmit(values => {
                 color: #fff;
             }
 
-
-
-
-
         }
 
-
-
     }
-
 
 
     .switch {

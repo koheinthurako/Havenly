@@ -1,8 +1,12 @@
 <template>
     <div class="d-flex align-center justify-center" style="height: 130vh">
       <v-sheet width="400" class="mx-auto">
-        <h4 class="flex" style="height: 80px">Subscription Form</h4>
+        <h4 class="flex" style="height: 80px">Subscription Form</h4> 
+        <div style="height: 40px"><v-flex class="mx-auto brick-text">
+       Hello, {{name}}!
+      </v-flex></div>
       <v-form fast-fail @submit.prevent="submitForm">
+       
         <v-select
           v-model="selectedNRCCode"
           :items="nrcCodes"
@@ -46,32 +50,27 @@
         ></v-text-field>
       <v-row justify="space-around">
       <v-col cols="auto">
-        <div class="text-center">
+        <div class="d-flex justify-center mt-2">
+        <div class="text-center mr-2">
     <v-btn type="submit" v-bind:rounded="true" block class="m-2 bg-redbrick text-white mt-3" 
-    style="height: 40px; width: 164px;">Subscribe</v-btn>
+    style="height: 40px; width: 150px;">Subscribe</v-btn>
+      </div>
+      <div class="text-center ml-2">
+    <v-btn to="/" v-bind:rounded="true" block class="m-2 bg-grey text-white mt-3" 
+    style="height: 40px; width: 150px;">Cancel</v-btn>
+      </div>
       </div>
       </v-col> </v-row>
       </v-form>
-      <!-- Display the data string -->
-      <!-- <div >
-        <p>User data string: {{ user.dataString }}</p>
-        <p>User email: {{ user.email }}</p>
-      </div> -->
-      
-      
+  
        <!-- Cancel // Return to home -->
-      <div class="mt-2">
+      <!-- <div class="mt-2">
       <br>
                 <p class="text-body-2">
                   <a href="/home"> Cancel </a>
                 </p>
                 
-<div><v-flex class="grey-text">
-       NRC : {{combinedValues}}
-       <br>
-       logged in as : {{user.email}}
-      </v-flex></div>
-            </div>
+            </div> -->
           </v-sheet>
     </div>
   </template>
@@ -88,6 +87,7 @@
         selectedNRCType: null,
         nrcNumber: '',
         userIsSubbed: '',
+        name:'',
         
         nrcData: [],
         
@@ -139,10 +139,10 @@
     // Fetch session data from sessionStorage
     const loginUser = sessionStorage.getItem('login_user');
     const loginUserData = JSON.parse(loginUser);
-    // const subbedUser = sessionStorage.getItem('subbed_user');
-    // const subbedUser = sessionStorage.getItem('subbed_user');
+
     if (loginUser !== null) {    
       this.user.email = loginUserData.email;
+      this.name = loginUserData.name;
       console.log('User is logged in.'); 
       if(loginUserData.nrc !== null){
       alert("You are already subscribed!");
@@ -252,8 +252,8 @@
   </script>
 
 <style>
-  .grey-text {
-  color: #999; 
+  .brick-text {
+  color: #E97559; 
 }
 </style>
   

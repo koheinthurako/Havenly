@@ -148,8 +148,6 @@ export default {
         };
     },
     methods: {
-
-
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
             if (this.isExpanded) {

@@ -26,7 +26,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/package"
+            <router-link to="/packages"
               :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
@@ -54,7 +54,7 @@
                 </button>
                 <ul class="dropdown-menu p-0">
                   <li>
-                    <router-link to="/user-profile" class="dropdown-item"><v-icon
+                    <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
                   <!-- <li>
@@ -68,7 +68,7 @@
                 </ul>
               </div>
               <div v-else>
-                <router-link to="/login" class="nav-link">Login</router-link>
+                <router-link to="/loginakm" class="nav-link">Login</router-link>
              
             </div> 
           </li>
