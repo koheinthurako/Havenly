@@ -22,10 +22,15 @@ public class Posts_Controller {
 	@Autowired
 	Posts_Service service;
 	
-	@GetMapping("/allPosts")
+	@GetMapping("/allSubuserPosts")
 	public ResponseEntity<List<Posts>> getAllPosts(@RequestParam int subUserId){
-		return new ResponseEntity<List<Posts>>(service.getAllPosts(subUserId),HttpStatus.OK);
+		return new ResponseEntity<List<Posts>>(service.getAllSubuserPosts(subUserId),HttpStatus.OK);
 	}
+	
+//	@GetMapping("/allSubuserRentPosts")
+//	public ResponseEntity<List<Posts>> getAllSubuserRentPosts(@RequestParam int subUserId) {
+//		return new ResponseEntity<List<Posts>>(service.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
+//	}
 	
 	@GetMapping("/allPending")
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.Havenly.Backend.DTO.RentPost_DTO;
 import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Posts;
@@ -95,6 +96,7 @@ public class RentPost_Service_Impl implements RentPost_Service{
 	    post.setPost_type(customId);
 	    post.setStatus("pending");
 	    post.setSubUser(subUser);
+	    post.setTestrentposts(rp);
 	    postsRepo.save(post);
 	    
 	    Packages pack = packageRepo.findByUserId(subUserId);
@@ -107,6 +109,11 @@ public class RentPost_Service_Impl implements RentPost_Service{
 		    packageRepo.updatePost(postCount, subUserId);
 		    System.out.println("Successfully updated avail_posts in database!");
 	    }
+	}
+	
+	@Override
+	public List<RentPost> getAllSubuserRentPosts(int subUserId) {
+		return rentRepo.getAllSubuserRentPosts(subUserId);
 	}
 	
 	

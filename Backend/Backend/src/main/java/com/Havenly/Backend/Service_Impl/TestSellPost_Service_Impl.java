@@ -263,6 +263,7 @@ public class TestSellPost_Service_Impl implements TestSellPost_Service{
 	    post.setPost_type(customId);
 	    post.setStatus("pending");
 	    post.setSubUser(subUser);
+	    post.setTestsellpostss(tp);
 	    postsRepo.save(post);
 	    
 	    Packages pack = packageRepo.findByUserId(subUserId);

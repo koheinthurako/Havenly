@@ -40,7 +40,7 @@
                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
                                     <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
                                 </div>
-                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                <p class="card-text text-danger small mb-auto opacity-75">
                                     <v-icon >mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                 </p>

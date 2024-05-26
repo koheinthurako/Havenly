@@ -190,28 +190,40 @@
 
                     <div class="header mb-3">
                         <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Recently created Sell posts</p>
+                        <p class="mt-3 ms-2">Recently completed rent posts</p>
                     </div>
 
                     <div class="body">
 
                         <!-- post card start -->
-                        <div class="post-card bg-white" v-for="data in rent_data" :key="data">
+                        <div class="post-card bg-white" v-for="post in rentPosts" :key="post">
                             <div class="row">
-                                <div class="col-6 p-0 m-0 left-edit">
+                                <div class="col-6 left-edit">
 
                                     <div class="top-section">
                                         <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
-                                        {{ data.type }}
+                                        {{ post.status }}
 
                                     </div>
 
-                                    <v-img :src="data.img"></v-img>
-                                    <div class="btn-section">
-                                        <v-btn to="/detailview">&nbsp;&nbsp; edit &nbsp;&nbsp;</v-btn>
-                                        <v-btn>delete</v-btn>
+                                    <v-img :src="post.photo_url[0]"></v-img>
+                                    <!-- <div class="btn-section d-flex justify-content-center gap-3 px-4">
+                                        <v-btn class="w-50 " to="/detailview">Edit</v-btn>
+                                        <v-btn class="w-50 ">delete</v-btn>
+                                    </div> -->
+                                    <div class="btn-section d-flex justify-content-center gap-3 px-4">
+                                        <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
+                                        <button class="w-50 btn btn-sm btn-danger">Edit</button>
                                     </div>
 
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="my-3">{{ post.title }}</h6>
+                                    <p class="small col-10">{{ post.description }}</p>
+                                    <p class="card-text text-danger small mb-3 opacity-75 ">
+                                        <v-icon >mdi-map-marker-radius</v-icon>
+                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -250,6 +262,7 @@ export default {
         selectedRegion: '',
         selectedLocation: '',
         availPosts: '',
+        rentPosts: [],
         change_type: 'sell',
 
         img: require('@/assets/img/house-7.jpg'),
@@ -333,6 +346,7 @@ export default {
         // const subUserData = JSON.parse(sessionStorage.getItem('sub_user'));
         // this.availPosts = subUserData.availPosts;
         this.fetchSubUserInfo();
+        this.fetchAllRentPosts();
     },
 
     methods: {
@@ -365,26 +379,67 @@ export default {
 
         fetchSubUserInfo() {
                 const user = JSON.parse(sessionStorage.getItem('login_user'));
-                  const registerId = user.register_id;
-                  console.log("registerId to send backend to show subUser informations from rent post : " + registerId)
-                  axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-                      params: {
-                          registerId: registerId
-                      }
-                  })
-                  .then(response => {
-                    console.log(response.data.availPosts);
-                    let posts = response.data.availPosts;
-                    console.log("avail posts : " + posts)
-                    this.availPosts = response.data.availPosts;
-                    console.log(this.availPosts);
-                    // this.availPosts = response.data.availPosts
-                    // console.log(this.availPosts);
-                  })
-                  .catch(error => {
-                    console.error('Error fetching data:', error); // Handle the error
-                  });
+                const registerId = user.register_id;
+                console.log("registerId to send backend to show subUser informations from rent post : " + registerId)
+                axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                    params: {
+                        registerId: registerId
+                    }
+                })
+                .then(response => {
+                console.log(response.data.availPosts);
+                let posts = response.data.availPosts;
+                console.log("avail posts : " + posts)
+                this.availPosts = response.data.availPosts;
+                console.log(this.availPosts);
+                // this.availPosts = response.data.availPosts
+                // console.log(this.availPosts);
+                })
+                .catch(error => {
+                console.error('Error fetching data:', error); // Handle the error
+                });
         },
+
+        fetchAllRentPosts() {
+            const user = JSON.parse(sessionStorage.getItem('sub_user'));
+            const subUserId = user.subUserId;
+            console.log(subUserId);
+            // Make API call to fetch posts from backend
+            axios.get('http://localhost:8083/rentpost/allSubuserRentPosts', {
+                params: {
+                    subUserId: subUserId
+                }
+            })
+            .then(response => {
+                    response.data.forEach(post => {
+                        if(post.description.length > 50) {
+                            let des = post.description;
+                            post.description = des.substring(0, 50) + "...";
+                        }
+                        
+                        let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
+                        console.log(imageUrls)
+                        console.log(post);
+                        this.rentPosts.unshift({
+                            post_id: post.post_id,
+                            province: post.locations.province,
+                            region: post.locations.region,
+                            country: post.locations.countries.country_name,
+                            title: post.title,
+                            description: post.description,
+                            property_type: post.property_type,
+                            area: post.area,
+                            price: post.price,
+                            deposit: post.deposit,
+                            least_contract: post.least_contract,
+                            photo_url: imageUrls,
+                            status: 'Complete',
+                        });
+                        console.log(typeof(imageUrls))
+                        
+                    });
+                })
+        }
 
     },
 
@@ -452,7 +507,7 @@ export default {
 
     try {
         if(proxy.availPosts > 0) {
-            const response = await axios.post('http://localhost:8083/saverentpost', formData, {
+            const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data'
                 }
