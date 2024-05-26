@@ -60,8 +60,8 @@
                             <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="card-title mb-3">{{ post.title }}</h5>
-                            <p class="card-text small opacity-75">{{ post.description }}</p>
+                            <h5 class="card-title mb-3">{{ truncateText(post.title, 50) }}</h5>
+                            <p class="card-text small opacity-75">{{ truncateText(post.description, 80) }}</p>
                             <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                 <v-icon>mdi-map-marker-radius</v-icon>
                                 {{ post.region }} ,{{ post.province }}, {{ post.country }}
@@ -76,20 +76,17 @@
                                 <p class="m-0 small fw-bold fs-6">{{ post.price }}</p>
 
                             </div>
-                            <v-divider :thickness="2" class="border-opacity-25 d-block" />
-
+                            <hr class="mx-2 my-1">
                         </div>
-                        <div style="padding: 20px;">
+                        <div>
                             <v-row>
                                 <v-col cols="6">
-                                    <v-btn @click="approve(post)">Approve</v-btn>
+                                    <v-btn elevation="0" variant="outlined" @click="approve(post)">Approve</v-btn>
                                 </v-col>
                                 <v-col cols="6">
                                     <v-btn @click="cancel(post)">Cancel</v-btn>
                                 </v-col>
                             </v-row>
-
-
                         </div>
                     </div>
                 </div>
@@ -120,6 +117,15 @@ export default {
     },
 
     methods: {
+
+        truncateText(text, charLimit) {
+            if (text.length > charLimit) {
+                return text.slice(0, charLimit) + '...';
+            }
+            return text;
+        },
+
+
         fetchPosts() {
             // Make API call to fetch posts from backend
             fetch('http://localhost:8083/posts/allPending')

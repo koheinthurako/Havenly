@@ -3,21 +3,71 @@
     <div class="all-post-view">
         <v-container>
             <div class="row px-5">
-                <div class="col-md-8 col-sm-12 left">
+                <div class="col-12">
                     <div class="left">
-                        <div class="header">
+                        <div class="header mb-2">
                             <h3>See all post of {{ getName }} </h3>
 
                         </div>
-                        <div class="display-posts">
-                            <!-- display temp page -->
-                            <temp-page :key="tempPageKey" :data="tempPageData"></temp-page>
 
+                        <!-- display temp page -->
+                        <!-- <temp-page :key="tempPageKey" :data="tempPageData"></temp-page> -->
+
+
+                        <div class="row mb-3 g-3 " style="cursor: pointer;">
+                            <div v-for="post in displayedPosts" :key="post.post_id" class="display-post col-md-4"
+                                @click="clickPost(post.post_id)">
+                                <div class="card-container">
+                                    <!-- TZH card styles -->
+                                    <div class="card" style="height: 380px;">
+                                        <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
+                                                <img :src="url" class="w-100 h-100" alt="Card image cap">
+                                            </div> -->
+                                        <div class="cardImgBox" style="width: 100%; height: 200px;">
+                                            <img :src="post.photo_url[0]" class="h-100 w-100 m-auto"
+                                                alt="Card image cap">
+                                        </div>
+                                        <div class="card-body px-3 py-2 d-flex flex-column">
+                                            <h5 class="card-title mb-3">{{ truncateText(post.title, 30) }}</h5>
+                                            <p class="card-text small opacity-75" style="text-indent: 30px;">{{
+                                                truncateText(post.description, 80) }}
+                                            </p>
+                                            <!-- <div class="d-flex mb-3 justify-content-between">
+                                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
+                                                        }}</span>
+                                                    <span v-if="post.least_contract" class="small opacity-75">Contract : {{
+                                                        post.least_contract }}</span>
+                                                </div> -->
+                                            <p class="card-text text-danger small opacity-75 mb-1 ">
+                                                <v-icon>mdi-map-marker-radius</v-icon>
+                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                            </p>
+                                            <div class="d-flex align-items-center justify-content-between ">
+                                                <span class="badge text-bg-danger rounded-pill">{{
+                                                    post.property_type }}</span>
+                                                <div class="d-flex text-danger">
+                                                    <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
+                                                    <p class="m-0 small fw-bold fs-3">{{ post.price
+                                                        }}</p>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="d-flex align-items-center justify-content-between">
+                                                    <p class="m-0 small">{{ post.area }} sqft</p>
+                                                </div> -->
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
+
+
 
                     </div>
                 </div>
-                <div class="col-md-4 d-none d-sm-block right h-100">
+                <!-- <div class="col-md-4 d-none d-sm-block right h-100">
                     <div class="right">
                         <div class="filter-search" :class="{ 'scrolled': isScrolled }">
                             <h5 class="header">Search filter</h5><br><br>
@@ -50,7 +100,7 @@
 
 
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </v-container>
@@ -62,7 +112,7 @@
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8'
 
-import tempPage from '@/views/TempCollection/TempForAllPostView.vue'
+// import tempPage from '@/views/TempCollection/TempForAllPostView.vue'
 
 export default {
     name: 'AllPostView',
@@ -70,6 +120,7 @@ export default {
 
     data() {
         return {
+            posts: [],
             // get datas
             setType: 'sell',
             selectedArea: '',
@@ -84,11 +135,12 @@ export default {
         }
     },
 
-    components: {
-        tempPage,
-    },
+    // components: {
+    //     tempPage,
+    // },
 
     mounted() {
+        this.fetchPosts();
 
         this.getPostType = sessionStorage.getItem('getPostType');
         if (!this.getPostType) {
@@ -114,7 +166,86 @@ export default {
         window.removeEventListener('scroll', this.handleScroll);
     },
 
+    computed: {
+        displayedPosts() {
+            // Filter posts based on the selected type
+            const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.decryptData(this.$route.params.postType).toLowerCase());
+
+            // Return only the first four filtered posts
+            return filteredPosts.slice(0, 8);
+        },
+
+    },
+
     methods: {
+        clickPost(post) {
+            // router.push('/PostsView')
+            const encryptData = this.encryptId(post);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+        },
+
+
+        truncateText(text, charLimit) {
+            if (text.length > charLimit) {
+                return text.slice(0, charLimit) + '...';
+            }
+            return text;
+        },
+        // firstly fetch all posts and filter
+        fetchPosts() {
+            // Make API call to fetch posts from backend
+            fetch('http://localhost:8083/posts/allComplete')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(post => {
+                        if (post.testrentposts) {
+
+                            let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                            console.log("see all images " + imageUrls)
+                            console.log("See all posts 2" + post);
+                            this.posts.unshift({
+                                province: post.testrentposts.locations.province,
+                                region: post.testrentposts.locations.region,
+                                country: post.testrentposts.locations.countries.country_name,
+                                post_id: post.testrentposts.sell_post_id,
+                                title: post.testrentposts.title,
+                                description: post.testrentposts.description,
+                                property_type: post.testrentposts.property_type,
+                                area: post.testrentposts.area,
+                                price: post.testrentposts.price,
+                                deposit: post.testrentposts.deposit,
+                                least_contract: post.testrentposts.least_contract,
+                                photo_url: imageUrls,
+                            });
+                            console.log(typeof (imageUrls))
+                        } else if (post.testsellpostss) {
+
+                            let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                            console.log(imageUrls)
+                            console.log(post);
+                            this.posts.unshift({
+                                province: post.testsellpostss.locations.province,
+                                region: post.testsellpostss.locations.region,
+                                country: post.testsellpostss.locations.countries.country_name,
+                                post_id: post.testsellpostss.sell_post_id,
+                                title: post.testsellpostss.title,
+                                description: post.testsellpostss.description,
+                                property_type: post.testsellpostss.property_type,
+                                area: post.testsellpostss.area,
+                                price: post.testsellpostss.price,
+                                photo_url: imageUrls,
+                            });
+                            console.log(typeof (imageUrls))
+                        }
+
+                    });
+                    // console.log(this.posts);
+                })
+                .catch(error => {
+                    console.error('Error fetching photos:', error);
+                });
+        },
 
         handleScroll() {
             this.isScrolled = window.scrollY >= 15;
@@ -214,12 +345,21 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
 .scrolled {
     position: fixed !important;
     top: 12%;
     width: 340px;
     box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.4);
     z-index: 1;
+}
+
+.display-post {
+
+    &:hover {
+        .card-title {
+            color: #e86f52;
+        }
+    }
 }
 </style>

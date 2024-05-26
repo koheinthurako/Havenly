@@ -240,11 +240,6 @@ export default {
                 .then(data => {
                     data.forEach(post => {
                         if (post.testrentposts) {
-                            console.log("see all posts " + post);
-                            if (post.testrentposts.description.length > 100) {
-                                let des = post.testrentposts.description;
-                                post.testrentposts.description = des.substring(0, 100) + "...";
-                            }
 
                             let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
                             console.log("see all images " + imageUrls)
@@ -265,11 +260,6 @@ export default {
                             });
                             console.log(typeof (imageUrls))
                         } else if (post.testsellpostss) {
-                            console.log(post);
-                            if (post.testsellpostss.description.length > 100) {
-                                let des = post.testsellpostss.description;
-                                post.testsellpostss.description = des.substring(0, 100) + "...";
-                            }
 
                             let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
                             console.log(imageUrls)

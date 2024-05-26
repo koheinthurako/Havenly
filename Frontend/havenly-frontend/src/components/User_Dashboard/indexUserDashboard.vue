@@ -36,7 +36,7 @@
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
                         @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
-                        <v-icon >mdi-note-plus-outline</v-icon>
+                        <v-icon>mdi-note-plus-outline</v-icon>
                         <span>Create Rent Post</span>
                     </a>
                 </li>
@@ -77,7 +77,7 @@
                     <div v-else-if="openTab === 'all-post'">
                         <!-- <h3>All Post Content</h3>
                         <p>This is where the add post content will be displayed.</p> -->
-                        <uploadedAllPosts/>
+                        <uploadedAllPosts />
                     </div>
 
                     <div v-else-if="openTab === 'create-sell-post'">
@@ -96,7 +96,6 @@
                 </div>
 
                 <!-- <div class="col-md-4 col-sm-0 p-2">
-    
                         <div class="row-12">
                             <event />
                         </div>
@@ -144,7 +143,7 @@ export default {
         return {
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
-            openTab: localStorage.getItem('openTab') || 'profile',
+            openTab: 'profile',
         };
     },
     methods: {
@@ -456,5 +455,4 @@ export default {
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
 }
-
 </style>

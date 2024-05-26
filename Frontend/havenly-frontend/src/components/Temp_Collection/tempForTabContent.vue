@@ -11,48 +11,40 @@
                     @click="clickPost(post.post_id)">
                     <div class="card-container">
                         <!-- TZH card styles -->
-                        <div class="card" style="height: 600px;">
+                        <div class="card" style="height: 340px;">
                             <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
-                            <div class="cardImgBox mb-2">
-                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
+                            <div class="cardImgBox" style="width: 100%; height: 200px;">
+                                <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
                             </div>
-                            <div class="card-body p-3 d-flex flex-column">
-                                <h5 class="card-title mb-3">{{ post.title }}</h5>
-                                <p class="card-text small opacity-75">{{ post.description }}</p>
-                                <div class="d-flex mb-3 justify-content-between">
+                            <div class="card-body px-3 py-2 d-flex flex-column">
+                                <h5 class="card-title mb-2">{{ truncateText(post.title, 30) }}</h5>
+                                <!-- <p class="card-text small opacity-75" style="text-indent: 30px;">{{
+                                    truncateText(post.description, 75) }}
+                                </p> -->
+                                <!-- <div class="d-flex mb-3 justify-content-between">
                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
                                         }}</span>
                                     <span v-if="post.least_contract" class="small opacity-75">Contract : {{
                                         post.least_contract }}</span>
-                                </div>
-                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                </div> -->
+                                <p class="card-text text-danger small opacity-75 mb-1 ">
                                     <v-icon>mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                 </p>
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <v-rating :model-value="4.5" color="danger" density="compact" size="small"
-                                        half-increments readonly>
-                                    </v-rating>
+                                <div class="d-flex align-items-center justify-content-between ">
                                     <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
+                                    <div class="d-flex text-danger">
+                                        <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
+                                        <p class="m-0 small fw-bold fs-3">{{ post.price
+                                            }}</p>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <p class="m-0 small">{{ post.area }}</p>
-                                    <p class="m-0 small fw-bold fs-6">{{ post.price }}</p>
+                                <!-- <div class="d-flex align-items-center justify-content-between">
+                                    <p class="m-0 small">{{ post.area }} sqft</p>
+                                </div> -->
 
-                                </div>
-                                <v-divider :thickness="2" class="border-opacity-25 d-block" />
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <span class="ms-1 text-grey">12d 8h 56m</span>
-                                    </div>
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <span class="ms-1 text-grey" title="People watched times">1331</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -138,7 +130,12 @@ export default {
     },
 
     methods: {
-
+        truncateText(text, charLimit) {
+            if (text.length > charLimit) {
+                return text.slice(0, charLimit) + '...';
+            }
+            return text;
+        },
 
 
         fetchPosts() {
@@ -148,11 +145,6 @@ export default {
                 .then(data => {
                     data.forEach(post => {
                         if (post.testrentposts) {
-                            console.log("see all posts " + post);
-                            if (post.testrentposts.description.length > 100) {
-                                let des = post.testrentposts.description;
-                                post.testrentposts.description = des.substring(0, 100) + "...";
-                            }
 
                             let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
                             console.log("see all images " + imageUrls)
@@ -173,11 +165,6 @@ export default {
                             });
                             console.log(typeof (imageUrls))
                         } else if (post.testsellpostss) {
-                            console.log(post);
-                            if (post.testsellpostss.description.length > 100) {
-                                let des = post.testsellpostss.description;
-                                post.testsellpostss.description = des.substring(0, 100) + "...";
-                            }
 
                             let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
                             console.log(imageUrls)

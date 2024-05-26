@@ -6,12 +6,12 @@
         <v-container>
             <div class="row ">
 
-                <div class="col-md-8 ">
+                <div class="col-md-12 ">
                     <div class="left">
                         <div class="col-md-12">
                             <div class="header">
                                 <div class="row">
-                                    <div class="col-md-8 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
                                         <h3 class="color-brick">{{ post.title }}</h3>
                                         <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
                                             <p>{{ post.province }} / {{
@@ -19,7 +19,7 @@
                                                     post.country }}</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 d-none d-sm-block">
+                                    <!-- <div class="col-md-4 d-none d-sm-block">
                                         <div class="d-flex"><v-icon>mdi-office-building</v-icon>
                                             <p>{{ post.property_type }}</p>
                                         </div>
@@ -27,7 +27,7 @@
                                                 class="me-1">mdi-format-list-bulleted-type</v-icon><span>For
                                                 {{ this.getPostType(post.post_id) }}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -35,18 +35,25 @@
                         <hr class="mx-auto">
 
 
-                        <div class=" images">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-12 mb-2">
-                                    <v-img :src="post.photo_url[0]" class="img-1 m-auto"></v-img>
+
+                        <div class="row images p-0 m-0">
+                            <div class="col-md-8 col-sm-12 mb-2 p-0 m-0">
+                                <div class="img-1">
+                                    <v-img :src="post.photo_url[0]"></v-img>
                                 </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-6 col-md-12">
-                                            <v-img :src="post.photo_url[1]" class="img-2"></v-img>
+                            </div>
+                            <div class="col-md-4 col-sm-12 p-0 m-0">
+                                <div class="row p-0 m-0">
+                                    <div class="col-6 col-md-12 p-0 ">
+                                        <div class="img-2">
+                                            <v-img :src="post.photo_url[1]"></v-img>
                                         </div>
-                                        <div class="col-6 col-md-12 mt-md-3 show-overlay" @click="sheet = !sheet"
-                                            style="cursor:pointer;">
+                                    </div>
+
+                                    <div class="col-6 col-md-12 p-0  h-auto " @click="sheet = !sheet"
+                                        style="cursor:pointer;">
+
+                                        <div class="img-2">
                                             <div class="img-overlay">
                                                 <div class="see-first">
                                                     <div class="d-flex">
@@ -56,21 +63,22 @@
                                                 </div>
                                             </div>
                                             <v-img
-                                                :src="post.photo_url[2] != null ? post.photo_url[2] : post.photo_url[1]"
-                                                class="img-2"></v-img>
+                                                :src="post.photo_url[2] != null ? post.photo_url[2] : post.photo_url[1]" />
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
 
+
+
                         <hr class="mx-auto">
 
 
 
-                        <div class="col-md-12 ">
+                        <div class="row">
                             <div class="description">
                                 <h5 class="color-brick">ပို့စ် အကြောင်းအရာများ</h5>
 
@@ -80,14 +88,12 @@
 
                         </div>
 
-                        <v-btn class="req-btn" @click="openDialog">
-                            Request more
-                        </v-btn>
+
 
                         <hr class="mx-auto">
 
 
-                        <div class="col-md-12">
+                        <div class="row">
                             <h5 class="color-brick mb-4">ပို့စ် အသေးစိတ်အချက်များ</h5>
 
                             <div class="row p-0">
@@ -100,17 +106,15 @@
                                     <div class="d-flex"><v-icon>mdi-office-building</v-icon>
                                         <p>{{ post.property_type }}</p>
                                     </div>
-                                    <div class="d-flex"><v-icon>mdi-bed</v-icon>
-                                        <p>အိပ်ခန်း 2 ခန်း</p>
-                                    </div>
+
                                     <div class="d-flex"><v-icon>mdi-arrow-expand-all</v-icon>
                                         <p>{{ post.area }} Square Ft </p>
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="d-flex"><v-icon>mdi-checkbox-marked-circle</v-icon>
+                                    <!-- <div class="d-flex"><v-icon>mdi-checkbox-marked-circle</v-icon>
                                         <p>ဆောက်လုပ်ပြီး</p>
-                                    </div>
+                                    </div> -->
 
 
 
@@ -147,11 +151,11 @@
 
                                     </div>
                                     <hr class="mx-auto">
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="name"
-                                        label="Name *" required class="m-0"></v-text-field>
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="gmail"
-                                        label="Gmail *" required></v-text-field>
-                                    <v-text-field density="compact" focused v-model="phoneNumber"
+                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="user.name"
+                                        label="Name *" required class="m-0" readonly></v-text-field>
+                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="user.email"
+                                        label="Gmail *" required readonly></v-text-field>
+                                    <v-text-field readonly density="compact" focused v-model="user.phone"
                                         :prefix="selectedCountry.code" variant="solo" label="Phone Number">
                                         <template v-slot:prepend-inner>
                                             <img :src="selectedCountry.flag" alt="flag" class="me-2"
@@ -193,7 +197,7 @@
                                                         @click="props.onClick"><v-icon>mdi-chevron-right</v-icon></v-btn>
                                                 </template>
                                                 <v-carousel-item v-for="(image, index) in post.photo_url" :key="index"
-                                                    :src="image" cover>
+                                                    :src="image">
                                                 </v-carousel-item>
                                             </v-carousel>
 
@@ -203,7 +207,7 @@
                             </v-card>
                         </v-bottom-sheet>
 
-                        <div class="function_btn">
+                        <!-- <div class="function_btn">
                             <div class=row>
                                 <div class="px-0 mb-3 col-md-6 col-12 d-flex justify-md-end justify-center">
                                     <v-btn class="share-btn "><v-icon
@@ -219,7 +223,11 @@
                                             class="me-1">mdi-flag-outline</v-icon>Report</v-btn>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+
+                        <v-btn class="req-btn" @click="openDialog">
+                            Make interest
+                        </v-btn>
 
                         <hr class="mx-auto d-block d-sm-none mt-0">
                     </div>
@@ -230,7 +238,7 @@
 
 
 
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <div class="right">
                         <div class="search-bar ">
                             <input type="text" id="fname" name="fname" placeholder="Search here">
@@ -290,7 +298,7 @@
 
                                         <div class="d-flex py-0" style="margin-top: -10px;">
                                             <v-icon>mdi-map-marker</v-icon>
-                                            <!-- <p class="m-0">Bangkok</p> -->
+
                                             <p class="m-0">{{ post.province }} / {{
                                                 post.country }}</p>
                                         </div>
@@ -304,13 +312,13 @@
                     </div>
 
 
-                </div>
+                </div> -->
 
 
             </div>
 
 
-            <div class="row px-5">
+            <!-- <div class="row px-5">
                 <hr class="mx-auto">
 
                 <div class="related_section">
@@ -435,7 +443,7 @@
 
 
 
-            </div>
+            </div> -->
 
         </v-container>
     </div>
@@ -450,6 +458,11 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+        user: {
+            name: '',
+            phone: '',
+            email: ''
+        },
         postGetId: null,
 
         imageDialog: false,
@@ -495,7 +508,9 @@ export default {
 
     mounted() {
         this.fetchPost();
+        this.user = JSON.parse(sessionStorage.getItem('login_user'));
     },
+
     methods: {
 
         getPostType(data) {
@@ -564,19 +579,6 @@ export default {
             this.reqDialog = false;
         },
 
-        // async fetchPostData() {
-        //     const postId = this.splitData(this.$route.params.id);
-        //     const decryptData = this.decryptData(postId);
-        //     try {
-
-        //         const response = await axios.get(`http://localhost:8083/posts/getPostById/${decryptData}`);
-        //         this.post = response.data;
-        //         console.log("all show post ", this.post);
-        //     } catch (error) {
-        //         console.error('Error fetching post:', error);
-        //     }
-        // }
-
         async fetchPost() {
             const postId = this.splitData(this.$route.params.id);
             const decryptData = this.decryptData(postId);
@@ -635,8 +637,16 @@ export default {
     border-radius: 10px !important;
     padding-bottom: 20px;
 
+    .v-bottom-sheet__content.v-overlay__content {
+        .v-card {
+            border-radius: 10px;
+        }
+
+    }
+
     .v-img {
         border-radius: 10px;
+
     }
 }
 </style>
