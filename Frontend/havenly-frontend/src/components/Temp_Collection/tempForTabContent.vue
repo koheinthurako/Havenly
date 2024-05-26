@@ -1,13 +1,9 @@
 <template>
     <div class="tempOf-tabContent">
-        <div class="mx-5 px-5">
-
-
-
+        <v-container>
             <!-- Render real data from database-->
-
             <div class="row mb-3 g-3">
-                <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3"
+                <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3 col-sm-12"
                     @click="clickPost(post.post_id)">
                     <div class="card-container">
                         <!-- TZH card styles -->
@@ -65,7 +61,7 @@
 
             </div>
 
-        </div>
+        </v-container>
     </div>
 </template>
 
