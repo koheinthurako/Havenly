@@ -29,13 +29,13 @@ public class Posts {
 	private String post_type;
 	private String status;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "sell_post_id", referencedColumnName = "sell_post_id")
-	SellPost testsellpostss;
+	SellPost sellpost;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")
-	RentPost testrentposts;
+	RentPost rentpost;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="sub_user_id")

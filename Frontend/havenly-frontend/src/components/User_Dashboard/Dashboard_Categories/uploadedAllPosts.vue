@@ -37,7 +37,7 @@
                                 
                                 <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
                                     <button class="btn btn-outline-danger w-100" @click="editPost(post)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                    <button class="btn btn-danger w-100">Delete</button>
+                                    <button class="btn btn-danger w-100" @click="deletePost(post)">Delete</button>
                                 </div>
 
                                 
@@ -256,6 +256,7 @@ function dataURLtoFile(dataUrl) {
 
         data: () => ({
             posts : [],
+            post_id: '',
             currentPost: shallowRef({}),
             location_id: '',
             title: '',
@@ -528,68 +529,68 @@ function dataURLtoFile(dataUrl) {
                 })
                 .then(response => {
                     response.data.forEach(post => {
-                        if(post.testrentposts) {
-                            console.log(post);
-                            let des = post.testrentposts.description;
+                        console.log(post);
+                        if(post.rentpost) {
+                            let des = post.rentpost.description;
                             let shortDescription;
                             if(des.length > 60) {
                                 shortDescription = des.substring(0, 60) + "...";
-                                // post.testrentposts.description = des.substring(0, 60) + "...";
+                                // post.rentpost.description = des.substring(0, 60) + "...";
                             }
                             
-                            let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
                             console.log(imageUrls)
                             console.log(post);
                             this.posts.unshift({
                                 post_id: post.post_id,
-                                rentPostId: post.testrentposts.rent_post_id,
-                                province: post.testrentposts.locations.province,
-                                region: post.testrentposts.locations.region,
-                                amphoe: post.testrentposts.locations.amphoe,
-                                location_id: post.testrentposts.locations.location_id,
-                                country: post.testrentposts.locations.countries.country_name,
-                                title: post.testrentposts.title,
+                                rentPostId: post.rentpost.rent_post_id,
+                                province: post.rentpost.locations.province,
+                                region: post.rentpost.locations.region,
+                                amphoe: post.rentpost.locations.amphoe,
+                                location_id: post.rentpost.locations.location_id,
+                                country: post.rentpost.locations.countries.country_name,
+                                title: post.rentpost.title,
                                 shortDescription: shortDescription,
-                                fullDescription: post.testrentposts.description,
-                                property_type: post.testrentposts.property_type,
-                                area: post.testrentposts.area,
-                                price: post.testrentposts.price,
-                                deposit: post.testrentposts.deposit,
-                                least_contract: post.testrentposts.least_contract,
+                                fullDescription: post.rentpost.description,
+                                property_type: post.rentpost.property_type,
+                                area: post.rentpost.area,
+                                price: post.rentpost.price,
+                                deposit: post.rentpost.deposit,
+                                least_contract: post.rentpost.least_contract,
                                 photo_url: imageUrls,
                                 status: post.status,
-                                post_type: 'RENT POST',
+                                post_type: post.post_type,
                             });
                             console.log(typeof(imageUrls))
-                        } else if (post.testsellpostss) {
+                        } else if (post.sellpost) {
                             console.log(post);
-                            let des = post.testsellpostss.description;
+                            let des = post.sellpost.description;
                             let shortDescription;
                             if(des.length > 60) {
                                 shortDescription = des.substring(0, 60) + "...";
                                 // post.testrentposts.description = des.substring(0, 60) + "...";
                             }
                             
-                            let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
                             console.log(imageUrls)
                             console.log(post);
                             this.posts.unshift({
                                 post_id: post.post_id,
-                                sellPostId: post.testsellpostss.sell_post_id,
-                                province: post.testsellpostss.locations.province,
-                                region: post.testsellpostss.locations.region,
-                                amphoe: post.testsellpostss.locations.amphoe,
-                                location_id: post.testsellpostss.locations.location_id,
-                                country: post.testsellpostss.locations.countries.country_name,
-                                title: post.testsellpostss.title,
+                                sellPostId: post.sellpost.sell_post_id,
+                                province: post.sellpost.locations.province,
+                                region: post.sellpost.locations.region,
+                                amphoe: post.sellpost.locations.amphoe,
+                                location_id: post.sellpost.locations.location_id,
+                                country: post.sellpost.locations.countries.country_name,
+                                title: post.sellpost.title,
                                 shortDescription: shortDescription,
-                                fullDescription: post.testsellpostss.description,
-                                property_type: post.testsellpostss.property_type,
-                                area: post.testsellpostss.area,
-                                price: post.testsellpostss.price,
+                                fullDescription: post.sellpost.description,
+                                property_type: post.sellpost.property_type,
+                                area: post.sellpost.area,
+                                price: post.sellpost.price,
                                 photo_url: imageUrls,
                                 status: post.status,
-                                post_type: 'SELL POST',
+                                post_type: post.post_type,
                             });
                         }
                         
@@ -615,6 +616,25 @@ function dataURLtoFile(dataUrl) {
                 this.selectedLocation = post.location_id;
                 
                 console.log(this.currentPost);
+            },
+
+            deletePost(post) {
+                console.log(post);
+                this.post_id = post.post_id;
+                console.log(this.post_id);
+
+                const confirmed = window.confirm("Are you sure you want to delete this post?");
+                if(confirmed) {
+                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                    .then(response => {
+                        console.log(response.data);
+                        this.fetchPosts();
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error("There was an error deleting the post!", error);
+                    });
+                }
             },
 
         getStatusClass(status) {
@@ -647,48 +667,6 @@ function dataURLtoFile(dataUrl) {
         'Apartment',
         'House'
     ])
-
-    // let photoList = null
-
-    // const submit = async (currentPost) => {
-
-    //     if(currentPost.rentPostId) {
-    //         const rentId = currentPost.rentPostId;
-
-    //         const formData = new FormData();
-    //         formData.append('rentPostId', rentId);
-    //         formData.append('title', title);
-    //         formData.append('description', fullDescription);
-    //         formData.append('property_type', property_type);
-    //         formData.append('price', price);
-    //         formData.append('area', area);
-    //         formData.append('deposit', deposit);
-    //         formData.append('least_contract', least_contract.value.value);
-    //         formData.append('location_id', selectedLocation.value);
-    //         photoList.forEach((file) => {
-    //             formData.append('files', file);
-    //         });
-
-    //         try {
-    //             if(proxy.availPosts > 0) {
-    //                 const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
-    //                     headers: {
-    //                     'Content-Type': 'multipart/form-data'
-    //                     }
-    //                 });
-    //                 console.log(response.data);
-    //                 window.location.reload();
-    //             } else {
-    //                 alert("Your package is gone! Please buy another package!");
-    //                 router.push('/package');
-    //             }
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     }
-        
-
-    // }
 
 </script>
 

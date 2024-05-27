@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +22,11 @@ import com.Havenly.Backend.Service.Posts_Service;
 public class Posts_Controller {
 	
 	@Autowired
-	Posts_Service service;
+	Posts_Service postService;
 	
 	@GetMapping("/allSubuserPosts")
 	public ResponseEntity<List<Posts>> getAllPosts(@RequestParam int subUserId){
-		return new ResponseEntity<List<Posts>>(service.getAllSubuserPosts(subUserId),HttpStatus.OK);
+		return new ResponseEntity<List<Posts>>(postService.getAllSubuserPosts(subUserId),HttpStatus.OK);
 	}
 	
 //	@GetMapping("/allSubuserRentPosts")
@@ -34,27 +36,32 @@ public class Posts_Controller {
 	
 	@GetMapping("/getPostById")
 	public ResponseEntity<Posts> getPostById(@RequestParam int postId) {
-		return new ResponseEntity<Posts>(service.getPostById(postId), HttpStatus.OK);
+		return new ResponseEntity<Posts>(postService.getPostById(postId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/allPending")
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){
-		return new ResponseEntity<List<Posts>>(service.getAllPendingPosts(),HttpStatus.OK);
+		return new ResponseEntity<List<Posts>>(postService.getAllPendingPosts(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/allComplete")
 	public ResponseEntity<List<Posts>> getAllCompletePosts(){
-		return new ResponseEntity<List<Posts>>(service.getAllCompletePosts(),HttpStatus.OK);
+		return new ResponseEntity<List<Posts>>(postService.getAllCompletePosts(),HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Posts> update(@RequestBody Posts post){
-		return new ResponseEntity<Posts>(service.update(post),HttpStatus.OK);
+		return new ResponseEntity<Posts>(postService.update(post),HttpStatus.OK);
 	}
 	
-	@PutMapping("/decline")
-	public ResponseEntity<Posts> decline(@RequestBody Posts post){
-		return new ResponseEntity<Posts>(service.decline(post),HttpStatus.OK);
+	@DeleteMapping("/deletepost/{postId}")
+	public ResponseEntity<String> deletePost(@PathVariable int postId){
+		try {
+            postService.deletePost(postId);
+            return ResponseEntity.ok("Post deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting post: " + e.getMessage());
+        }
 	}
 
 }

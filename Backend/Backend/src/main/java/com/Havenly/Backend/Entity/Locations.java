@@ -38,16 +38,12 @@ public class Locations {
 	@JoinColumn(name = "country_id", referencedColumnName = "country_id")
 	Countries countries;
 	
-//	@JsonIgnore
-//	@OneToOne(mappedBy = "locations")
-//	SellPost sellpost;
+	@JsonIgnore
+	@OneToOne(mappedBy = "locations")
+	SellPost sellpost;
 	
 	@JsonIgnore
 	@OneToOne(mappedBy = "locations")
-	SellPost testSellPost;
-	
-//	@JsonIgnore
-//	@OneToOne(mappedBy = "locations")
-//	RentPost rentpost;
+	RentPost rentpost;
 	
 }

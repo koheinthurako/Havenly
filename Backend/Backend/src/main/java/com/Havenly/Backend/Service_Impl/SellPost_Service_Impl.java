@@ -85,12 +85,13 @@ public class SellPost_Service_Impl implements SellPost_Service{
 
 	    sellRepo.save(tp);
 	    
+	    SellPost savedSellPost = sellRepo.findById(customId).orElseThrow();
 	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
 	    Posts post = new Posts();
-	    post.setPost_type(customId);
+	    post.setPost_type("Sell Post");
 	    post.setStatus("pending");
 	    post.setSubUser(subUser);
-	    post.setTestsellpostss(tp);
+	    post.setSellpost(savedSellPost);
 	    postsRepo.save(post);
 	    
 	    Packages pack = packageRepo.findByUserId(subUserId);

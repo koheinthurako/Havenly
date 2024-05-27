@@ -88,12 +88,13 @@ public class RentPost_Service_Impl implements RentPost_Service{
 
 	    rentRepo.save(rp);
 
+	    RentPost rentpost = rentRepo.findById(customId).orElseThrow();
 	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
 	    Posts post = new Posts();
-	    post.setPost_type(customId);
+	    post.setPost_type("Rent Post");
 	    post.setStatus("pending");
 	    post.setSubUser(subUser);
-	    post.setTestrentposts(rp);
+	    post.setRentpost(rentpost);
 	    postsRepo.save(post);
 	    
 	    Packages pack = packageRepo.findByUserId(subUserId);

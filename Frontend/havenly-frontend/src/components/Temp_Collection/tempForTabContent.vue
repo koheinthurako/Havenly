@@ -152,51 +152,51 @@ export default {
           .then(response => response.json())
           .then(data => {
             data.forEach(post => {
-                if(post.testrentposts) {
+                if(post.rentpost) {
                     console.log(post);
-                    if(post.testrentposts.description.length > 100) {
-                        let des = post.testrentposts.description;
-                        post.testrentposts.description = des.substring(0, 100) + "...";
+                    if(post.rentpost.description.length > 100) {
+                        let des = post.rentpost.description;
+                        post.rentpost.description = des.substring(0, 100) + "...";
                     }
                     
-                    let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                    let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
-                        province: post.testrentposts.locations.province,
-                        region: post.testrentposts.locations.region,
-                        country: post.testrentposts.locations.countries.country_name,
-                        post_id: post.testrentposts.sell_post_id,
-                        title: post.testrentposts.title,
-                        description: post.testrentposts.description,
-                        property_type: post.testrentposts.property_type,
-                        area: post.testrentposts.area,
-                        price: post.testrentposts.price,
-                        deposit: post.testrentposts.deposit,
-                        least_contract: post.testrentposts.least_contract,
+                        province: post.rentpost.locations.province,
+                        region: post.rentpost.locations.region,
+                        country: post.rentpost.locations.countries.country_name,
+                        post_id: post.rentpost.sell_post_id,
+                        title: post.rentpost.title,
+                        description: post.rentpost.description,
+                        property_type: post.rentpost.property_type,
+                        area: post.rentpost.area,
+                        price: post.rentpost.price,
+                        deposit: post.rentpost.deposit,
+                        least_contract: post.rentpost.least_contract,
                         photo_url: imageUrls,
                     });
                     console.log(typeof(imageUrls))
-                } else if (post.testsellpostss) {
+                } else if (post.sellpost) {
                     console.log(post);
-                    if(post.testsellpostss.description.length > 100) {
-                        let des = post.testsellpostss.description;
-                        post.testsellpostss.description = des.substring(0, 100) + "...";
+                    if(post.sellpost.description.length > 100) {
+                        let des = post.sellpost.description;
+                        post.sellpost.description = des.substring(0, 100) + "...";
                     }
                     
-                    let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                    let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
-                        province: post.testsellpostss.locations.province,
-                        region: post.testsellpostss.locations.region,
-                        country: post.testsellpostss.locations.countries.country_name,
-                        post_id: post.testsellpostss.sell_post_id,
-                        title: post.testsellpostss.title,
-                        description: post.testsellpostss.description,
-                        property_type: post.testsellpostss.property_type,
-                        area: post.testsellpostss.area,
-                        price: post.testsellpostss.price,
+                        province: post.sellpost.locations.province,
+                        region: post.sellpost.locations.region,
+                        country: post.sellpost.locations.countries.country_name,
+                        post_id: post.sellpost.sell_post_id,
+                        title: post.sellpost.title,
+                        description: post.sellpost.description,
+                        property_type: post.sellpost.property_type,
+                        area: post.sellpost.area,
+                        price: post.sellpost.price,
                         photo_url: imageUrls,
                     });
                     console.log(typeof(imageUrls))

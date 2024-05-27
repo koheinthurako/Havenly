@@ -3,6 +3,8 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,7 +49,7 @@ public class SellPost {
 	Locations locations;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "testsellpostss")
+	@OneToOne(mappedBy = "sellpost", cascade = CascadeType.ALL, orphanRemoval = true)
 	Posts posts;
 
 	
