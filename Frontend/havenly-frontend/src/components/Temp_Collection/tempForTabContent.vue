@@ -11,14 +11,14 @@
                             <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                 <img :src="url" class="w-100 h-100" alt="Card image cap">
                             </div> -->
-                            <div class="cardImgBox" style="width: 100%; height: 200px;">
+                            <div class="cardImgBox" style="width: 100%; height: 160px;">
                                 <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
                             </div>
                             <div class="card-body px-3 py-2 d-flex flex-column">
-                                <h5 class="card-title mb-2">{{ truncateText(post.title, 30) }}</h5>
-                                <!-- <p class="card-text small opacity-75" style="text-indent: 30px;">{{
-                                    truncateText(post.description, 75) }}
-                                </p> -->
+                                <h5 class="card-title mb-2">{{ truncateText(post.title, 20) }}</h5>
+                                <p class="card-text small opacity-75" style="text-indent: 30px;">{{
+                                    truncateText(post.description, 50) }}
+                                </p>
                                 <!-- <div class="d-flex mb-3 justify-content-between">
                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
                                         }}</span>
@@ -37,6 +37,14 @@
                                             }}</p>
                                     </div>
                                 </div>
+
+                                <div v-if="logined_user">
+                                    <v-btn @click="interest(post.id)">
+                                        Interest
+                                    </v-btn>
+                                </div>
+
+
                                 <!-- <div class="d-flex align-items-center justify-content-between">
                                     <p class="m-0 small">{{ post.area }} sqft</p>
                                 </div> -->
@@ -71,7 +79,7 @@
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8';
 
-
+import axios from 'axios';
 // import tempViewPage from '@/views/TempCollection/TempForAllPostView.vue'
 
 export default {
@@ -87,6 +95,7 @@ export default {
 
 
     data: () => ({
+        logined_user: null,
         posts: [],
         get_title: '',
         animations: ['fade-left', 'zoom-in-up', 'zoom-in-down', 'fade-up', 'fade-down', 'fade-right'],
@@ -125,7 +134,25 @@ export default {
         window.removeEventListener('beforeunload', this.saveScrollPosition);
     },
 
+    created() {
+
+        // checked user Logined or not
+        const storedUser = JSON.parse(sessionStorage.getItem('login_user'));
+        if (storedUser) {
+            this.logined_user = storedUser;
+        }
+
+    },
+
     methods: {
+        interest(id) {
+            const user = JSON.parse(sessionStorage.getItem('login_user'));
+            const UserId = user.register_id;
+            const idd = JSON.parse(id);
+            axios.post(`http://localhost:8083/interest/add/${UserId}/${idd}`)
+
+        },
+
         truncateText(text, charLimit) {
             if (text.length > charLimit) {
                 return text.slice(0, charLimit) + '...';

@@ -41,6 +41,7 @@ public class Posts_Service_Impl implements Posts_Service {
 //			new_user.setPost_id(post.getPost_id());
 //			new_user.setPost_type(post.getPost_type());
 			new_user.setStatus("complete");
+			
 //			new_user.setTestsellpostss(post.getTestsellpostss());
 		}
 
