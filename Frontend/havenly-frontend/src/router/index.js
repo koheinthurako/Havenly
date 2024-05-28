@@ -9,27 +9,18 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
-// import testPhoto from '../components/Test_Photo/testPhoto.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
-// import userDashBoardNew from '@/components/User_Dashboard/userDashBoardNew.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CreditCard from '@/views/CreditCard.vue'
 import PostsView from '@/views/PostsView.vue'
 import AdminPost from '@/views/AdminPost.vue'
+import About from '../views/AboutVue.vue'
 
 
 
 const routes = [
-  // {
-  //   path: '/home',
-  //   redirect: '/home'
-  // },
-  // {
-  //   path: '/Home',
-  //   redirect: '/home',
-  // },
   {
     path: '/',
     name: 'home',
@@ -50,11 +41,6 @@ const routes = [
     name: 'registerakm',
     component: registerakm
   },
-  // {
-  //   path: '/subscribe',
-  //   name: 'SubscribeView',
-  //   component: SubscribeView
-  // },
   {
     path: '/loginakm',
     name: 'loginakm',
@@ -65,12 +51,6 @@ const routes = [
     name: 'SubscribeVue',
     component: SubscribeVue
   },
-  // {
-  //   path: '/userDashBoardNew',
-  //   name: 'userDashBoardNew',
-  //   component: userDashBoardNew,
-  //   meta: { requiresAuth: true }
-  // },
   {
     path: '/Home',
     redirect: '/',
@@ -106,21 +86,21 @@ const routes = [
     name: 'PostsView',
     component: PostsView
   },
-  // {
-  //   path: '/testphoto',
-  //   name: 'testphoto',
-  //   component: testPhoto
-  // },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
+  },
   {
     path: '/admin',
     name: 'Admin',
-  component : AdminView,
-  meta: { requiresAdmin: true }
+    component : AdminView,
+    meta: { requiresAdmin: true }
   },
   {
     path: '/admin/login',
     name: 'AdminLogin',
-  component : AdminLoginView
+    component : AdminLoginView
   },
   {
     path: '/admin/ban',
@@ -133,12 +113,7 @@ const routes = [
     name: 'AdminPost',
     component: AdminPost,
     meta: { requiresAdmin: true },
-   
   },
-  
-  
-
-  
 
 ]
 

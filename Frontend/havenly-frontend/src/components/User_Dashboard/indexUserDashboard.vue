@@ -169,8 +169,10 @@ export default {
         },
 
         changeTabForSub(tab) {
-            const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-            if(checkSubUser.packageType) {
+            const checkSubUser = JSON.parse(sessionStorage.getItem('sub_user'));
+            const packageType = checkSubUser.packageType;
+            console.log(packageType);
+            if(packageType) {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {

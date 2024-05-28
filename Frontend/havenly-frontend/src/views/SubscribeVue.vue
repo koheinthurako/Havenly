@@ -137,22 +137,42 @@
   },
   created() {
     // Fetch session data from sessionStorage
-    const loginUser = sessionStorage.getItem('login_user');
-    const loginUserData = JSON.parse(loginUser);
+    // const loginUser = sessionStorage.getItem('login_user');
+    // const loginUserData = JSON.parse(loginUser);
+    // const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+    // const packageType = subUser.packageType;
     // const subbedUser = sessionStorage.getItem('subbed_user');
-    if (loginUser !== null) {    
-      this.user.email = loginUserData.email;
-      console.log('User is logged in.'); 
-      if(loginUserData.packageType) {
+    // if (loginUser !== null) {    
+    //   this.user.email = loginUserData.email;
+    //   console.log('User is logged in.'); 
+    //   if(packageType) {
+    //     alert("You have already subscribed!");
+    //     router.push('/')
+    //   } else {
+    //     router.push('/subscribe');
+    //   }
+    // } else {
+    //   alert("Log in first to subscribe!");
+    //   console.error('User email not found in sessionStorage.');
+    //     router.push('/loginakm'); 
+    // }
+
+    if (!sessionStorage.getItem('login_user')) {    
+      alert("Log in first to subscribe!");
+      router.push('/loginakm'); 
+    } else {
+      const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+      const email = loginUser.email;
+      this.user.email = email;
+      console.log('User is logged in.');
+      const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+      const packageType = subUser.packageType;
+      if(packageType==="Free") {
         alert("You have already subscribed!");
         router.push('/')
       } else {
         router.push('/subscribe');
       }
-    } else {
-      alert("Log in first to subscribe!");
-      console.error('User email not found in sessionStorage.');
-        router.push('/loginakm'); 
     }
    
   },
@@ -195,20 +215,52 @@
         console.log("required fields missing.");
         return;
       }else{
-        axios.post("http://localhost:8083/subscribe",this.user)
-     .then(function(response){
-      sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
-                const status=JSON.parse(response.status);
-                if(status===200){
-                  alert("Subscribed Successfully! Enjoy your free trial! :)");
-                  this.userIsSubbed = true;
-                  router.push('/');
-                 } 
-            })
-            .catch(httpErrorHandler);
-      }
+        // axios.post("http://localhost:8083/subscribe",this.user)
+        //   .then(function(response){
+        //     console.log(response);
+        //     // sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
+        //         const status=JSON.parse(response.status);
+        //         console.log(status);
+        //         if(status==200){
+        //             // alert("Subscribed Successfully! Enjoy your free trial! :)");
+        //             this.userIsSubbed = true;
+        //             console.log(this.userIsSubbed);
+        //             sessionStorage.removeItem('sub_user');
+        //             this.fetchSubUser();
+        //             router.push('/');
+        //           } 
+        //       })
+            try {
+              axios.post("http://localhost:8083/subscribe",this.user).then(response => console.log(response));
+              this.userIsSubbed = true;
+              console.log(this.userIsSubbed);
+              // sessionStorage.removeItem('sub_user');
+              // this.fetchSubUser();
+              alert("Subscribed Successfully! Enjoy your free trial! :)")
+              router.push('/');
+            }catch {
+              httpErrorHandler();
+            }
+          }
         this.resetForm();
       },
+
+      // fetchSubUser() {
+      //   const user = JSON.parse(sessionStorage.getItem('login_user'));
+      //   const registerId = user.register_id;
+      //   console.log("registerId to send backend to show subUser informations : " + registerId)
+      //   axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+      //       params: {
+      //           registerId: registerId
+      //       }
+      //   })
+      //   .then(response => {
+      //     sessionStorage.setItem('sub_user',JSON.stringify(response.data))
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching data:', error); // Handle the error
+      //   });    
+      // },
 
     resetForm() {
       this.selectedNRCCode = null;

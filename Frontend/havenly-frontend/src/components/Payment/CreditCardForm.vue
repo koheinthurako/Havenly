@@ -53,7 +53,8 @@ export default {
   created() {
     // Fetch session data from sessionStorage
     const packageData = JSON.parse(sessionStorage.getItem('packageName'));
-    if(packageData!==null){
+
+    if(packageData!== null){
       this.user.packageType=packageData.name;
       this.user.amount=packageData.price;
       console.log("package name : ", packageData.name);
@@ -61,32 +62,30 @@ export default {
     }else{ 
       console.log("no package data in session storage!");
     }
-    const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    const subbedData = JSON.parse(sessionStorage.getItem('subbed_user'));
-    if (loginUserData !==null ) { 
-      this.user.email = loginUserData.email;
-      console.log('User is logged in.');
-      if(loginUserData.nrc !== null){
-        console.log("User is subbed."); 
-        this.login.alreadyPurchased= loginUserData.packageType;
-        console.log("packagetype : ", this.login.alreadyPurchased);
-      }
-    else if(subbedData !== null ){
-      console.log("User is subbed.");   
-    this.login.alreadyPurchased= subbedData.packageType;
-      console.log("packagetype : ", this.login.alreadyPurchased);
-    }
-    else{
-      console.log("user is not subbed!");
-      alert("You must be subscribed to buy our packages!");
-      router.push('/subscribe');
-  }
+
+    if (!sessionStorage.getItem('login_user')) {    
+      alert("Log in first to buy packages!");
+      router.push('/loginakm'); 
     } else {
-      alert("Log in or register first to buy packages!");
-      console.error('User email not found in sessionStorage.');
-      router.push('/login');
+      const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+      const email = loginUser.email;
+      const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+      this.user.email = email;
+      console.log('User is logged in.');
+      if(subUser && subUser.packageType == "Free Trial") {
+        console.log("User is subbed."); 
+        this.login.alreadyPurchased= subUser.packageType;
+        console.log("packagetype : ", this.login.alreadyPurchased);
+      } else if(subUser.availPosts > 0) {
+        alert("Please use your package until 0 post!");
+        router.push('/package');
+      } else {
+        alert("You must be subscribed to buy our packages!");
+        router.push('/subscribe');
+      }
       
     }
+
    
   },
   methods: {
@@ -116,32 +115,34 @@ export default {
         return;
     }
       function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                              console.log(response);
-                                const statusCode = response?.status
-                                if(statusCode===500){console.log("error");
-                                alert("Error processing payment. Please try again later.");}
-                                
-                                if(statusCode===400){
-                                alert("Error processing data.");
-                              }
-                                }
-                            }
-                    }
-                  axios.post("http://localhost:8083/packages/payment",this.user)
-     .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status===200){
-                  alert("Payment Success! Thank you for buying our package!");
-                  sessionStorage.removeItem('packageName');
-                 } 
-                 sessionStorage.setItem('packageUser',JSON.stringify(response.data))
-                 router.push('/home');
-            })
-            .catch(httpErrorHandler)
-    }
+        if (axios.isAxiosError(error)) {
+            const response = error?.response
+            if(response){
+              console.log(response);
+                const statusCode = response?.status
+                if(statusCode===500){console.log("error");
+                alert("Error processing payment. Please try again later.");}
+                
+                if(statusCode===400){
+                alert("Error processing data.");
+              }
+                }
+            }
+      }
+
+      axios.post("http://localhost:8083/packages/payment",this.user)
+        .then(function(response){
+                    const status=JSON.parse(response.status);
+                    if(status===200){
+                      alert("Payment Success! Thank you for buying our package!");
+                      router.push('/');
+                    } 
+                    sessionStorage.setItem('packageUser',JSON.stringify(response.data))
+                    
+                })
+        .catch(httpErrorHandler)
+    },
+
   }
 }
 </script>

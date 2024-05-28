@@ -623,7 +623,7 @@ function dataURLtoFile(dataUrl) {
                 this.post_id = post.post_id;
                 console.log(this.post_id);
 
-                const confirmed = window.confirm("Are you sure you want to delete this post?");
+                const confirmed = window.confirm("Do you want to delete this post?");
                 if(confirmed) {
                     axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
                     .then(response => {

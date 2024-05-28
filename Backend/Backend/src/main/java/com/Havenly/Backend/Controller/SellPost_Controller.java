@@ -37,6 +37,11 @@ public class SellPost_Controller {
 		return new ResponseEntity<List<SellPost>>(repo.getAllTestSellPosts(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/allSubuserSellPosts")
+	public ResponseEntity<List<SellPost>> getAllSubuserSellPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<SellPost>>(sellService.getAllSubuserSellPosts(subUserId), HttpStatus.OK);
+	}
+	
 	@PostMapping("/savesellpost")
 	public ResponseEntity<SellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
 				@RequestParam("subUserId") int subUserId,

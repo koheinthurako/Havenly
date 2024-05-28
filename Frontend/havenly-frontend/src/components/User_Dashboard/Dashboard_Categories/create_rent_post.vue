@@ -207,10 +207,7 @@
                                     </div>
 
                                     <v-img :src="post.photo_url[0]"></v-img>
-                                    <!-- <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <v-btn class="w-50 " to="/detailview">Edit</v-btn>
-                                        <v-btn class="w-50 ">delete</v-btn>
-                                    </div> -->
+                                    
                                     <div class="btn-section d-flex justify-content-center gap-3 px-4">
                                         <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
                                         <button class="w-50 btn btn-sm btn-danger">Edit</button>

@@ -164,8 +164,4 @@ public class RentPost_Service_Impl implements RentPost_Service{
 		return rentRepo.getAllSubuserRentPosts(subUserId);
 	}
 
-	
-	
-	
-
 }

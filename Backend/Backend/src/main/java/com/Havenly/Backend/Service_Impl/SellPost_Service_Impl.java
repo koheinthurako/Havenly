@@ -153,12 +153,10 @@ public class SellPost_Service_Impl implements SellPost_Service{
 		
 	}
 
+	@Override
+	public List<SellPost> getAllSubuserSellPosts(int subUserId) {
+		return sellRepo.getAllSubuserSellPosts(subUserId);
+	}
 
-	
-	
-	
-	
-	
-	
 
 }

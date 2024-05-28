@@ -176,22 +176,31 @@
                     <div class="body">
 
                         <!-- post card start -->
-                        <div class="post-card bg-white" v-for="data in rent_data" :key="data">
+                        <div class="post-card bg-white" v-for="post in sellPosts" :key="post">
                             <div class="row">
                                 <div class="col-6 p-0 m-0 left-edit">
 
                                     <div class="top-section">
                                         <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
-                                        {{ data.type }}
+                                        {{ post.status }}
 
                                     </div>
 
-                                    <v-img :src="data.img"></v-img>
-                                    <div class="btn-section">
-                                        <v-btn to="/detailview">&nbsp;&nbsp; edit &nbsp;&nbsp;</v-btn>
-                                        <v-btn>delete</v-btn>
+                                    <v-img :src="post.photo_url[0]"></v-img>
+                                    
+                                    <div class="btn-section d-flex justify-content-center gap-3 px-4">
+                                        <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
+                                        <button class="w-50 btn btn-sm btn-danger">Edit</button>
                                     </div>
 
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="my-3">{{ post.title }}</h6>
+                                    <p class="small col-10">{{ post.description }}</p>
+                                    <p class="card-text text-danger small mb-3 opacity-75 ">
+                                        <v-icon >mdi-map-marker-radius</v-icon>
+                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -229,6 +238,7 @@ export default {
         selectedRegion: '',
         selectedLocation: '',
         availPosts: '',
+        sellPosts: [],
         change_type: 'sell',
 
         sell_data: [
@@ -335,10 +345,8 @@ export default {
                 Locations();
             }
 
-            // const subUserData = JSON.parse(sessionStorage.getItem('sub_user'));
-            // this.availPosts = subUserData.availPosts;
-            // console.log(this.availPosts);
             this.fetchSubUserInfo();
+            this.fetchAllSellPosts();
         },
 
         methods: {
@@ -386,12 +394,46 @@ export default {
                     console.error('Error fetching data:', error); // Handle the error
                   });
             },
-            
-            // getLocationIdByRegion(region, selectedRegion) {
-            //     const location = this.locations.find(location => location.region === region);
-            //     return location ? location.location_id : null;
-            // }
 
+            fetchAllSellPosts() {
+                const user = JSON.parse(sessionStorage.getItem('sub_user'));
+                const subUserId = user.subUserId;
+                console.log(subUserId);
+                // Make API call to fetch posts from backend
+                axios.get('http://localhost:8083/sellpost/allSubuserSellPosts', {
+                    params: {
+                        subUserId: subUserId
+                    }
+                })
+                .then(response => {
+                        response.data.forEach(post => {
+                            if(post.description.length > 50) {
+                                let des = post.description;
+                                post.description = des.substring(0, 50) + "...";
+                            }
+                            
+                            let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
+                            console.log(imageUrls)
+                            console.log(post);
+                            this.sellPosts.unshift({
+                                post_id: post.post_id,
+                                province: post.locations.province,
+                                region: post.locations.region,
+                                country: post.locations.countries.country_name,
+                                title: post.title,
+                                description: post.description,
+                                property_type: post.property_type,
+                                area: post.area,
+                                price: post.price,
+                                photo_url: imageUrls,
+                                status: 'Complete',
+                            });
+                            console.log(typeof(imageUrls))
+                            
+                        });
+                    })
+                }
+            
     },
 
 }
@@ -420,74 +462,14 @@ export default {
         'House'
     ])
 
-    // const HouseTypes = ref([
-    //     'Stand-alone House',
-    //     'Two-story House',
-    //     'Three-story House'
-    // ])
-
-    
-
     const selectedLocation = ref('')
     const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
     console.log(subUser.subUserId);
     const subUserId = subUser.subUserId;
 
-    
-    // if(Description.value.value.length > 100) {
-    //     console.log("Yes it is longer than 100!")
-    // } else {
-    //     console.log("Checking count letter false!")
-    // }
-
     const { proxy } = getCurrentInstance();
 
     const submit = async () => {
-
-        // const formData = {
-        //     title: title.value.value,
-        //     description: Description.value.value,
-        //     house_type: houseTypes.value.value,
-        //     property_type: propertyTypes.value.value,
-        //     price: price.value.value,
-        //     area: area.value.value,
-        //     file: photoList[0],
-        //     location_id: selectedLocation.value
-        // };
-
-        // const formData = {
-        //     title: title.value.value,
-        //     description: Description.value.value,
-        //     house_type: houseTypes.value.value,
-        //     property_type: propertyTypes.value.value,
-        //     price: price.value.value,
-        //     area: area.value.value,
-        //     files: [...photoList],
-        //     location_id: selectedLocation.value
-        // };
-
-        // console.log(formData.files[0]);
-        
-
-        // try {
-        //     const response = await axios.post('http://localhost:8083/savetestsellpost', formData, {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data'
-        //         }
-        //     });
-        //     console.log(response.data);
-        //     title.resetField();
-        //     Description.resetField();
-        //     houseTypes.resetField();
-        //     propertyTypes.resetField();
-        //     price.resetField();
-        //     area.resetField();
-        //     image.resetField();
-        // } catch (error) {
-        //     console.error(error);
-        // }
-
-        
 
         const formData = new FormData();
         formData.append('subUserId', subUserId);
@@ -517,7 +499,7 @@ export default {
                 router.push('/package');
             }
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
 
     };  
