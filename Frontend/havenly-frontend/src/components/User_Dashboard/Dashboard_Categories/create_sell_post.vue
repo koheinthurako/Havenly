@@ -445,6 +445,7 @@ export default {
     import { useField } from 'vee-validate'
     import axios from 'axios';
     import router from '@/router';
+    import Swal from 'sweetalert2';
 
     /* Field collection */
     const title = useField('title')
@@ -463,13 +464,13 @@ export default {
     ])
 
     const selectedLocation = ref('')
-    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-    console.log(subUser.subUserId);
-    const subUserId = subUser.subUserId;
-
     const { proxy } = getCurrentInstance();
 
     const submit = async () => {
+
+        const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+        console.log(subUser.subUserId);
+        const subUserId = subUser.subUserId;
 
         const formData = new FormData();
         formData.append('subUserId', subUserId);
@@ -495,8 +496,19 @@ export default {
                 console.log(response.data);
                 window.location.reload();
             } else {
-                alert("Your package is gone! Please buy another package!");
-                router.push('/package');
+                Swal.fire({
+                    title: 'Buy Package',
+                    text: 'Your package is gone! Please buy another package!',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'myCustomButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                    }).then(() => {
+                    router.push('/package'); 
+                });
             }
         } catch (error) {
             console.error(error);

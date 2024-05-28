@@ -24,53 +24,66 @@
   </div>
 </template>
 <script>
-import router from '@/router';
-import axios from 'axios'
-export default {
- 
-  data() {
-      return {
-        user :{
-          name: '',
-          phone:'',
-          email: '',
-          password: ''
-        }
-      };
-  },
-  methods: {
-      signup() {
-       
-        function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===500){alert("Something Worng!!Please use another email or another phone number!!!")}
-                                else if(statusCode===400){alert("Please fill the information!!!")}
-                                
-                            }
-                            }
-        }
-        
-        axios.post("http://localhost:8083/register",this.user)
+  import router from '@/router';
+  import axios from 'axios'
+  import Swal from 'sweetalert2';
 
-        .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                  alert("Registered Successfully")
-                  router.push('/loginakm');
-                }
-            })
-            .catch(httpErrorHandler)
-            this.user.name='',
-                  this.user.phone='',
-                  this.user.email='',
-                  this.user.password=''
-                
-   
-          //
-      },
-  },
-};
+  export default {
+  
+    data() {
+        return {
+          user :{
+            name: '',
+            phone:'',
+            email: '',
+            password: ''
+          }
+        };
+    },
+    methods: {
+        signup() {
+        
+          function httpErrorHandler(error) {
+                          if (axios.isAxiosError(error)) {
+                              const response = error?.response
+                              if(response){
+                                  const statusCode = response?.status
+                                  if(statusCode===500){alert("Something Worng!!Please use another email or another phone number!!!")}
+                                  else if(statusCode===400){alert("Please fill the information!!!")}
+                                  
+                              }
+                              }
+          }
+          
+          axios.post("http://localhost:8083/register",this.user)
+
+          .then(function(response){
+                  const status=JSON.parse(response.status);
+                  if(status=='200'){
+                    Swal.fire({
+                      title: 'Register Success',
+                      text: 'Welcome! Thankyou for register.',
+                      icon: 'success',
+                      customClass: {
+                          confirmButton: 'myCustomSuccessButton'
+                      },
+                      buttonsStyling: false,
+                      allowOutsideClick: false,
+                      allowEscapeKey: false
+                      }).then(() => {
+                        router.push('/login'); 
+                      });
+                  }
+              })
+              .catch(httpErrorHandler)
+              this.user.name='',
+              this.user.phone='',
+              this.user.email='',
+              this.user.password=''
+                  
+    
+            //
+        },
+    },
+  };
 </script>

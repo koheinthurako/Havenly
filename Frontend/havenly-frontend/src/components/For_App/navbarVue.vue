@@ -68,7 +68,7 @@
               </div> -->
             </div>
             <div v-else>
-              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{loginText}}</router-link>
+              <router-link v-model="loginText" to="/login" class="nav-link">{{loginText}}</router-link>
             </div>
           </li>
         </ul>

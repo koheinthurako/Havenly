@@ -2240,3 +2240,32 @@ body {
 .fade-left {
   animation: fadeLeftAnimation 0.7s both;
 }
+
+// My Custom Buttons
+.myCustomButton {
+  width: 100px;
+  color:#fff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  background-color: #e86f52;
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+
+.myCustomButton:hover {
+  background-color: #c74f31;
+}
+
+.myCustomSuccessButton {
+  width: 100px;
+  color:#fff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  background-color: #03c126;
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+
+.myCustomSuccessButton:hover {
+  background-color: #048f1d;
+}
