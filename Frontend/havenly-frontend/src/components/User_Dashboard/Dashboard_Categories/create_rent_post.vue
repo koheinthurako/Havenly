@@ -125,46 +125,30 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
-                                        truncate-length="15" v-model="image.value.value"
-                                        :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
-                                        prepend-icon="mdi-camera"></v-file-input>
-                                </div>
-                            </div> -->
-
-
                             <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12 py-0">
                                     <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                    <v-file-input class="disableClearBtn" counter multiple color="deep-purple-accent-4" chips
                                         truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
                                         accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
-                                        prepend-icon="mdi-camera"></v-file-input>
+                                        prepend-icon="mdi-camera" show-input="false"></v-file-input>
                                 </div>
                             </div>
 
-
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
+                            <div class="row mt-3">
+                                <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
+                                    <v-card class="customImgBox">
+                                        <v-card-actions>
+                                            <v-icon @click="removeImage(photo)" class="imgDeleteIcon">mdi-close</v-icon>
+                                        </v-card-actions>
+                                        <v-img :src="photo.url" class="customImg" height="160px"></v-img>
+                                    </v-card>
                                 </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
-                                </div>
-                            </div> -->
-
+                            </div>
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
                                 <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
@@ -467,18 +451,18 @@ export default {
     import router from '@/router';
     import Swal from 'sweetalert2';
 
-
+    
     /* Field collection */
     const title = useField('title')
     const Description = useField('Description')
-    // const houseTypes = useField('houseTypes')
     const propertyTypes = useField('propertyTypes')
     const price = useField('price')
     const area = useField('area')
     const deposit = useField('deposit');
     const least_contract = useField('least_contract');
     const image = useField('image')
-    let photoList = null
+    // let photoList = null;
+    const photoList = ref([]);
 
     const PropertyTypes = ref([
         'Condo',
@@ -486,18 +470,9 @@ export default {
         'House'
     ])
 
-    // const HouseTypes = ref([
-    //     'Stand-alone House',
-    //     'Two-story House',
-    //     'Three-story House'
-    // ])
-
-    
-
     const selectedLocation = ref('')
     const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
     const subUserId = subUser.subUserId;
-    // const availPosts = ref('')
     const { proxy } = getCurrentInstance();
 
     const submit = async () => {
@@ -514,7 +489,13 @@ export default {
         formData.append('least_contract', least_contract.value.value);
         formData.append('location_id', selectedLocation.value);
         // Append the files as an array
-        photoList.forEach((file) => {
+        // photoList.forEach((file) => {
+        //     formData.append('files', file);
+        // });
+        
+        const files = Object.values(image.value.value);
+        console.log(files);
+        files.forEach((file) => {
             formData.append('files', file);
         });
 
@@ -578,33 +559,43 @@ export default {
                 allowEscapeKey: false
             });
         }
-
-    // if(availPosts.value > 0) {
-    //     try {
-    //         const response = await axios.post('http://localhost:8083/saverentpost', formData, {
-    //             headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //             }
-    //         });
-    //             console.log(response.data);
-    //             window.location.reload();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // } else {
-    //     alert("Your package is gone! Please buy another package!");
-    // }
-
     };  
 
+    // function showUploadPhoto() {
+    //     photoList = Object.values(image.value.value);
+    //     console.log(title.value.value)
+    //     console.log(Description.value.value)
+    //     console.log(photoList);
+    //     console.log(selectedLocation.value)
+    //     console.log(proxy.availPosts)
+    // }
+
     function showUploadPhoto() {
-        photoList = Object.values(image.value.value);
-        console.log(title.value.value)
-        console.log(Description.value.value)
-        console.log(photoList);
-        console.log(selectedLocation.value)
-        console.log(proxy.availPosts)
-    }
+        const files = Object.values(image.value.value);
+        const fileReadPromises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+            });
+        });
+
+        Promise.all(fileReadPromises).then((results) => {
+            photoList.value = results;
+            console.log('Photo list:', photoList.value);
+        }).catch((error) => {
+            console.error('Error reading files:', error);
+        });
+        }
+
+
+        function removeImage(index) {
+            photoList.value.splice(index, 1);
+            image.value.value.splice(index, 1);
+        }
 
 </script>
 
@@ -713,8 +704,8 @@ export default {
             transform: translateY(0);
         }
 
-
     }
+
 }
 
 @keyframes aniOne {
@@ -760,4 +751,28 @@ export default {
         transform: scale(1);
     }
 }
+
+    .customImgBox {
+
+
+        .v-card-actions {
+            color: red;
+            position: absolute;
+            z-index: 1000;
+            background-color: #fff;
+            opacity: 0.95;
+            right: 0;
+            border-radius: 0 0 0 10px;
+        }
+
+        .customImg>img {
+            object-fit: cover !important;
+        }
+
+    }
+
+    .disableClearBtn .v-field__clearable {
+        display: none !important;
+    }
+
 </style>

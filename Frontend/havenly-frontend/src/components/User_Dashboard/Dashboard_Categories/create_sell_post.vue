@@ -105,46 +105,30 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
-                                        truncate-length="15" v-model="image.value.value"
-                                        :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
-                                        prepend-icon="mdi-camera"></v-file-input>
-                                </div>
-                            </div> -->
-
-
                             <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12 py-0">
                                     <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                    <v-file-input class="disableClearBtn" counter multiple color="deep-purple-accent-4" chips
                                         truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
                                         accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
-                                        prepend-icon="mdi-camera"></v-file-input>
+                                        prepend-icon="mdi-camera" show-input="false"></v-file-input>
                                 </div>
                             </div>
 
-
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
+                            <div class="row mt-3">
+                                <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
+                                    <v-card class="customImgBox">
+                                        <v-card-actions>
+                                            <v-icon @click="removeImage(photo)" class="imgDeleteIcon">mdi-close</v-icon>
+                                        </v-card-actions>
+                                        <v-img :src="photo.url" class="customImg" height="160px"></v-img>
+                                    </v-card>
                                 </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
-                                </div>
-                            </div> -->
-
+                            </div>
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
                                 <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
@@ -470,12 +454,11 @@ export default {
     /* Field collection */
     const title = useField('title')
     const Description = useField('Description')
-    // const houseTypes = useField('houseTypes')
     const propertyTypes = useField('propertyTypes')
     const price = useField('price')
     const area = useField('area')
     const image = useField('image')
-    let photoList = null
+    const photoList = ref([]);
 
     const PropertyTypes = ref([
         'Condo',
@@ -502,7 +485,9 @@ export default {
         formData.append('area', area.value.value);
         formData.append('location_id', selectedLocation.value);
         // Append the files as an array
-        photoList.forEach((file) => {
+        const files = Object.values(image.value.value);
+        console.log(files);
+        files.forEach((file) => {
             formData.append('files', file);
         });
 
@@ -566,16 +551,34 @@ export default {
                 allowEscapeKey: false
             });
         }
-
     };  
 
     function showUploadPhoto() {
-        photoList = Object.values(image.value.value);
-        console.log(title.value.value)
-        console.log(Description.value.value)
-        console.log(photoList);
-        console.log(selectedLocation.value)
-    }
+        const files = Object.values(image.value.value);
+        const fileReadPromises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+            });
+        });
+
+        Promise.all(fileReadPromises).then((results) => {
+            photoList.value = results;
+            console.log('Photo list:', photoList.value);
+        }).catch((error) => {
+            console.error('Error reading files:', error);
+        });
+        }
+
+
+        function removeImage(index) {
+            photoList.value.splice(index, 1);
+            image.value.value.splice(index, 1);
+        }
 
 </script>
 
@@ -596,154 +599,159 @@ export default {
 
 <style>
 
-.create-post-section {
-    width: 100%;
-    height: auto;
-
-    /* Create post */
-    .create-post {
-        overflow: hidden;
+    .create-post-section {
         width: 100%;
         height: auto;
-        padding: 8px 12px !important;
 
-        background-color: #fff;
-
-        .form-header {
-            background-color: #D9EDF7;
-            padding: 1px 0px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .form-body {
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
-
-        }
-    }
-
-    /* Display post */
-    .display-post-section {
-        /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
-        background-color: #d3d3d3;
-        width: 100%;
-        height: 100%;
-        padding: 6px 16px;
-        border-radius: 10px;
-
-        /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
-
-        .display-post {
-            width: 100%;
-            max-height: 220px !important;
+        /* Create post */
+        .create-post {
             overflow: hidden;
-            background-color: #D9EDF7;
-            box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
-            margin-bottom: 14px;
-            border-radius: 4px;
-            animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+            width: 100%;
+            height: auto;
+            padding: 8px 12px !important;
 
-            .display-left {
-                position: relative;
+            background-color: #fff;
 
-                .overlay {
-                    width: 100%;
-                    height: 24%;
-                    left: 0;
-                    bottom: 74px;
-                    position: absolute;
-                    background-color: rgba(255, 255, 255, 0.8);
-                    backdrop-filter: blur(40px);
-                    z-index: 1;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    opacity: 0;
-                    transform: translateY(200px);
-                    border-bottom-left-radius: 4px;
-                    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+            .form-header {
+                background-color: #D9EDF7;
+                padding: 1px 0px;
+                border-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 15px;
+            }
 
-                    .v-btn {
-                        text-transform: capitalize;
+            .form-body {
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+            }
+        }
+
+        /* Display post */
+        .display-post-section {
+            /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
+            background-color: #d3d3d3;
+            width: 100%;
+            height: 100%;
+            padding: 6px 16px;
+            border-radius: 10px;
+
+            /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
+
+            .display-post {
+                width: 100%;
+                max-height: 220px !important;
+                overflow: hidden;
+                background-color: #D9EDF7;
+                box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
+                margin-bottom: 14px;
+                border-radius: 4px;
+                animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+
+                .display-left {
+                    position: relative;
+
+                    .overlay {
+                        width: 100%;
+                        height: 24%;
+                        left: 0;
+                        bottom: 74px;
+                        position: absolute;
+                        background-color: rgba(255, 255, 255, 0.8);
+                        backdrop-filter: blur(40px);
+                        z-index: 1;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        opacity: 0;
+                        transform: translateY(200px);
+                        border-bottom-left-radius: 4px;
+                        transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+
+                        .v-btn {
+                            text-transform: capitalize;
+                        }
                     }
                 }
+
+                .display-right {
+                    padding: 10px 20px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    backdrop-filter: blur(30px);
+                    -webkit-backdrop-filter: blur(30px);
+                    position: relative;
+
+                    h5 {
+                        color: #E86F52;
+                    }
+
+                    p {
+                        text-indent: 30px;
+                    }
+
+                }
+
+
             }
 
-            .display-right {
-                padding: 10px 20px;
-                background-color: rgba(255, 255, 255, 0.7);
-                backdrop-filter: blur(30px);
-                -webkit-backdrop-filter: blur(30px);
-                position: relative;
-
-                h5 {
-                    color: #E86F52;
-                }
-
-                p {
-                    text-indent: 30px;
-                }
-
+            .display-post:hover .overlay {
+                opacity: 1;
+                transform: translateY(0);
             }
 
 
         }
+    }
 
-        .display-post:hover .overlay {
+    @keyframes aniOne {
+        0% {
+            animation-timing-function: ease-in;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        38% {
+            animation-timing-function: ease-out;
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
+        55% {
+            animation-timing-function: ease-in;
+            transform: scale(0.7);
+        }
 
-    }
-}
+        72% {
+            animation-timing-function: ease-out;
+            transform: scale(1);
+        }
 
-@keyframes aniOne {
-    0% {
-        animation-timing-function: ease-in;
-        opacity: 0;
-        transform: scale(0);
-    }
+        81% {
+            animation-timing-function: ease-in;
+            transform: scale(0.84);
+        }
 
-    38% {
-        animation-timing-function: ease-out;
-        opacity: 1;
-        transform: scale(1);
-    }
+        89% {
+            animation-timing-function: ease-out;
+            transform: scale(1);
+        }
 
-    55% {
-        animation-timing-function: ease-in;
-        transform: scale(0.7);
-    }
+        95% {
+            animation-timing-function: ease-in;
+            transform: scale(0.95);
+        }
 
-    72% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
-    }
-
-    81% {
-        animation-timing-function: ease-in;
-        transform: scale(0.84);
-    }
-
-    89% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
+        100% {
+            animation-timing-function: ease-out;
+            transform: scale(1);
+        }
     }
 
-    95% {
-        animation-timing-function: ease-in;
-        transform: scale(0.95);
+    .disableClearBtn .v-field__clearable {
+        display: none !important;
     }
 
-    100% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
-    }
-}
 </style>
