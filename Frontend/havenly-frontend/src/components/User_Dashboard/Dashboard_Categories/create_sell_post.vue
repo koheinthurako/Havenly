@@ -170,13 +170,13 @@
 
                     <div class="header mb-3">
                         <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Recently created Sell posts</p>
+                        <p class="mt-3 ms-2">Recently approved sell posts by admin team.</p>
                     </div>
 
                     <div class="body">
 
                         <!-- post card start -->
-                        <div class="post-card bg-white" v-for="post in sellPosts" :key="post">
+                        <div class="post-card bg-white" v-for="post in limitedPosts" :key="post">
                             <div class="row">
                                 <div class="col-6 p-0 m-0 left-edit">
 
@@ -326,14 +326,19 @@ export default {
         },
 
         filteredLocations() {
-        return this.locations.filter(location =>
-            location.country_name === this.selectedCountry &&
-            location.province === this.selectedProvince &&
-            location.amphoe === this.selectedAmphoe &&
-            location.region === this.selectedRegion
-        );
-        }
+            return this.locations.filter(location =>
+                location.country_name === this.selectedCountry &&
+                location.province === this.selectedProvince &&
+                location.amphoe === this.selectedAmphoe &&
+                location.region === this.selectedRegion
+            );
         },
+        
+        limitedPosts() {
+            return this.sellPosts.slice(0, 4);
+        },
+
+    },
 
         mounted() {
             const cachedData = this.getLocationsFromSessionStorage();
@@ -389,6 +394,21 @@ export default {
                   .then(response => {
                     console.log(response.data);
                     this.availPosts = response.data.availPosts
+                    if(this.availPosts === 0) {
+                        Swal.fire({
+                            title: 'Buy More Packages!',
+                            text: 'Your available post is 0.',
+                            icon: 'info',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                            }).then(() => {
+                                router.push('/package');
+                        });
+                    }
                   })
                   .catch(error => {
                     console.error('Error fetching data:', error); // Handle the error
@@ -486,6 +506,16 @@ export default {
             formData.append('files', file);
         });
 
+        Swal.fire({
+            title: 'Posting...',
+            text: 'Your post is being submitted. Please wait...',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+            Swal.showLoading(); // Show loading spinner
+            }
+        });
+
         try {
             if(proxy.availPosts > 0) {
                 const response = await axios.post('http://localhost:8083/sellpost/savesellpost', formData, {
@@ -493,13 +523,26 @@ export default {
                     'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log(response.data);
-                window.location.reload();
+                if(response.status === 200) {
+                    Swal.fire({
+                        title: 'Successfully Posted',
+                        text: 'Your post is requested to admin now!',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                        buttonsStyling: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
             } else {
                 Swal.fire({
-                    title: 'Buy Package',
-                    text: 'Your package is gone! Please buy another package!',
-                    icon: 'error',
+                    title: 'Buy More Packages!',
+                    text: 'Your available post is 0.',
+                    icon: 'info',
                     customClass: {
                         confirmButton: 'myCustomButton'
                     },
@@ -507,11 +550,21 @@ export default {
                     allowOutsideClick: false,
                     allowEscapeKey: false
                     }).then(() => {
-                    router.push('/package'); 
+                        router.push('/package');
                 });
             }
         } catch (error) {
-            console.error(error);
+            Swal.fire({
+                title: 'Error',
+                text: 'There was an error submitting your post. Please try again.',
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'myCustomErrorButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
         }
 
     };  

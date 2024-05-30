@@ -62,9 +62,6 @@ public class RentPost_Service_Impl implements RentPost_Service{
 	            System.out.println("Invalid file format!");
 	            continue;
 	        }
-	        System.out.println("----------------------------------------------------------------");
-	        System.out.println("File Name when upload from frontend : " + fileName);
-	        System.out.println("----------------------------------------------------------------");
 	        try {
 	            byte[] fileData = file.getBytes();
 	            // Convert byte array to base64 string and add it to the list of image URLs

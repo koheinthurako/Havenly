@@ -81,8 +81,6 @@
 <script>
 import router from '@/router';
 
-// import postView from '../../views/PostsView.vue';
-
 export default {
 
     name: 'tempVue',
@@ -208,41 +206,7 @@ export default {
           .catch(error => {
             console.error('Error fetching photos:', error);
           });
-      },
-
-
-
-    // fetchPosts() {
-    //     // Make API call to fetch posts from backend
-    //     fetch('http://localhost:8083/gettestsellpost')
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         console.log(data);
-    //         data.forEach(post => {
-    //             let images = post.image.split(';');
-    //             let photo_urls = images.map(image => 'data:image/jpeg;base64,' + image); 
-    //             this.posts.push({
-    //                 province: post.locations.province,
-    //                 region: post.locations.region,
-    //                 country: post.locations.countries.country_name,
-    //                 post_id: post.sell_post_id,
-    //                 title: post.title,
-    //                 description: post.description,
-    //                 house_type: post.house_type,
-    //                 property_type: post.property_type,
-    //                 area: post.area,
-    //                 price: post.price,
-    //                 photo_url: photo_urls,
-    //             });
-    //         });
-    //         // console.log(this.posts);
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching photos:', error);
-    //       });
-    //   },
-
-
+        },
 
         // Method to limit the number of slides based on the viewport size
         limitSlides(slides) {

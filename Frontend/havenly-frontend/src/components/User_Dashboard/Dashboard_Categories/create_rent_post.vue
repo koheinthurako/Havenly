@@ -190,13 +190,13 @@
 
                     <div class="header mb-3">
                         <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Recently completed rent posts</p>
+                        <p class="mt-3 ms-2">Recently approved rent posts by admin team.</p>
                     </div>
 
                     <div class="body">
 
                         <!-- post card start -->
-                        <div class="post-card bg-white" v-for="post in rentPosts" :key="post">
+                        <div class="post-card bg-white" v-for="post in limitedPosts" :key="post">
                             <div class="row">
                                 <div class="col-6 left-edit">
 
@@ -329,7 +329,12 @@ export default {
                 location.amphoe === this.selectedAmphoe &&
                 location.region === this.selectedRegion
             );
-        }
+        },
+
+        limitedPosts() {
+            return this.rentPosts.slice(0, 4);
+        },
+
     },
 
     mounted() {
@@ -384,13 +389,23 @@ export default {
                     }
                 })
                 .then(response => {
-                console.log(response.data.availPosts);
-                let posts = response.data.availPosts;
-                console.log("avail posts : " + posts)
-                this.availPosts = response.data.availPosts;
-                console.log(this.availPosts);
-                // this.availPosts = response.data.availPosts
-                // console.log(this.availPosts);
+                    console.log(response.data.availPosts);
+                    this.availPosts = response.data.availPosts;
+                    if(this.availPosts === 0) {
+                        Swal.fire({
+                            title: 'Buy More Packages!',
+                            text: 'Your available post is 0.',
+                            icon: 'info',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                            }).then(() => {
+                                router.push('/package');
+                        });
+                    }
                 })
                 .catch(error => {
                 console.error('Error fetching data:', error); // Handle the error
@@ -450,6 +465,7 @@ export default {
     import { useField } from 'vee-validate'
     import axios from 'axios';
     import router from '@/router';
+    import Swal from 'sweetalert2';
 
 
     /* Field collection */
@@ -502,6 +518,16 @@ export default {
             formData.append('files', file);
         });
 
+        Swal.fire({
+            title: 'Posting...',
+            text: 'Your post is being submitted. Please wait...',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+            Swal.showLoading(); // Show loading spinner
+            }
+        });
+
         try {
             if(proxy.availPosts > 0) {
                 const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
@@ -509,14 +535,48 @@ export default {
                     'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log(response.data);
-                window.location.reload();
+                if(response.status === 200) {
+                    Swal.fire({
+                        title: 'Successfully Posted',
+                        text: 'Your post is requested to admin now!',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                        buttonsStyling: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
             } else {
-                alert("Your package is gone! Please buy another package!");
-                router.push('/package');
+                Swal.fire({
+                    title: 'Buy Package',
+                    text: 'Your package is gone! Please buy another package!',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'myCustomButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                    }).then(() => {
+                    router.push('/package'); 
+                });
             }
         } catch (error) {
-            console.error(error);
+            Swal.fire({
+                title: 'Error',
+                text: 'There was an error submitting your post. Please try again.',
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'myCustomErrorButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
         }
 
     // if(availPosts.value > 0) {

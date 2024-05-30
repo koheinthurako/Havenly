@@ -2269,3 +2269,7 @@ body {
 .myCustomSuccessButton:hover {
   background-color: #048f1d;
 }
+
+.swal2-container {
+  z-index: 5000 !important;
+}

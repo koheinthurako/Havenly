@@ -194,7 +194,7 @@
             buttonsStyling: false,
             allowOutsideClick: false,
             allowEscapeKey: false
-            });
+          });
           return;
         }else{
           try {
@@ -213,7 +213,7 @@
               allowEscapeKey: false
               }).then(() => {
                 router.push('/'); 
-              });
+            });
           }catch {
             httpErrorHandler();
           }

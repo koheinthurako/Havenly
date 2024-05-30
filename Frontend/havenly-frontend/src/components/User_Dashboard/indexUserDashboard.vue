@@ -70,23 +70,18 @@
             <div class="row">
                 <div class="col-md-12 p-0 ">
 
-
                     <div v-if="openTab === 'profile'">
                         <profile_page />
                     </div>
                     <div v-else-if="openTab === 'all-post'">
-                        <!-- <h3>All Post Content</h3>
-                        <p>This is where the add post content will be displayed.</p> -->
                         <uploadedAllPosts/>
                     </div>
 
                     <div v-else-if="openTab === 'create-sell-post'">
-
                         <create_sell_post_page />
                     </div>
 
                     <div v-else-if="openTab === 'create-rent-post'">
-
                         <create_rent_post_page />
                     </div>
                     <div v-else-if="openTab === 'create-ads'">
@@ -94,18 +89,6 @@
                         <p>This is where the add ads content will be displayed.</p>
                     </div>
                 </div>
-
-                <!-- <div class="col-md-4 col-sm-0 p-2">
-    
-                        <div class="row-12">
-                            <event />
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="row-12"
-                            style="box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.5); border-radius: 12px; padding: 16px 0px;">
-                            <ads_medium_page />
-                        </div>
-                    </div> -->
 
             </div>
 
@@ -139,12 +122,11 @@ export default {
     },
 
     data() {
-        // const storedDialogDash = localStorage.getItem('dialogDash');
-        // const dialogDash = storedDialogDash !== null && storedDialogDash !== undefined ? storedDialogDash === 'true' : false;
         return {
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
-            openTab: localStorage.getItem('openTab') || 'profile',
+            // openTab: localStorage.getItem('openTab') || 'profile',
+            openTab: 'profile',
         };
     },
     methods: {
@@ -176,8 +158,19 @@ export default {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {
-                alert("This is for subscriber user only. Please subscribe first")
-                router.push('/subscribe');
+                Swal.fire({
+                    title: 'Need Subscription!',
+                    text: 'This is for subscriber user only. Please subscribe first.',
+                    icon: 'info',
+                    customClass: {
+                        confirmButton: 'myCustomButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                    }).then(() => {
+                        router.push('/subscribe');
+                });
             }
         },
 

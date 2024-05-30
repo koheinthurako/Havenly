@@ -157,20 +157,52 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/packages/payment' && !user) {
-    Swal.fire({
-      title: 'Login Required',
-      text: 'Please login first to proceed with the payment!',
-      icon: 'info',
-      customClass: {
-        confirmButton: 'myCustomButton'
-      },
-      buttonsStyling: false,
-      allowOutsideClick: false,
-      allowEscapeKey: false
-    }).then(() => {
-      next('/login');
-    });
+  } else if (to.path === '/packages/payment') {
+    if(!user) {
+      Swal.fire({
+        title: 'Login Required',
+        text: 'Please login first to proceed with the payment!',
+        icon: 'info',
+        customClass: {
+          confirmButton: 'myCustomButton'
+        },
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      }).then(() => {
+        next('/login');
+      });
+    } else if (!subUser) {
+      Swal.fire({
+        title: 'Subscribe First',
+        text: 'You must be subscribed to buy our packages!',
+        icon: 'error',
+        customClass: {
+            confirmButton: 'myCustomButton'
+        },
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+        }).then(() => {
+          next('/subscribe');
+      });
+    } else if (subUser.packageType !== 'Free Trial' && subUser.availPosts > 0) {
+      Swal.fire({
+        title: 'Alread Purchased',
+        text: 'Please use your package until 0 post!',
+        icon: 'error',
+        customClass: {
+            confirmButton: 'myCustomButton'
+        },
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+        }).then(() => {
+          next(false);
+      });
+    } else {
+      next();
+    }
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!user) {
       Swal.fire({

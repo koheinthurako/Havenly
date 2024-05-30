@@ -103,6 +103,7 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 export default {
     
@@ -200,13 +201,23 @@ export default {
 
         axios.put("http://localhost:8083/posts/update",post)
         .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                    alert("Approved Successfully")
+            const status=JSON.parse(response.status);
+            if(status=='200'){
+                Swal.fire({
+                    title: 'Successfully Approved!',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'myCustomSuccessButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(() => {
                     window.location.reload();
-                }
-            })
-            .catch(httpErrorHandler)
+                });
+            }
+        })
+        .catch(httpErrorHandler)
       },
       cancel(post){
 
@@ -226,6 +237,18 @@ axios.put("http://localhost:8083/posts/decline",post)
 .then(function(response){
         const status=JSON.parse(response.status);
         if(status=='200'){
+            Swal.fire({
+                title: 'Successfully Canceled!',
+                icon: 'success',
+                customClass: {
+                    confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                window.location.reload();
+            });
           alert("Canceled  Successfully")
 
         }

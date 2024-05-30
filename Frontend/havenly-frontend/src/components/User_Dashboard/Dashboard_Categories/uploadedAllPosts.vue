@@ -415,10 +415,24 @@ function dataURLtoFile(dataUrl) {
                     formData.append('deposit', this.deposit);
                     formData.append('least_contract', this.least_contract);
                     try {
-                        const response = await axios.put('http://localhost:8083/rentpost/editRentPost', formData, {
-                        });
-                        console.log(response.data);
-                        window.location.reload();
+                        const response = await axios.put('http://localhost:8083/rentpost/editRentPost', formData, {});
+                        console.log(response.status);
+                        if(response.status === 200) {
+                            Swal.fire({
+                                title: 'Successfully Edited',
+                                text: 'Your post is requested to admin now!',
+                                icon: 'success',
+                                customClass: {
+                                    popup: 'mySwal',
+                                    confirmButton: 'myCustomSuccessButton'
+                                },
+                                buttonsStyling: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
                     } catch (error) {
                         if (error.response) {
                             console.error('Error response:', error.response);
@@ -442,10 +456,23 @@ function dataURLtoFile(dataUrl) {
                     const sellId = currentPost.sellPostId;
                     formData.append('sellPostId', sellId);
                     try {
-                        const response = await axios.put('http://localhost:8083/sellpost/editsellpost', formData, {
-                        });
-                        console.log(response.data);
-                        window.location.reload();
+                        const response = await axios.put('http://localhost:8083/sellpost/editsellpost', formData, {});
+                        if(response.status === 200) {
+                            Swal.fire({
+                                title: 'Successfully Edited',
+                                text: 'Your post is requested to admin now!',
+                                icon: 'success',
+                                customClass: {
+                                    popup: 'mySwal',
+                                    confirmButton: 'myCustomSuccessButton'
+                                },
+                                buttonsStyling: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        }
                     } catch (error) {
                         if (error.response) {
                             console.error('Error response:', error.response);
@@ -622,19 +649,46 @@ function dataURLtoFile(dataUrl) {
                 console.log(post);
                 this.post_id = post.post_id;
                 console.log(this.post_id);
-
-                const confirmed = window.confirm("Do you want to delete this post?");
-                if(confirmed) {
-                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-                    .then(response => {
-                        console.log(response.data);
-                        this.fetchPosts();
-                        window.location.reload();
-                    })
-                    .catch(error => {
-                        console.error("There was an error deleting the post!", error);
-                    });
-                }
+                Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this post!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#E86F52",
+                        cancelButtonColor: "##525252",
+                        confirmButtonText: "Yes, delete it!",
+                        reverseButtons: true,
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                        .then(response => {
+                            console.log(response.data);
+                            this.fetchPosts();
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error("There was an error deleting the post!", error);
+                        });
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success",
+                            showConfirmButton: false,
+                        });
+                    }
+                });
+                // const confirmed = window.confirm("Do you want to delete this post?");
+                // if(confirmed) {
+                //     axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                //     .then(response => {
+                //         console.log(response.data);
+                //         this.fetchPosts();
+                //         window.location.reload();
+                //     })
+                //     .catch(error => {
+                //         console.error("There was an error deleting the post!", error);
+                //     });
+                // }
             },
 
         getStatusClass(status) {
@@ -660,6 +714,7 @@ function dataURLtoFile(dataUrl) {
 
 <script setup>
     import { ref } from 'vue'
+    import Swal from 'sweetalert2';
 
     // const propertyTypes = useField('propertyTypes')
     const PropertyTypes = ref([

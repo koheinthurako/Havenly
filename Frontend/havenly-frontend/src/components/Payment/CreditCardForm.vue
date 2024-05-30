@@ -88,14 +88,7 @@
           console.log("User is subbed."); 
           this.login.alreadyPurchased= subUser.packageType;
           console.log("packagetype : ", this.login.alreadyPurchased);
-        } else if(subUser.availPosts > 0) {
-          alert("Please use your package until 0 post!");
-          router.push('/package');
-        } else {
-          alert("You must be subscribed to buy our packages!");
-          router.push('/subscribe');
-        }
-        
+        } 
       }
     },
 
@@ -103,15 +96,33 @@
       submitForm() {
         // Check if all fields are filled
         if (!this.cardNumber || !this.cardHolder || !this.expirationDate || !this.cvv) {
-          alert("Please fill in all required fields.");
-          console.log("required fields missing.");
+          Swal.fire({
+            title: 'Missing Informations!',
+            text: 'Please fill in all required fields.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          })
           return;
         }
         // Check if expiration date is in MM/YY format
         const expirationRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
         if (!expirationRegex.test(this.expirationDate)) {
-          alert("Wrong Format");
-          console.log("wrong date format");
+          Swal.fire({
+            title: 'Wrong Format!',
+            text: 'Please correct the correct date.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          });
           return;
         }
       // Check if the input date is in the past
@@ -121,8 +132,17 @@
       let currentYear = new Date().getFullYear().toString().substr(-2);
       let currentMonth = ('0' + (new Date().getMonth() + 1)).slice(-2);
       if (inputYear < currentYear || (inputYear == currentYear && inputMonth < currentMonth)) {
-          alert("Your card is expired");
-          console.log("card is expired");
+        Swal.fire({
+            title: 'Card Expired!',
+            text: 'Your card is expired! Try another card.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
           return;
       }
         function httpErrorHandler(error) {
@@ -142,16 +162,26 @@
         }
 
         axios.post("http://localhost:8083/packages/payment",this.user)
-          .then(function(response){
-                      const status=JSON.parse(response.status);
-                      if(status===200){
-                        alert("Payment Success! Thank you for buying our package!");
-                        router.push('/');
-                      } 
-                      sessionStorage.setItem('packageUser',JSON.stringify(response.data))
-                      
-                  })
-          .catch(httpErrorHandler)
+        .then(function(response){
+          const status=JSON.parse(response.status);
+          if(status===200){
+            Swal.fire({
+              title: 'Payment Success!',
+              text: 'Thank you for buying our package.',
+              icon: 'success',
+              customClass: {
+                  confirmButton: 'myCustomSuccessButton'
+              },
+              buttonsStyling: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false
+              }).then(() => {
+                router.push('/'); 
+            });
+          } 
+            sessionStorage.setItem('packageUser',JSON.stringify(response.data))
+        })
+        .catch(httpErrorHandler)
       },
 
     }
