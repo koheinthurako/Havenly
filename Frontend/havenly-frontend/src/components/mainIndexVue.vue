@@ -2,10 +2,14 @@
   <div class="main-index" id="main-index">
 
     <!-- notification btn start -->
-    <v-badge v-show="!btn_display" class="popup-btn" @click="togglePopup" :content="notificationCount" color="red"
-      overlap>
-      <v-icon large>mdi-bell</v-icon>
-    </v-badge>
+
+
+    <div v-if="this.getUser">
+      <v-badge v-show="!btn_display" class="popup-btn" @click="togglePopup" :content="notificationCount" color="red"
+        overlap>
+        <v-icon large>mdi-bell</v-icon>
+      </v-badge>
+    </div>
 
     <v-card v-if="isCardVisible" class="popup-card">
       <h5 class="header">short info</h5><br><br><br>
@@ -23,6 +27,9 @@
           v-model="userData.email" label="Gmail"></v-text-field>
         <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg" class="w-100"
           v-model="userData.phone" label="Phone"></v-text-field>
+        <v-textarea bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg" class="w-100"
+          v-model="userData.description" rows="4" label="Phone"></v-textarea>
+
       </div>
 
       <v-btn rounded class="detail-btn" @click="gotoDetailView(1)">
@@ -40,20 +47,28 @@
 
       <br><br>
       <div class="popup-data">
-        <div v-for="(data, index) in items" :key="index">
-          <div class="row box-content">
-            <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === index }"
-              @click="getData(data.title, data.type, data.name, index)">
-              <v-icon>mdi-menu-left</v-icon>
-            </div>
-            <div class="col-4 p-0">
-              <v-img :src="data.img" class="me-auto" alt="" />
-            </div>
-            <div class="col-7 p-0 ps-2 right">
-              <span>{{ data.title }}</span> just interested your post.
+
+        <div v-if="filteredOjbs && filteredOjbs.length > 0">
+          <div v-for="obj in filteredOjbs" :key="obj.id">
+            <div class="row box-content">
+              <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.id }"
+                @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.id)">
+                <v-icon>mdi-menu-left</v-icon>
+              </div>
+              <div class="col-4 p-0">
+                <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
+              </div>
+              <div class="col-7 p-0 ps-2 right">
+                <span>{{ obj.name }}{{ obj.id }}</span> just interested your post.
+              </div>
             </div>
           </div>
         </div>
+        <div v-else>
+          <v-btn color="danger" @click="cleanStorage">cleanStorage</v-btn>
+        </div>
+
+
       </div>
     </div>
     <!-- notification btn end -->
@@ -102,6 +117,7 @@ import { ref, watch, onMounted, onUnmounted } from 'vue';
 
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8';
+// import { descriptors } from 'chart.js/dist/core/core.defaults'
 
 export default {
   name: 'mainIndexVue',
@@ -109,6 +125,9 @@ export default {
   data: () => ({
 
 
+
+    // temp Register data 
+    registerData: '',
 
     items: [
       { id: 1, title: 'John Lwin', img: require('@/assets/img/1.jpg'), type: 'panda', name: 'condo' },
@@ -132,8 +151,29 @@ export default {
     contactpage,
   },
 
+  mounted() {
+    this.fetchRegisterUser();
+  },
+
 
   methods: {
+
+    async fetchRegisterUser() {
+      try {
+        const response = await fetch(`http://localhost:8083/findByMail/${this.getUser.email}`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        this.registerData = await response.json();
+        console.log("getting Register data : ", this.registerData.register_id);
+
+
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      }
+    },
 
     encryptId(id) {
       const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
@@ -158,6 +198,9 @@ export default {
       this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
     },
 
+
+
+
   },
 
   setup() {
@@ -169,25 +212,45 @@ export default {
     const isCardVisible = ref(false);
     const activeButton = ref(null);
     const notificationCount = ref(0);
+    const getUser = ref([]);
     const objs = ref([]);
+    const filteredOjbs = ref([]);
     const userData = ref({
       name: '',
       email: '',
-      phone: ''
+      phone: '',
+      description: ''
     });
 
-    const getData = (name, email, phone, index) => {
+    const getData = (name, email, phone, description, index) => {
+      activeButton.value = null;
       userData.value.name = name;
       userData.value.email = email;
       userData.value.phone = phone;
+      userData.value.description = description;
       isCardVisible.value = true;
       activeButton.value = index;
     };
 
+    // const hideCard = () => {
+    //   isCardVisible.value = false;
+    //   activeButton.value = null;
+    // };
+
     const hideCard = () => {
       isCardVisible.value = false;
+
+      // Add the ID of the hidden card to localStorage
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      hiddenCards.push(activeButton.value);
+      localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
+
+      // Update the filteredOjbs based on the new hiddenCards list
+      filteredOjbs.value = filterData(objs.value);
+
       activeButton.value = null;
     };
+
 
     const scrollFunction = () => {
       showBackToTop.value = window.pageYOffset > 1400;
@@ -201,9 +264,16 @@ export default {
       });
     };
 
+    const cleanStorage = () => {
+      localStorage.removeItem('hiddenCards');
+    };
+
     onMounted(() => {
       fetchNotifications();
       window.addEventListener('scroll', scrollFunction);
+      getUser.value = JSON.parse(sessionStorage.getItem('login_user'));
+
+      filteredOjbs.value = filterData(objs.value);
     });
 
     onUnmounted(() => {
@@ -215,9 +285,7 @@ export default {
       isPopupDisable.value = false;
       btn_display.value = !btn_display.value;
       activeButton.value = null;
-      notificationCount.value = 0;
     };
-
 
     const hidePopup = () => {
       isPopupDisable.value = true;
@@ -232,7 +300,7 @@ export default {
 
     const fetchNotifications = () => {
       const user = JSON.parse(sessionStorage.getItem('sub_user'));
-
+      console.log("Fetch noti reached : ", user);
 
       // Make API call to fetch posts from backend
       if (user) {
@@ -240,7 +308,7 @@ export default {
         fetch(`http://localhost:8083/interest/getAllNoti/${UserId}`)
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
+            console.log("first check data for each ", data);
             data.forEach((obj) => {
               if (obj.posts.testsellpostss) {
                 let imgUrls = Array.isArray(obj.posts.testsellpostss.image)
@@ -254,6 +322,7 @@ export default {
                   name: obj.reg_user.name,
                   phone: obj.reg_user.phone,
                   email: obj.reg_user.email,
+                  description: obj.description,
                   post_id: obj.posts.post_id,
                   photo_url: imgUrls,
                 });
@@ -261,7 +330,7 @@ export default {
               }
             });
             // Initialize notification count with the length of fetched notifications
-            notificationCount.value = objs.value.length;
+            filteredOjbs.value = filterData(objs.value);
           })
           .catch((error) => {
             console.error('Error fetching photos:', error);
@@ -271,11 +340,28 @@ export default {
       }
     };
 
+    const filterData = (data) => {
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      const filteredOjbs = data.filter(obj => !hiddenCards.includes(obj.id));
+      notificationCount.value = filteredOjbs.length;
+      return filteredOjbs;
+    };
+
     watch(objs, (newObjs) => {
       notificationCount.value = newObjs.length;
     });
 
+    // Watch localStorage for changes
+    window.addEventListener('storage', () => {
+      filteredOjbs.value = filterData(objs.value);
+    });
+
     return {
+      cleanStorage,
+      filteredOjbs,
+      filterData,
+      getUser,
+      activeButton,
       showBackToTop,
       isPopupVisible,
       togglePopup,
@@ -299,7 +385,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
 #backToTopBtn {
   display: block;
   position: fixed;
@@ -327,5 +413,12 @@ export default {
 
 #backToTopBtn.show {
   opacity: 1;
+}
+
+
+.notiActive {
+  .v-icon {
+    transform: rotate(360deg);
+  }
 }
 </style>

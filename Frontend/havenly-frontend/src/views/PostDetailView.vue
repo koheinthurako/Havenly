@@ -4,6 +4,7 @@
 
         <!-- bootstrap container is getting errro ;( -->
         <v-container>
+
             <div class="row ">
 
                 <div class="col-md-12 ">
@@ -82,7 +83,7 @@
                             <div class="description">
                                 <h5 class="color-brick">ပို့စ် အကြောင်းအရာများ</h5>
 
-                                <p class="detail-text">{{ post.description }}</p>
+                                <p class="detail-text" v-html="formatDesc(post.description)"></p>
                             </div>
 
 
@@ -151,19 +152,19 @@
 
                                     </div>
                                     <hr class="mx-auto">
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="user.name"
+                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="getUser.name"
                                         label="Name *" required class="m-0" readonly></v-text-field>
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="user.email"
+                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="getUser.email"
                                         label="Gmail *" required readonly></v-text-field>
-                                    <v-text-field readonly density="compact" focused v-model="user.phone"
+                                    <v-text-field readonly density="compact" focused v-model="getUser.phone"
                                         :prefix="selectedCountry.code" variant="solo" label="Phone Number">
                                         <template v-slot:prepend-inner>
                                             <img :src="selectedCountry.flag" alt="flag" class="me-2"
                                                 style="height: 24px;" />
                                         </template>
                                     </v-text-field>
-                                    <v-textarea variant="solo" label="Label"></v-textarea>
-                                    <v-btn class="request-btn w-100 bg-danger text-light">
+                                    <v-textarea v-model="getDescription" variant="solo" label="Label"></v-textarea>
+                                    <v-btn @click="interest" class="request-btn w-100 bg-danger text-light">
                                         Request Details
                                     </v-btn>
                                 </div>
@@ -224,19 +225,19 @@
                                 </div>
                             </div>
                         </div> -->
-
-                        <v-btn class="req-btn" @click="openDialog">
-                            Make interest
-                        </v-btn>
+                        <!-- :hidden="getUser.email == registerData.email" -->
+                        <!-- <p>For Logined user {{ getUser.email }}</p> -->
+                        <!-- <p>For Post user {{ registerData.email }}</p> -->
+                        <!-- :hidden="getUser.email == registerData.email" -->
+                        <div v-if="getUser" :hidden="getUser.email == registerData.email">
+                            <v-btn class="req-btn" @click="openDialog">
+                                Make interest
+                            </v-btn>
+                        </div>
 
                         <hr class="mx-auto d-block d-sm-none mt-0">
                     </div>
                 </div>
-
-
-
-
-
 
                 <!-- <div class="col-md-4">
                     <div class="right">
@@ -452,17 +453,13 @@
 <script>
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8';
-
+import axios from 'axios';
 export default {
 
     name: 'postDetailView',
 
     data: () => ({
-        user: {
-            name: '',
-            phone: '',
-            email: ''
-        },
+        getUser: [],
         postGetId: null,
 
         imageDialog: false,
@@ -476,6 +473,14 @@ export default {
         savedPosts: [],
 
         // to keep all datas
+        mainPostId: '',
+        subUserId: '',
+        registerData: '',
+
+        // get desc from input 
+        getDescription: '',
+
+
         post: {
             province: '',
             region: '',
@@ -500,7 +505,6 @@ export default {
             flag: 'https://flagcdn.com/w320/mm.png' // Myanmar flag
         },
 
-
         img: require("@/assets/img/1.jpg"),
         img1: require("@/assets/img/2.jpg"),
         img2: require("@/assets/img/3.jpg")
@@ -508,10 +512,68 @@ export default {
 
     mounted() {
         this.fetchPost();
-        this.user = JSON.parse(sessionStorage.getItem('login_user'));
+        this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
     },
 
     methods: {
+
+        formatDesc(data) {
+            return data.split('\n').join('<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        },
+
+        async interest() {
+            const user = JSON.parse(sessionStorage.getItem('login_user'));
+            const userId = user.register_id;
+
+            const requestData = {
+                description: this.getDescription
+            };
+
+            try {
+                const response = await axios.post(`http://localhost:8083/interest/addNew/${userId}/${this.mainPostId}`, requestData);
+
+                // Check if the request was successful (status 200)
+                if (response.status == 409) {
+
+                    console.log("You already interested this post!");
+
+                } else if (response.status === 202 || response.status === 200) {
+
+                    console.log("You interested this post!");
+                } else {
+                    console.log("Unexpected response:", response.status);
+                }
+            } catch (error) {
+
+                console.error('Error fetching post:', error);
+            }
+            window.location.reload();
+        },
+
+
+        // async submitForm() {
+        //     console.log("submit form reached")
+        //     const formData = new FormData();
+        //     formData.append('name', this.name);
+        //     formData.append('gmail', this.gmail);
+        //     formData.append('gender', this.gender);
+        //     formData.append('phone', this.phone);
+        //     formData.append('dob', this.dob);
+        //     formData.append('image', this.save_profile);
+
+
+        //     try {
+        //         const response = await axios.post('http://localhost:8090/std/save', formData);
+        //         console.log('Data saved successfully:', response.data);
+
+        //         this.initialize();
+
+
+        //     } catch (error) {
+        //         console.error('Error saving data:', error);
+        //     }
+
+        // },
 
         getPostType(data) {
             const typeLetter = data.charAt(0);
@@ -572,7 +634,13 @@ export default {
             return decryptData;
         },
         openDialog() {
-            this.reqDialog = true;
+            if (this.getUser) {
+                this.reqDialog = true;
+            } else {
+                console.log("Later boi");
+                this.$router.push({ name: 'loginakm' });
+            }
+
         },
 
         closeDialog() {
@@ -591,6 +659,18 @@ export default {
 
                 // Parse the response as JSON
                 const data = await response.json();
+
+                // Taking Post Main id
+                this.mainPostId = data.post_id;
+
+                // Taking Subuser id 
+                this.subUserId = data.subUser.subUserId;
+
+                console.log("This Sub user id : ", this.subUserId);
+
+                // call the function to get registere user
+                this.fetchRegisterUser(this.subUserId);
+
 
                 // Check the post type
                 if (data.testsellpostss) {
@@ -624,6 +704,22 @@ export default {
             };
         },
 
+        async fetchRegisterUser(id) {
+            try {
+                const response = await fetch(`http://localhost:8083/getDataBySubId/${id}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                this.registerData = await response.json();
+                console.log("getting Register data : ", this.registerData.name);
+
+
+            } catch (error) {
+                console.error('Error fetching post:', error);
+            }
+        }
 
 
     },

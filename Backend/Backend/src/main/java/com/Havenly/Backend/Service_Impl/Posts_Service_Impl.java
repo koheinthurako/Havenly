@@ -69,5 +69,16 @@ public class Posts_Service_Impl implements Posts_Service {
 		return repo.getPostById(id);
 	}
 
+	// finding interested posts by login user mail
+	@Override
+	public List<Posts> findUserPostsByGmail(String email) {
+		return repo.findPostByUserLoginMailFromInterest(email);
+	}
+
+//	@Override
+//	public List<Posts> getNotiByGmail(String email) {
+//		return repo.getAllNotificationsByEmail(email);
+//	}
+
 
 }

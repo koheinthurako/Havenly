@@ -13,6 +13,8 @@ import com.Havenly.Backend.Repo.Interest_Repo;
 import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 import com.Havenly.Backend.Service.Interest_Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Configuration
 public class Interest_Service_Impl implements Interest_Service{
@@ -27,18 +29,8 @@ public class Interest_Service_Impl implements Interest_Service{
 	Posts_Repo posts_repo;
 
 	@Override
-	public Interest save(int user_id, int posts_id) {
-		// TODO Auto-generated method stub
-		Optional<Reg_user> user=user_repo.findById(user_id);
-		Optional<Posts> pp=posts_repo.findById(posts_id);
-		
-		Reg_user user1=user.get();
-		Posts pp1=pp.get();
-		
-		Interest in=new Interest();
-		in.setPosts(pp1);
-		in.setReg_user(user1);
-		return repo.save(in);
+	public Interest save(Interest data) {
+		return repo.save(data);
 	}
 
 	@Override
@@ -48,10 +40,22 @@ public class Interest_Service_Impl implements Interest_Service{
 	}
 
 	@Override
-	public List<Interest> getAllInterestForNoti(Integer id) {
+	public List<Interest> getAllInterestForNoti(int id) {
 		// TODO Auto-generated method stub
 		
 		return repo.getAllInterestForNoti(id);
+	}
+
+	@Override
+	public Boolean deleteByPostIdAndUserId(int post_id, int user_id) {
+		// check duplicate or not
+		Long count = repo.countByPostIdAndUserId(user_id, post_id);
+		if (count > 0) {
+			repo.deleteByPostIdAndEmail(post_id, user_id);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.Havenly.Backend.Controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.Havenly.Backend.Repo.Posts_Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +47,21 @@ public class Posts_Controller {
 	public ResponseEntity<Posts> decline(@RequestBody Posts post){
 		return new ResponseEntity<Posts>(service.decline(post),HttpStatus.OK);
 	}
+
+	// finding posts by user login mail
+	@GetMapping("/findInterestedPostsByMail/{email}")
+	public ResponseEntity<List<Posts>> getPostsByEmail(@PathVariable String email) {
+
+		List<Posts> posts = service.findUserPostsByGmail(email);
+		return new ResponseEntity<>(posts, posts.isEmpty() ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+	}
+
+	// firstly don't work, leave it and then test again it's work ;)
+//	@GetMapping("/getNotiByMail/{email}")
+//	public ResponseEntity<List<Posts>> getNotiByMail(@PathVariable String email) {
+//
+//		List<Posts> posts = service.getNotiByGmail(email);
+//		return new ResponseEntity<>(posts, posts.isEmpty() ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//	}
 
 }

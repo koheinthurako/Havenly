@@ -126,6 +126,11 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	}
 
 	@Override
+	public Reg_user getDataBySubId(int id) {
+		return regRepo.findDataBySubId(id);
+	}
+
+	@Override
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
 	Reg_user user=	regRepo.findByEmail(email);

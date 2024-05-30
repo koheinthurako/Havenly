@@ -16,5 +16,7 @@ public interface Posts_Service {
 	public Posts update(Posts post);
 	public Posts decline(Posts post);
 	Posts getPostById(String id);
+	List<Posts> findUserPostsByGmail(String email);
+//	List<Posts> getNotiByGmail(String email);
 
 }

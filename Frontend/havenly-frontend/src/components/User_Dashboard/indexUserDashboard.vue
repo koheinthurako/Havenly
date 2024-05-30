@@ -18,6 +18,15 @@
                         <span>Profile</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sideTextLink" :class="{ active: openTab === 'all-interest-post' }"
+                        @click="changeTab('all-interest-post'); toggleSidebar2()">
+                        <v-icon>mdi-star-box-multiple</v-icon>
+                        <span>Interested post</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
                         @click="changeTabForSub('all-post'); toggleSidebar2()">
@@ -25,6 +34,8 @@
                         <span>All post</span>
                     </a>
                 </li>
+
+
 
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
@@ -80,6 +91,12 @@
                         <uploadedAllPosts />
                     </div>
 
+                    <div v-else-if="openTab === 'all-interest-post'">
+                        <!-- <h3>All Post Content</h3>
+                        <p>This is where the add post content will be displayed.</p> -->
+                        <interestedPosts />
+                    </div>
+
                     <div v-else-if="openTab === 'create-sell-post'">
 
                         <create_sell_post_page />
@@ -112,7 +129,6 @@
 
     </div>
 
-
 </template>
 
 <script>
@@ -124,6 +140,7 @@ import profile_page from './Dashboard_Categories/profileVue.vue'
 import create_sell_post_page from './Dashboard_Categories/create_sell_post.vue'
 import uploadedAllPosts from './Dashboard_Categories/uploadedAllPosts.vue'
 import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
+import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
 import router from '@/router';
 
 
@@ -134,7 +151,8 @@ export default {
         profile_page,
         uploadedAllPosts,
         create_sell_post_page,
-        create_rent_post_page
+        create_rent_post_page,
+        interestedPosts
     },
 
     data() {

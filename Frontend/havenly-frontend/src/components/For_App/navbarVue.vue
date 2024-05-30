@@ -37,9 +37,25 @@
           </li> -->
 
           <li class="nav-item">
-            <router-link to="/userdashboard" class=" nav-link"
+            <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
+
+          <div v-if="getUser">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Subscribe User
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">SubId : {{ getUser.subUserId }}</a></li>
+                <li><a class="dropdown-item" href="#">Name : {{ getUser.name }}</a></li>
+                <li><a class="dropdown-item" href="#">Gmail : {{ getUser.email }}</a></li>
+                <li><a class="dropdown-item" href="#">Phone : {{ getUser.phone }}</a></li>
+              </ul>
+            </div>
+          </div>
+
         </ul>
 
         <ul class="navbar-nav">
@@ -86,6 +102,7 @@ export default {
 
   data() {
     return {
+      getUser: [],
       notificationCount: 5,
       activeDataLink: '',
       loginText: 'Login',
@@ -105,6 +122,11 @@ export default {
     login_status() {
       return this.$store.getters.LoginData
     }
+
+  },
+
+  mounted() {
+    this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
 
   },
 
