@@ -6,11 +6,16 @@ import java.time.LocalTime;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Entity.Subscription;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reg_user_DD {
 	
 	private int register_id;
@@ -21,9 +26,8 @@ public class Reg_user_DD {
 		private String password;
 		private LocalDate date;
 		private LocalTime time;
-	//	private boolean UserIsSubbed;
-		private int packageType;
 		private String nrc;
+		private int packageType;
 	
 	public Reg_user covertToEntity(Reg_user_DD dto) {
 		Reg_user user=new Reg_user();

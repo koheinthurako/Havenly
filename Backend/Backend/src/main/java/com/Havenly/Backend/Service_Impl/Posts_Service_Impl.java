@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Repo.Posts_Repo;
@@ -13,48 +14,58 @@ import com.Havenly.Backend.Service.Posts_Service;
 public class Posts_Service_Impl implements Posts_Service {
 
 	@Autowired
-	Posts_Repo repo;
+	Posts_Repo postsRepo;
+	
+	@Override
+	public List<Posts> getAllSubuserPosts(int subUserId) {
+		return postsRepo.getAllSubuserPosts(subUserId);
+	}
+	
+//	@Override
+//	public List<Posts> getAllSubuserRentPosts(int subUserId) {
+//		return repo.getAllSubuserRentPosts(subUserId);
+//	}
 
 	@Override
 	public List<Posts> getAllPendingPosts() {
 		// TODO Auto-generated method stub
-		return repo.getAllPendingPosts();
+		return postsRepo.getAllPendingPosts();
 	}
 	
 	@Override
 	public List<Posts> getAllCompletePosts() {
 		// TODO Auto-generated method stub
-		return repo.getAllCompletePosts();
+		return postsRepo.getAllCompletePosts();
+	}
+	
+	@Override
+	public Posts getPostById(int postId) {
+		return postsRepo.findById(postId).orElse(null);
 	}
 
 	public Posts update(Posts post) {
 
-		Posts new_user = repo.findById(post.getPost_id()).orElse(null);
-//		Posts new_user= new Posts();
+		Posts new_user = postsRepo.findById(post.getPost_id()).orElse(null);
 		if (new_user != null) {
-//			new_user.setPost_id(post.getPost_id());
-//			new_user.setPost_type(post.getPost_type());
 			new_user.setStatus("complete");
-//			new_user.setTestsellpostss(post.getTestsellpostss());
 		}
 
-		Posts user1 = repo.save(new_user);
+		Posts user1 = postsRepo.save(new_user);
 		return user1;
 	}
 
-	public Posts decline(Posts post) {
-
-		Posts new_user = repo.findById(post.getPost_id()).orElse(null);
-//		Posts new_user= new Posts();
-		if (new_user != null) {
-//			new_user.setPost_id(post.getPost_id());
-//			new_user.setPost_type(post.getPost_type());
-			new_user.setStatus("Declined");
-//			new_user.setTestsellpostss(post.getTestsellpostss());
-		}
-
-		Posts user1 = repo.save(new_user);
-		return user1;
+	@Transactional
+	@Override
+	public void deletePost(int postId) {
+		Posts post = postsRepo.findById(postId)
+	            .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+		postsRepo.delete(post);
 	}
+
+	
+
+	
+
+	
 
 }

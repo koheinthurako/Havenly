@@ -23,7 +23,7 @@
             <!-- Render real data from database-->
 
             <div class="row mb-5 g-3">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
+                <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
                     <div class="card-container">
                         <!-- TZH card styles -->
                         <div class="card" style="height: 600px;">
@@ -37,10 +37,10 @@
                                 <h5 class="card-title mb-3">{{ post.title }}</h5>
                                 <p class="card-text small opacity-75">{{ post.description }}</p>
                                 <div class="d-flex mb-3 justify-content-between">
-                                    <span class="small opacity-75">Deposit : {{ post.deposit }}</span>
-                                    <span class="small opacity-75">Contract : {{ post.least_contract }}</span>
+                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
+                                    <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
                                 </div>
-                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
+                                <p class="card-text text-danger small mb-auto opacity-75">
                                     <v-icon >mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                 </p>
@@ -81,8 +81,6 @@
 <script>
 import router from '@/router';
 
-// import postView from '../../views/PostsView.vue';
-
 export default {
 
     name: 'tempVue',
@@ -106,6 +104,10 @@ export default {
     }),
 
     computed: {
+
+        limitedPosts() {
+            return this.posts.slice(0, 8); // posts array မှ 8 ခုကိုသာ ဖြတ်ယူပါမည်
+        },
 
         slides() {
             let slides = [];
@@ -148,51 +150,51 @@ export default {
           .then(response => response.json())
           .then(data => {
             data.forEach(post => {
-                if(post.testrentposts) {
+                if(post.rentpost) {
                     console.log(post);
-                    if(post.testrentposts.description.length > 100) {
-                        let des = post.testrentposts.description;
-                        post.testrentposts.description = des.substring(0, 100) + "...";
+                    if(post.rentpost.description.length > 100) {
+                        let des = post.rentpost.description;
+                        post.rentpost.description = des.substring(0, 100) + "...";
                     }
                     
-                    let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
+                    let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
-                        province: post.testrentposts.locations.province,
-                        region: post.testrentposts.locations.region,
-                        country: post.testrentposts.locations.countries.country_name,
-                        post_id: post.testrentposts.sell_post_id,
-                        title: post.testrentposts.title,
-                        description: post.testrentposts.description,
-                        property_type: post.testrentposts.property_type,
-                        area: post.testrentposts.area,
-                        price: post.testrentposts.price,
-                        deposit: post.testrentposts.deposit,
-                        least_contract: post.testrentposts.least_contract,
+                        province: post.rentpost.locations.province,
+                        region: post.rentpost.locations.region,
+                        country: post.rentpost.locations.countries.country_name,
+                        post_id: post.rentpost.sell_post_id,
+                        title: post.rentpost.title,
+                        description: post.rentpost.description,
+                        property_type: post.rentpost.property_type,
+                        area: post.rentpost.area,
+                        price: post.rentpost.price,
+                        deposit: post.rentpost.deposit,
+                        least_contract: post.rentpost.least_contract,
                         photo_url: imageUrls,
                     });
                     console.log(typeof(imageUrls))
-                } else if (post.testsellpostss) {
+                } else if (post.sellpost) {
                     console.log(post);
-                    if(post.testsellpostss.description.length > 100) {
-                        let des = post.testsellpostss.description;
-                        post.testsellpostss.description = des.substring(0, 100) + "...";
+                    if(post.sellpost.description.length > 100) {
+                        let des = post.sellpost.description;
+                        post.sellpost.description = des.substring(0, 100) + "...";
                     }
                     
-                    let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
+                    let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
                     console.log(imageUrls)
                     console.log(post);
                     this.posts.unshift({
-                        province: post.testsellpostss.locations.province,
-                        region: post.testsellpostss.locations.region,
-                        country: post.testsellpostss.locations.countries.country_name,
-                        post_id: post.testsellpostss.sell_post_id,
-                        title: post.testsellpostss.title,
-                        description: post.testsellpostss.description,
-                        property_type: post.testsellpostss.property_type,
-                        area: post.testsellpostss.area,
-                        price: post.testsellpostss.price,
+                        province: post.sellpost.locations.province,
+                        region: post.sellpost.locations.region,
+                        country: post.sellpost.locations.countries.country_name,
+                        post_id: post.sellpost.sell_post_id,
+                        title: post.sellpost.title,
+                        description: post.sellpost.description,
+                        property_type: post.sellpost.property_type,
+                        area: post.sellpost.area,
+                        price: post.sellpost.price,
                         photo_url: imageUrls,
                     });
                     console.log(typeof(imageUrls))
@@ -204,41 +206,7 @@ export default {
           .catch(error => {
             console.error('Error fetching photos:', error);
           });
-      },
-
-
-
-    // fetchPosts() {
-    //     // Make API call to fetch posts from backend
-    //     fetch('http://localhost:8083/gettestsellpost')
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         console.log(data);
-    //         data.forEach(post => {
-    //             let images = post.image.split(';');
-    //             let photo_urls = images.map(image => 'data:image/jpeg;base64,' + image); 
-    //             this.posts.push({
-    //                 province: post.locations.province,
-    //                 region: post.locations.region,
-    //                 country: post.locations.countries.country_name,
-    //                 post_id: post.sell_post_id,
-    //                 title: post.title,
-    //                 description: post.description,
-    //                 house_type: post.house_type,
-    //                 property_type: post.property_type,
-    //                 area: post.area,
-    //                 price: post.price,
-    //                 photo_url: photo_urls,
-    //             });
-    //         });
-    //         // console.log(this.posts);
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching photos:', error);
-    //       });
-    //   },
-
-
+        },
 
         // Method to limit the number of slides based on the viewport size
         limitSlides(slides) {

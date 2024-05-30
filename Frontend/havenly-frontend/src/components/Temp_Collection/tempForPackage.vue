@@ -2,7 +2,7 @@
     <div class="temp-package">
 
         <div class="temp-package-data">
-            <div class="temp-header-row ">
+            <div class="temp-header-row">
                 <div>
                     <p>join us</p>
                     <h3 class="my-2 mx-auto">Choose a package according to your needs!</h3>
@@ -20,8 +20,7 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <swiper-slide>
-                        <!-- package one start -->
+                    <!-- <swiper-slide>
                         <div class="temp-package">
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
@@ -68,8 +67,7 @@
 
                             </div>
                         </div>
-                        <!-- package one end -->
-                    </swiper-slide>
+                    </swiper-slide> -->
                     <swiper-slide>
                         <!-- package two start -->
                         <div class="temp-package">
@@ -175,7 +173,7 @@
             </div>
         </div>
 
-        <div class="sponsor-ship">
+        <!-- <div class="sponsor-ship">
             <div class="row d-flex justify-center">
                 <div class="col-md-2 col-sm-6">
                     <v-img :src="img1"></v-img>
@@ -193,7 +191,7 @@
                     <v-img :src="img5"></v-img>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
 

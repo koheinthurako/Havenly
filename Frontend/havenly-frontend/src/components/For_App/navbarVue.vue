@@ -11,18 +11,10 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <router-link to="/testingPage" class="nav-link">Testing</router-link>
-          </li>
 
           <li class="nav-item">
             <router-link to="/" :class="{ 'nav-link': true, active: 
-            ('home') }">Home</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/"
-              :class="{ 'nav-link': true, active: isNavLinkActive('category') }">Category</router-link>
+            isNavLinkActive('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -36,7 +28,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('contact') }">Contact</router-link>
+            <router-link to="/about" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
           </li>
 
           <!-- <li class="nav-item">
@@ -76,7 +68,7 @@
               </div> -->
             </div>
             <div v-else>
-              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{loginText}}</router-link>
+              <router-link v-model="loginText" to="/login" class="nav-link">{{loginText}}</router-link>
             </div>
           </li>
         </ul>
@@ -105,14 +97,12 @@ export default {
       if (router.currentRoute.value.path === '/') {
         if (scrollPosition >= -10 && scrollPosition < 350) {
           activeNavLink.value = 'home';
-        } else if (scrollPosition < 2100) {
-          activeNavLink.value = 'category';
         } else if (scrollPosition < 2900) {
           activeNavLink.value = 'package';
         } else if (scrollPosition < 3500) {
           activeNavLink.value = 'blog';
         } else {
-          activeNavLink.value = 'contact';
+          activeNavLink.value = 'about';
         }
       } else if (router.currentRoute.value.path === '/package') {
         activeNavLink.value = 'package';

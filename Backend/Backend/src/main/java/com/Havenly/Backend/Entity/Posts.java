@@ -1,11 +1,13 @@
 package com.Havenly.Backend.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,13 +29,17 @@ public class Posts {
 	private String post_type;
 	private String status;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "sell_post_id", referencedColumnName = "sell_post_id")
-	TestSellPost testsellpostss;
+	SellPost sellpost;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")
-	RentPost testrentposts;
+	RentPost rentpost;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@JoinColumn(name="sub_user_id")
+	private Subscription subUser;
 	
 	
 }

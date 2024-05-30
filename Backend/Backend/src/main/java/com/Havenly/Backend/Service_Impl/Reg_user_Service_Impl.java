@@ -75,12 +75,12 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public Reg_user_DD Login(String gmail, String password) {
 		Reg_user user = regRepo.findByEmail(gmail);
 		
-		if (user == null) {
+		if (user == null && !pwencoder.matches(password, user.getPassword())) {
 			return null;
 		}
-		if (!pwencoder.matches(password, user.getPassword())) {
-			return null;
-		}
+//		if (!pwencoder.matches(password, user.getPassword())) {
+//			return null;
+//		}
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}

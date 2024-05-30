@@ -20,12 +20,19 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**").allowedMethods(CorsConfiguration.ALL).allowedOrigins("http://localhost:8080");
 	}
 	
+	
 	@Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-//        factory.setMaxFileSize("5MB"); // Set maximum file size
-//        factory.setMaxRequestSize("5MB"); // Set maximum request size
-        return factory.createMultipartConfig();
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 	
 }

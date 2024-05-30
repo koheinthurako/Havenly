@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 $font-family: "Roboto", sans-serif;
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 * {
   padding: 0;
@@ -715,6 +717,7 @@ body {
 .temp-package {
   width: 100%;
   height: auto;
+  margin-bottom: 30px;
 
   .temp-package-data {
     margin-top: 5%;
@@ -734,7 +737,7 @@ body {
     .temp-header-row {
       width: 100%;
       height: auto;
-      padding: 10px 0px;
+      padding: 30px 0px;
       color: #fff;
       z-index: 100;
       text-align: center;
@@ -1403,7 +1406,7 @@ body {
 /* Post Detail view end */
 
 @mixin create_section_post_card {
-  box-shadow: 0px 6px 26px 1px rgba(0, 0, 0, 0.4);
+  // box-shadow: 0px 6px 26px 1px rgba(0, 0, 0, 0.4);
   padding: 0px 10px;
   border-radius: 10px;
 
@@ -1513,7 +1516,8 @@ body {
     }
 
     .body {
-      box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+      // box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
+      background-color: #c1c2c1;
       width: 100%;
       height: 100%;
       padding: 16px;
@@ -2235,4 +2239,37 @@ body {
 /* Apply fade-left animation to elements with the fade-left class */
 .fade-left {
   animation: fadeLeftAnimation 0.7s both;
+}
+
+// My Custom Buttons
+.myCustomButton {
+  width: 100px;
+  color:#fff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  background-color: #e86f52;
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+
+.myCustomButton:hover {
+  background-color: #c74f31;
+}
+
+.myCustomSuccessButton {
+  width: 100px;
+  color:#fff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  background-color: #03c126;
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+
+.myCustomSuccessButton:hover {
+  background-color: #048f1d;
+}
+
+.swal2-container {
+  z-index: 5000 !important;
 }
