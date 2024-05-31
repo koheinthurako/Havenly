@@ -84,6 +84,12 @@
                     <div v-if="openTab === 'profile'">
                         <profile_page />
                     </div>
+
+                    <div v-else-if="openTab === 'all-interest-post'">
+                        <!-- <h3>All Post Content</h3>
+                        <p>This is where the add post content will be displayed.</p> -->
+                        <interestedPosts />
+                    </div>
                     <div v-else-if="openTab === 'all-post'">
                         <uploadedAllPosts />
                     </div>

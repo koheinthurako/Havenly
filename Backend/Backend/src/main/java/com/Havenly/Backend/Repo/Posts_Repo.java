@@ -45,8 +45,6 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
             "LEFT JOIN countries c ON l.country_id = c.country_id " +
             "WHERE p.status = 'complete'", nativeQuery = true)
 	public List<Posts> getAllCompletePosts();
-	
-	
 
 
 	@Query(value = "SELECT p.post_id, p.post_type, p.status, p.sub_user_id, tp.sell_post_id, rp.rent_post_id, COALESCE (tp.title, rp.title) AS title, COALESCE(tp.description, rp.description) AS description,COALESCE(tp.area, rp.area) AS area, COALESCE(tp.price, rp.price) AS price, COALESCE(tp.date, rp.date) AS date, COALESCE(tp.time, rp.time) AS time, COALESCE(tp.image, rp.image) AS image, COALESCE(tp.property_type, rp.property_type) AS property_type, COALESCE(tp.location_id, rp.location_id) AS location_id, rp.deposit, rp.least_contract, l.province, l.region, c.country " +

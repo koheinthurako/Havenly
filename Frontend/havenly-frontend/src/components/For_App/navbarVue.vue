@@ -100,42 +100,20 @@
 export default {
   name: 'navbarVue',
 
-  setup() {
+  // setup() {
 
-    const activeNavLink = ref('');
-    const router = useRouter();
+  //   const activeNavLink = ref('');
+  //   const router = useRouter();
 
-    const isNavLinkActiveSetup = (id) => {
-      return id === activeNavLink.value;
-    };
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (router.currentRoute.value.path === '/') {
-        if (scrollPosition >= -10 && scrollPosition < 350) {
-          activeNavLink.value = 'home';
-        } else if (scrollPosition < 2900) {
-          activeNavLink.value = 'package';
-        } else if (scrollPosition < 3500) {
-          activeNavLink.value = 'blog';
-        } else {
-          activeNavLink.value = 'about';
-        }
-      } else if (router.currentRoute.value.path === '/package') {
-        activeNavLink.value = 'package';
-      }
-    };
+  //   const isNavLinkActiveSetup = (id) => {
+  //     return id === activeNavLink.value;
+  //   };
 
 
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll);
-    });
-
-
-    return {
-      isNavLinkActiveSetup
-    };
-  },
+  //   return {
+  //     isNavLinkActiveSetup
+  //   };
+  // },
 
   data() {
     return {

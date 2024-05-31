@@ -18,7 +18,7 @@ import CreditCard from '@/views/CreditCard.vue'
 
 // For Posts
 import postDetailView from '@/views/PostDetailView.vue'
-import AllPostView from '@/views/AllPostView.vue'
+// import AllPostView from '@/views/AllPostView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
@@ -73,11 +73,11 @@ const routes = [
     name: 'testingPage',
     component: testingPage
   },
-  {
-    path: '/tempDoc',
-    name: 'tempDoc',
-    component: tempDoc
-  },
+  // {
+  //   path: '/tempDoc',
+  //   name: 'tempDoc',
+  //   component: tempDoc
+  // },
   {
     path: '/packages/payment',
     name: 'CreditCard',

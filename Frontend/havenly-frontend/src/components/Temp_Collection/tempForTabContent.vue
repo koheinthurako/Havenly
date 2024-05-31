@@ -69,8 +69,9 @@
 </template>
 
 <script>
-import router from '@/router';
-
+// import router from '@/router';
+import AES from 'crypto-js/aes'
+import Utf8 from 'crypto-js/enc-utf8';
 export default {
 
     name: 'tempVue',
