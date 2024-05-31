@@ -109,139 +109,100 @@ export default {
     
     data: () => ({
         posts : [],
-
-      
-
-      
     }),
-       
-      
- 
-       mounted(){
-         this.fetchPosts();
-       },
- 
-       methods :{
-        fetchPosts() {
-        // Make API call to fetch posts from backend
-       fetch('http://localhost:8083/posts/allPending')
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            data.forEach(post => {
-                if(post.rentpost) {
-                    let imgUrls= Array.isArray(post.rentpost.image)?post.rentpost.image:[post.rentpost.image]
-                    if(post.rentpost.description.length > 100) {
-                        let des = post.rentpost.description;
-                        post.rentpost.description = des.substring(0, 100) + "...";
-                    }
-                    console.log(post)
-                    this.posts.unshift({
-                        post_id :post.post_id,
-                        status : post.status,
-                        province: post.rentpost.locations.province,
-                        region: post.rentpost.locations.region,
-                        country: post.rentpost.locations.countries.country_name,
-                        title: post.rentpost.title,
-                        description: post.rentpost.description,
-                        house_type: post.rentpost.house_type,
-                        property_type: post.rentpost.property_type,
-                        area: post.rentpost.area,
-                        price: post.rentpost.price,
-                        deposit: post.rentpost.deposit,
-                        least_contract: post.rentpost.least_contract,
-                        photo_url: imgUrls,
-                    });
-                    console.log(imgUrls)
-                } else if (post.sellpost) {
-                    let imgUrls= Array.isArray(post.sellpost.image)?post.sellpost.image:[post.sellpost.image]
-                    if(post.sellpost.description.length > 100) {
-                        let des = post.sellpost.description;
-                        post.sellpost.description = des.substring(0, 100) + "...";
-                    }
-                    console.log(post)
-                    this.posts.unshift({
-                        post_id :post.post_id,
-                        status : post.status,
-                        province: post.sellpost.locations.province,
-                        region: post.sellpost.locations.region,
-                        country: post.sellpost.locations.countries.country_name,
-                        title: post.sellpost.title,
-                        description: post.sellpost.description,
-                        house_type: post.sellpost.house_type,
-                        property_type: post.sellpost.property_type,
-                        area: post.sellpost.area,
-                        price: post.sellpost.price,
-                        photo_url: imgUrls,
-                    });
-                    console.log(imgUrls)
+
+    mounted(){
+        localStorage.removeItem('openTab');
+        this.fetchPosts();
+    },
+
+    methods :{
+    fetchPosts() {
+    // Make API call to fetch posts from backend
+    fetch('http://localhost:8083/posts/allPending')
+        .then(response => response.json())
+        .then(data => {
+        console.log(data);
+        data.forEach(post => {
+            if(post.rentpost) {
+                let imgUrls= Array.isArray(post.rentpost.image)?post.rentpost.image:[post.rentpost.image]
+                if(post.rentpost.description.length > 100) {
+                    let des = post.rentpost.description;
+                    post.rentpost.description = des.substring(0, 100) + "...";
                 }
-                
-            });
-            // console.log(this.posts);
-          })
-          .catch(error => {
-            console.error('Error fetching photos:', error);
-          });
-      },
-
-      approve(post){
-
-        function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===500){alert("Please try again!!!")}
-                                else if(statusCode===400){alert("Please try again!!!")}
-                                
-                            }
-                            }
-        }
-
-        axios.put("http://localhost:8083/posts/update",post)
-        .then(function(response){
-            const status=JSON.parse(response.status);
-            if(status=='200'){
-                Swal.fire({
-                    title: 'Successfully Approved!',
-                    icon: 'success',
-                    customClass: {
-                        confirmButton: 'myCustomSuccessButton'
-                    },
-                    buttonsStyling: false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then(() => {
-                    window.location.reload();
+                console.log(post)
+                this.posts.unshift({
+                    post_id :post.post_id,
+                    status : post.status,
+                    province: post.rentpost.locations.province,
+                    region: post.rentpost.locations.region,
+                    country: post.rentpost.locations.countries.country_name,
+                    title: post.rentpost.title,
+                    description: post.rentpost.description,
+                    house_type: post.rentpost.house_type,
+                    property_type: post.rentpost.property_type,
+                    area: post.rentpost.area,
+                    price: post.rentpost.price,
+                    deposit: post.rentpost.deposit,
+                    least_contract: post.rentpost.least_contract,
+                    photo_url: imgUrls,
                 });
+                console.log(imgUrls)
+            } else if (post.sellpost) {
+                let imgUrls= Array.isArray(post.sellpost.image)?post.sellpost.image:[post.sellpost.image]
+                if(post.sellpost.description.length > 100) {
+                    let des = post.sellpost.description;
+                    post.sellpost.description = des.substring(0, 100) + "...";
+                }
+                console.log(post)
+                this.posts.unshift({
+                    post_id :post.post_id,
+                    status : post.status,
+                    province: post.sellpost.locations.province,
+                    region: post.sellpost.locations.region,
+                    country: post.sellpost.locations.countries.country_name,
+                    title: post.sellpost.title,
+                    description: post.sellpost.description,
+                    house_type: post.sellpost.house_type,
+                    property_type: post.sellpost.property_type,
+                    area: post.sellpost.area,
+                    price: post.sellpost.price,
+                    photo_url: imgUrls,
+                });
+                console.log(imgUrls)
             }
+            
+        });
+        // console.log(this.posts);
         })
-        .catch(httpErrorHandler)
-      },
-      cancel(post){
+        .catch(error => {
+        console.error('Error fetching photos:', error);
+        });
+    },
 
-function httpErrorHandler(error) {
-                if (axios.isAxiosError(error)) {
-                    const response = error?.response
-                    if(response){
-                        const statusCode = response?.status
-                        if(statusCode===500){alert("Please try again!!!")}
-                        else if(statusCode===400){alert("Please try again!!!")}
-                        
-                    }
-                    }
-}
+    approve(post){
 
-axios.put("http://localhost:8083/posts/decline",post)
-.then(function(response){
+    function httpErrorHandler(error) {
+                    if (axios.isAxiosError(error)) {
+                        const response = error?.response
+                        if(response){
+                            const statusCode = response?.status
+                            if(statusCode===500){alert("Please try again!!!")}
+                            else if(statusCode===400){alert("Please try again!!!")}
+                            
+                        }
+                        }
+    }
+
+    axios.put("http://localhost:8083/posts/update",post)
+    .then(function(response){
         const status=JSON.parse(response.status);
         if(status=='200'){
             Swal.fire({
-                title: 'Successfully Canceled!',
+                title: 'Successfully Approved!',
                 icon: 'success',
                 customClass: {
-                    confirmButton: 'myCustomButton'
+                    confirmButton: 'myCustomSuccessButton'
                 },
                 buttonsStyling: false,
                 allowOutsideClick: false,
@@ -249,26 +210,60 @@ axios.put("http://localhost:8083/posts/decline",post)
             }).then(() => {
                 window.location.reload();
             });
-          alert("Canceled  Successfully")
-
         }
     })
     .catch(httpErrorHandler)
+    },
+    cancel(post){
+
+function httpErrorHandler(error) {
+            if (axios.isAxiosError(error)) {
+                const response = error?.response
+                if(response){
+                    const statusCode = response?.status
+                    if(statusCode===500){alert("Please try again!!!")}
+                    else if(statusCode===400){alert("Please try again!!!")}
+                    
+                }
+                }
+}
+
+axios.put("http://localhost:8083/posts/decline",post)
+.then(function(response){
+    const status=JSON.parse(response.status);
+    if(status=='200'){
+        Swal.fire({
+            title: 'Successfully Canceled!',
+            icon: 'success',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(() => {
+            window.location.reload();
+        });
+        alert("Canceled  Successfully")
+
+    }
+})
+.catch(httpErrorHandler)
 },
-      pushy(){
-        router.push('/admin')
-      },
-      ban(){
-        router.push('/admin/ban')
-      },
-      logout(){
-            router.push('/admin/login')
-        },
-        pushhh(){
-            router.push('/admin/post')
-        }
-    
-        }
+    pushy(){
+    router.push('/admin')
+    },
+    ban(){
+    router.push('/admin/ban')
+    },
+    logout(){
+        router.push('/admin/login')
+    },
+    pushhh(){
+        router.push('/admin/post')
+    }
+
+    }
     }
 
 </script>

@@ -76,7 +76,7 @@
                         <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
                             <div class="modal-content" style="max-width: 2000px !important;">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT {{ currentPost.post_type }}</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{ currentPost.post_type }}</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
@@ -191,8 +191,8 @@
                                                 <div class="col-md-3 col-sm-12 py-0">
                                                     <span class="float-left mt-2 small">Replace Image<span class="text-red">*</span></span>
                                                 </div>
-                                                <div class="col-md-9 col-sm-12 py-0 d-flex flex-row">
-                                                    <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
+                                                <div class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row">
+                                                    <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2 col-12 col-md-4">
                                                         <img :src="photo" class="img-thumbnail" @click="setClickedPhotoIndex(index)" alt="Current Post Image">
                                                     </div>
                                                     <!-- <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
@@ -408,6 +408,16 @@ function dataURLtoFile(dataUrl) {
                     const resizedFile = await this.resizeImage(blob);
                     formData.append('files', resizedFile);
                 }
+
+                Swal.fire({
+                    title: 'Saving...',
+                    text: 'Your post is being submitted. Please wait...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                    Swal.showLoading(); // Show loading spinner
+                    }
+                });
 
                 if(this.currentPost.rentPostId) {
                     const rentId = currentPost.rentPostId;

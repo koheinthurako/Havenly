@@ -101,6 +101,7 @@
         },
   
         mounted(){
+          localStorage.removeItem('openTab');
           this.fetchUsers();
         },
   

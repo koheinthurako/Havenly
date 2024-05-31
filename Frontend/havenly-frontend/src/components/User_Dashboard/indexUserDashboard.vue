@@ -125,8 +125,8 @@ export default {
         return {
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
-            // openTab: localStorage.getItem('openTab') || 'profile',
-            openTab: 'profile',
+            openTab: localStorage.getItem('openTab') || 'profile',
+            // openTab: 'profile',
         };
     },
     methods: {

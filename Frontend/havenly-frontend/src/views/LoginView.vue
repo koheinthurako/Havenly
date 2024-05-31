@@ -47,6 +47,10 @@
     };
   },
 
+  mounted() {
+    localStorage.removeItem('openTab');
+  },
+
   methods: {
 
     togglePasswordVisibility() {
@@ -57,23 +61,23 @@
         
         function httpErrorHandler(error) {
           if (axios.isAxiosError(error)) {
-              const response = error?.response
-              if(response){
-                  const statusCode = response?.status
-                  if(statusCode===400 || statusCode == 500){
-                    Swal.fire({
-                      title: 'Invaild Information',
-                      text: 'Wrong email and password. Please try again!',
-                      icon: 'error',
-                      customClass: {
-                        confirmButton: 'myCustomButton'
-                      },
-                      buttonsStyling: false,
-                      allowOutsideClick: false,
-                      allowEscapeKey: false
-                    })
-                  }
+            const response = error?.response
+            if(response){
+              const statusCode = response?.status
+              if(statusCode===400 || statusCode == 500){
+                Swal.fire({
+                  title: 'Invaild Information',
+                  text: 'Wrong email and password. Please try again!',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey: false
+                })
               }
+            }
           }
         }
 
