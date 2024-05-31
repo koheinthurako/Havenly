@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,16 +49,12 @@ public class RentPost {
 	private String deposit;
 	private String least_contract;
 	
-//	@OneToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
-//	Locations locations;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	Locations locations;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "testrentposts")
+	@OneToOne(mappedBy = "rentpost", cascade = CascadeType.ALL, orphanRemoval = true)
 	Posts posts;
 
 }

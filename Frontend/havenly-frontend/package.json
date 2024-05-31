@@ -10,6 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@mdi/font": "^5.9.55",
+    "@popperjs/core": "^2.11.8",
     "ajv-keywords": "^5.1.0",
     "axios": "^1.6.8",
     "axos": "^0.0.1",

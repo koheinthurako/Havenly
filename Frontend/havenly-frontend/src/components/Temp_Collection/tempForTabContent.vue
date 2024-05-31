@@ -14,20 +14,16 @@
                             <div class="cardImgBox" style="width: 100%; height: 160px;">
                                 <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
                             </div>
-                            <div class="card-body px-3 py-2 d-flex flex-column">
-                                <h5 class="card-title mb-2">
-                                    {{ truncateText(post.title, 20) }}
-                                </h5>
-                                <p class="card-text small opacity-75" style="text-indent: 30px;">
-                                    {{ truncateText(post.description, 50) }}
-                                </p>
-                                <!-- <div class="d-flex mb-3 justify-content-between">
+                            <div class="card-body p-3 d-flex flex-column">
+                                <h5 class="card-title mb-3">{{ post.title }}</h5>
+                                <p class="card-text small opacity-75">{{ post.description }}</p>
+                                <div class="d-flex mb-3 justify-content-between">
                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
                                         }}</span>
                                     <span v-if="post.least_contract" class="small opacity-75">Contract : {{
                                         post.least_contract }}</span>
-                                </div> -->
-                                <p class="card-text text-danger small opacity-75 mb-1 ">
+                                </div>
+                                <p class="card-text text-danger small mb-auto opacity-75">
                                     <v-icon>mdi-map-marker-radius</v-icon>
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                 </p>
@@ -73,13 +69,7 @@
 </template>
 
 <script>
-// import router from '@/router';
-
-import AES from 'crypto-js/aes'
-import Utf8 from 'crypto-js/enc-utf8';
-
-
-// import tempViewPage from '@/views/TempCollection/TempForAllPostView.vue'
+import router from '@/router';
 
 export default {
 
@@ -149,42 +139,54 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(post => {
-                        if (post.testrentposts) {
+                        if (post.rentpost) {
+                            console.log(post);
+                            if (post.rentpost.description.length > 100) {
+                                let des = post.rentpost.description;
+                                post.rentpost.description = des.substring(0, 100) + "...";
+                            }
 
-                            let imageUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image];
-
+                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
+                            console.log(imageUrls)
+                            console.log(post);
                             this.posts.unshift({
-                                province: post.testrentposts.locations.province,
-                                region: post.testrentposts.locations.region,
-                                country: post.testrentposts.locations.countries.country_name,
-                                post_id: post.testrentposts.sell_post_id,
-                                title: post.testrentposts.title,
-                                description: post.testrentposts.description,
-                                property_type: post.testrentposts.property_type,
-                                area: post.testrentposts.area,
-                                price: post.testrentposts.price,
-                                deposit: post.testrentposts.deposit,
-                                least_contract: post.testrentposts.least_contract,
+                                province: post.rentpost.locations.province,
+                                region: post.rentpost.locations.region,
+                                country: post.rentpost.locations.countries.country_name,
+                                post_id: post.rentpost.sell_post_id,
+                                title: post.rentpost.title,
+                                description: post.rentpost.description,
+                                property_type: post.rentpost.property_type,
+                                area: post.rentpost.area,
+                                price: post.rentpost.price,
+                                deposit: post.rentpost.deposit,
+                                least_contract: post.rentpost.least_contract,
                                 photo_url: imageUrls,
                             });
+                            console.log(typeof (imageUrls))
+                        } else if (post.sellpost) {
+                            console.log(post);
+                            if (post.sellpost.description.length > 100) {
+                                let des = post.sellpost.description;
+                                post.sellpost.description = des.substring(0, 100) + "...";
+                            }
 
-                        } else if (post.testsellpostss) {
-
-                            let imageUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image];
-
+                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
+                            console.log(imageUrls)
+                            console.log(post);
                             this.posts.unshift({
-                                province: post.testsellpostss.locations.province,
-                                region: post.testsellpostss.locations.region,
-                                country: post.testsellpostss.locations.countries.country_name,
-                                post_id: post.testsellpostss.sell_post_id,
-                                title: post.testsellpostss.title,
-                                description: post.testsellpostss.description,
-                                property_type: post.testsellpostss.property_type,
-                                area: post.testsellpostss.area,
-                                price: post.testsellpostss.price,
+                                province: post.sellpost.locations.province,
+                                region: post.sellpost.locations.region,
+                                country: post.sellpost.locations.countries.country_name,
+                                post_id: post.sellpost.sell_post_id,
+                                title: post.sellpost.title,
+                                description: post.sellpost.description,
+                                property_type: post.sellpost.property_type,
+                                area: post.sellpost.area,
+                                price: post.sellpost.price,
                                 photo_url: imageUrls,
                             });
-
+                            console.log(typeof (imageUrls))
                         }
 
                     });
@@ -195,38 +197,11 @@ export default {
                 });
         },
 
-
-
-        // fetchPosts() {
-        //     // Make API call to fetch posts from backend
-        //     fetch('http://localhost:8083/gettestsellpost')
-        //       .then(response => response.json())
-        //       .then(data => {
-        //         console.log(data);
-        //         data.forEach(post => {
-        //             let images = post.image.split(';');
-        //             let photo_urls = images.map(image => 'data:image/jpeg;base64,' + image); 
-        //             this.posts.push({
-        //                 province: post.locations.province,
-        //                 region: post.locations.region,
-        //                 country: post.locations.countries.country_name,
-        //                 post_id: post.sell_post_id,
-        //                 title: post.title,
-        //                 description: post.description,
-        //                 house_type: post.house_type,
-        //                 property_type: post.property_type,
-        //                 area: post.area,
-        //                 price: post.price,
-        //                 photo_url: photo_urls,
-        //             });
-        //         });
-        //         // console.log(this.posts);
-        //       })
-        //       .catch(error => {
-        //         console.error('Error fetching photos:', error);
-        //       });
-        //   },
-
+        // Method to limit the number of slides based on the viewport size
+        limitSlides(slides) {
+            const maxSlides = window.innerWidth < 768 ? 4 : 8; // 768px is the breakpoint for mobile view
+            return slides.slice(0, maxSlides);
+        },
 
         saveScrollPosition() {
             sessionStorage.setItem('scrollPosition', window.scrollY);

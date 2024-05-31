@@ -24,9 +24,7 @@ public class Admin_Controller {
 	
 	@PostMapping("/register")
 	public ResponseEntity<Admin> register(@RequestBody Admin admin){
-		
-		
-		return new ResponseEntity<Admin> (adminService.save(admin),HttpStatus.OK);
+		return new ResponseEntity<Admin>(adminService.save(admin), HttpStatus.OK);
 	}
 	
 	@PostMapping("/login")

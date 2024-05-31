@@ -1,7 +1,6 @@
 package com.Havenly.Backend.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,10 @@ public interface Posts_Service {
 	
 	public List<Posts> getAllPendingPosts();
 	public List<Posts> getAllCompletePosts();
-	public List<Posts> getAllPosts(int subUserId);
+	public List<Posts> getAllSubuserPosts(int subUserId);
+//	public List<Posts> getAllSubuserRentPosts(int subUserId);
+	public Posts getPostById(int postId);
 	public Posts update(Posts post);
-	public Posts decline(Posts post);
-	Posts getPostById(String id);
-	List<Posts> findUserPostsByGmail(String email);
-//	List<Posts> getNotiByGmail(String email);
+	public void deletePost(int postId);
 
 }

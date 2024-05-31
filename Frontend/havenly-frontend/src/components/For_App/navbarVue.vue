@@ -13,13 +13,10 @@
         <ul class="navbar-nav mx-auto">
 
           <li class="nav-item">
-            <router-link to="/testingPage" :class="{ active: isActive('/testingPage') }"
-              class=" nav-link">Testing</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/" :class="{ active: isActive('/') }" class=" nav-link">
-              Home</router-link>
+            <router-link to="/" :class="{
+              'nav-link': true, active:
+                isNavLinkActive('home')
+            }">Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -28,8 +25,12 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/subscribe" class=" nav-link"
-              :class="{ active: isActive('/subscribe') }">Subscribe</router-link>
+            <router-link to="/subscribe"
+              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/about" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
           </li>
 
           <!-- <li class="nav-item">
@@ -85,7 +86,7 @@
               </div> -->
             </div>
             <div v-else>
-              <router-link v-model="loginText" to="/loginakm" class="nav-link">{{ loginText }}</router-link>
+              <router-link v-model="loginText" to="/login" class="nav-link">{{ loginText }}</router-link>
             </div>
           </li>
         </ul>
@@ -99,6 +100,42 @@
 export default {
   name: 'navbarVue',
 
+  setup() {
+
+    const activeNavLink = ref('');
+    const router = useRouter();
+
+    const isNavLinkActiveSetup = (id) => {
+      return id === activeNavLink.value;
+    };
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (router.currentRoute.value.path === '/') {
+        if (scrollPosition >= -10 && scrollPosition < 350) {
+          activeNavLink.value = 'home';
+        } else if (scrollPosition < 2900) {
+          activeNavLink.value = 'package';
+        } else if (scrollPosition < 3500) {
+          activeNavLink.value = 'blog';
+        } else {
+          activeNavLink.value = 'about';
+        }
+      } else if (router.currentRoute.value.path === '/package') {
+        activeNavLink.value = 'package';
+      }
+    };
+
+
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll);
+    });
+
+
+    return {
+      isNavLinkActiveSetup
+    };
+  },
 
   data() {
     return {

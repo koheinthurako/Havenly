@@ -73,6 +73,7 @@
 <script>
 import json_data from '../../assets/json/thailand_location.json'
 import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
+import axios from 'axios';
 
 export default {
   name: 'firstIndexContent',
@@ -134,6 +135,9 @@ export default {
     } else {
         this.fetchLocations();
     }
+
+    this.fetchSubUser();
+
   },
 
   methods: {
@@ -163,6 +167,25 @@ export default {
     getLocationsFromSessionStorage() {
         const data = sessionStorage.getItem('locations');
         return data ? JSON.parse(data) : null;
+    },
+
+    fetchSubUser() {
+      if(sessionStorage.getItem('login_user')) {
+        const user = JSON.parse(sessionStorage.getItem('login_user'));
+        const registerId = user.register_id;
+        console.log("registerId to send backend to show subUser informations : " + registerId)
+        axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+            params: {
+                registerId: registerId
+            }
+        })
+        .then(response => {
+          sessionStorage.setItem('sub_user',JSON.stringify(response.data))
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error); // Handle the error
+        }); 
+      }
     },
 
     submit() {

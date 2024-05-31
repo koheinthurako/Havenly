@@ -99,6 +99,7 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 export default {
 
@@ -133,49 +134,49 @@ export default {
                 .then(data => {
                     console.log(data);
                     data.forEach(post => {
-                        if (post.testrentposts) {
-                            let imgUrls = Array.isArray(post.testrentposts.image) ? post.testrentposts.image : [post.testrentposts.image]
-                            if (post.testrentposts.description.length > 100) {
-                                let des = post.testrentposts.description;
-                                post.testrentposts.description = des.substring(0, 100) + "...";
+                        if (post.rentpost) {
+                            let imgUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image]
+                            if (post.rentpost.description.length > 100) {
+                                let des = post.rentpost.description;
+                                post.rentpost.description = des.substring(0, 100) + "...";
                             }
                             console.log(post)
                             this.posts.unshift({
                                 post_id: post.post_id,
                                 status: post.status,
-                                province: post.testrentposts.locations.province,
-                                region: post.testrentposts.locations.region,
-                                country: post.testrentposts.locations.countries.country_name,
-                                title: post.testrentposts.title,
-                                description: post.testrentposts.description,
-                                house_type: post.testrentposts.house_type,
-                                property_type: post.testrentposts.property_type,
-                                area: post.testrentposts.area,
-                                price: post.testrentposts.price,
-                                deposit: post.testrentposts.deposit,
-                                least_contract: post.testrentposts.least_contract,
+                                province: post.rentpost.locations.province,
+                                region: post.rentpost.locations.region,
+                                country: post.rentpost.locations.countries.country_name,
+                                title: post.rentpost.title,
+                                description: post.rentpost.description,
+                                house_type: post.rentpost.house_type,
+                                property_type: post.rentpost.property_type,
+                                area: post.rentpost.area,
+                                price: post.rentpost.price,
+                                deposit: post.rentpost.deposit,
+                                least_contract: post.rentpost.least_contract,
                                 photo_url: imgUrls,
                             });
                             console.log(imgUrls)
-                        } else if (post.testsellpostss) {
-                            let imgUrls = Array.isArray(post.testsellpostss.image) ? post.testsellpostss.image : [post.testsellpostss.image]
-                            if (post.testsellpostss.description.length > 100) {
-                                let des = post.testsellpostss.description;
-                                post.testsellpostss.description = des.substring(0, 100) + "...";
+                        } else if (post.sellpost) {
+                            let imgUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image]
+                            if (post.sellpost.description.length > 100) {
+                                let des = post.sellpost.description;
+                                post.sellpost.description = des.substring(0, 100) + "...";
                             }
                             console.log(post)
                             this.posts.unshift({
                                 post_id: post.post_id,
                                 status: post.status,
-                                province: post.testsellpostss.locations.province,
-                                region: post.testsellpostss.locations.region,
-                                country: post.testsellpostss.locations.countries.country_name,
-                                title: post.testsellpostss.title,
-                                description: post.testsellpostss.description,
-                                house_type: post.testsellpostss.house_type,
-                                property_type: post.testsellpostss.property_type,
-                                area: post.testsellpostss.area,
-                                price: post.testsellpostss.price,
+                                province: post.sellpost.locations.province,
+                                region: post.sellpost.locations.region,
+                                country: post.sellpost.locations.countries.country_name,
+                                title: post.sellpost.title,
+                                description: post.sellpost.description,
+                                house_type: post.sellpost.house_type,
+                                property_type: post.sellpost.property_type,
+                                area: post.sellpost.area,
+                                price: post.sellpost.price,
                                 photo_url: imgUrls,
                             });
                             console.log(imgUrls)
@@ -207,8 +208,18 @@ export default {
                 .then(function (response) {
                     const status = JSON.parse(response.status);
                     if (status == '200') {
-                        alert("Approved Successfully")
-                        window.location.reload();
+                        Swal.fire({
+                            title: 'Successfully Approved!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'myCustomSuccessButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     }
                 })
                 .catch(httpErrorHandler)
@@ -231,6 +242,18 @@ export default {
                 .then(function (response) {
                     const status = JSON.parse(response.status);
                     if (status == '200') {
+                        Swal.fire({
+                            title: 'Successfully Canceled!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
                         alert("Canceled  Successfully")
 
                     }
