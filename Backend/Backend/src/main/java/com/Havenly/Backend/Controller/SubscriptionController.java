@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,11 +32,15 @@ public class SubscriptionController {
 	@Autowired
 	SubscribeRepo subRepo;
 	
-	@DeleteMapping("/subscribe/cancel")
-	public ResponseEntity<?> cancelSub(@Valid @RequestBody Subscription_DTO dto){
-		return new ResponseEntity <>(subService.cancel(dto),HttpStatus.OK);		
+//	@DeleteMapping("/subscribe/cancel")
+//	public ResponseEntity<?> cancelSub(@Valid @RequestBody Subscription_DTO dto){
+//		return new ResponseEntity <>(subService.cancel(dto),HttpStatus.OK);		
+//	}
+//	
+	@GetMapping("/subscribe/getSubUser")
+	public ResponseEntity<Subscription_DTO> getSubUser(@RequestParam("registerId") int registerId) {
+		return new ResponseEntity<Subscription_DTO>(subService.getByRegId(registerId), HttpStatus.OK);
 	}
-	
 
 	
 	@GetMapping("/subscribe/getSubUserInfo")

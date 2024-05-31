@@ -9,6 +9,6 @@ public interface SubscriptionService {
 
 	boolean cancel(Subscription_DTO dto);
 	Subscription_DTO subscribe(Subscription_DTO dto);
-	
+	public Subscription_DTO getByRegId(int registerId);
 
 }

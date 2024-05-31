@@ -6,6 +6,7 @@ import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import login from '../components/Login_&_Register/loginVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+import createAdsView from '@/components/User_Dashboard/Dashboard_Categories/create_ads_post.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import loginakm from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
@@ -17,7 +18,6 @@ import AdminBanList from '../views/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import Payment from '@/views/Payment.vue'
 // import Packages from '@/components/Temp_Collection/Packages.vue'
-import profileVue from '@/components/User_Dashboard/Dashboard_Categories/profileVue.vue'
 import PostsView from '@/views/PostsView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 
@@ -65,11 +65,6 @@ const routes = [
     component: SubscribeVue
   },
   {
-    path: '/user-profile',
-    name: 'profileVue',
-    component: profileVue
-  },
-  {
     path: '/Home',
     redirect: '/',
   },
@@ -78,6 +73,11 @@ const routes = [
     name: 'User_dashboard',
     component: userDashboard,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/create/adspost',
+    name: 'createAdsView',
+    component: createAdsView,
   },
   {
     path: '/testingPage',

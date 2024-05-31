@@ -195,22 +195,22 @@
         return;
       }else{
         axios.post("http://localhost:8083/subscribe",this.user)
-     .then(function(response){
-      // sessionStorage.setItem('subbed_user',JSON.stringify(response.data))
-                const status=JSON.parse(response.status);
-                if(status===200){
-                  alert("Subscribed Successfully! Enjoy your free trial! :)");
-                  this.userIsSubbed = true;
-                  router.push('/');
-                 } 
-                 router.push('/home');
+     .then((response) => {
+        // sessionStorage.setItem('subbed_user', JSON.stringify(response.data))
+        const status = response.status;
+        if (status === 200) {
+          alert("Subscribed Successfully! Enjoy your free trial! :)");
+          this.userIsSubbed = true;
 
-                let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
-                userData.nrc = this.user.nrc;
-                userData.packageName = this.user.packageName;
-                sessionStorage.setItem('login_user', JSON.stringify(userData));
-            })
-            .catch(httpErrorHandler);
+          let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
+          userData.nrc = this.user.nrc;
+          userData.packageName = this.user.packageName;
+          sessionStorage.setItem('login_user', JSON.stringify(userData));
+
+          router.push('/');
+        }
+      })
+      .catch(httpErrorHandler);
       }
 
         this.resetForm();

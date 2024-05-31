@@ -8,7 +8,7 @@
                     <p>Join us, {{ user.name }} !</p>
                     <h3 class="my-2 mx-auto">Choose a package according to your needs!</h3>
                 </div>
-                <div v-if=message>
+                <div v-if="message !== ''">
                     {{message}}
                 </div>
             </div>
@@ -219,6 +219,7 @@ export default {
         return {
 
         availPosts:'',
+        availAds:'',
         purchasedPackage:'',
 
         items: [],
@@ -232,13 +233,14 @@ export default {
     created(){
     const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
     if (loginUserData !==null ) { 
-        if(loginUserData.nrc == null){
+        if(loginUserData.nrc == null){ 
+            this.message = "You must be subscribed to buy a package!";
             console.log("User is not subscribed");
         }else{
             this.purchasedPackage = loginUserData.packageName;
         }
         this.user.name = loginUserData.name;
-        this.message = "You must be subscribed to buy a package!";
+       
     }
     else{
         console.log("User is not logged in.");   
@@ -284,30 +286,39 @@ export default {
             }, 20);
         },
         parseAndGoNext(item) {
-            if(this.availPosts>0 && this.purchasedPackage!=="Free Trial"){
+            if(this.availPosts>0 && this.availAds>0 && this.purchasedPackage!=="Free Trial"){
                 alert("You have packages left!");
-            }
-      // Parse data and store in session storage
+            }else{
+                // Parse data and store in session storage
       sessionStorage.setItem('packageData', JSON.stringify(item));       
       // Go to the next page
       router.push('/packages/payment'); 
+            }
+      
     },
     fetchSubUserInfo() {
                 const user = JSON.parse(sessionStorage.getItem('login_user'));
-                  const registerId = user.register_id;
-                  console.log("registerId to send backend to show subUser informations : " + registerId)
-                  axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                if(user.nrc!==null){
+                  const nrc = user.nrc;
+                  console.log("nrc to send backend to show subUser informations : " + nrc)
+                  axios.get('http://localhost:8083/subscribe/getSubUser', {
                       params: {
-                          registerId: registerId
+                          nrc: nrc
                       }
                   })
                   .then(response => {
                     console.log(response.data);
                     this.availPosts = response.data.availPosts;
+                    this.availAds = response.data.availAds;
                   })
                   .catch(error => {
                     console.error('Error fetching data:', error); // Handle the error
-                  });
+                  });  
+                }else{
+                    console.log("User is not subscribed.");
+
+                }
+                  
             },
 
     },

@@ -41,8 +41,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads' }"
-                        @click="changeTabForSub('create-ads'); toggleSidebar2()">
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads-post' }"
+                        @click="changeTabForSub('create-ads-post'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
                     </a>
@@ -89,9 +89,11 @@
 
                         <create_rent_post_page />
                     </div>
-                    <div v-else-if="openTab === 'create-ads'">
-                        <h3>Add Ads Content</h3>
-                        <p>This is where the add ads content will be displayed.</p>
+                    <div v-else-if="openTab === 'create-ads_post'">
+
+                        <create_ads_post />
+                        <!-- <h3>Add Ads Content</h3>
+                        <p>This is where the add ads content will be displayed.</p> -->
                     </div>
                 </div>
 
@@ -125,6 +127,7 @@ import profile_page from './Dashboard_Categories/profileVue.vue'
 import create_sell_post_page from './Dashboard_Categories/create_sell_post.vue'
 import uploadedAllPosts from './Dashboard_Categories/uploadedAllPosts.vue'
 import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
+import create_ads_post from './Dashboard_Categories/create_ads_post.vue';
 import router from '@/router';
 
 
@@ -135,7 +138,8 @@ export default {
         profile_page,
         uploadedAllPosts,
         create_sell_post_page,
-        create_rent_post_page
+        create_rent_post_page,
+        create_ads_post
     },
 
     data() {
@@ -168,7 +172,7 @@ export default {
 
         changeTabForSub(tab) {
             const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-            if(checkSubUser.packageType) {
+            if(checkSubUser.packageName) {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {

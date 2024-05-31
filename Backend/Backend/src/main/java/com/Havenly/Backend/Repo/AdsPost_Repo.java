@@ -1,0 +1,15 @@
+package com.Havenly.Backend.Repo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.Havenly.Backend.Entity.AdsPost;
+
+public interface AdsPost_Repo extends JpaRepository<AdsPost,String>{
+
+	@Query(value = "SELECT * FROM ads_post WHERE sub_user_id = ?1", nativeQuery = true)
+	public List<AdsPost> findAllSubUserAds(int subUserId);
+
+}

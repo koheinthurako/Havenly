@@ -27,11 +27,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	Reg_user_Repo regRepo;
 	@Autowired
 	PackageTypesRepo packTypesRepo;
+	
 
 //	@Override
-//	public Subscription_DTO getById(Subscription_DTO dto) {
-//		Subscription sub = subUser.convertToEntity(dto);
-//		Subscription user = subscribeRepo.findById(sub.getSubUserId()).orElse(null);
+//	public Subscription_DTO getByNrc(String nrc) {
+//		Subscription_DTO subUser = new Subscription_DTO();
+//		Subscription user = subscribeRepo.findByNrc(nrc);
 //		Subscription_DTO user2 = subUser.convertToObject(user);
 //		return user2;
 //	}
@@ -44,7 +45,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		} else {
 			subscribeRepo.delete(sub);
 			packRepo.delete(sub.getPackages());
-			;
+			
 			return true;
 		}
 
@@ -55,7 +56,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription_DTO subUser = new Subscription_DTO();
 		Subscription sub = subUser.convertToEntity(dto);
 		String email = dto.getEmail();
-		String packName = dto.getPackageType();
+		String packName = dto.getPackageName();
 		System.out.println("PackName : " + packName);
 		Reg_user reg_user = regRepo.findByEmail(email);
 		
@@ -82,6 +83,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		return user2;
 		// }
 
+	}
+
+	@Override
+	public Subscription_DTO getByRegId(int registerId) {
+		Reg_user reg = regRepo.findById(registerId);
+		Subscription sub_user = reg.getSub();
+		Subscription_DTO subUser = new Subscription_DTO();
+		Subscription_DTO user2 = subUser.convertToObject(sub_user);
+		return user2;
 	}
 
 }

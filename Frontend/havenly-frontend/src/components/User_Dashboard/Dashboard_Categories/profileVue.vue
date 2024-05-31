@@ -5,7 +5,6 @@
             <div class="col-md-6 col-sm-12 p-2">
                 <div class="profile-box h-auto">
                     <div class="profile-box-data pt-2 pb-5">
-                        <!-- <v-img :src="acc_img" class="profile-img" /> -->
                         <div class="profile-img-container">
           <v-img
             :src="profileImage || acc_img"
@@ -15,14 +14,7 @@
             max-width="150"
             contain
           />
-          <!-- <v-icon class="edit-icon">mdi-pencil</v-icon>
-          <input
-                                        type="file"
-                                        accept="image/*"
-                                        ref="fileInput"
-                                        style="display: none;"
-                                        @change="handleFileUpload"
-                                    /> -->
+    
         </div>
         <div class="mt-3 p-3 mx-auto">
                                 <div :v-if="user_data !== null">
@@ -42,67 +34,39 @@
                                         rounded="lg" variant="plain" v-model="items.nrc" label="NRC" 
                                         placeholder="NRC" readonly="true"></v-text-field>
                                 </div></div>
-                        <!-- <form ref="form" fast-fail @submit.prevent="update">
-                            <div class="mt-3 p-3 mx-auto">
-                                <div :v-if="user_data !== null">
-                                   
-                                   
-
-                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                        rounded="lg" variant="solo" v-model="user.name" label="Update Name"></v-text-field>
-                                    <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                        rounded="lg" variant="solo" v-model="user.phone" :rules="[value => value.length<12 || 'Ph no. should be less than 12 numbers']" label="Update Phone" required></v-text-field>
-                                    <v-text-field v-model="user.email" label="Email of this account" :rules="[value => !!value || 'Required']" ></v-text-field>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        ref="fileInput"
-                                        style="display: none;"
-                                        @change="handleFileUpload"
-                                    />
-                                    <br>
-                                </div>
-
-                                <v-row class="w-100">
-                                    <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
-                                        style="text-transform:capitalize;">
-                                        Update
-                                    </v-btn>
-                                </v-row>
-                            </div>
-                        </form> -->
+                       
                    
         <!-- Edit or logout -->
         <div class="d-flex justify-center mt-2">
           <p
-            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer; width: 90px; height:35px"
-            class="mr-2">
-            <span class="d-flex align-center" @click="openEditDialog" style="width: 100%; justify-content: center;">
+            style="width: 90px; height:40px"
+            class="mr-2 me-3">
+            <span class="custom-button d-flex align-center" @click="openEditDialog" style="width: 100%; justify-content: center;">
               <v-icon>mdi-pencil</v-icon>&nbsp;Edit
             </span>
           </p>
           <p
-            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer; width: 90px; height:35px"
+            style="width: 90px; height:40px"
             class="ml-2">
-            <span class="d-flex align-center" @click="logout" style="width: 100%; justify-content: center;">
+            <span class="custom-button d-flex align-center" @click="logout" style="width: 100%; justify-content: center;">
               Logout
             </span>
           </p>
-        </div>
+        
         <!-- Edit Dialog Start -->
         <v-dialog v-model="editDialog" class="create-pop-up" persistent>
           <form @submit.prevent="update" class="form-edit2">
             <v-row cols="12" class="mx-auto mb-3">
               <h3>Edit Profile</h3>
             </v-row>
-            <button class="close-btn" @click="closeEditDialog">
+            <button type="button" class="close-btn" @click="closeEditDialog">
               <v-icon>mdi-close-circle</v-icon>
             </button>
             <div class="profile-pic">
 
             <div class="profile-img-container1" @click="triggerFileInput">
           <v-img
-            :src="profileImage|| profilePicture"
+            :src="profileImage || profilePicture"
             class="profile-img1"
             alt="Profile Picture"
             max-height="150"
@@ -152,7 +116,7 @@
           </form>
         </v-dialog>
         <!-- Edit Dialog End -->
-      
+    </div>
                     </div>
                 </div>
             </div>
@@ -298,37 +262,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="row-12 p-2">
-                    <div class="profile-box">
-                        <div class="profile-box-data">
-                            <div class="profile-box-info p-3">
-                                <div class="d-flex w-100 p-0 justify-space-between">
-                                    <h5>Account function status</h5>
-                                    <p
-                                        style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Editable<i class="fa-solid fa-check ms-1"></i></p>
-                                </div>
-                                <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
-                                <div class="d-flex justify-space-between">
-                                    <p class="fw-bold">Show Bio status</p>
-                                    <p>
-
-                                        <span class="d-flex align-center">
-                                            <v-icon>mdi-calendar-edit</v-icon>&nbsp;Create
-                                            <label class="switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </span>
-                                    </p>
-                                </div>
-                            
-                            </div>
-
-                        </div>
-                    </div>
-                </div> -->
-
             </div>
         </div>
     </div>
@@ -451,12 +384,13 @@ export default {
 handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
+        this.selectedFile = file;
         const reader = new FileReader();
         reader.onload = (e) => {
           this.profileImage = e.target.result;
         };
         reader.readAsDataURL(file);
-        this.selectedFile = file;
+        
       }
     },
     triggerFileInput() {
@@ -482,7 +416,9 @@ handleFileUpload(event) {
       formData.append('email', this.user.email);
       if (this.selectedFile) {
         formData.append('profileImg', this.selectedFile);
-      } 
+      }else{
+        formData.append('profileImg', this.profileImage);
+      }
                
       try {
     const response = await axios.put("http://localhost:8083/profile/update", formData, {
@@ -498,7 +434,7 @@ handleFileUpload(event) {
       let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
       userData.name = this.user.name;
       userData.phone = this.user.phone;
-      userData.profilePicture = this.selectedFile;
+    //   userData.profilePicture = this.selectedFile;
       sessionStorage.setItem('login_user', JSON.stringify(userData));
 
       window.location.reload();
@@ -611,7 +547,22 @@ const submit = handleSubmit(values => {
 </script>
 
 <style>
+.custom-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #E86F52;
+  color: #fff;
+  border-radius: 20px;
+  width:100%;
+  height:100%;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); /* Custom shadow */
+  transition: box-shadow 0.3s ease-in-out;
+}
 
+.custom-button:hover {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
+}
 
 .create-pop-up {
     width: 100%;

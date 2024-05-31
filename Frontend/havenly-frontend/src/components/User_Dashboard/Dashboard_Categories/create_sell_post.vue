@@ -381,6 +381,7 @@ export default {
                   .then(response => {
                     console.log(response.data);
                     this.availPosts = response.data.availPosts
+                    sessionStorage.setItem('sub_user',JSON.stringify(response.data))
                   })
                   .catch(error => {
                     console.error('Error fetching data:', error); // Handle the error

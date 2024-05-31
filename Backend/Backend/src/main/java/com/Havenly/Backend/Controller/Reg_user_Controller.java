@@ -58,9 +58,8 @@ public class Reg_user_Controller {
 	}
 	
 	@GetMapping("/getLoginUser")
-	public ResponseEntity<Reg_user_DTO> getById(@RequestParam int registerId) {
-		
-		return new ResponseEntity<Reg_user_DTO>(regService.getById(registerId),HttpStatus.OK);
+	public ResponseEntity<Reg_user_DD> getById(@RequestParam int registerId) {	
+		return new ResponseEntity<Reg_user_DD>(regService.getById(registerId),HttpStatus.OK);
 	}
 	
 //	@GetMapping("/getSubUserInfo")

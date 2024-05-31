@@ -37,6 +37,10 @@ public class Posts {
 	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")
 	RentPost testrentposts;
 	
+//	@OneToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "ads_post_id", referencedColumnName = "ads_post_id")
+//	AdsPost adsPosts;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="sub_user_id")
 	private Subscription subUser;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -223,9 +222,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	}
 	
 	@Override
-	public Reg_user_DTO getById(int id) {
+	public Reg_user_DD getById(int id) {
 		Reg_user user = regRepo.findById(id);
-		Reg_user_DTO dto = user_dto.covertToObject(user);
+		Reg_user_DD dto = user3.covertToObject(user);
 		return dto;
 	}
 	
