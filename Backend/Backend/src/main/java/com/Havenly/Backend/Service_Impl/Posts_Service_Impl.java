@@ -62,10 +62,10 @@ public class Posts_Service_Impl implements Posts_Service {
 		postsRepo.delete(post);
 	}
 
-	
+	@Override
+	public List<Posts> getInterestPostByRegId(int id) {
+		return postsRepo.getInterestedPostsByRegId(id);
+	}
 
-	
-
-	
 
 }

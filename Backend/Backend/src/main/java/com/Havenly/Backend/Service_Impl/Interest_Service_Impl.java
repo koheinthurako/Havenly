@@ -46,6 +46,13 @@ public class Interest_Service_Impl implements Interest_Service{
 		return repo.getAllInterestForNoti(id);
 	}
 
+//	@Override
+//	public List<Interest> getAllInterestForShow(int id) {
+//		// TODO Auto-generated method stub
+//
+//		return repo.getAllInterestForShow(id);
+//	}
+
 	@Override
 	public Boolean deleteByPostIdAndUserId(int post_id, int user_id) {
 		// check duplicate or not

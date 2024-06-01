@@ -52,12 +52,10 @@ public class Interest_Controller {
 		// check duplicate or not
 		Long count = interest_repo.countByPostIdAndUserId(user_id, post_id);
 		if (count > 0) {
-			return new ResponseEntity<>("Interest for this user and post already exists", HttpStatus.CONFLICT);
+			return new ResponseEntity<>("already exists", HttpStatus.CONFLICT);
 		}
 
 		// Find Register user and post is Exist
-//		Optional<Reg_user> optionalRegUser = reg_repo.findById(intData.getReg_user().getRegister_id());
-//		Optional<Posts> optionalPost = posts_repo.findById(intData.getPosts().getPost_id());
 		Optional<Reg_user> optionalRegUser = reg_repo.findById(user_id);
 		Optional<Posts> optionalPost = posts_repo.findById(post_id);
 
@@ -93,8 +91,13 @@ public class Interest_Controller {
 		return new ResponseEntity<List<Interest>>(in_service.getAll(),HttpStatus.OK);
 	}
 	
-	@GetMapping("/getAllNoti/{id}")
-	public ResponseEntity<List<Interest>> getAllNoti(@PathVariable int id){
+	@GetMapping("/getAllNotiBySubId/{id}")
+	public ResponseEntity<List<Interest>> getAllNotiBySubId(@PathVariable int id){
 		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
 	}
+
+//	@GetMapping("/getAllInterestBySubId/{id}")
+//	public ResponseEntity<List<Interest>> getAllInterest(@PathVariable int id){
+//		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForShow(id),HttpStatus.OK);
+//	}
 }

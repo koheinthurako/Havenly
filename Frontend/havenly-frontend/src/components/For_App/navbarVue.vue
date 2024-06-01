@@ -15,22 +15,23 @@
           <li class="nav-item">
             <router-link to="/" :class="{
               'nav-link': true, active:
-                isNavLinkActive('home')
+                isNavLinkActive('/')
             }">Home</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/package/details" :class="{ active: isActive('/package/details') }" class=" nav-link">
+            <router-link to="/package" :class="{ active: isActive('/package') }" class=" nav-link">
               Packages</router-link>
           </li>
 
           <li class="nav-item">
             <router-link to="/subscribe"
-              :class="{ 'nav-link': true, active: isNavLinkActive('documentation') }">Subscribe</router-link>
+              :class="{ 'nav-link': true, active: isNavLinkActive('/subscribe') }">Subscribe</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/about" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
+            <router-link to="/about"
+              :class="{ 'nav-link': true, active: isNavLinkActive('/about') }">About</router-link>
           </li>
 
           <!-- <li class="nav-item">
@@ -53,6 +54,21 @@
                 <li><a class="dropdown-item" href="#">Name : {{ getUser.name }}</a></li>
                 <li><a class="dropdown-item" href="#">Gmail : {{ getUser.email }}</a></li>
                 <li><a class="dropdown-item" href="#">Phone : {{ getUser.phone }}</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div v-if="getUser2">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Logined User
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">RegId : {{ getUser2.register_id }}</a></li>
+                <li><a class="dropdown-item" href="#">Name : {{ getUser2.name }}</a></li>
+                <li><a class="dropdown-item" href="#">Gmail : {{ getUser2.email }}</a></li>
+                <li><a class="dropdown-item" href="#">Phone : {{ getUser2.phone }}</a></li>
               </ul>
             </div>
           </div>
@@ -96,28 +112,26 @@
 </template>
 
 <script>
-
+import { useRoute } from 'vue-router';
 export default {
   name: 'navbarVue',
 
-  // setup() {
+  setup() {
+    const route = useRoute();
 
-  //   const activeNavLink = ref('');
-  //   const router = useRouter();
+    const isNavLinkActive = (path) => {
+      return route.path === path;
+    };
 
-  //   const isNavLinkActiveSetup = (id) => {
-  //     return id === activeNavLink.value;
-  //   };
-
-
-  //   return {
-  //     isNavLinkActiveSetup
-  //   };
-  // },
+    return {
+      isNavLinkActive
+    };
+  },
 
   data() {
     return {
       getUser: [],
+      getUser2: [],
       notificationCount: 5,
       activeDataLink: '',
       loginText: 'Login',
@@ -142,7 +156,8 @@ export default {
 
   mounted() {
     this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
-
+    this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
+    console.log("Logined user : ", this.getUser2);
   },
 
   methods: {

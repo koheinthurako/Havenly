@@ -111,8 +111,8 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input class="disableClearBtn" counter multiple color="deep-purple-accent-4" chips
-                                        truncate-length="15" v-model="image.value.value"
+                                    <v-file-input class="disableClearBtn" counter multiple color="deep-purple-accent-4"
+                                        chips truncate-length="15" v-model="image.value.value"
                                         :error-messages="image.errorMessage.value" :rules="rules"
                                         accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
                                         prepend-icon="mdi-camera" show-input="false"></v-file-input>
@@ -123,7 +123,7 @@
                                 <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
                                     <v-card class="customImgBox">
                                         <v-card-actions>
-                                            <v-icon @click="removeImage(photo)" class="imgDeleteIcon">mdi-close</v-icon>
+                                            <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
                                         </v-card-actions>
                                         <v-img :src="photo.url" class="customImg" height="160px"></v-img>
                                     </v-card>
@@ -171,9 +171,10 @@
                                     </div>
 
                                     <v-img :src="post.photo_url[0]"></v-img>
-                                    
+
                                     <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
+                                        <button class="w-50 btn btn-sm btn-outline-danger"
+                                            to="/detailview">View</button>
                                         <button class="w-50 btn btn-sm btn-danger">Edit</button>
                                     </div>
 
@@ -182,7 +183,7 @@
                                     <h6 class="my-3">{{ post.title }}</h6>
                                     <p class="small col-10">{{ post.description }}</p>
                                     <p class="card-text text-danger small mb-3 opacity-75 ">
-                                        <v-icon >mdi-map-marker-radius</v-icon>
+                                        <v-icon>mdi-map-marker-radius</v-icon>
                                         {{ post.region }} , {{ post.province }} , {{ post.country }}
                                     </p>
                                 </div>
@@ -293,7 +294,7 @@ export default {
         },
 
         uniqueProvinces() {
-        // return [...new Set(this.locations.map(location => location.province))];
+            // return [...new Set(this.locations.map(location => location.province))];
             return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
         },
 
@@ -317,68 +318,68 @@ export default {
                 location.region === this.selectedRegion
             );
         },
-        
+
         limitedPosts() {
             return this.sellPosts.slice(0, 4);
         },
 
     },
 
-        mounted() {
-            const cachedData = this.getLocationsFromSessionStorage();
-            if(cachedData) {
-                this.locations = cachedData;
-            } else {
-                this.
-                
-                Locations();
-            }
+    mounted() {
+        const cachedData = this.getLocationsFromSessionStorage();
+        if (cachedData) {
+            this.locations = cachedData;
+        } else {
+            this.
 
-            this.fetchSubUserInfo();
-            this.fetchAllSellPosts();
+                Locations();
+        }
+
+        this.fetchSubUserInfo();
+        this.fetchAllSellPosts();
+    },
+
+    methods: {
+
+        fetchLocations() {
+            fetch('http://localhost:8083/locations/getall')
+                .then(response => response.json())
+                .then(data => {
+                    const mappedData = data.map(location => ({
+                        location_id: location.location_id,
+                        country_name: location.country_name,
+                        province: location.province,
+                        amphoe: location.amphoe,
+                        region: location.region,
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                    }));
+                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                    this.locations = mappedData;
+                })
+                .catch(error => {
+                    console.error('Error fetching locations:', error);
+                });
         },
 
-        methods: {
+        getLocationsFromSessionStorage() {
+            const data = sessionStorage.getItem('locations');
+            return data ? JSON.parse(data) : null;
+        },
 
-            fetchLocations() {
-            fetch('http://localhost:8083/locations/getall')
-            .then(response => response.json())
-            .then(data => {
-                const mappedData = data.map(location => ({
-                    location_id: location.location_id,
-                    country_name: location.country_name,
-                    province: location.province,
-                    amphoe: location.amphoe,
-                    region: location.region,
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                }));
-                sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                this.locations = mappedData;
+        fetchSubUserInfo() {
+            const user = JSON.parse(sessionStorage.getItem('login_user'));
+            const registerId = user.register_id;
+            console.log("registerId to send backend to show subUser informations : " + registerId)
+            axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                params: {
+                    registerId: registerId
+                }
             })
-            .catch(error => {
-                console.error('Error fetching locations:', error);
-            });
-            },
-
-            getLocationsFromSessionStorage() {
-                const data = sessionStorage.getItem('locations');
-                return data ? JSON.parse(data) : null;
-            },
-
-            fetchSubUserInfo() {
-                const user = JSON.parse(sessionStorage.getItem('login_user'));
-                  const registerId = user.register_id;
-                  console.log("registerId to send backend to show subUser informations : " + registerId)
-                  axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-                      params: {
-                          registerId: registerId
-                      }
-                  })
-                  .then(response => {
+                .then(response => {
                     console.log(response.data);
                     this.availPosts = response.data.availPosts
-                    if(this.availPosts === 0) {
+                    if (this.availPosts === 0) {
                         Swal.fire({
                             title: 'Buy More Packages!',
                             text: 'Your available post is 0.',
@@ -389,196 +390,196 @@ export default {
                             buttonsStyling: false,
                             allowOutsideClick: false,
                             allowEscapeKey: false
-                            }).then(() => {
-                                router.push('/package');
+                        }).then(() => {
+                            router.push('/package');
                         });
-                    }
-                  })
-                  .catch(error => {
-                    console.error('Error fetching data:', error); // Handle the error
-                  });
-            },
-
-            fetchAllSellPosts() {
-                const user = JSON.parse(sessionStorage.getItem('sub_user'));
-                const subUserId = user.subUserId;
-                console.log(subUserId);
-                // Make API call to fetch posts from backend
-                axios.get('http://localhost:8083/sellpost/allSubuserSellPosts', {
-                    params: {
-                        subUserId: subUserId
                     }
                 })
-                .then(response => {
-                        response.data.forEach(post => {
-                            if(post.description.length > 50) {
-                                let des = post.description;
-                                post.description = des.substring(0, 50) + "...";
-                            }
-                            
-                            let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
-                            console.log(imageUrls)
-                            console.log(post);
-                            this.sellPosts.unshift({
-                                post_id: post.post_id,
-                                province: post.locations.province,
-                                region: post.locations.region,
-                                country: post.locations.countries.country_name,
-                                title: post.title,
-                                description: post.description,
-                                property_type: post.property_type,
-                                area: post.area,
-                                price: post.price,
-                                photo_url: imageUrls,
-                                status: 'Complete',
-                            });
-                            console.log(typeof(imageUrls))
-                            
-                        });
-                    })
+                .catch(error => {
+                    console.error('Error fetching data:', error); // Handle the error
+                });
+        },
+
+        fetchAllSellPosts() {
+            const user = JSON.parse(sessionStorage.getItem('sub_user'));
+            const subUserId = user.subUserId;
+            console.log(subUserId);
+            // Make API call to fetch posts from backend
+            axios.get('http://localhost:8083/sellpost/allSubuserSellPosts', {
+                params: {
+                    subUserId: subUserId
                 }
-            
+            })
+                .then(response => {
+                    response.data.forEach(post => {
+                        if (post.description.length > 50) {
+                            let des = post.description;
+                            post.description = des.substring(0, 50) + "...";
+                        }
+
+                        let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
+                        console.log(imageUrls)
+                        console.log(post);
+                        this.sellPosts.unshift({
+                            post_id: post.post_id,
+                            province: post.locations.province,
+                            region: post.locations.region,
+                            country: post.locations.countries.country_name,
+                            title: post.title,
+                            description: post.description,
+                            property_type: post.property_type,
+                            area: post.area,
+                            price: post.price,
+                            photo_url: imageUrls,
+                            status: 'Complete',
+                        });
+                        console.log(typeof (imageUrls))
+
+                    });
+                })
+        }
+
     },
 
 }
 </script>
 
 <script setup>
-    import { ref } from 'vue'
-    import { getCurrentInstance } from 'vue';
-    import { useField } from 'vee-validate'
-    import axios from 'axios';
-    import router from '@/router';
-    import Swal from 'sweetalert2';
+import { ref } from 'vue'
+import { getCurrentInstance } from 'vue';
+import { useField } from 'vee-validate'
+import axios from 'axios';
+import router from '@/router';
+import Swal from 'sweetalert2';
 
-    /* Field collection */
-    const title = useField('title')
-    const Description = useField('Description')
-    const propertyTypes = useField('propertyTypes')
-    const price = useField('price')
-    const area = useField('area')
-    const image = useField('image')
-    const photoList = ref([]);
+/* Field collection */
+const title = useField('title')
+const Description = useField('Description')
+const propertyTypes = useField('propertyTypes')
+const price = useField('price')
+const area = useField('area')
+const image = useField('image')
+const photoList = ref([]);
 
-    const PropertyTypes = ref([
-        'Condo',
-        'Apartment',
-        'House'
-    ])
+const PropertyTypes = ref([
+    'Condo',
+    'Apartment',
+    'House'
+])
 
-    const selectedLocation = ref('')
-    const { proxy } = getCurrentInstance();
+const selectedLocation = ref('')
+const { proxy } = getCurrentInstance();
 
-    const submit = async () => {
+const submit = async () => {
 
-        const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-        console.log(subUser.subUserId);
-        const subUserId = subUser.subUserId;
+    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+    console.log(subUser.subUserId);
+    const subUserId = subUser.subUserId;
 
-        const formData = new FormData();
-        formData.append('subUserId', subUserId);
-        formData.append('title', title.value.value);
-        formData.append('description', Description.value.value);
-        // formData.append('house_type', houseTypes.value.value);
-        formData.append('property_type', propertyTypes.value.value);
-        formData.append('price', price.value.value);
-        formData.append('area', area.value.value);
-        formData.append('location_id', selectedLocation.value);
-        // Append the files as an array
-        const files = Object.values(image.value.value);
-        console.log(files);
-        files.forEach((file) => {
-            formData.append('files', file);
-        });
+    const formData = new FormData();
+    formData.append('subUserId', subUserId);
+    formData.append('title', title.value.value);
+    formData.append('description', Description.value.value);
+    // formData.append('house_type', houseTypes.value.value);
+    formData.append('property_type', propertyTypes.value.value);
+    formData.append('price', price.value.value);
+    formData.append('area', area.value.value);
+    formData.append('location_id', selectedLocation.value);
+    // Append the files as an array
+    const files = Object.values(image.value.value);
+    console.log(files);
+    files.forEach((file) => {
+        formData.append('files', file);
+    });
 
-        Swal.fire({
-            title: 'Posting...',
-            text: 'Your post is being submitted. Please wait...',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
+    Swal.fire({
+        title: 'Posting...',
+        text: 'Your post is being submitted. Please wait...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
             Swal.showLoading(); // Show loading spinner
-            }
-        });
+        }
+    });
 
-        try {
-            if(proxy.availPosts > 0) {
-                const response = await axios.post('http://localhost:8083/sellpost/savesellpost', formData, {
-                    headers: {
+    try {
+        if (proxy.availPosts > 0) {
+            const response = await axios.post('http://localhost:8083/sellpost/savesellpost', formData, {
+                headers: {
                     'Content-Type': 'multipart/form-data'
-                    }
-                });
-                if(response.status === 200) {
-                    Swal.fire({
-                        title: 'Successfully Posted',
-                        text: 'Your post is requested to admin now!',
-                        icon: 'success',
-                        customClass: {
-                            confirmButton: 'myCustomSuccessButton'
-                        },
-                        buttonsStyling: false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then(() => {
-                        window.location.reload();
-                    });
                 }
-            } else {
+            });
+            if (response.status === 200) {
                 Swal.fire({
-                    title: 'Buy More Packages!',
-                    text: 'Your available post is 0.',
-                    icon: 'info',
+                    title: 'Successfully Posted',
+                    text: 'Your post is requested to admin now!',
+                    icon: 'success',
                     customClass: {
-                        confirmButton: 'myCustomButton'
+                        confirmButton: 'myCustomSuccessButton'
                     },
                     buttonsStyling: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false
-                    }).then(() => {
-                        router.push('/package');
+                }).then(() => {
+                    window.location.reload();
                 });
             }
-        } catch (error) {
+        } else {
             Swal.fire({
-                title: 'Error',
-                text: 'There was an error submitting your post. Please try again.',
-                icon: 'error',
+                title: 'Buy More Packages!',
+                text: 'Your available post is 0.',
+                icon: 'info',
                 customClass: {
-                    confirmButton: 'myCustomErrorButton'
+                    confirmButton: 'myCustomButton'
                 },
                 buttonsStyling: false,
                 allowOutsideClick: false,
                 allowEscapeKey: false
+            }).then(() => {
+                router.push('/package');
             });
         }
-    };  
+    } catch (error) {
+        Swal.fire({
+            title: 'Error',
+            text: 'There was an error submitting your post. Please try again.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomErrorButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+    }
+};
 
-    function showUploadPhoto() {
-        const files = Object.values(image.value.value);
-        const fileReadPromises = files.map((file) => {
-            return new Promise((resolve, reject) => {
+function showUploadPhoto() {
+    const files = Object.values(image.value.value);
+    const fileReadPromises = files.map((file) => {
+        return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 resolve({ file, url: e.target.result });
             };
             reader.onerror = reject;
             reader.readAsDataURL(file);
-            });
         });
+    });
 
-        Promise.all(fileReadPromises).then((results) => {
-            photoList.value = results;
-            console.log('Photo list:', photoList.value);
-        }).catch((error) => {
-            console.error('Error reading files:', error);
-        });
-        }
+    Promise.all(fileReadPromises).then((results) => {
+        photoList.value = results;
+        console.log('Photo list:', photoList.value);
+    }).catch((error) => {
+        console.error('Error reading files:', error);
+    });
+}
 
 
-        function removeImage(index) {
-            photoList.value.splice(index, 1);
-            image.value.value.splice(index, 1);
-        }
+function removeImage(index) {
+    photoList.value.splice(index, 1);
+    image.value.value.splice(index, 1);
+}
 
 </script>
 
@@ -598,160 +599,158 @@ export default {
 
 
 <style>
+.create-post-section {
+    width: 100%;
+    height: auto;
 
-    .create-post-section {
+    /* Create post */
+    .create-post {
+        overflow: hidden;
         width: 100%;
         height: auto;
+        padding: 8px 12px !important;
 
-        /* Create post */
-        .create-post {
-            overflow: hidden;
-            width: 100%;
-            height: auto;
-            padding: 8px 12px !important;
+        background-color: #fff;
 
-            background-color: #fff;
-
-            .form-header {
-                background-color: #D9EDF7;
-                padding: 1px 0px;
-                border-radius: 10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 15px;
-            }
-
-            .form-body {
-                padding: 10px;
-                border-radius: 10px;
-                box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
-
-            }
-        }
-
-        /* Display post */
-        .display-post-section {
-            /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
-            background-color: #d3d3d3;
-            width: 100%;
-            height: 100%;
-            padding: 6px 16px;
+        .form-header {
+            background-color: #D9EDF7;
+            padding: 1px 0px;
             border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-            /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
-
-            .display-post {
-                width: 100%;
-                max-height: 220px !important;
-                overflow: hidden;
-                background-color: #D9EDF7;
-                box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
-                margin-bottom: 14px;
-                border-radius: 4px;
-                animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
-
-                .display-left {
-                    position: relative;
-
-                    .overlay {
-                        width: 100%;
-                        height: 24%;
-                        left: 0;
-                        bottom: 74px;
-                        position: absolute;
-                        background-color: rgba(255, 255, 255, 0.8);
-                        backdrop-filter: blur(40px);
-                        z-index: 1;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        opacity: 0;
-                        transform: translateY(200px);
-                        border-bottom-left-radius: 4px;
-                        transition: opacity 0.3s ease-in, transform 0.3s ease-in;
-
-                        .v-btn {
-                            text-transform: capitalize;
-                        }
-                    }
-                }
-
-                .display-right {
-                    padding: 10px 20px;
-                    background-color: rgba(255, 255, 255, 0.7);
-                    backdrop-filter: blur(30px);
-                    -webkit-backdrop-filter: blur(30px);
-                    position: relative;
-
-                    h5 {
-                        color: #E86F52;
-                    }
-
-                    p {
-                        text-indent: 30px;
-                    }
-
-                }
-
-
-            }
-
-            .display-post:hover .overlay {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
+        .form-body {
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
 
         }
     }
 
-    @keyframes aniOne {
-        0% {
-            animation-timing-function: ease-in;
-            opacity: 0;
-            transform: scale(0);
+    /* Display post */
+    .display-post-section {
+        /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
+        background-color: #d3d3d3;
+        width: 100%;
+        height: 100%;
+        padding: 6px 16px;
+        border-radius: 10px;
+
+        /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
+
+        .display-post {
+            width: 100%;
+            max-height: 220px !important;
+            overflow: hidden;
+            background-color: #D9EDF7;
+            box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
+            margin-bottom: 14px;
+            border-radius: 4px;
+            animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+
+            .display-left {
+                position: relative;
+
+                .overlay {
+                    width: 100%;
+                    height: 24%;
+                    left: 0;
+                    bottom: 74px;
+                    position: absolute;
+                    background-color: rgba(255, 255, 255, 0.8);
+                    backdrop-filter: blur(40px);
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    opacity: 0;
+                    transform: translateY(200px);
+                    border-bottom-left-radius: 4px;
+                    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+
+                    .v-btn {
+                        text-transform: capitalize;
+                    }
+                }
+            }
+
+            .display-right {
+                padding: 10px 20px;
+                background-color: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
+                position: relative;
+
+                h5 {
+                    color: #E86F52;
+                }
+
+                p {
+                    text-indent: 30px;
+                }
+
+            }
+
+
         }
 
-        38% {
-            animation-timing-function: ease-out;
+        .display-post:hover .overlay {
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0);
         }
 
-        55% {
-            animation-timing-function: ease-in;
-            transform: scale(0.7);
-        }
 
-        72% {
-            animation-timing-function: ease-out;
-            transform: scale(1);
-        }
+    }
+}
 
-        81% {
-            animation-timing-function: ease-in;
-            transform: scale(0.84);
-        }
-
-        89% {
-            animation-timing-function: ease-out;
-            transform: scale(1);
-        }
-
-        95% {
-            animation-timing-function: ease-in;
-            transform: scale(0.95);
-        }
-
-        100% {
-            animation-timing-function: ease-out;
-            transform: scale(1);
-        }
+@keyframes aniOne {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 0;
+        transform: scale(0);
     }
 
-    .disableClearBtn .v-field__clearable {
-        display: none !important;
+    38% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+        transform: scale(1);
     }
 
+    55% {
+        animation-timing-function: ease-in;
+        transform: scale(0.7);
+    }
+
+    72% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    81% {
+        animation-timing-function: ease-in;
+        transform: scale(0.84);
+    }
+
+    89% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    95% {
+        animation-timing-function: ease-in;
+        transform: scale(0.95);
+    }
+
+    100% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+}
+
+.disableClearBtn .v-field__clearable {
+    display: none !important;
+}
 </style>

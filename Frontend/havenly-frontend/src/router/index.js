@@ -18,7 +18,7 @@ import CreditCard from '@/views/CreditCard.vue'
 
 // For Posts
 import postDetailView from '@/views/PostDetailView.vue'
-// import AllPostView from '@/views/AllPostView.vue'
+import AllPostView from '@/views/AllPostView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
@@ -31,10 +31,14 @@ const routes = [
     name: 'home',
     component: HomeIndex
   },
+  {
+    path: '/',
+    redirect: '/home',
+  },
 
   // change with temp For Package
   {
-    path: '/package/details',
+    path: '/package',
     name: 'tempPackage',
     component: tempPackage
   },
@@ -57,10 +61,6 @@ const routes = [
     path: '/subscribe',
     name: 'SubscribeVue',
     component: SubscribeVue
-  },
-  {
-    path: '/Home',
-    redirect: '/',
   },
   {
     path: '/userdashboard',
@@ -115,6 +115,11 @@ const routes = [
     name: 'AdminPost',
     component: AdminPost,
     meta: { requiresAdmin: true },
+  },
+  {
+    path: '/all/posts/of/:postType',
+    name: 'AllPostView',
+    component: AllPostView,
   },
 
 ]

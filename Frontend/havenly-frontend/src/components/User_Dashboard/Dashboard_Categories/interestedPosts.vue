@@ -31,77 +31,83 @@
                 </div>
                 <div v-else-if="error">{{ error }}</div>
                 <div v-else>
-                    <!-- card start -->
-                    <div class="row mb-3 g-3 mt-3">
-                        <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12">
-                            <div class="card-container">
-                                <!-- TZH card styles -->
-                                <div class="card" style="height: 400px;">
-                                    <div class="cardImgBox mb-1" style="width: 100%; height: 150px;">
-                                        <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
-                                    </div>
-                                    <div class="card-body px-3 py-1 d-flex flex-column">
-                                        <h5 class="card-title mb-2">{{ truncateText(post.title, 20) }}</h5>
-                                        <p class="card-text small opacity-75" style="text-indent: 30px;">
-                                            {{ truncateText(post.description, 65) }}
-                                        </p>
-                                        <p class="card-text text-danger small opacity-75 mb-1 ">
-                                            <v-icon>mdi-map-marker-radius</v-icon>
-                                            {{ post.region }} , {{ post.province }} , {{ post.country }}
+                    <div v-if="posts.length > 0">
+                        <!-- card start -->
+                        <div class="row mb-3 g-3 mt-3">
+                            <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12">
+                                <div class="card-container">
+                                    <!-- TZH card styles -->
+                                    <div class="card" style="height: 400px;">
+                                        <div class="cardImgBox mb-1" style="width: 100%; height: 150px;">
+                                            <img :src="post.photo_url[0]" class="h-100 w-100 m-auto"
+                                                alt="Card image cap">
+                                        </div>
+                                        <div class="card-body px-3 py-1 d-flex flex-column">
+                                            <h5 class="card-title mb-2">{{ truncateText(post.title, 20) }}</h5>
+                                            <p class="card-text small opacity-75" style="text-indent: 30px;">
+                                                {{ truncateText(post.description, 65) }}
+                                            </p>
+                                            <p class="card-text text-danger small opacity-75 mb-1 ">
+                                                <v-icon>mdi-map-marker-radius</v-icon>
+                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
 
-                                        </p>
-                                        <div class="d-flex align-items-center justify-content-between ">
-                                            <span class="badge text-bg-danger rounded-pill">
-                                                {{ post.mainId }}
-                                            </span>
-                                            <div class="d-flex text-danger">
-                                                <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
-                                                <p class="m-0 small fw-bold fs-3">
-                                                    {{ post.price }}
-                                                </p>
+                                            </p>
+                                            <div class="d-flex align-items-center justify-content-between ">
+                                                <span class="badge text-bg-danger rounded-pill">
+                                                    {{ post.property_type }}
+                                                </span>
+                                                <div class="d-flex text-danger">
+                                                    <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
+                                                    <p class="m-0 small fw-bold fs-3">
+                                                        {{ post.price }}
+                                                    </p>
+                                                </div>
                                             </div>
+
                                         </div>
 
+                                        <!-- confirm delete popup -->
+                                        <v-dialog v-model="showDeleteDialog" max-width="400px">
+                                            <v-card>
+                                                <v-card-title class="headline"><v-icon
+                                                        color="danger">mdi-exclamation-thick</v-icon>Confirm
+                                                    Delete</v-card-title>
+                                                <v-card-text>
+
+                                                    Are you sure you want to remove this post from interest!
+                                                </v-card-text>
+                                                <v-card-actions>
+                                                    <v-btn color="blue darken-1" text @click="cancelDelete">
+                                                        Cancel
+                                                    </v-btn>
+                                                    <v-btn color="red darken-1" text @click="confirmDelete">
+                                                        Delete
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
+
+                                        <v-card-actions class="py-0 m-0">
+                                            <v-btn @click="clickPost(post.post_id)" elevation="0" variant="outlined">
+                                                Details
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="error" @click="openDeleteDialog(post.mainId)" elevation="0"
+                                                variant="outlined">
+                                                Remove
+                                            </v-btn>
+                                        </v-card-actions>
                                     </div>
 
-                                    <!-- confirm delete popup -->
-                                    <v-dialog v-model="showDeleteDialog" max-width="400px">
-                                        <v-card>
-                                            <v-card-title class="headline"><v-icon
-                                                    color="danger">mdi-exclamation-thick</v-icon>Confirm
-                                                Delete</v-card-title>
-                                            <v-card-text>
-
-                                                Are you sure you want to remove this post from interest!
-                                            </v-card-text>
-                                            <v-card-actions>
-                                                <v-btn color="blue darken-1" text @click="cancelDelete">
-                                                    Cancel
-                                                </v-btn>
-                                                <v-btn color="red darken-1" text @click="confirmDelete">
-                                                    Delete
-                                                </v-btn>
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-dialog>
-
-                                    <v-card-actions class="py-0 m-0">
-                                        <v-btn @click="clickPost(post.post_id)" elevation="0" variant="outlined">
-                                            Details
-                                        </v-btn>
-                                        <v-spacer></v-spacer>
-                                        <v-btn color="error" @click="openDeleteDialog(post.mainId)" elevation="0"
-                                            variant="outlined">
-                                            Remove
-                                        </v-btn>
-                                    </v-card-actions>
                                 </div>
 
                             </div>
-
                         </div>
+                        <!-- card end -->
                     </div>
-                    <!-- card end -->
+                    <div v-else>
+                        No post found
+                    </div>
                 </div>
 
 
@@ -167,6 +173,7 @@ export default {
         },
 
         clickPost(post) {
+
             // router.push('/PostsView')
             const encryptData = this.encryptId(post);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
@@ -192,8 +199,9 @@ export default {
             this.posts = [];
 
             try {
-                const response = await axios.get(`http://localhost:8083/posts/findInterestedPostsByMail/${this.getUser.email}`);
 
+                // fetch post by Registered Id
+                const response = await axios.get(`http://localhost:8083/posts/getInterestedPostsByRegId/${this.getUser.register_id}`);
                 if (response.status !== 200) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -207,10 +215,10 @@ export default {
 
                 // Assuming data is an array of posts, iterate over each post
                 data.forEach(postData => {
-                    if (postData.testsellpostss) {
-                        this.processPostData(postData.testsellpostss, postData);
-                    } else if (postData.testrentposts) {
-                        this.processPostData(postData.testrentposts, postData);
+                    if (postData.sellpost) {
+                        this.processPostData(postData.sellpost, postData);
+                    } else if (postData.rentpost) {
+                        this.processPostData(postData.rentpost, postData);
                     } else {
                         console.error('Unexpected data format:', postData);
                     }
@@ -227,13 +235,12 @@ export default {
         processPostData(postData, upperData) {
             const imageUrls = Array.isArray(postData.image) ? postData.image : [postData.image];
             const post = {
-                mainId: upperData.post_id,
                 province: postData.locations.province,
                 region: postData.locations.region,
                 country: postData.locations.countries.country_name,
                 latitude: postData.locations.latitude,
                 longitude: postData.locations.longitude,
-                post_id: postData.sell_post_id,
+                post_id: upperData.post_id,
                 title: postData.title,
                 description: postData.description,
                 property_type: postData.property_type,

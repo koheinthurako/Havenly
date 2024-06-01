@@ -569,6 +569,8 @@ export default {
             });
         },
 
+
+
         fetchPosts() {
             const user = JSON.parse(sessionStorage.getItem('sub_user'));
             const subUserId = user.subUserId;

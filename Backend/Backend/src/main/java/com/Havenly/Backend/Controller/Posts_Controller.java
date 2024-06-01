@@ -33,11 +33,16 @@ public class Posts_Controller {
 //	public ResponseEntity<List<Posts>> getAllSubuserRentPosts(@RequestParam int subUserId) {
 //		return new ResponseEntity<List<Posts>>(service.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
 //	}
-	
-	@GetMapping("/getPostById")
-	public ResponseEntity<Posts> getPostById(@RequestParam int postId) {
+
+	@GetMapping("/getPostById/{postId}")
+	public ResponseEntity<Posts> getPostById(@PathVariable int postId) {
 		return new ResponseEntity<Posts>(postService.getPostById(postId), HttpStatus.OK);
 	}
+
+//	@GetMapping("/getPostByTypeId/{postId}")
+//	public ResponseEntity<Posts> getPostByTypeId(@PathVariable String postId) {
+//		return new ResponseEntity<Posts>(postService.getPostByTypeId(postId), HttpStatus.OK);
+//	}
 	
 	@GetMapping("/allPending")
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){
@@ -63,5 +68,13 @@ public class Posts_Controller {
             return ResponseEntity.status(500).body("Error deleting post: " + e.getMessage());
         }
 	}
+
+
+	@GetMapping("/getInterestedPostsByRegId/{reg_id}")
+	public ResponseEntity<List<Posts>> getInterestedPosts(@PathVariable int reg_id) {
+		return new ResponseEntity<>(postService.getInterestPostByRegId(reg_id), HttpStatus.OK);
+	}
+
+
 
 }

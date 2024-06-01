@@ -454,6 +454,8 @@
 import AES from 'crypto-js/aes'
 import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 export default {
 
     name: 'postDetailView',
@@ -521,33 +523,111 @@ export default {
             return data.split('\n').join('<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
         },
 
-        async interest() {
-            const user = JSON.parse(sessionStorage.getItem('login_user'));
-            const userId = user.register_id;
+        // async interest() {
+        //     const requestData = {
+        //         description: this.getDescription
+        //     };
 
+        //     try {
+        //         const response = await axios.post(`http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`, requestData);
+
+        //         // Check if the request was successful (status 200)
+        //         if (response.status == 409) {
+
+        //             console.log("You already interested this post!");
+
+        //         } else if (response.status === 202 || response.status === 200) {
+
+        //             console.log("You interested this post!");
+        //         } else {
+        //             console.log("Unexpected response:", response.status);
+        //         }
+        //     } catch (error) {
+
+        //         console.error('Error fetching post:', error);
+        //     }
+        //     window.location.reload();
+        // },
+
+        async interest() {
             const requestData = {
                 description: this.getDescription
             };
 
             try {
-                const response = await axios.post(`http://localhost:8083/interest/addNew/${userId}/${this.mainPostId}`, requestData);
+                // Show loading indicator
+                Swal.fire({
+                    title: 'Processing...',
+                    text: 'Please wait while we process your interest.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-                // Check if the request was successful (status 200)
-                if (response.status == 409) {
+                const response = await axios.post(
+                    `http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`,
+                    requestData
+                );
 
-                    console.log("You already interested this post!");
+                // Close the loading indicator
+                Swal.close();
 
-                } else if (response.status === 202 || response.status === 200) {
-
-                    console.log("You interested this post!");
+                if (response.status === 202 || response.status === 200) {
+                    this.reqDialog = false;
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'You make interested in this post.'
+                    });
                 } else {
-                    console.log("Unexpected response:", response.status);
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Unexpected response',
+                        text: `Unexpected response: ${response.status}`
+                    });
                 }
             } catch (error) {
+                // Close the loading indicator
+                Swal.close();
+                this.reqDialog = false;
+                if (error.response) {
 
-                console.error('Error fetching post:', error);
+                    if (error.response.status === 409 || error.response.status === 406 || error.response.status === 400 || error.response.status === 403) {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Relax bro!',
+                            text: 'You already made an interest in this post!',
+                            showCancelButton: false, // Hide the cancel button
+                            allowOutsideClick: true, // Allow clicking outside to close
+                        }).then((result) => {
+                            if (result.isConfirmed || result.isDismissed) {
+                                window.location.reload();
+                            }
+                        });
+
+                    } else if (error.request) {
+                        // Request was made but no response received
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Network Error',
+                            text: 'No response from the server. Please check your network connection.'
+                        });
+                    } else {
+                        // Something else happened while setting up the request
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: `Error: ${error.message}`
+                        });
+                    }
+                }
+
             }
-            window.location.reload();
+
         },
 
 
@@ -614,11 +694,11 @@ export default {
             return this.savedPosts.includes(postId);
         },
 
-        // encryptId(id) {
-        //     const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
-        //     const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
-        //     return encryptedId
-        // },
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
 
         decryptId(encryptedId) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
@@ -637,7 +717,6 @@ export default {
             if (this.getUser) {
                 this.reqDialog = true;
             } else {
-                console.log("Later boi");
                 this.$router.push({ name: 'loginakm' });
             }
 
@@ -648,10 +727,15 @@ export default {
         },
 
         async fetchPost() {
+
+            // first split with Success
             const postId = this.splitData(this.$route.params.id);
-            const decryptData = this.decryptData(postId);
+
+            // then decrypt 
+            const decryptId = this.decryptId(postId);
+
             try {
-                const response = await fetch(`http://localhost:8083/posts/getPostById/${decryptData}`);
+                const response = await fetch(`http://localhost:8083/posts/getPostById/${decryptId}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -666,15 +750,12 @@ export default {
                 // Taking Subuser id 
                 this.subUserId = data.subUser.subUserId;
 
-                console.log("This Sub user id : ", this.subUserId);
-
                 // call the function to get registere user
                 this.fetchRegisterUser(this.subUserId);
 
-
                 // Check the post type
-                if (data.testsellpostss) {
-                    this.processPostData(data.testsellpostss);
+                if (data.sellpost) {
+                    this.processPostData(data.sellpost);
                 } else if (data.testrentposts) {
                     this.processPostData(data.testrentposts);
                 } else {
@@ -702,6 +783,7 @@ export default {
                 deposit: postData.deposit || '',
                 least_contract: postData.least_contract || ''
             };
+            console.log("POst Detail : ", this.posts);
         },
 
         async fetchRegisterUser(id) {
@@ -713,8 +795,9 @@ export default {
                 }
 
                 this.registerData = await response.json();
-                console.log("getting Register data : ", this.registerData.name);
-
+                console.log("Getting register : ", this.registerData.register_id);
+                console.log("getting Register name : ", this.registerData.name);
+                console.log("Getting register gmail : ", this.registerData.email);
 
             } catch (error) {
                 console.error('Error fetching post:', error);

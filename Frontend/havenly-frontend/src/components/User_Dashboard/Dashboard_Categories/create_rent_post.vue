@@ -143,7 +143,7 @@
                                 <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
                                     <v-card class="customImgBox">
                                         <v-card-actions>
-                                            <v-icon @click="removeImage(photo)" class="imgDeleteIcon">mdi-close</v-icon>
+                                            <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
                                         </v-card-actions>
                                         <v-img :src="photo.url" class="customImg" height="160px"></v-img>
                                     </v-card>

@@ -305,15 +305,15 @@ export default {
       // Make API call to fetch posts from backend
       if (user) {
         const UserId = user.subUserId;
-        fetch(`http://localhost:8083/interest/getAllNoti/${UserId}`)
+        fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
           .then((response) => response.json())
           .then((data) => {
             console.log("first check data for each ", data);
             data.forEach((obj) => {
-              if (obj.posts.testsellpostss) {
-                let imgUrls = Array.isArray(obj.posts.testsellpostss.image)
-                  ? obj.posts.testsellpostss.image
-                  : [obj.posts.testsellpostss.image];
+              if (obj.posts.sellpost) {
+                let imgUrls = Array.isArray(obj.posts.sellpost.image)
+                  ? obj.posts.sellpost.image
+                  : [obj.posts.sellpost.image];
 
                 console.log(obj);
                 objs.value.unshift({
@@ -331,6 +331,7 @@ export default {
             });
             // Initialize notification count with the length of fetched notifications
             filteredOjbs.value = filterData(objs.value);
+            console.log("Fliter post : ", objs.value);
           })
           .catch((error) => {
             console.error('Error fetching photos:', error);

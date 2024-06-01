@@ -17,4 +17,6 @@ public interface Posts_Service {
 	public Posts update(Posts post);
 	public void deletePost(int postId);
 
+	// get interested posts
+	List<Posts> getInterestPostByRegId(int id);
 }
