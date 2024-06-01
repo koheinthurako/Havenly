@@ -113,6 +113,13 @@ export default {
     },
 
     methods: {
+        truncateText(text, charLimit) {
+            if (text.length > charLimit) {
+                return text.slice(0, charLimit) + '...';
+            }
+            return text;
+        },
+
         fetchPosts() {
             // Make API call to fetch posts from backend
             fetch('http://localhost:8083/posts/allPending')
