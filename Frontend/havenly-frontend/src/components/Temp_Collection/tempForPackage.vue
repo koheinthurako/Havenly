@@ -4,7 +4,7 @@
         <div class="temp-package-data">
             <div class="temp-header-row">
                 <div>
-                    <p>join us</p>
+                    <!-- <p>join us</p> -->
                     <h3 class="my-2 mx-auto">Choose a package according to your needs!</h3>
                 </div>
 
@@ -20,54 +20,54 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <!-- <swiper-slide>
+                    <swiper-slide>
+                        <!-- package three start -->
                         <div class="temp-package">
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
-                                    <div>Free</div>&nbsp;&nbsp;Trial
+                                    <div>{{ items2.name }}</div>&nbsp;&nbsp;package
                                 </h3>
-                                <h5>For subscribers</h5>
+                                <h5>For real-estate agents</h5>
                             </div>
                             <div>
-                                <h1 class="mt-4 mb-5">$ 0</h1>
+                                <h1 class="mt-4 mb-5">
+                                    $ {{ items2.price }}
+                                </h1>
                             </div>
 
                             <div class="w-100 px-4">
 
-                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p1">Up to 3
+                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                    <p class="p1">Up to 30
                                         posts a month.</p>
                                 </div>
-                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p2">Up to 2
-                                        ads a month.
+                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                    <p class="p2">Up to 20 ads a month.
                                     </p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p3">3
+                                        class="p3">Up to 5
                                         images per
                                         post.</p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p4">300+
+                                        class="p4">1000+
                                         words per
                                         post.</p>
                                 </div>
 
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" to="/subscribe">
+                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items2)">
                                     <div class="toggle-v-l">
-                                        <span class="visible">Try Free Trial</span>
-                                        <span class="later-visible">Subscribe now</span>
-                                        
+                                        <span class="visible">Buy Premium</span>
+                                        <span class="later-visible">Buy now</span>
                                     </div>
                                 </v-btn>
-
-
                             </div>
                         </div>
-                    </swiper-slide> -->
+                        <!-- package three end -->
+                    </swiper-slide>
                     <swiper-slide>
                         <!-- package two start -->
                         <div class="temp-package">
@@ -117,54 +117,7 @@
                         </div>
                         <!-- package two end -->
                     </swiper-slide>
-                    <swiper-slide>
-                        <!-- package three start -->
-                        <div class="temp-package">
-                            <div style="line-height: 0px;">
-                                <h3 class="d-flex">
-                                    <div>{{ items2.name }}</div>&nbsp;&nbsp;package
-                                </h3>
-                                <h5>For real-estate agents</h5>
-                            </div>
-                            <div>
-                                <h1 class="mt-4 mb-5">
-                                    $ {{ items2.price }}
-                                </h1>
-                            </div>
 
-                            <div class="w-100 px-4">
-
-                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p class="p1">Up to 30
-                                        posts a month.</p>
-                                </div>
-                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p class="p2">Up to 20 ads a month.
-                                    </p>
-                                </div>
-                                <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p3">Up to 5
-                                        images per
-                                        post.</p>
-                                </div>
-                                <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p4">1000+
-                                        words per
-                                        post.</p>
-                                </div>
-
-                            </div>
-                            <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items2)">
-                                    <div class="toggle-v-l">
-                                        <span class="visible">Buy Premium</span>
-                                        <span class="later-visible">Buy now</span>
-                                    </div>
-                                </v-btn>
-                            </div>
-                        </div>
-                        <!-- package three end -->
-                    </swiper-slide>
 
                 </swiper>
 
@@ -233,6 +186,11 @@ export default {
         img5: require('@/assets/img/logo-digitalocean.svg'),
 
     }),
+
+    mounted() {
+        localStorage.removeItem('openTab');
+    },
+
     methods: {
         startCountAnimation(price) {
             this.hovering = true;

@@ -128,6 +128,7 @@ export default {
   },
 
   mounted() {
+    localStorage.removeItem('openTab');
     const cachedData = this.getLocationsFromSessionStorage();
     if(cachedData) {
         this.locations = cachedData;
@@ -137,56 +138,94 @@ export default {
     }
 
     this.fetchSubUser();
-
   },
 
   methods: {
 
-    fetchLocations() {
-      fetch('http://localhost:8083/locations/getall')
-      .then(response => response.json())
-      .then(data => {
-            const mappedData = data.map(location => ({
-              location_id: location.location_id,
-              country_name: location.country_name,
-              province: location.province,
-              amphoe: location.amphoe,
-              region: location.region,
-              latitude: location.latitude,
-              longitude: location.longitude
-          }));
-          sessionStorage.setItem('locations', JSON.stringify(mappedData));
-          this.locations = mappedData;
-          this.mapLocations = mappedData;
-      })
-      .catch(error => {
-          console.error('Error fetching locations:', error);
-      });
+    async fetchLocations() {
+      try {
+        const response = await fetch('http://localhost:8083/locations/getall');
+        const data = await response.json();
+        const mappedData = data.map(location => ({
+          location_id: location.location_id,
+          country_name: location.country_name,
+          province: location.province,
+          amphoe: location.amphoe,
+          region: location.region,
+          latitude: location.latitude,
+          longitude: location.longitude
+        }));
+        sessionStorage.setItem('locations', JSON.stringify(mappedData));
+        this.locations = mappedData;
+        this.mapLocations = mappedData;
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
     },
+
+    // fetchLocations() {
+    //   fetch('http://localhost:8083/locations/getall')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //         const mappedData = data.map(location => ({
+    //           location_id: location.location_id,
+    //           country_name: location.country_name,
+    //           province: location.province,
+    //           amphoe: location.amphoe,
+    //           region: location.region,
+    //           latitude: location.latitude,
+    //           longitude: location.longitude
+    //       }));
+    //       sessionStorage.setItem('locations', JSON.stringify(mappedData));
+    //       this.locations = mappedData;
+    //       this.mapLocations = mappedData;
+    //   })
+    //   .catch(error => {
+    //       console.error('Error fetching locations:', error);
+    //   });
+    // },
 
     getLocationsFromSessionStorage() {
         const data = sessionStorage.getItem('locations');
         return data ? JSON.parse(data) : null;
     },
 
-    fetchSubUser() {
-      if(sessionStorage.getItem('login_user')) {
-        const user = JSON.parse(sessionStorage.getItem('login_user'));
-        const registerId = user.register_id;
-        console.log("registerId to send backend to show subUser informations : " + registerId)
-        axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-            params: {
-                registerId: registerId
-            }
-        })
-        .then(response => {
-          sessionStorage.setItem('sub_user',JSON.stringify(response.data))
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error); // Handle the error
-        }); 
+    async fetchSubUser() {
+      const user = sessionStorage.getItem('login_user');
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        const registerId = parsedUser.register_id;
+        console.log("registerId to send backend to show subUser informations: " + registerId);
+
+        try {
+          const response = await axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+            params: { registerId: registerId }
+          });
+          sessionStorage.setItem('sub_user', JSON.stringify(response.data));
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
       }
     },
+
+    // fetchSubUser() {
+    //   if(sessionStorage.getItem('login_user')) {
+    //     const user = JSON.parse(sessionStorage.getItem('login_user'));
+    //     const registerId = user.register_id;
+    //     console.log("registerId to send backend to show subUser informations : " + registerId)
+    //     axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+    //         params: {
+    //             registerId: registerId
+    //         }
+    //     })
+    //     .then(response => {
+    //       sessionStorage.setItem('sub_user',JSON.stringify(response.data))
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching data:', error); // Handle the error
+    //     }); 
+    //   }
+    // },
 
     submit() {
       this.mapLocations = this.filteredLocations;
@@ -207,13 +246,15 @@ export default {
 
     clearFields() {
       // Clear selected fields
+      console.log("clear clicked!")
       this.selectedCountry = '';
       this.selectedProvince = '';
       this.selectedAmphoe = '';
       this.selectedRegion = '';
       this.zipCode = '';
-    }
-  }
+    },
+
+  },
 }
 </script>
 

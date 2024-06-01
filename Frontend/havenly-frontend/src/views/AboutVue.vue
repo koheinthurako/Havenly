@@ -10,8 +10,11 @@
 <script>
 
     export default {
-        name: "AboutVue"
+        name: "AboutVue",
 
+        mounted() {
+            localStorage.removeItem('openTab');
+        },
 
     }
 
