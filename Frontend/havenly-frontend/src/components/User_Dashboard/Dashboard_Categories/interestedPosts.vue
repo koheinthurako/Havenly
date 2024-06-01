@@ -66,33 +66,12 @@
 
                                         </div>
 
-                                        <!-- confirm delete popup -->
-                                        <v-dialog v-model="showDeleteDialog" max-width="400px">
-                                            <v-card>
-                                                <v-card-title class="headline"><v-icon
-                                                        color="danger">mdi-exclamation-thick</v-icon>Confirm
-                                                    Delete</v-card-title>
-                                                <v-card-text>
-
-                                                    Are you sure you want to remove this post from interest!
-                                                </v-card-text>
-                                                <v-card-actions>
-                                                    <v-btn color="blue darken-1" text @click="cancelDelete">
-                                                        Cancel
-                                                    </v-btn>
-                                                    <v-btn color="red darken-1" text @click="confirmDelete">
-                                                        Delete
-                                                    </v-btn>
-                                                </v-card-actions>
-                                            </v-card>
-                                        </v-dialog>
-
                                         <v-card-actions class="py-0 m-0">
                                             <v-btn @click="clickPost(post.post_id)" elevation="0" variant="outlined">
                                                 Details
                                             </v-btn>
                                             <v-spacer></v-spacer>
-                                            <v-btn color="error" @click="openDeleteDialog(post.mainId)" elevation="0"
+                                            <v-btn color="error" @click="openDeleteDialog(post.post_id)" elevation="0"
                                                 variant="outlined">
                                                 Remove
                                             </v-btn>
@@ -121,7 +100,7 @@
 
 <script>
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 import AES from 'crypto-js/aes'
 
 export default {
@@ -139,9 +118,6 @@ export default {
 
         // temp post id
         tempPostId: '',
-
-        // for delete confirm
-        showDeleteDialog: false,
 
         // temp Register data 
         registerData: '',
@@ -182,15 +158,19 @@ export default {
 
         openDeleteDialog(postID) {
             this.tempPostId = postID;
-            this.showDeleteDialog = true;
-        },
 
-        confirmDelete() {
-            this.deletePost();
-
-        },
-        cancelDelete() {
-            this.showDeleteDialog = false;
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirm Remove',
+                text: 'Are you sure you want to remove this item?',
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deletePost();
+                }
+            });
         },
 
         async fetchInterestedPosts() {

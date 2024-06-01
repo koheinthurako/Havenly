@@ -479,7 +479,7 @@ export default {
         // to keep all datas
         mainPostId: '',
         subUserId: '',
-        registerData: '',
+        FetchregisterData: '',
 
         // get desc from input 
         getDescription: '',
@@ -556,79 +556,93 @@ export default {
                 description: this.getDescription
             };
 
-            try {
-                // Show loading indicator
-                Swal.fire({
-                    title: 'Processing...',
-                    text: 'Please wait while we process your interest.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                const response = await axios.post(
-                    `http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`,
-                    requestData
-                );
-
-                // Close the loading indicator
-                Swal.close();
-
-                if (response.status === 202 || response.status === 200) {
-                    this.reqDialog = false;
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'You make interested in this post.'
-                    });
-                } else {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Unexpected response',
-                        text: `Unexpected response: ${response.status}`
-                    });
-                }
-            } catch (error) {
-                // Close the loading indicator
-                Swal.close();
+            if (this.getUser.register_id === this.FetchregisterData.register_id) {
                 this.reqDialog = false;
-                if (error.response) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: "You can't make interest to your own post!",
+                    allowOutsideClick: false,
 
-                    if (error.response.status === 409 || error.response.status === 406 || error.response.status === 400 || error.response.status === 403) {
+                });
+            } else {
 
+                try {
+                    // Show loading indicator
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while we process your interest.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    const response = await axios.post(
+                        `http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`,
+                        requestData
+                    );
+
+                    // Close the loading indicator
+                    Swal.close();
+
+                    if (response.status === 202 || response.status === 200) {
+                        this.reqDialog = false;
+                        Swal.close();
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Relax bro!',
-                            text: 'You already made an interest in this post!',
-                            showCancelButton: false, // Hide the cancel button
-                            allowOutsideClick: true, // Allow clicking outside to close
-                        }).then((result) => {
-                            if (result.isConfirmed || result.isDismissed) {
-                                window.location.reload();
-                            }
-                        });
-
-                    } else if (error.request) {
-                        // Request was made but no response received
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Network Error',
-                            text: 'No response from the server. Please check your network connection.'
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'You make interested in this post.'
                         });
                     } else {
-                        // Something else happened while setting up the request
+                        Swal.close();
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: `Error: ${error.message}`
+                            title: 'Unexpected response',
+                            text: `Unexpected response: ${response.status}`
                         });
                     }
-                }
+                } catch (error) {
+                    // Close the loading indicator
+                    Swal.close();
+                    this.reqDialog = false;
+                    if (error.response) {
 
+                        if (error.response.status === 409 || error.response.status === 406 || error.response.status === 400 || error.response.status === 403) {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Relax bro!',
+                                text: 'You already made an interest in this post!',
+                                showCancelButton: false, // Hide the cancel button
+                                allowOutsideClick: true, // Allow clicking outside to close
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.reload();
+                                }
+                            });
+
+                        } else if (error.request) {
+                            // Request was made but no response received
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Network Error',
+                                text: 'No response from the server. Please check your network connection.'
+                            });
+                        } else {
+                            // Something else happened while setting up the request
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: `Error: ${error.message}`
+                            });
+                        }
+                    }
+
+                }
             }
+
+
 
         },
 
@@ -715,13 +729,24 @@ export default {
             const decryptData = decryptedBytes.toString(Utf8);
             return decryptData;
         },
+
         openDialog() {
             if (this.getUser) {
                 this.reqDialog = true;
             } else {
-                this.$router.push({ name: 'loginakm' });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Login Required',
+                    text: 'You need to login to access this feature.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'loginakm' });
+                    }
+                });
             }
-
         },
 
         closeDialog() {
@@ -797,10 +822,7 @@ export default {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                this.registerData = await response.json();
-                console.log("Getting register : ", this.registerData.register_id);
-                console.log("getting Register name : ", this.registerData.name);
-                console.log("Getting register gmail : ", this.registerData.email);
+                this.FetchregisterData = await response.json();
 
             } catch (error) {
                 console.error('Error fetching post:', error);
