@@ -126,7 +126,7 @@
                                     <div class="d-flex">
 
                                         <p class="price"> {{ post.price }}</p>
-                                        <span class="mt-1 ms-2">Kyats</span>
+                                        <!-- <span class="mt-1 ms-2">Kyats</span> -->
                                     </div>
 
                                 </div>
@@ -756,8 +756,8 @@ export default {
                 // Check the post type
                 if (data.sellpost) {
                     this.processPostData(data.sellpost);
-                } else if (data.testrentposts) {
-                    this.processPostData(data.testrentposts);
+                } else if (data.rentpost) {
+                    this.processPostData(data.rentpost);
                 } else {
                     console.error('Unexpected data format:', data);
                 }

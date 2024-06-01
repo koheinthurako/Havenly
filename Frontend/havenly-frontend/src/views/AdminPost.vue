@@ -60,8 +60,8 @@
                             <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
-                            <h5 class="card-title mb-3">{{ truncateText(post.title, 50) }}</h5>
-                            <p class="card-text small opacity-75">{{ truncateText(post.description, 80) }}</p>
+                            <h5 class="card-title mb-3">{{ post.title }}</h5>
+                            <p class="card-text small opacity-75">{{ post.description }}</p>
                             <p class="card-text text-danger small mb-auto opacity-75 mb-auto ">
                                 <v-icon>mdi-map-marker-radius</v-icon>
                                 {{ post.region }} ,{{ post.province }}, {{ post.country }}
