@@ -95,9 +95,4 @@ public class Interest_Controller {
 	public ResponseEntity<List<Interest>> getAllNotiBySubId(@PathVariable int id){
 		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
 	}
-
-//	@GetMapping("/getAllInterestBySubId/{id}")
-//	public ResponseEntity<List<Interest>> getAllInterest(@PathVariable int id){
-//		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForShow(id),HttpStatus.OK);
-//	}
 }

@@ -37,14 +37,6 @@ public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 			"WHERE p.sub_user_id= ?",nativeQuery = true)
 	public List<Interest> getAllInterestForNoti(int id);
 
-//	@Query(value = "SELECT i.id ,i.description, i.interest_date, i.interest_time, r.register_id, r.name, r.phone, r.email, p.post_id, t.image\n" +
-//			"FROM interest i\n" +
-//			"JOIN posts p ON i.post_id = p.post_id\n" +
-//			"JOIN reg_user r ON r.register_id = i.register_id\n" +
-//			"JOIN sell_post t ON p.sell_post_id = t.sell_post_id\n" +
-//			"WHERE p.sub_user_id= ?",nativeQuery = true)
-//	public List<Interest> getAllInterestForShow(int id);
-
 
 	// to check duplicate or not
 //	@Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END " +

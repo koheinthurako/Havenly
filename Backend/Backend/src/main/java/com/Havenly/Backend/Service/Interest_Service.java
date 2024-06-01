@@ -12,7 +12,6 @@ public interface Interest_Service {
 	public Interest save(Interest data);
 	public List<Interest> getAll();
 	public List<Interest> getAllInterestForNoti(int id);
-//	public List<Interest> getAllInterestForShow(int id);
 	Boolean deleteByPostIdAndUserId(int post_id, int user_id);
 	
 }
