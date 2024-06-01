@@ -32,7 +32,7 @@
 
       </div>
 
-      <v-btn rounded class="detail-btn" @click="gotoDetailView(1)">
+      <v-btn rounded class="detail-btn" @click="clickPost(userData.post_id)">
         see detail <v-icon class="mt-1">mdi-chevron-double-right</v-icon>
       </v-btn>
 
@@ -51,8 +51,8 @@
         <div v-if="filteredOjbs && filteredOjbs.length > 0">
           <div v-for="obj in filteredOjbs" :key="obj.id">
             <div class="row box-content">
-              <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.id }"
-                @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.id)">
+              <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.post_id }"
+                @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.post_id)">
                 <v-icon>mdi-menu-left</v-icon>
               </div>
               <div class="col-4 p-0">
@@ -114,9 +114,9 @@ import fifthDoc from './For_MainIndex/fifthDocContent.vue'
 import contactpage from './For_MainIndex/ContactVue.vue'
 
 import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { AES } from 'crypto-js';
 
-import AES from 'crypto-js/aes'
-import Utf8 from 'crypto-js/enc-utf8';
 // import { descriptors } from 'chart.js/dist/core/core.defaults'
 
 export default {
@@ -151,52 +151,49 @@ export default {
     contactpage,
   },
 
-  mounted() {
-    this.fetchRegisterUser();
-  },
+  // mounted() {
+  //   this.fetchRegisterUser();
+  // },
 
 
   methods: {
 
-    async fetchRegisterUser() {
-      try {
-        const response = await fetch(`http://localhost:8083/findByMail/${this.getUser.email}`);
+    // async fetchRegisterUser() {
+    //   try {
+    //     const response = await fetch(`http://localhost:8083/findByMail/${this.getUser.email}`);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
 
-        this.registerData = await response.json();
-        console.log("getting Register data : ", this.registerData.register_id);
+    //     this.registerData = await response.json();
+    //     console.log("getting Register data : ", this.registerData.register_id);
 
 
-      } catch (error) {
-        console.error('Error fetching post:', error);
-      }
-    },
+    //   } catch (error) {
+    //     console.error('Error fetching post:', error);
+    //   }
+    // },
 
-    encryptId(id) {
-      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
-      const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
-      return encryptedId
-    },
+    // encryptId(id) {
+    //   const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+    //   const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+    //   return encryptedId
+    // },
 
-    decryptId(encryptedId) {
-      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
-      const decryptedBytes = AES.decrypt(encryptedId, secretKey);
-      const decryptedId = decryptedBytes.toString(Utf8);
-      return parseInt(decryptedId, 10);
-    },
+    // decryptId(encryptedId) {
+    //   const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+    //   const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+    //   const decryptedId = decryptedBytes.toString(Utf8);
+    //   return parseInt(decryptedId, 10);
+    // },
 
-    gotoDetailView(postId) {
+    // clickPost(postId) {
+    //   console.log("See post id : ", postId);
+    //   const encryptData = this.encryptId(postId);
 
-      // const encryptedId = this.encryptId(postId);
-      // this.$router.push({ name: 'postDetailView', params: { id: encryptedId } });
-
-      const encryptData = this.encryptId(postId);
-      sessionStorage.setItem('postId', encryptData);
-      this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-    },
+    //   this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+    // },
 
 
 
@@ -204,7 +201,7 @@ export default {
   },
 
   setup() {
-
+    const router = useRouter();
     const showBackToTop = ref(false);
     const btn_display = ref(false);
     const isPopupVisible = ref(false);
@@ -216,6 +213,7 @@ export default {
     const objs = ref([]);
     const filteredOjbs = ref([]);
     const userData = ref({
+      post_id: '',
       name: '',
       email: '',
       phone: '',
@@ -224,6 +222,7 @@ export default {
 
     const getData = (name, email, phone, description, index) => {
       activeButton.value = null;
+      userData.value.post_id = index;
       userData.value.name = name;
       userData.value.email = email;
       userData.value.phone = phone;
@@ -235,6 +234,35 @@ export default {
     // const hideCard = () => {
     //   isCardVisible.value = false;
     //   activeButton.value = null;
+    // };
+
+    const clickPost = (postId) => {
+
+      // Add the ID of the hidden card to localStorage
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      hiddenCards.push(activeButton.value);
+      localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
+
+      // Update the filteredOjbs based on the new hiddenCards list
+      filteredOjbs.value = filterData(objs.value);
+
+      console.log("Sent Post id : ", postId);
+      const enyId = encryptId(postId);
+
+      router.push({ name: 'postDetailView', params: { id: `${enyId} Success` } });
+    };
+
+    const encryptId = (id) => {
+      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+      const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
+      return encryptedId;
+    };
+
+    // const decryptId = (encryptedId) => {
+    //   const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+    //   const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+    //   const decryptedId = decryptedBytes.toString(Utf8);
+    //   return parseInt(decryptedId, 10);
     // };
 
     const hideCard = () => {
@@ -300,7 +328,6 @@ export default {
 
     const fetchNotifications = () => {
       const user = JSON.parse(sessionStorage.getItem('sub_user'));
-      console.log("Fetch noti reached : ", user);
 
       // Make API call to fetch posts from backend
       if (user) {
@@ -308,16 +335,15 @@ export default {
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
           .then((response) => response.json())
           .then((data) => {
-            console.log("first check data for each ", data);
+
             data.forEach((obj) => {
               if (obj.posts.sellpost) {
                 let imgUrls = Array.isArray(obj.posts.sellpost.image)
                   ? obj.posts.sellpost.image
                   : [obj.posts.sellpost.image];
 
-                console.log(obj);
                 objs.value.unshift({
-                  id: obj.id,
+                  id: obj.post_id,
                   register_id: obj.reg_user.register_id,
                   name: obj.reg_user.name,
                   phone: obj.reg_user.phone,
@@ -326,12 +352,11 @@ export default {
                   post_id: obj.posts.post_id,
                   photo_url: imgUrls,
                 });
-                console.log(imgUrls);
+
               }
             });
             // Initialize notification count with the length of fetched notifications
             filteredOjbs.value = filterData(objs.value);
-            console.log("Fliter post : ", objs.value);
           })
           .catch((error) => {
             console.error('Error fetching photos:', error);
@@ -343,7 +368,7 @@ export default {
 
     const filterData = (data) => {
       const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
-      const filteredOjbs = data.filter(obj => !hiddenCards.includes(obj.id));
+      const filteredOjbs = data.filter(obj => !hiddenCards.includes(obj.post_id));
       notificationCount.value = filteredOjbs.length;
       return filteredOjbs;
     };
@@ -358,6 +383,7 @@ export default {
     });
 
     return {
+      clickPost,
       cleanStorage,
       filteredOjbs,
       filterData,

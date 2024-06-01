@@ -734,6 +734,8 @@ export default {
             // then decrypt 
             const decryptId = this.decryptId(postId);
 
+            console.log("Get id from : ", decryptId);
+
             try {
                 const response = await fetch(`http://localhost:8083/posts/getPostById/${decryptId}`);
 
@@ -783,7 +785,6 @@ export default {
                 deposit: postData.deposit || '',
                 least_contract: postData.least_contract || ''
             };
-            console.log("POst Detail : ", this.posts);
         },
 
         async fetchRegisterUser(id) {
