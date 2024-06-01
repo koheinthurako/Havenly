@@ -28,8 +28,6 @@ public class Ban_user_Controller {
 
 	@PostMapping("/register")
 	public ResponseEntity<Ban_user> register(@RequestBody Ban_user user){
-		
-		
 		return new ResponseEntity<Ban_user> (banService.save(user),HttpStatus.OK);
 	}
 	

@@ -27,9 +27,9 @@ public class Reg_user_DD {
 	private LocalTime time;
 	private int packageTypeId;
 	private String packageName;
-	private String nrc;
 	private int subUserId;
 	private String profileImg;
+
 	
 	public Reg_user covertToEntity(Reg_user_DD dto) {
 		Reg_user user=new Reg_user();
@@ -59,7 +59,6 @@ public class Reg_user_DD {
 		
 		if(sub!=null) {
 			dto.setSubUserId(sub.getSubUserId());		
-			dto.setNrc(sub.getNrc().toString());
 			dto.setPackageTypeId(sub.getPackages().getPackType().getPackageTypeId());
 			dto.setPackageName(sub.getPackages().getPackType().getPackName());	
 			}

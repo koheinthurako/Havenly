@@ -23,8 +23,7 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <swiper-slide>
-                        <!-- package one start -->
+                    <!-- <swiper-slide>
                         <div class="temp-package">
                             <div v-if=package1>
                             <div style="line-height: 0px;">

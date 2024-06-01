@@ -19,135 +19,173 @@
                 Submit Payment</v-btn>
       </div></v-col>
     </v-row>    </v-form>
-    <!-- <v-alert v-if="message" :type="messageType">{{ message }}</v-alert> -->
     <p><a href="/packages"> Go Back </a></p> 
   </v-sheet>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import router from '@/router';
+  import axios from 'axios';
+  import router from '@/router';
+  import Swal from 'sweetalert2';
 
-export default {
-  data() {
-    return {
-      cardNumber: '',
-      cardHolder: '',
-      expirationDate: '',
-      cvv: '',
-      valid: false,
-      message: '',
-      messageType: '',
+  export default {
+    data() {
+      return {
+        cardNumber: '',
+        cardHolder: '',
+        expirationDate: '',
+        cvv: '',
+        valid: false,
+        message: '',
+        messageType: '',
 
-      user :{
-            email: '',
-            packageName : '',
-            amount: '',
-          },
-      login :{
-        alreadyPurchased: '',
-          },
-    }
-  },
-  created() {
-    // Fetch session data from sessionStorage
-    const packageData = JSON.parse(sessionStorage.getItem('packageData'));
-    if(packageData!==null){
-      this.user.packageType=packageData.name;
-      this.user.amount=packageData.price;
-      console.log("package name : ", packageData.name);
-      console.log("amount: ", packageData.price)
-    }else{ 
-      console.log("no package data in session storage!");
-    }
-    const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    if (loginUserData !==null ) { 
-      this.user.email = loginUserData.email;
-      console.log('User is logged in.');
-      if(loginUserData.nrc !== null){
-        console.log("User is subbed."); 
-        this.login.alreadyPurchased = loginUserData.packageName;
-        console.log("package : ", this.login.alreadyPurchased);
-       }
-    // else if(subbedData !== null ){
-    //   console.log("User is subbed.");   
-    // this.login.alreadyPurchased = subbedData.packageName;
-    //   console.log("package : ", this.login.alreadyPurchased);
-    // }
-    else{
-      console.log("user is not subbed!");
-      alert("You must be subscribed to buy our packages!");
-      router.push('/subscribe');
-  }
-    } else {
-      alert("Log in or register first to buy packages!");
-      console.error('User email not found in sessionStorage.');
-      router.push('/loginakm');
-      
-    }
-   
-  },
-  methods: {
-    submitForm() {
-      // Check if all fields are filled
-      if (!this.cardNumber || !this.cardHolder || !this.expirationDate || !this.cvv) {
-        alert("Please fill in all required fields.");
-        console.log("required fields missing.");
-        return;
+        user :{
+              email: '',
+              packageType : '',
+              amount: '',
+            },
+        login :{
+          alreadyPurchased: '',
+            },
       }
-       // Check if expiration date is in MM/YY format
-       const expirationRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-      if (!expirationRegex.test(this.expirationDate)) {
-        alert("Wrong Format");
-        console.log("wrong date format");
-        return;
-      }
-    // Check if the input date is in the past
-    // Split the input into month and year
-    let [inputMonth, inputYear] = this.expirationDate.split('/');
-    // Get the current month and year
-    let currentYear = new Date().getFullYear().toString().substr(-2);
-    let currentMonth = ('0' + (new Date().getMonth() + 1)).slice(-2);
-    if (inputYear < currentYear || (inputYear == currentYear && inputMonth < currentMonth)) {
-        alert("Your card is expired");
-        console.log("card is expired");
-        return;
-    }
-      function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                              console.log(response);
-                                const statusCode = response?.status
-                                if(statusCode===500){console.log("error");
-                                alert("Error processing payment. Please try again later.");}
-                                
-                                if(statusCode===400){
-                                alert("Error processing data.");
-                              }
-                                }
-                            }
-                    }
-                  axios.post("http://localhost:8083/packages/payment",this.user)
-     .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status===200){
-                  alert("Payment Success! Thank you for buying our package!");
-                  sessionStorage.removeItem('packageName');
-                 } 
-                 sessionStorage.setItem('packageUser',JSON.stringify(response.data))
-                 router.push('/home');
+    },
+    created() {
+      // Fetch session data from sessionStorage
+      const packageData = JSON.parse(sessionStorage.getItem('packageName'));
 
-                let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
-                userData.packageName = this.user.packageName;
-                sessionStorage.setItem('login_user', JSON.stringify(userData));
-            })
-            .catch(httpErrorHandler)
+      if(packageData!== null){
+        this.user.packageType=packageData.name;
+        this.user.amount=packageData.price;
+        console.log("package name : ", packageData.name);
+        console.log("amount: ", packageData.price)
+      }else{ 
+        console.log("no package data in session storage!");
+      }
+
+      if (!sessionStorage.getItem('login_user')) {    
+        Swal.fire({
+          title: 'Login Required',
+          text: 'Please login first to subscribe!',
+          icon: 'info',
+          customClass: {
+            confirmButton: 'myCustomButton'
+          },
+          buttonsStyling: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then(() => {
+          router.push('/login'); 
+        });
+        
+      } else {
+        const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
+        const email = loginUser.email;
+        const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+        this.user.email = email;
+        console.log('User is logged in.');
+        if(subUser && subUser.packageType == "Free Trial") {
+          console.log("User is subbed."); 
+          this.login.alreadyPurchased= subUser.packageType;
+          console.log("packagetype : ", this.login.alreadyPurchased);
+        } 
+      }
+    },
+
+    methods: {
+      submitForm() {
+        // Check if all fields are filled
+        if (!this.cardNumber || !this.cardHolder || !this.expirationDate || !this.cvv) {
+          Swal.fire({
+            title: 'Missing Informations!',
+            text: 'Please fill in all required fields.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          })
+          return;
+        }
+        // Check if expiration date is in MM/YY format
+        const expirationRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+        if (!expirationRegex.test(this.expirationDate)) {
+          Swal.fire({
+            title: 'Wrong Format!',
+            text: 'Please correct the correct date.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          });
+          return;
+        }
+      // Check if the input date is in the past
+      // Split the input into month and year
+      let [inputMonth, inputYear] = this.expirationDate.split('/');
+      // Get the current month and year
+      let currentYear = new Date().getFullYear().toString().substr(-2);
+      let currentMonth = ('0' + (new Date().getMonth() + 1)).slice(-2);
+      if (inputYear < currentYear || (inputYear == currentYear && inputMonth < currentMonth)) {
+        Swal.fire({
+            title: 'Card Expired!',
+            text: 'Your card is expired! Try another card.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+          return;
+      }
+        function httpErrorHandler(error) {
+          if (axios.isAxiosError(error)) {
+              const response = error?.response
+              if(response){
+                console.log(response);
+                  const statusCode = response?.status
+                  if(statusCode===500){console.log("error");
+                  alert("Error processing payment. Please try again later.");}
+                  
+                  if(statusCode===400){
+                  alert("Error processing data.");
+                }
+                  }
+              }
+        }
+
+        axios.post("http://localhost:8083/packages/payment",this.user)
+        .then(function(response){
+          const status=JSON.parse(response.status);
+          if(status===200){
+            Swal.fire({
+              title: 'Payment Success!',
+              text: 'Thank you for buying our package.',
+              icon: 'success',
+              customClass: {
+                  confirmButton: 'myCustomSuccessButton'
+              },
+              buttonsStyling: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false
+              }).then(() => {
+                router.push('/'); 
+            });
+          } 
+            sessionStorage.setItem('packageUser',JSON.stringify(response.data))
+        })
+        .catch(httpErrorHandler)
+      },
 
     }
   }
-}
 </script>
 
 <style>
