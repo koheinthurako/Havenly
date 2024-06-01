@@ -225,15 +225,17 @@
                                 </div>
                             </div>
                         </div> -->
+
                         <!-- :hidden="getUser.email == registerData.email" -->
-                        <!-- <p>For Logined user {{ getUser.email }}</p> -->
-                        <!-- <p>For Post user {{ registerData.email }}</p> -->
-                        <!-- :hidden="getUser.email == registerData.email" -->
-                        <div v-if="getUser" :hidden="getUser.email == registerData.email">
-                            <v-btn class="req-btn" @click="openDialog">
+                        <!-- <div v-if="getUser">
+                            <v-btn :disabled="getUser.email == registerData.email" class="req-btn" @click="openDialog">
                                 Make interest
                             </v-btn>
-                        </div>
+                        </div> -->
+                        <v-btn class="req-btn" @click="openDialog">
+                            Make interest
+                        </v-btn>
+
 
                         <hr class="mx-auto d-block d-sm-none mt-0">
                     </div>
