@@ -22,8 +22,7 @@ import AllPostView from '@/views/AllPostView.vue'
 import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
-
-
+import PostsByLocation from '@/views/PostsByLocation.vue'
 
 const routes = [
   {
@@ -120,6 +119,11 @@ const routes = [
     path: '/all/posts/of/:postType',
     name: 'AllPostView',
     component: AllPostView,
+  },
+  {
+    path: '/all/posts/postsbylocation/:locationId',
+    name: 'PostsByLocation',
+    component: PostsByLocation,
   },
 
 ]

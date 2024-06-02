@@ -29,262 +29,254 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
                 <div v-else>
-                    <!-- display posts start -->
-                    <div class="row mb-5 g-3">
-                        <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-                            <div class="card-container">
-                                <!-- TZH card styles -->
-                                <div class="card cursor-pointer" style="height: 460px;">
-                                    <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
-                                <img :src="url" class="w-100 h-100" alt="Card image cap">
-                            </div> -->
-                                    <div class="cardImgBox mb-2">
-                                        <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
-                                    </div>
-                                    <div class="card-body p-3 d-flex flex-column">
-                                        <div class="d-flex gap-1">
-                                            <div class="mb-2">
-                                                <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                    :class="getStatusClass(post.post_type)">{{ post.post_type }}</span>
-                                            </div>
-                                            <div class="mb-2">
-                                                <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                    :class="getStatusClass(post.status)">{{ post.status }}</span>
-                                            </div>
-                                        </div>
-                                        <h5 class="card-title mb-3">{{ post.title }}</h5>
-                                        <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
-                                        <!-- <div class="d-flex mb-3 justify-content-between">
-                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
-                                    <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
+                    <div v-if="posts.length > 0">
+                        <!-- display posts start -->
+                        <div class="row mb-5 g-3">
+                            <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                                <div class="card-container">
+                                    <!-- TZH card styles -->
+                                    <div class="card cursor-pointer" style="height: 460px;">
+                                        <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
+                                    <img :src="url" class="w-100 h-100" alt="Card image cap">
                                 </div> -->
-                                        <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
-                                            <v-icon>mdi-map-marker-radius</v-icon>
-                                            {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                        </p>
-
-                                        <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
-                                            <button class="btn btn-outline-danger w-100" @click="editPost(post)"
-                                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                            <button class="btn btn-danger w-100"
-                                                @click="deletePost(post)">Delete</button>
+                                        <div class="cardImgBox mb-2">
+                                            <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                                         </div>
+                                        <div class="card-body p-3 d-flex flex-column">
+                                            <div class="d-flex gap-1">
+                                                <div class="mb-2">
+                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
+                                                        :class="getStatusClass(post.post_type)">{{ post.post_type }}</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
+                                                        :class="getStatusClass(post.status)">{{ post.status }}</span>
+                                                </div>
+                                            </div>
+                                            <h5 class="card-title mb-3">{{ post.title }}</h5>
+                                            <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
+                                            <!-- <div class="d-flex mb-3 justify-content-between">
+                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
+                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
+                                    </div> -->
+                                            <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
+                                                <v-icon>mdi-map-marker-radius</v-icon>
+                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                            </p>
+
+                                            <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
+                                                <button class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                                <button class="btn btn-danger w-100"
+                                                    @click="deletePost(post)">Delete</button>
+                                            </div>
 
 
-                                        <!-- <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <v-rating :model-value="4.5" color="danger" density="compact" size="small"
-                                        half-increments readonly>
-                                    </v-rating>
-                                    <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <p class="m-0 small">{{ post.area }}</p>
-                                    <p class="m-0 small fw-bold fs-6">{{ post.price }}</p>
-                                    
-                                </div>
-                                <v-divider :thickness="2" class="border-opacity-25 d-block"/>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                        <span class="ms-1 text-grey">12d 8h 56m</span>
+                                            <!-- <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <v-rating :model-value="4.5" color="danger" density="compact" size="small"
+                                            half-increments readonly>
+                                        </v-rating>
+                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
                                     </div>
-                                    <div class="d-flex">
-                                        <v-icon class="text-red">mdi-eye</v-icon>
-                                        <span class="ms-1 text-grey" title="People watched times">1331</span>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="m-0 small">{{ post.area }}</p>
+                                        <p class="m-0 small fw-bold fs-6">{{ post.price }}</p>
+                                        
                                     </div>
-                                </div> -->
+                                    <v-divider :thickness="2" class="border-opacity-25 d-block"/>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
+                                            <span class="ms-1 text-grey">12d 8h 56m</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <v-icon class="text-red">mdi-eye</v-icon>
+                                            <span class="ms-1 text-grey" title="People watched times">1331</span>
+                                        </div>
+                                    </div> -->
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
 
-                        </div>
-
-                        <!-- Edit Modal Box -->
-                        <div class="editModalBox">
-                            <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
-                                    <div class="modal-content" style="max-width: 2000px !important;">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
-                                                currentPost.post_type }}</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
-                                            <form @submit.prevent="submit" enctype="multipart/form-data"
-                                                class="w-100 px-4 py-3">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small">Title <span
-                                                                class="text-red">*</span></span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-text-field bg-color="#EDEDED" filled variant="solo"
-                                                            density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                            clearable class="w-100" v-model="title"
-                                                            placeholder="Title"></v-text-field>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12 py-0">
-                                                        <span class="float-left mt-2 small">Description<span
-                                                                class="text-red">*</span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12 py-0">
-                                                        <v-textarea bg-color="#EDEDED" class="w-100"
-                                                            clear-icon="mdi-close-circle" clearable variant="solo"
-                                                            rounded="lg" density="compact" v-model="fullDescription"
-                                                            :counter="10000" placeholder="Description"></v-textarea>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="p-0 row-1 d-flex">
-                                                    <v-select bg-color="white" v-model="selectedCountry"
-                                                        :items="uniqueCountries" label="Select country"
-                                                        required></v-select>
-                                                    <v-select bg-color="white" v-model="selectedProvince"
-                                                        :items="uniqueProvinces" :disabled="!selectedCountry"
-                                                        label="Select province" required></v-select>
-                                                    <v-select bg-color="white" v-model="selectedAmphoe"
-                                                        :items="uniqueAmphoes" :disabled="!selectedProvince"
-                                                        label="Select amphoe" required></v-select>
-                                                    <v-select bg-color="white" v-model="selectedRegion"
-                                                        :items="uniqueRegions" :disabled="!selectedAmphoe"
-                                                        label="Select region" required></v-select>
-                                                    <v-select bg-color="white" v-model="selectedLocation"
-                                                        :items="uniqueLocations" :disabled="!selectedRegion"
-                                                        label="Country_id" required></v-select>
-                                                </div>
-
-                                                <div class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small"> Property Type </span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-select bg-color="#EDEDED" class="w-100"
-                                                            clear-icon="mdi-close-circle" clearable variant="solo"
-                                                            rounded="lg" density="compact" v-model="property_type"
-                                                            :items="PropertyTypes"
-                                                            placeholder="Select property type"></v-select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small">Price($Dollar)<span
-                                                                class="text-red">*</span></span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-text-field bg-color="#EDEDED" filled variant="solo"
-                                                            density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                            clearable class="w-100" v-model="price"
-                                                            placeholder="price"></v-text-field>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small">Area</span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-text-field bg-color="#EDEDED" filled variant="solo"
-                                                            density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                            clearable class="w-100" v-model="area"
-                                                            placeholder="Area"></v-text-field>
-                                                    </div>
-                                                </div>
-                                                <div v-if="currentPost.deposit" class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small">Deposit</span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-text-field bg-color="#EDEDED" filled variant="solo"
-                                                            density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                            clearable class="w-100" v-model="deposit"
-                                                            placeholder="Deposit"></v-text-field>
-                                                    </div>
-                                                </div>
-                                                <div v-if="currentPost.least_contract"
-                                                    class="row justify-content-between">
-                                                    <div class="col-md-2 col-sm-12">
-                                                        <span class="float-left mt-2 small">Least Contract</span>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-12">
-                                                        <v-text-field bg-color="#EDEDED" filled variant="solo"
-                                                            density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                            clearable class="w-100" v-model="least_contract"
-                                                            placeholder="Least Contract"></v-text-field>
-                                                    </div>
-                                                </div>
-
-                                                <!-- <div class="row justify-content-between">
-                                            <div class="col-md-3 col-sm-12 py-0">
-                                                <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
-                                                </span>
+                            <!-- Edit Modal Box -->
+                            <div class="editModalBox">
+                                <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
+                                        <div class="modal-content" style="max-width: 2000px !important;">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
+                                                    currentPost.post_type }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <div class="col-md-9 col-sm-12 py-0" @click="showUploadPhoto(currentPost.photo_url)">
-                                                <v-file-input counter multiple color="deep-purple-accent-4" chips
-                                                    truncate-length="15" v-model="currentPost.photo_url"
-                                                    accept="image/png, image/jpeg, image/bmp" 
-                                                    prepend-icon="mdi-camera"></v-file-input>
-                                            </div>
-                                        </div> -->
-
-                                                <div :key="forceRerender">
+                                            <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
+                                                <form @submit.prevent="submit" enctype="multipart/form-data"
+                                                    class="w-100 px-4 py-3">
                                                     <div class="row justify-content-between">
-                                                        <div class="col-md-3 col-sm-12 py-0">
-                                                            <span class="float-left mt-2 small">Replace Image<span
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Title <span
                                                                     class="text-red">*</span></span>
                                                         </div>
-                                                        <div
-                                                            class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row">
-                                                            <div v-for="(photo, index) in currentPost.photo_url"
-                                                                :key="'photo_' + index" class="mb-2 col-12 col-md-4">
-                                                                <img :src="photo" class="img-thumbnail"
-                                                                    @click="setClickedPhotoIndex(index)"
-                                                                    alt="Current Post Image">
-                                                            </div>
-                                                            <!-- <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
-                                                        <img :src="photo" class="img-thumbnail" @click="setClickedPhotoIndex(index)" alt="Current Post Image">
-                                                    </div> -->
-                                                            <!-- Hidden file input -->
-                                                            <input type="file" ref="fileInput" style="display: none;"
-                                                                @change="handleFileChange">
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="title"
+                                                                placeholder="Title"></v-text-field>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-danger"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-danger"
-                                                @click="submit(currentPost)">Save
-                                                changes</button>
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12 py-0">
+                                                            <span class="float-left mt-2 small">Description<span
+                                                                    class="text-red">*</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12 py-0">
+                                                            <v-textarea bg-color="#EDEDED" class="w-100"
+                                                                clear-icon="mdi-close-circle" clearable variant="solo"
+                                                                rounded="lg" density="compact" v-model="fullDescription"
+                                                                :counter="10000" placeholder="Description"></v-textarea>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="p-0 row-1 d-flex">
+                                                        <v-select bg-color="white" v-model="selectedCountry"
+                                                            :items="uniqueCountries" label="Select country"
+                                                            required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedProvince"
+                                                            :items="uniqueProvinces" :disabled="!selectedCountry"
+                                                            label="Select province" required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedAmphoe"
+                                                            :items="uniqueAmphoes" :disabled="!selectedProvince"
+                                                            label="Select amphoe" required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedRegion"
+                                                            :items="uniqueRegions" :disabled="!selectedAmphoe"
+                                                            label="Select region" required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedLocation"
+                                                            :items="uniqueLocations" :disabled="!selectedRegion"
+                                                            label="Country_id" required></v-select>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small"> Property Type </span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-select bg-color="#EDEDED" class="w-100"
+                                                                clear-icon="mdi-close-circle" clearable variant="solo"
+                                                                rounded="lg" density="compact" v-model="property_type"
+                                                                :items="PropertyTypes"
+                                                                placeholder="Select property type"></v-select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Price($Dollar)<span
+                                                                    class="text-red">*</span></span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="price"
+                                                                placeholder="price"></v-text-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Area</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="area"
+                                                                placeholder="Area"></v-text-field>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="currentPost.deposit" class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Deposit</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="deposit"
+                                                                placeholder="Deposit"></v-text-field>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="currentPost.least_contract"
+                                                        class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Least Contract</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="least_contract"
+                                                                placeholder="Least Contract"></v-text-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- <div class="row justify-content-between">
+                                                <div class="col-md-3 col-sm-12 py-0">
+                                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-9 col-sm-12 py-0" @click="showUploadPhoto(currentPost.photo_url)">
+                                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
+                                                        truncate-length="15" v-model="currentPost.photo_url"
+                                                        accept="image/png, image/jpeg, image/bmp" 
+                                                        prepend-icon="mdi-camera"></v-file-input>
+                                                </div>
+                                            </div> -->
+
+                                                    <div :key="forceRerender">
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-md-3 col-sm-12 py-0">
+                                                                <span class="float-left mt-2 small">Replace Image<span
+                                                                        class="text-red">*</span></span>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row">
+                                                                <div v-for="(photo, index) in currentPost.photo_url"
+                                                                    :key="'photo_' + index" class="mb-2 col-12 col-md-4">
+                                                                    <img :src="photo" class="img-thumbnail"
+                                                                        @click="setClickedPhotoIndex(index)"
+                                                                        alt="Current Post Image">
+                                                                </div>
+                                                                <!-- <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2">
+                                                            <img :src="photo" class="img-thumbnail" @click="setClickedPhotoIndex(index)" alt="Current Post Image">
+                                                        </div> -->
+                                                                <!-- Hidden file input -->
+                                                                <input type="file" ref="fileInput" style="display: none;"
+                                                                    @change="handleFileChange">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger"
+                                                    @click="submit(currentPost)">Save
+                                                    changes</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Offcanvas -->
-                        <!-- <div class="editOffcanvasBox" v-for="post in posts" :key="post.post_id">
-                    <div class="offcanvas offcanvas-top p-3" tabindex="-1" id="editOffcanvas" aria-labelledby="offcanvasTopLabel">
-                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-                </div> -->
-
+                    </div>
+                    <div v-else>
+                        No post found
                     </div>
                     <!-- display posts end -->
                 </div>
@@ -630,74 +622,74 @@ export default {
                     subUserId: subUserId
                 }
             })
-                .then(response => {
-                    response.data.forEach(post => {
+            .then(response => {
+                response.data.forEach(post => {
+                    console.log(post);
+                    if (post.rentpost) {
+                        let des = post.rentpost.description;
+                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
+
+                        let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
+                        console.log(imageUrls);
                         console.log(post);
-                        if (post.rentpost) {
-                            let des = post.rentpost.description;
-                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
-                            console.log(imageUrls);
-                            console.log(post);
+                        this.posts.unshift({
+                            post_id: post.post_id,
+                            rentPostId: post.rentpost.rent_post_id,
+                            province: post.rentpost.locations.province,
+                            region: post.rentpost.locations.region,
+                            amphoe: post.rentpost.locations.amphoe,
+                            location_id: post.rentpost.locations.location_id,
+                            country: post.rentpost.locations.countries.country_name,
+                            title: post.rentpost.title,
+                            shortDescription: shortDescription,
+                            fullDescription: post.rentpost.description,
+                            property_type: post.rentpost.property_type,
+                            area: post.rentpost.area,
+                            price: post.rentpost.price,
+                            deposit: post.rentpost.deposit,
+                            least_contract: post.rentpost.least_contract,
+                            photo_url: imageUrls,
+                            status: post.status,
+                            post_type: post.post_type,
+                        });
+                    } else if (post.sellpost) {
+                        console.log(post);
+                        let des = post.sellpost.description;
+                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                            this.posts.unshift({
-                                post_id: post.post_id,
-                                rentPostId: post.rentpost.rent_post_id,
-                                province: post.rentpost.locations.province,
-                                region: post.rentpost.locations.region,
-                                amphoe: post.rentpost.locations.amphoe,
-                                location_id: post.rentpost.locations.location_id,
-                                country: post.rentpost.locations.countries.country_name,
-                                title: post.rentpost.title,
-                                shortDescription: shortDescription,
-                                fullDescription: post.rentpost.description,
-                                property_type: post.rentpost.property_type,
-                                area: post.rentpost.area,
-                                price: post.rentpost.price,
-                                deposit: post.rentpost.deposit,
-                                least_contract: post.rentpost.least_contract,
-                                photo_url: imageUrls,
-                                status: post.status,
-                                post_type: post.post_type,
-                            });
-                        } else if (post.sellpost) {
-                            console.log(post);
-                            let des = post.sellpost.description;
-                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
+                        let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
+                        console.log(imageUrls);
+                        console.log(post);
 
-                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
-                            console.log(imageUrls);
-                            console.log(post);
-
-                            this.posts.unshift({
-                                post_id: post.post_id,
-                                sellPostId: post.sellpost.sell_post_id,
-                                province: post.sellpost.locations.province,
-                                region: post.sellpost.locations.region,
-                                amphoe: post.sellpost.locations.amphoe,
-                                location_id: post.sellpost.locations.location_id,
-                                country: post.sellpost.locations.countries.country_name,
-                                title: post.sellpost.title,
-                                shortDescription: shortDescription,
-                                fullDescription: post.sellpost.description,
-                                property_type: post.sellpost.property_type,
-                                area: post.sellpost.area,
-                                price: post.sellpost.price,
-                                photo_url: imageUrls,
-                                status: post.status,
-                                post_type: post.post_type,
-                            });
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching posts:', error);
-                    this.displayError = 'Error fetching posts';
-                })
-                .finally(() => {
-                    this.loading = false;  // Stop loading
+                        this.posts.unshift({
+                            post_id: post.post_id,
+                            sellPostId: post.sellpost.sell_post_id,
+                            province: post.sellpost.locations.province,
+                            region: post.sellpost.locations.region,
+                            amphoe: post.sellpost.locations.amphoe,
+                            location_id: post.sellpost.locations.location_id,
+                            country: post.sellpost.locations.countries.country_name,
+                            title: post.sellpost.title,
+                            shortDescription: shortDescription,
+                            fullDescription: post.sellpost.description,
+                            property_type: post.sellpost.property_type,
+                            area: post.sellpost.area,
+                            price: post.sellpost.price,
+                            photo_url: imageUrls,
+                            status: post.status,
+                            post_type: post.post_type,
+                        });
+                    }
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                this.displayError = 'Error fetching posts';
+            })
+            .finally(() => {
+                this.loading = false;  // Stop loading
+            });
         },
 
 

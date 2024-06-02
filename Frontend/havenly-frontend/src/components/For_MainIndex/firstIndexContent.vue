@@ -46,9 +46,11 @@
                 <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
                 <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
                 <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
                 <div class="form-btn-group" :hidden="!selectedRegion">
-                  <v-btn class="me-3 submit" type="submit">Search</v-btn>
+                  <v-btn class="me-3 submit" type="submit" @click="searchPostByLocations(selectedLocation)">Search</v-btn>
+                  <!-- <router-link to="/all/posts/postbylocations">
+                  </router-link> -->
                   <v-btn class="clear" @click="clearFields">Clear</v-btn>
                 </div>
               </div>
@@ -74,6 +76,7 @@
 import json_data from '../../assets/json/thailand_location.json'
 import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 import axios from 'axios';
+import { AES } from 'crypto-js';
 
 export default {
   name: 'firstIndexContent',
@@ -91,6 +94,7 @@ export default {
       selectedProvince: '',
       selectedAmphoe: '',
       selectedRegion: '',
+      selectedLocation: '',
       zipCode: '',
       center: { lat: 16.90177, lng: 96.09596 }, // Initial center of the map
       zoom: 13,
@@ -113,8 +117,12 @@ export default {
       return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
     },
     
-    uniqueDistricts() {
+    uniqueRegions() {
       return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+    },
+
+    uniqueLocations() {
+      return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
     },
     
     filteredLocations() {
@@ -127,6 +135,18 @@ export default {
     },
   },
 
+  watch: {
+    selectedRegion(newRegion) {
+      if (newRegion) {
+        const selectedLocation = this.locations.find(location => location.region === newRegion);
+        if (selectedLocation) {
+          this.selectedLocation = selectedLocation.location_id;
+          console.log(this.selectedLocation); // Log the location_id
+        }
+      }
+    }
+  },
+
   mounted() {
     localStorage.removeItem('openTab');
     const cachedData = this.getLocationsFromSessionStorage();
@@ -136,7 +156,6 @@ export default {
     } else {
         this.fetchLocations();
     }
-
     this.fetchSubUser();
   },
 
@@ -253,6 +272,18 @@ export default {
       this.selectedRegion = '';
       this.zipCode = '';
     },
+
+    encryptId(id) {
+      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+      const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+      return encryptedId;
+    },
+
+    searchPostByLocations(location_id) {
+      console.log(location_id + " location search htae ka id");
+      const encryptedId = this.encryptId(location_id);
+      this.$router.push({ name: 'PostsByLocation', params: { locationId: `${encryptedId} Success` } });
+    }
 
   },
 }

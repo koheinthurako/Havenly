@@ -52,8 +52,8 @@
                                     :disabled="!selectedProvince" label="Select amphoe" required></v-select>
                                 <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
                                     :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations"
-                                    :disabled="!selectedRegion" label="Country_id" required></v-select>
+                                <!-- <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations"
+                                    :disabled="!selectedRegion" label="Country_id" required></v-select> -->
                             </div>
                             <!-- <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
@@ -222,6 +222,7 @@ export default {
         selectedAmphoe: '',
         selectedRegion: '',
         selectedLocation: '',
+        secondselectlocation: '',
         availPosts: '',
         sellPosts: [],
         change_type: 'sell',
@@ -323,6 +324,18 @@ export default {
             return this.sellPosts.slice(0, 4);
         },
 
+    },
+
+    watch: {
+        selectedRegion(newRegion) {
+        if (newRegion) {
+            const selectedLocation = this.locations.find(location => location.region === newRegion);
+            if(selectedLocation) {
+                this.selectedLocation = selectedLocation.location_id;
+                console.log(this.selectedLocation);
+            }
+        }
+        }
     },
 
     mounted() {
@@ -467,7 +480,6 @@ const PropertyTypes = ref([
     'House'
 ])
 
-const selectedLocation = ref('')
 const { proxy } = getCurrentInstance();
 
 const submit = async () => {
@@ -480,11 +492,10 @@ const submit = async () => {
     formData.append('subUserId', subUserId);
     formData.append('title', title.value.value);
     formData.append('description', Description.value.value);
-    // formData.append('house_type', houseTypes.value.value);
     formData.append('property_type', propertyTypes.value.value);
     formData.append('price', price.value.value);
     formData.append('area', area.value.value);
-    formData.append('location_id', selectedLocation.value);
+    formData.append('location_id', proxy.selectedLocation);
     // Append the files as an array
     const files = Object.values(image.value.value);
     console.log(files);

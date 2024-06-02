@@ -42,6 +42,11 @@ public class Posts_Service_Impl implements Posts_Service {
 	public Posts getPostById(int postId) {
 		return postsRepo.findById(postId).orElse(null);
 	}
+	
+	@Override
+	public List<Posts> getAllPostsByLocation(int locationId) {
+		return postsRepo.getAllPostsByLocation(locationId);
+	}
 
 	public Posts update(Posts post) {
 
@@ -66,6 +71,8 @@ public class Posts_Service_Impl implements Posts_Service {
 	public List<Posts> getInterestPostByRegId(int id) {
 		return postsRepo.getInterestedPostsByRegId(id);
 	}
+
+	
 
 
 }

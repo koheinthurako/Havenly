@@ -54,6 +54,11 @@ public class Posts_Controller {
 		return new ResponseEntity<List<Posts>>(postService.getAllCompletePosts(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/postsByLocation")
+	public ResponseEntity<List<Posts>> getAllPostsByLocation(@RequestParam int locationId) {
+		return new ResponseEntity<List<Posts>>(postService.getAllPostsByLocation(locationId), HttpStatus.OK);
+	}
+	
 	@PutMapping("/update")
 	public ResponseEntity<Posts> update(@RequestBody Posts post){
 		return new ResponseEntity<Posts>(postService.update(post),HttpStatus.OK);
