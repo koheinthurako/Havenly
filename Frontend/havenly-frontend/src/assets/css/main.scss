@@ -219,6 +219,39 @@ body {
   }
 }
 
+/* for offcanvas */
+.offcanvas-edit {
+  background-color: #ccc;
+  padding: 0px;
+  margin-top: 70px;
+  width: 380px !important;
+
+  .offcanvas-body {
+    .me-auto {
+      width: 100%;
+      border-radius: 6px;
+      transition: all 0.3s ease-in-out;
+    }
+    span {
+      margin-right: 4px;
+      color: #e83b4f;
+    }
+
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .offcanvas-body::-webkit-scrollbar {
+    display: none; /* WebKit-based browsers */
+  }
+
+  /* Optional: Maintain the scroll functionality for better UX */
+  .offcanvas-body {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    overflow: -moz-scrollbars-none; /* Old versions of Firefox */
+  }
+}
+
 /* For Navbar End */
 
 /* For First Index start */
@@ -2636,7 +2669,6 @@ body {
   padding-top: 25px;
   padding-bottom: 14px;
   background-color: red;
-  z-index: 1200;
   @include filter_above_img();
 
   span {
@@ -3250,7 +3282,7 @@ body {
 // My Custom Buttons
 .myCustomButton {
   width: 100px;
-  color:#fff;
+  color: #fff;
   padding: 12px 15px;
   border-radius: 6px;
   background-color: #e86f52;
@@ -3264,7 +3296,7 @@ body {
 
 .myCustomSuccessButton {
   width: 100px;
-  color:#fff;
+  color: #fff;
   padding: 12px 15px;
   border-radius: 6px;
   background-color: #03c126;

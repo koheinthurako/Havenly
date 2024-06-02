@@ -29,6 +29,7 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
                 <div v-else>
+                    <h3 class="mb-3">Admin approved your uploaded posts.</h3>
                     <!-- display posts start -->
                     <div class="row mb-5 g-3">
                         <div v-for="post in posts" :key="post.post_id" class="col-md-3">

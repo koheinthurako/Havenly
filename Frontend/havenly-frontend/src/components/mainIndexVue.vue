@@ -49,7 +49,7 @@
       <div class="popup-data">
 
         <div v-if="filteredOjbs && filteredOjbs.length > 0">
-          <div v-for="obj in filteredOjbs" :key="obj.id">
+          <div v-for="obj in filteredOjbs" :key="obj.post_id">
             <div class="row box-content">
               <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.post_id }"
                 @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.post_id)">
@@ -230,11 +230,6 @@ export default {
       isCardVisible.value = true;
       activeButton.value = index;
     };
-
-    // const hideCard = () => {
-    //   isCardVisible.value = false;
-    //   activeButton.value = null;
-    // };
 
     const clickPost = (postId) => {
 

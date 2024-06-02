@@ -147,8 +147,10 @@
                                     <div class="d-flex">
 
                                         <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
-                                        <v-btn class="half-btn w-50 bg-green">{{
-                                            this.getPostType(post.post_id) }}</v-btn>
+                                        <v-btn class="half-btn w-50 bg-green">
+                                            <!-- {{this.getPostType(post.post_id) }} -->
+                                            {{ post.post_type }}
+                                        </v-btn>
 
                                     </div>
                                     <hr class="mx-auto">
@@ -238,8 +240,11 @@
 
 
                         <hr class="mx-auto d-block d-sm-none mt-0">
+
+
                     </div>
                 </div>
+
 
                 <!-- <div class="col-md-4">
                     <div class="right">
@@ -463,6 +468,14 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+        drawer: false,
+        showData: false,
+        items: [
+            { title: 'Home' },
+            { title: 'About' },
+            { title: 'Contact' },
+        ],
+
         getUser: [],
         postGetId: null,
 
@@ -486,6 +499,7 @@ export default {
 
 
         post: {
+            post_type: '',
             province: '',
             region: '',
             country: '',
@@ -515,7 +529,7 @@ export default {
     }),
 
     mounted() {
-        this.fetchPost();
+        this.fetchPost(this.splitData(this.$route.params.id));
         this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
     },
 
@@ -743,7 +757,7 @@ export default {
                     cancelButtonText: 'Cancel',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this.$router.push({ name: 'loginakm' });
+                        this.$router.push({ name: 'login' });
                     }
                 });
             }
@@ -753,10 +767,7 @@ export default {
             this.reqDialog = false;
         },
 
-        async fetchPost() {
-
-            // first split with Success
-            const postId = this.splitData(this.$route.params.id);
+        async fetchPost(postId) {
 
             // then decrypt 
             const decryptId = this.decryptId(postId);
@@ -773,6 +784,8 @@ export default {
                 // Parse the response as JSON
                 const data = await response.json();
 
+                console.log("Show post detail : ", data);
+
                 // Taking Post Main id
                 this.mainPostId = data.post_id;
 
@@ -784,9 +797,9 @@ export default {
 
                 // Check the post type
                 if (data.sellpost) {
-                    this.processPostData(data.sellpost);
-                } else if (data.testrentposts) {
-                    this.processPostData(data.testrentposts);
+                    this.processPostData(data.sellpost, data);
+                } else if (data.rentpost) {
+                    this.processPostData(data.rentpost, data);
                 } else {
                     console.error('Unexpected data format:', data);
                 }
@@ -794,9 +807,10 @@ export default {
                 console.error('Error fetching post:', error);
             }
         },
-        processPostData(postData) {
+        processPostData(postData, upperData) {
             const imageUrls = Array.isArray(postData.image) ? postData.image : [postData.image];
             this.post = {
+                post_type: upperData.post_type,
                 province: postData.locations.province,
                 region: postData.locations.region,
                 country: postData.locations.countries.country_name,
@@ -812,6 +826,7 @@ export default {
                 deposit: postData.deposit || '',
                 least_contract: postData.least_contract || ''
             };
+
         },
 
         async fetchRegisterUser(id) {
@@ -827,9 +842,18 @@ export default {
             } catch (error) {
                 console.error('Error fetching post:', error);
             }
-        }
+        },
 
 
+    },
+
+    watch: {
+        '$route.params.id': {
+            handler() {
+                this.fetchPost(this.splitData(this.$route.params.id));
+            },
+            immediate: true,
+        },
     },
 
 }
