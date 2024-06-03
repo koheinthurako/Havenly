@@ -4,12 +4,12 @@
     <!-- notification btn start -->
 
 
-    <div v-if="this.getUser">
+    <!-- <div v-if="this.getUser">
       <v-badge v-show="!btn_display" class="popup-btn" @click="togglePopup" :content="notificationCount" color="red"
         overlap>
         <v-icon large>mdi-bell</v-icon>
       </v-badge>
-    </div>
+    </div> -->
 
     <v-card v-if="isCardVisible" class="popup-card">
       <h5 class="header">short info</h5><br><br><br>

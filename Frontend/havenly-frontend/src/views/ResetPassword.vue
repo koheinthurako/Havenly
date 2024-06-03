@@ -8,7 +8,7 @@
               <v-text-field v-model="user.email" label="Email" :rules="[value => !!value || 'Required']" ></v-text-field>
   
               <v-text-field
-               v-model="user.newPassword"  label="password" :rules="[value => !!value || 'Required']" >
+               v-model="user.newPassword"  label="New Password" :rules="[value => !!value || 'Required']" >
   
               </v-text-field>
              

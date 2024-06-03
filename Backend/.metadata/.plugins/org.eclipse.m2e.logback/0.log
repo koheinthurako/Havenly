@@ -8793,3 +8793,14 @@ Caused by: java.lang.ClassNotFoundException: org.apache.el.util.JreCompat cannot
 2024-06-03 01:24:20,113 [Worker-95: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-06-03 01:24:20,118 [Worker-95: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
 2024-06-03 01:24:20,124 [Worker-95: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
+2024-06-03 01:40:13,896 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@1eeebad7{STOPPING}[12.0.3,sto=0]
+2024-06-03 01:40:13,968 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@6b253a18{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-06-03 15:48:57,612 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-06-03 15:51:24,798 [Start Help Server] INFO  org.eclipse.jetty.server.Server - jetty-12.0.3; built: 2023-10-27T03:25:22.284Z; git: a873259fd5af141dedaa6c7fa8fe8fbdedce0d61; jvm 17.0.9+9
+2024-06-03 15:51:26,273 [Start Help Server] INFO  o.e.j.server.handler.ContextHandler - Started oeje8n.ContextHandler$CoreContextHandler@786bbf59{/help,/help,b=null,a=AVAILABLE,h=oeje8n.ContextHandler$CoreContextHandler$CoreToNestedHandler@2e081f83{STARTED}}
+2024-06-03 15:51:26,274 [Start Help Server] INFO  o.e.j.s.DefaultSessionIdManager - Session workerName=node0
+2024-06-03 15:51:26,474 [Start Help Server] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@28d34043{HTTP/1.1, (http/1.1)}{127.0.0.1:56433}
+2024-06-03 15:51:26,779 [Start Help Server] INFO  org.eclipse.jetty.server.Server - Started oejs.Server@2d07a32{STARTING}[12.0.3,sto=0] @327689ms
+2024-06-03 16:33:40,593 [Stop Help Server] INFO  org.eclipse.jetty.server.Server - Stopped oejs.Server@2d07a32{STOPPING}[12.0.3,sto=0]
+2024-06-03 16:33:40,679 [Stop Help Server] INFO  o.e.jetty.server.AbstractConnector - Stopped ServerConnector@28d34043{HTTP/1.1, (http/1.1)}{127.0.0.1:0}
+2024-06-03 21:02:03,922 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
