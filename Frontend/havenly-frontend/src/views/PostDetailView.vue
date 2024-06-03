@@ -147,8 +147,10 @@
                                     <div class="d-flex">
 
                                         <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
-                                        <v-btn class="half-btn w-50 bg-green">{{
-                                            this.getPostType(post.post_id) }}</v-btn>
+                                        <v-btn class="half-btn w-50 bg-green">
+                                            <!-- {{this.getPostType(post.post_id) }} -->
+                                            {{ post.post_type }}
+                                        </v-btn>
 
                                     </div>
                                     <hr class="mx-auto">
@@ -225,19 +227,24 @@
                                 </div>
                             </div>
                         </div> -->
+
                         <!-- :hidden="getUser.email == registerData.email" -->
-                        <!-- <p>For Logined user {{ getUser.email }}</p> -->
-                        <!-- <p>For Post user {{ registerData.email }}</p> -->
-                        <!-- :hidden="getUser.email == registerData.email" -->
-                        <div v-if="getUser" :hidden="getUser.email == registerData.email">
-                            <v-btn class="req-btn" @click="openDialog">
+                        <!-- <div v-if="getUser">
+                            <v-btn :disabled="getUser.email == registerData.email" class="req-btn" @click="openDialog">
                                 Make interest
                             </v-btn>
-                        </div>
+                        </div> -->
+                        <v-btn class="req-btn" @click="openDialog">
+                            Make interest
+                        </v-btn>
+
 
                         <hr class="mx-auto d-block d-sm-none mt-0">
+
+
                     </div>
                 </div>
+
 
                 <!-- <div class="col-md-4">
                     <div class="right">
@@ -461,6 +468,14 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+        drawer: false,
+        showData: false,
+        items: [
+            { title: 'Home' },
+            { title: 'About' },
+            { title: 'Contact' },
+        ],
+
         getUser: [],
         postGetId: null,
 
@@ -477,13 +492,14 @@ export default {
         // to keep all datas
         mainPostId: '',
         subUserId: '',
-        registerData: '',
+        FetchregisterData: '',
 
         // get desc from input 
         getDescription: '',
 
 
         post: {
+            post_type: '',
             province: '',
             region: '',
             country: '',
@@ -513,7 +529,7 @@ export default {
     }),
 
     mounted() {
-        this.fetchPost();
+        this.fetchPost(this.splitData(this.$route.params.id));
         this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
     },
 
@@ -554,79 +570,93 @@ export default {
                 description: this.getDescription
             };
 
-            try {
-                // Show loading indicator
-                Swal.fire({
-                    title: 'Processing...',
-                    text: 'Please wait while we process your interest.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                const response = await axios.post(
-                    `http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`,
-                    requestData
-                );
-
-                // Close the loading indicator
-                Swal.close();
-
-                if (response.status === 202 || response.status === 200) {
-                    this.reqDialog = false;
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'You make interested in this post.'
-                    });
-                } else {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Unexpected response',
-                        text: `Unexpected response: ${response.status}`
-                    });
-                }
-            } catch (error) {
-                // Close the loading indicator
-                Swal.close();
+            if (this.getUser.register_id === this.FetchregisterData.register_id) {
                 this.reqDialog = false;
-                if (error.response) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: "You can't make interest to your own post!",
+                    allowOutsideClick: false,
 
-                    if (error.response.status === 409 || error.response.status === 406 || error.response.status === 400 || error.response.status === 403) {
+                });
+            } else {
 
+                try {
+                    // Show loading indicator
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while we process your interest.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    const response = await axios.post(
+                        `http://localhost:8083/interest/addNew/${this.getUser.register_id}/${this.mainPostId}`,
+                        requestData
+                    );
+
+                    // Close the loading indicator
+                    Swal.close();
+
+                    if (response.status === 202 || response.status === 200) {
+                        this.reqDialog = false;
+                        Swal.close();
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Relax bro!',
-                            text: 'You already made an interest in this post!',
-                            showCancelButton: false, // Hide the cancel button
-                            allowOutsideClick: true, // Allow clicking outside to close
-                        }).then((result) => {
-                            if (result.isConfirmed || result.isDismissed) {
-                                window.location.reload();
-                            }
-                        });
-
-                    } else if (error.request) {
-                        // Request was made but no response received
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Network Error',
-                            text: 'No response from the server. Please check your network connection.'
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'You make interested in this post.'
                         });
                     } else {
-                        // Something else happened while setting up the request
+                        Swal.close();
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: `Error: ${error.message}`
+                            title: 'Unexpected response',
+                            text: `Unexpected response: ${response.status}`
                         });
                     }
-                }
+                } catch (error) {
+                    // Close the loading indicator
+                    Swal.close();
+                    this.reqDialog = false;
+                    if (error.response) {
 
+                        if (error.response.status === 409 || error.response.status === 406 || error.response.status === 400 || error.response.status === 403) {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Relax bro!',
+                                text: 'You already made an interest in this post!',
+                                showCancelButton: false, // Hide the cancel button
+                                allowOutsideClick: true, // Allow clicking outside to close
+                            }).then((result) => {
+                                if (result.isConfirmed || result.isDismissed) {
+                                    window.location.reload();
+                                }
+                            });
+
+                        } else if (error.request) {
+                            // Request was made but no response received
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Network Error',
+                                text: 'No response from the server. Please check your network connection.'
+                            });
+                        } else {
+                            // Something else happened while setting up the request
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: `Error: ${error.message}`
+                            });
+                        }
+                    }
+
+                }
             }
+
+
 
         },
 
@@ -713,26 +743,36 @@ export default {
             const decryptData = decryptedBytes.toString(Utf8);
             return decryptData;
         },
+
         openDialog() {
             if (this.getUser) {
                 this.reqDialog = true;
             } else {
-                this.$router.push({ name: 'loginakm' });
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Login Required',
+                    text: 'You need to login to access this feature.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'login' });
+                    }
+                });
             }
-
         },
 
         closeDialog() {
             this.reqDialog = false;
         },
 
-        async fetchPost() {
-
-            // first split with Success
-            const postId = this.splitData(this.$route.params.id);
+        async fetchPost(postId) {
 
             // then decrypt 
             const decryptId = this.decryptId(postId);
+
+            console.log("Get id from : ", decryptId);
 
             try {
                 const response = await fetch(`http://localhost:8083/posts/getPostById/${decryptId}`);
@@ -743,6 +783,8 @@ export default {
 
                 // Parse the response as JSON
                 const data = await response.json();
+
+                console.log("Show post detail : ", data);
 
                 // Taking Post Main id
                 this.mainPostId = data.post_id;
@@ -755,9 +797,9 @@ export default {
 
                 // Check the post type
                 if (data.sellpost) {
-                    this.processPostData(data.sellpost);
+                    this.processPostData(data.sellpost, data);
                 } else if (data.rentpost) {
-                    this.processPostData(data.rentpost);
+                    this.processPostData(data.rentpost, data);
                 } else {
                     console.error('Unexpected data format:', data);
                 }
@@ -765,9 +807,10 @@ export default {
                 console.error('Error fetching post:', error);
             }
         },
-        processPostData(postData) {
+        processPostData(postData, upperData) {
             const imageUrls = Array.isArray(postData.image) ? postData.image : [postData.image];
             this.post = {
+                post_type: upperData.post_type,
                 province: postData.locations.province,
                 region: postData.locations.region,
                 country: postData.locations.countries.country_name,
@@ -783,7 +826,7 @@ export default {
                 deposit: postData.deposit || '',
                 least_contract: postData.least_contract || ''
             };
-            console.log("POst Detail : ", this.posts);
+
         },
 
         async fetchRegisterUser(id) {
@@ -794,17 +837,23 @@ export default {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                this.registerData = await response.json();
-                console.log("Getting register : ", this.registerData.register_id);
-                console.log("getting Register name : ", this.registerData.name);
-                console.log("Getting register gmail : ", this.registerData.email);
+                this.FetchregisterData = await response.json();
 
             } catch (error) {
                 console.error('Error fetching post:', error);
             }
-        }
+        },
 
 
+    },
+
+    watch: {
+        '$route.params.id': {
+            handler() {
+                this.fetchPost(this.splitData(this.$route.params.id));
+            },
+            immediate: true,
+        },
     },
 
 }

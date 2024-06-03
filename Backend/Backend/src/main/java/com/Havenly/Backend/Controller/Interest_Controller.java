@@ -1,6 +1,7 @@
 package com.Havenly.Backend.Controller;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,13 +60,10 @@ public class Interest_Controller {
 		Optional<Reg_user> optionalRegUser = reg_repo.findById(user_id);
 		Optional<Posts> optionalPost = posts_repo.findById(post_id);
 
-
-
 		if (optionalRegUser.isPresent() && optionalPost.isPresent()) {
 
 			Reg_user Reg_all_data=optionalRegUser.get();
 			Posts post_all_data=optionalPost.get();
-
 
 			Interest interest = new Interest();
 			interest.setDescription(intData.getDescription());
@@ -74,6 +72,8 @@ public class Interest_Controller {
 			interest.setInterest_date(LocalDate.now());
 			interest.setInterest_time(LocalDateTime.now());
 			in_service.save(interest);
+		} else {
+			return new ResponseEntity<>("No post or User Exist", HttpStatus.NOT_ACCEPTABLE);
 		}
 		return new ResponseEntity<>("Saved", HttpStatus.ACCEPTED);
 	}

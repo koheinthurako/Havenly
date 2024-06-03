@@ -361,7 +361,7 @@ export default {
         gotoAllView(get) {
             const encryptData = this.encryptData(get);
             // sessionStorage.setItem('getPostType', encryptData);
-            this.$router.push({ name: 'AllPostView', params: { postType: `${encryptData}Success` } });
+            this.$router.push({ name: 'AllPostView', params: { postType: `${encryptData} Success` } });
         },
 
     },

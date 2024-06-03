@@ -43,6 +43,18 @@
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
 
+          <li class="nav-item">
+            <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight" @click="cleanStorage()">Notification</button> -->
+            <div class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight">
+              <v-badge :content="notificationCount" color="red" overlap>
+                <v-icon large>mdi-bell</v-icon>
+              </v-badge>
+            </div>
+          </li>
+
+
           <div v-if="getUser">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
@@ -109,30 +121,365 @@
       </div>
     </div>
   </nav>
+
+  <!-- offcanvas start -->
+  <div class="offcanvas offcanvas-end offcanvas-edit" tabindex="-1" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">Notifications</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+      <!-- <div class="popup-data">
+        <div v-if="filteredOjbs && filteredOjbs.length > 0">
+          <div v-for="obj in filteredOjbs" :key="obj.id">
+            <div class="row box-content">
+              <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.post_id }"
+                @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.post_id)">
+                <v-icon>mdi-menu-left</v-icon>
+              </div>
+              <div class="col-4 p-0">
+                <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
+              </div>
+              <div class="col-7 p-0 ps-2 right">
+                <span>{{ obj.name }}{{ obj.id }}</span> just interested your post.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <v-btn color="danger" @click="cleanStorage">cleanStorage</v-btn>
+        </div>
+      </div> -->
+
+      <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div v-if="filteredOjbs && filteredOjbs.length > 0">
+          <div v-for="obj in filteredOjbs" :key="obj.id">
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Accordion Item #1
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the
+                  <code>.accordion-flush</code> class. This is the first item's accordion body.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+
+
+
+      <div v-if="filteredOjbs && filteredOjbs.length > 0">
+
+
+        <v-expansion-panels>
+          <v-expansion-panel v-for="obj in filteredOjbs" :key="obj.post_id">
+            <v-expansion-panel-title>
+              <!-- <v-row class="p-0 m-0">
+                <v-col md="3" sm="4">
+                  <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
+                </v-col>
+                <v-col md="9" sm="8">
+                  <span>{{ obj.name }}{{ obj.id }}</span> interested your post.
+                </v-col>
+              </v-row> -->
+              <div class="row" style="width: 100%;">
+                <div class="col-md-4">
+                  <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
+                </div>
+                <div class="col-md-8">
+                  <span>{{ obj.name }}{{ obj.id }}</span> make interested your post.
+                </div>
+              </div>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text style="background-color: #eee; border: 1px solid red; margin: 0px auto;">
+
+              <span>
+                Interested user info
+              </span>
+              <hr class="mx-0 px-0">
+              <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                class="w-100" v-model="obj.name" label="Name"></v-text-field>
+              <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                class="w-100" v-model="obj.email" label="Gmail"></v-text-field>
+              <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                class="w-100" v-model="obj.phone" label="Phone"></v-text-field>
+              <v-textarea bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                class="w-100" v-model="obj.description" rows="1" auto-grow label="Description"></v-textarea>
+              <div class="d-flex justify-space-between m-0 p-0">
+                <div @click="hideCard(obj.post_id)" style="border-bottom:2px dashed red; cursor:pointer;">
+                  remove
+                </div>
+                <div style="border-bottom:2px dashed green; cursor:pointer;" @click="clickPost(obj.post_id)">
+                  see post <v-icon>mdi-chevron-double-right</v-icon>
+                </div>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+
+
+      </div>
+      <div v-else>
+        <v-btn @click="cleanStorage">
+          Get All notification
+        </v-btn>
+      </div>
+
+
+      <!-- end -->
+
+    </div>
+  </div>
+  <!-- offcanvas end -->
+
+
 </template>
 
 <script>
 import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { AES } from 'crypto-js';
+
 export default {
   name: 'navbarVue',
 
   setup() {
     const route = useRoute();
+    const router = useRouter();
+    const showBackToTop = ref(false);
+    const btn_display = ref(false);
+    const isPopupVisible = ref(false);
+    const isPopupDisable = ref(false);
+    const isCardVisible = ref(false);
+    const activeButton = ref(null);
+    const notificationCount = ref(0);
+    const getUser = ref([]);
+    const objs = ref([]);
+    const filteredOjbs = ref([]);
+    // const userData = ref({
+    //   post_id: '',
+    //   name: '',
+    //   email: '',
+    //   phone: '',
+    //   description: ''
+    // });
 
     const isNavLinkActive = (path) => {
       return route.path === path;
     };
 
+    // const getData = (index) => {
+    //   activeButton.value = null;
+    //   activeButton.value = index;
+
+    //   console.log("Get id : ", activeButton.value);
+    // };
+
+    // const getData = (name, email, phone, description, index) => {
+    //   activeButton.value = null;
+    //   userData.value.post_id = index;
+    //   userData.value.name = name;
+    //   userData.value.email = email;
+    //   userData.value.phone = phone;
+    //   userData.value.description = description;
+    //   isCardVisible.value = true;
+    //   activeButton.value = index;
+    // };
+
+    const clickPost = (postId) => {
+
+      activeButton.value = null;
+      activeButton.value = postId;
+
+      // Add the ID of the hidden card to localStorage
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      hiddenCards.push(activeButton.value);
+      localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
+
+      // Update the filteredOjbs based on the new hiddenCards list
+      filteredOjbs.value = filterData(objs.value);
+
+      console.log("Sent Post id : ", postId);
+      const enyId = encryptId(postId);
+
+      router.push({ name: 'postDetailView', params: { id: `${enyId} Success` } });
+    };
+
+    const encryptId = (id) => {
+      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+      const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
+      return encryptedId;
+    };
+
+    // const decryptId = (encryptedId) => {
+    //   const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+    //   const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+    //   const decryptedId = decryptedBytes.toString(Utf8);
+    //   return parseInt(decryptedId, 10);
+    // };
+
+    const hideCard = (index) => {
+      // isCardVisible.value = false;
+
+      activeButton.value = null;
+      activeButton.value = index;
+
+      // Add the ID of the hidden card to localStorage
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      hiddenCards.push(activeButton.value);
+      localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
+
+      // Update the filteredOjbs based on the new hiddenCards list
+      filteredOjbs.value = filterData(objs.value);
+
+      // activeButton.value = null;
+    };
+
+
+    const scrollFunction = () => {
+      showBackToTop.value = window.pageYOffset > 1400;
+      btn_display.value = window.pageYOffset > 1400;
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
+
+    const cleanStorage = () => {
+      localStorage.removeItem('hiddenCards');
+
+      // Update the filteredOjbs based on the new hiddenCards list
+      filteredOjbs.value = filterData(objs.value);
+    };
+
+    onMounted(() => {
+      fetchNotifications();
+      window.addEventListener('scroll', scrollFunction);
+      getUser.value = JSON.parse(sessionStorage.getItem('login_user'));
+
+      filteredOjbs.value = filterData(objs.value);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('scroll', scrollFunction);
+    });
+
+    const togglePopup = () => {
+      isPopupVisible.value = true;
+      isPopupDisable.value = false;
+      btn_display.value = !btn_display.value;
+      activeButton.value = null;
+    };
+
+    const hidePopup = () => {
+      isPopupDisable.value = false;
+      isCardVisible.value = false;
+      // setTimeout(() => {
+      //   btn_display.value = !btn_display.value;
+      // }, 400);
+
+      // // to counter error
+      // btn_display.value = true;
+    };
+
+    const fetchNotifications = () => {
+      const user = JSON.parse(sessionStorage.getItem('sub_user'));
+
+      // Make API call to fetch posts from backend
+      if (user) {
+        const UserId = user.subUserId;
+        fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
+          .then((response) => response.json())
+          .then((data) => {
+
+            data.forEach((obj) => {
+              if (obj.posts.sellpost) {
+                let imgUrls = Array.isArray(obj.posts.sellpost.image)
+                  ? obj.posts.sellpost.image
+                  : [obj.posts.sellpost.image];
+
+                objs.value.unshift({
+                  id: obj.post_id,
+                  register_id: obj.reg_user.register_id,
+                  name: obj.reg_user.name,
+                  phone: obj.reg_user.phone,
+                  email: obj.reg_user.email,
+                  description: obj.description,
+                  post_id: obj.posts.post_id,
+                  photo_url: imgUrls,
+                });
+
+              }
+            });
+            // Initialize notification count with the length of fetched notifications
+            filteredOjbs.value = filterData(objs.value);
+          })
+          .catch((error) => {
+            console.error('Error fetching photos:', error);
+          });
+      } else {
+        console.log("No Recently a user Registered!");
+      }
+    };
+
+    const filterData = (data) => {
+      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      const filteredOjbs = data.filter(obj => !hiddenCards.includes(obj.post_id));
+      notificationCount.value = filteredOjbs.length;
+      return filteredOjbs;
+    };
+
+    watch(objs, (newObjs) => {
+      notificationCount.value = newObjs.length;
+    });
+
+    // Watch localStorage for changes
+    window.addEventListener('storage', () => {
+      filteredOjbs.value = filterData(objs.value);
+    });
+
     return {
+      clickPost,
+      cleanStorage,
+      filteredOjbs,
+      filterData,
+      activeButton,
+      showBackToTop,
+      isPopupVisible,
+      togglePopup,
+      hidePopup,
+      isPopupDisable,
+      btn_display,
+      // userData,
+      isCardVisible,
+      // getData,
+      hideCard,
+      objs,
+      scrollToTop,
+      notificationCount,
       isNavLinkActive
     };
+
   },
+
 
   data() {
     return {
       getUser: [],
       getUser2: [],
-      notificationCount: 5,
       activeDataLink: '',
       loginText: 'Login',
     };

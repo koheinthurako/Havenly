@@ -343,9 +343,7 @@ export default {
         if (cachedData) {
             this.locations = cachedData;
         } else {
-            this.
-
-                Locations();
+            this.Locations();
         }
 
         this.fetchSubUserInfo();
