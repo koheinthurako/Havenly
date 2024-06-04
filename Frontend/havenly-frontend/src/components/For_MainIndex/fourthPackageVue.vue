@@ -1,6 +1,6 @@
 <template>
     <div class="fourth-package">
-        <div class="container">
+        <div class="mx-5 px-5">
             <div class="fourth-package-data">
                 <div class="row">
                     <div class="col-md-6 col-12">

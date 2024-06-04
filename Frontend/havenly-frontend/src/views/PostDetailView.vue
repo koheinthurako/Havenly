@@ -606,7 +606,10 @@ export default {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
-                            text: 'You make interested in this post.'
+                            text: 'You make interested in this post.',
+                            customClass: {
+                                confirmButton: 'myCustomSuccessButton'
+                            },
                         });
                     } else {
                         Swal.close();
@@ -628,6 +631,9 @@ export default {
                                 icon: 'error',
                                 title: 'Relax bro!',
                                 text: 'You already made an interest in this post!',
+                                customClass: {
+                                    confirmButton: 'myCustomButton'
+                                },
                                 showCancelButton: false, // Hide the cancel button
                                 allowOutsideClick: true, // Allow clicking outside to close
                             }).then((result) => {

@@ -31,7 +31,7 @@
                 <!-- All posts showing start -->
 
                 <div class="row mb-3 g-3">
-                    <div v-for="post in limitedPosts" :key="post.post_id" class="col-md-3 col-sm-12"
+                    <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3 col-sm-12"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <!-- TZH card styles -->
@@ -130,19 +130,13 @@ export default {
             return this.$store.getters.LoginData
         },
 
+        displayedPosts() {
+            // Filter posts based on the selected type
+            const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
 
-        // displayedPosts() {
-        //     // Filter posts based on the selected type
-        //     const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
-
-        //     // Return only the first four filtered posts
-        //     return filteredPosts.slice(0, 8);
-        // },
-
-        limitedPosts() {
-            return this.posts.slice(0, 8); // posts array မှ 8 ခုကိုသာ ဖြတ်ယူပါမည်
+            // Return only the first four filtered posts
+            return filteredPosts.slice(0, 8);
         },
-
 
     },
 

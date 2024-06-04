@@ -1,5 +1,6 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,8 @@ public class Posts_Service_Impl implements Posts_Service {
 	public List<Posts> getInterestPostByRegId(int id) {
 		return postsRepo.getInterestedPostsByRegId(id);
 	}
+
+	
 
 	
 

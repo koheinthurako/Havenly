@@ -15,7 +15,6 @@
     <fullyQualifiedTypeName name="jakarta.persistence.ManyToOne"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Reg_user_DTO"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Subscription_DTO"/>
-    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Reg_user"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonGetter"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.Reg_user_DD"/>
     <fullyQualifiedTypeName name="lombok.ToString"/>
@@ -30,10 +29,6 @@
     <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Subscription"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.Repo.SubscribeRepo"/>
-    <fullyQualifiedTypeName name="lombok.Getter"/>
-    <fullyQualifiedTypeName name="lombok.Setter"/>
-    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
-    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
     <fullyQualifiedTypeName name="com.Havenly.Backend.DTO.RentPost_DTO"/>
     <fullyQualifiedTypeName name="org.springframework.web.multipart.MaxUploadSizeExceededException"/>
     <fullyQualifiedTypeName name="org.slf4j.Logger"/>
@@ -60,4 +55,9 @@
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnoreProperties"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="com.Havenly.Backend.Entity.Reg_user"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
 </qualifiedTypeNameHistroy>

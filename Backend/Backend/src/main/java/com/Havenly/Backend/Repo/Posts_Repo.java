@@ -137,5 +137,6 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 //			"    AND p.status = 'complete'", nativeQuery = true)
 //	List<Posts> getInterestedPostsByRegId(@Param("r_id") int r_id);
 
+	List<Posts> findBySubUserSubUserId(int subUserId);
 
 }

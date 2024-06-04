@@ -26,6 +26,7 @@ import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
 import PostsByLocation from '@/views/PostsByLocation.vue'
+import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
 const routes = [
   {
@@ -132,6 +133,11 @@ const routes = [
     path: '/all/posts/postsbylocation/:locationId',
     name: 'PostsByLocation',
     component: PostsByLocation,
+  },
+  {
+    path: '/all/posts/mainLocationPosts/:locationId',
+    name: 'MainLocationPosts',
+    component: MainLocationPosts,
   },
   {
     path: '/forgot',

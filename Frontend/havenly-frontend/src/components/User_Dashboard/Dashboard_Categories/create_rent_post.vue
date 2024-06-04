@@ -554,7 +554,7 @@ export default {
                     allowOutsideClick: false,
                     allowEscapeKey: false
                     }).then(() => {
-                    router.push('/package'); 
+                    router.push('/package');
                 });
             }
         } catch (error) {

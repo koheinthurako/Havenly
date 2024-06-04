@@ -2,7 +2,6 @@
     <v-container>
         <main>
             <div>
-
                 <div v-if="loading">
                     <v-row class="g-1 mt-4">
                         <v-col cols="12" md="3">
@@ -42,7 +41,7 @@
                                         <div class="cardImgBox mb-2">
                                             <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                                         </div>
-                                        <div class="card-body p-3 d-flex flex-column">
+                                        <div class="card-body p-3 d-flex flex-column" @click="clickPost(post.post_id)">
                                             <div class="d-flex gap-1">
                                                 <div class="mb-2">
                                                     <span class="px-3 badge rounded-pill text-uppercase small d-inline"
@@ -55,45 +54,24 @@
                                             </div>
                                             <h5 class="card-title mb-3">{{ post.title }}</h5>
                                             <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
-                                            <!-- <div class="d-flex mb-3 justify-content-between">
-                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit }}</span>
-                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{ post.least_contract }}</span>
-                                    </div> -->
                                             <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
                                                 <v-icon>mdi-map-marker-radius</v-icon>
                                                 {{ post.region }} , {{ post.province }} , {{ post.country }}
                                             </p>
 
-                                            <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
+                                            <!-- <div class="buttonBox d-flex justify-content-between gap-3 mb-3">
                                                 <button class="btn btn-outline-danger w-100" @click="editPost(post)"
                                                     data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                                                 <button class="btn btn-danger w-100"
                                                     @click="deletePost(post)">Delete</button>
-                                            </div>
-
-
-                                            <!-- <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <v-rating :model-value="4.5" color="danger" density="compact" size="small"
-                                            half-increments readonly>
-                                        </v-rating>
-                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p class="m-0 small">{{ post.area }}</p>
-                                        <p class="m-0 small fw-bold fs-6">{{ post.price }}</p>
-                                        
-                                    </div>
-                                    <v-divider :thickness="2" class="border-opacity-25 d-block"/>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex">
-                                            <v-icon class="text-red">mdi-clock-time-eight-outline</v-icon>
-                                            <span class="ms-1 text-grey">12d 8h 56m</span>
+                                            </div> -->
                                         </div>
-                                        <div class="d-flex">
-                                            <v-icon class="text-red">mdi-eye</v-icon>
-                                            <span class="ms-1 text-grey" title="People watched times">1331</span>
-                                        </div>
-                                    </div> -->
+                                        <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
+                                            <button class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                            <button class="btn btn-danger w-100"
+                                                @click="deletePost(post)">Delete
+                                            </button>
                                         </div>
                                     </div>
 
@@ -377,6 +355,26 @@ export default {
     },
 
     methods: {
+
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        decryptId(encryptedId) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+            const decryptedId = decryptedBytes.toString(Utf8);
+            return parseInt(decryptedId, 10);
+        },
+
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+        },
 
         fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
@@ -862,6 +860,8 @@ export default {
 </script>
 
 <script setup>
+import AES from 'crypto-js/aes';
+import Utf8 from 'crypto-js/enc-utf8';
 import { ref } from 'vue'
 import Swal from 'sweetalert2';
 

@@ -1,7 +1,7 @@
 <template>
 
     <v-container>
-        <main class="mt-5">
+        <main>
 
             <div v-if="loading">
                     <v-row class="g-1 mt-4">
@@ -29,7 +29,7 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
 
-            <div class="pt-5">
+            <!-- <div class="pt-5">
                 <div class="row mb-3 g-3">
                     <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12"
                         @click="clickPost(post.post_id)">
@@ -54,7 +54,43 @@
                                     <div class="d-flex align-items-center justify-content-between ">
                                         <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
                                         <div class="d-flex text-danger">
-                                            <!-- <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon> -->
+                                            <p class="m-0 small fw-bold fs-3">
+                                                {{ post.price }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="pt-5">
+                <div class="row my-4 g-3 justify-content-center">
+                    <div v-for="post in posts" :key="post.post_id" class="col-10"
+                        @click="clickPost(post.post_id)">
+                        <div class="card-container">
+                            <div class="card cursor-pointer flex-row" style="height: 100%;">
+                                <div class="cardImgBox col-6">
+                                    <img :src="post.photo_url[0]" class="h-100 w-100" alt="Card image cap">
+                                </div>
+                                <div class="card-body p-3 d-flex flex-column">
+                                    <h5 class="card-title mb-2">{{ post.title }}</h5>
+                                    <p class="card-text small opacity-75 mb-1">{{ post.shortDescription }}</p>
+                                    <p class="card-text text-danger small opacity-75">
+                                        <v-icon>mdi-map-marker-radius</v-icon>
+                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                    </p>
+                                    <div class="d-flex mb-3 justify-content-between mb-auto">
+                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
+                                            }}</span>
+                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{
+                                            post.least_contract }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between ">
+                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
+                                        <div class="d-flex text-danger">
                                             <p class="m-0 small fw-bold fs-3">
                                                 {{ post.price }}
                                             </p>
@@ -66,6 +102,7 @@
                     </div>
                 </div>
             </div>
+
         </main>
     </v-container>
     
@@ -80,6 +117,13 @@ import Utf8 from 'crypto-js/enc-utf8';
     export default {
         name: 'PostByLocations',
 
+        props: {
+            encryptedLocationId: {
+            type: String,
+            required: true,
+            },
+        },
+
         data: () => ({
             loading: false,
             displayError: null,
@@ -88,8 +132,14 @@ import Utf8 from 'crypto-js/enc-utf8';
             fullDescription: '',
         }),
 
-        mounted() {
-            this.fetchPostsByLocation();
+        // mounted() {
+        //     this.fetchPostsByLocation();
+        // },
+
+        watch: {
+            encryptedLocationId(newId) {
+                this.fetchPostsByLocation(newId);
+            },
         },
 
         methods: {
@@ -100,29 +150,29 @@ import Utf8 from 'crypto-js/enc-utf8';
 
             encryptId(id) {
                 const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
-                const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
-                return encryptedId
+                const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
+                return encryptedId;
             },
 
             decryptId(encryptedId) {
                 const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
                 const decryptedBytes = AES.decrypt(encryptedId, secretKey);
                 const decryptedId = decryptedBytes.toString(Utf8);
+                console.log(decryptedId + "decryptedId");
                 return parseInt(decryptedId, 10);
+                // return decryptedId;
             },
 
             clickPost(post_id) {
-                // router.push('/PostsView')
                 const afterEncrypt = this.encryptId(post_id);
-                // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
                 this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
             },
 
-            async fetchPostsByLocation() {
+            async fetchPostsByLocation(encryptedLocationId) {
+                this.posts.splice(0, this.posts.length);
                 this.loading = true;
                 this.displayError = null;
-                const locationId = this.splitData(this.$route.params.locationId);
-                const decryptLocationId = this.decryptId(locationId);
+                const decryptLocationId = this.decryptId(encryptedLocationId);
                 console.log(decryptLocationId + " backend ko pot lite tae locationId");
 
                 axios.get('http://localhost:8083/posts/postsByLocation', {
@@ -202,6 +252,13 @@ import Utf8 from 'crypto-js/enc-utf8';
             }
 
         },
+
+        mounted() {
+            if (this.encryptedLocationId) {
+                this.fetchPostsByLocation(this.encryptedLocationId);
+            }
+        },
+
     }
 
 </script>

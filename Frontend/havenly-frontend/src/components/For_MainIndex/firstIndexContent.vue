@@ -282,7 +282,7 @@ export default {
     searchPostByLocations(location_id) {
       console.log(location_id + " location search htae ka id");
       const encryptedId = this.encryptId(location_id);
-      this.$router.push({ name: 'PostsByLocation', params: { locationId: `${encryptedId} Success` } });
+      this.$router.push({ name: 'MainLocationPosts', params: { locationId: `${encryptedId} Success` } });
     }
 
   },
