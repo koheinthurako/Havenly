@@ -1,9 +1,9 @@
 <template>
-    <main class="d-flex">
-        <div class="googleMapContainer col-6">
+    <main class="">
+        <div class="googleMapContainer col-12">
             <GoogleMapSearchVue @location-selected="handleLocationSelected"/>
         </div>
-        <div class="locationPostsContainer col-6">
+        <div class="locationPostsContainer col-12">
             <PostsByLocationVue :encryptedLocationId="encryptedLocationId"/>
         </div>
     </main>

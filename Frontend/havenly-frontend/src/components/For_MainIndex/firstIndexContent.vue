@@ -34,7 +34,22 @@
 
 
   <template>
-    <div class="first-index mt-5 pt-5">
+    <!-- <div class="row flex-column mt-5 pt-3">
+      <div class="col-10 mt-5">
+        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
+              :center="center"
+              :zoom="zoom"
+              style="width: 100%; height: 400px; padding-bottom: 50px;">
+            <Marker v-for="(location, index) in mapLocations"
+            :key="index"
+            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
+        </GoogleMap>
+      </div>
+      <button class="btn btn-danger" @click="goToPostLocation">Search Posts by Location</button>
+    </div> -->
+
+
+    <div class="first-index mt-5">
       <div class="button-group d-flex flex-column mt-5 py-5">
         <div class="filterBox">
           <div class="form-header">
@@ -49,8 +64,6 @@
                 <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
                 <div class="form-btn-group" :hidden="!selectedRegion">
                   <v-btn class="me-3 submit" type="submit" @click="searchPostByLocations(selectedLocation)">Search</v-btn>
-                  <!-- <router-link to="/all/posts/postbylocations">
-                  </router-link> -->
                   <v-btn class="clear" @click="clearFields">Clear</v-btn>
                 </div>
               </div>
@@ -61,13 +74,12 @@
                 :center="center"
                 :zoom="zoom"
                 style="width: 100%; height: 400px; padding-bottom: 50px;">
-            <!-- Add markers here if needed -->
-            <!-- <Marker :options="{position: this.center}"/> -->
             <Marker v-for="(location, index) in mapLocations"
             :key="index"
             :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
         </GoogleMap>
       </div>
+      
     </div>
   </template>
 
@@ -77,6 +89,7 @@ import json_data from '../../assets/json/thailand_location.json'
 import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 import axios from 'axios';
 import { AES } from 'crypto-js';
+// import router from '@/router';
 
 export default {
   name: 'firstIndexContent',
@@ -283,7 +296,12 @@ export default {
       console.log(location_id + " location search htae ka id");
       const encryptedId = this.encryptId(location_id);
       this.$router.push({ name: 'MainLocationPosts', params: { locationId: `${encryptedId} Success` } });
-    }
+    },
+
+    // goToPostLocation() {
+    //   router.push('/all/posts/mainLocationPosts')
+    //   // this.$router.push({ name: 'MainLocationPosts' });
+    // }
 
   },
 }

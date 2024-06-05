@@ -4,24 +4,24 @@
         <main>
 
             <div v-if="loading">
-                    <v-row class="g-1 mt-4">
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                    <v-row class="g-3 mt-4 d-flex flex-column">
+                        <v-col cols="12" md="12">
+                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                        <v-col cols="12" md="12">
+                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                        <v-col cols="12" md="12">
+                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                        <v-col cols="12" md="12">
+                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
@@ -127,6 +127,8 @@ import Utf8 from 'crypto-js/enc-utf8';
         data: () => ({
             loading: false,
             displayError: null,
+            locations: [],
+            mapLocations: [],
             posts: [],
             shortDescription: '',
             fullDescription: '',
@@ -166,6 +168,32 @@ import Utf8 from 'crypto-js/enc-utf8';
             clickPost(post_id) {
                 const afterEncrypt = this.encryptId(post_id);
                 this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            },
+
+            async fetchLocations() {
+                try {
+                    const response = await fetch('http://localhost:8083/locations/getall');
+                    const data = await response.json();
+                    const mappedData = data.map(location => ({
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                    }));
+                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                    this.locations = mappedData;
+                    this.mapLocations = mappedData;
+                } catch (error) {
+                    console.error('Error fetching locations:', error);
+                }
+            },
+
+            getLocationsFromSessionStorage() {
+                const data = sessionStorage.getItem('locations');
+                return data ? JSON.parse(data) : null;
             },
 
             async fetchPostsByLocation(encryptedLocationId) {
@@ -254,6 +282,16 @@ import Utf8 from 'crypto-js/enc-utf8';
         },
 
         mounted() {
+
+            const cachedData = this.getLocationsFromSessionStorage();
+            if(cachedData) {
+                this.locations = cachedData;
+                this.mapLocations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
+            
+
             if (this.encryptedLocationId) {
                 this.fetchPostsByLocation(this.encryptedLocationId);
             }

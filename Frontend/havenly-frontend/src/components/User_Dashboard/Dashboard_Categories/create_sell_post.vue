@@ -23,10 +23,11 @@
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="title.value.value" :counter="10"
-                                        :error-messages="title.errorMessage.value" placeholder="Title"></v-text-field>
+                                        v-model="title.value.value" :counter="50"
+                                        :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                        placeholder="Title"></v-text-field>
                                 </div>
                             </div>
 
@@ -36,10 +37,10 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
-                                        :counter="10000" :error-messages="Description.errorMessage.value"
-                                        placeholder="Description"></v-textarea>
+                                        :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                        :counter="10000" placeholder="Description"></v-textarea>
                                 </div>
                             </div>
                             <hr>
@@ -52,44 +53,30 @@
                                     :disabled="!selectedProvince" label="Select amphoe" required></v-select>
                                 <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
                                     :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                                <!-- <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations"
-                                    :disabled="!selectedRegion" label="Country_id" required></v-select> -->
                             </div>
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small"> House Type </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="houseTypes.value.value"
-                                        :error-messages="houseTypes.errorMessage.value" :items="HouseTypes"
-                                        placeholder="Select house type"></v-select>
-                                </div>
-                            </div> -->
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small"> Property Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact"
                                         v-model="propertyTypes.value.value"
-                                        :error-messages="propertyTypes.errorMessage.value" :items="PropertyTypes"
-                                        placeholder="Select property type"></v-select>
+                                        :items="PropertyTypes" placeholder="Select property type"></v-select>
                                 </div>
                             </div>
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price($Dollar)<span
+                                    <span class="float-left mt-2 small">Price<span
                                             class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="price.value.value" :error-messages="price.errorMessage.value"
-                                        placeholder="price"></v-text-field>
+                                        :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                        v-model="price.value.value" placeholder="price"></v-text-field>
                                 </div>
                             </div>
 
@@ -99,8 +86,9 @@
                                     <span class="float-left mt-2 small">Area</span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
                                         v-model="area.value.value" placeholder="Area"></v-text-field>
                                 </div>
                             </div>
@@ -111,10 +99,9 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input class="disableClearBtn" counter multiple color="deep-purple-accent-4"
-                                        chips truncate-length="15" v-model="image.value.value"
-                                        :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
+                                    <v-file-input required class="disableClearBtn" counter multiple color="deep-purple-accent-4"
+                                        chips truncate-length="15" v-model="combinedImages"
+                                        :rules="rules" accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
                                         prepend-icon="mdi-camera" show-input="false"></v-file-input>
                                 </div>
                             </div>
@@ -127,6 +114,10 @@
                                         </v-card-actions>
                                         <v-img :src="photo.url" class="customImg" height="160px"></v-img>
                                     </v-card>
+                                </div>
+                                <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
+                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos" style="display: none;">
                                 </div>
                             </div>
 
@@ -212,6 +203,7 @@ export default {
         description: '',
         // image: [],
         image: '',
+        combinedImages: [],
         price: '',
         area: '',
         house_type: '',
@@ -226,6 +218,14 @@ export default {
         availPosts: '',
         sellPosts: [],
         change_type: 'sell',
+
+        // titleRules: [
+        //     v => !!v || 'Title is required!',
+        // ],
+
+        // descriptionRules: [
+        //     v => !!v || 'Description is required!',
+        // ],
 
         sell_data: [
 
@@ -453,6 +453,8 @@ export default {
     },
 
 }
+
+
 </script>
 
 <script setup>
@@ -469,7 +471,7 @@ const Description = useField('Description')
 const propertyTypes = useField('propertyTypes')
 const price = useField('price')
 const area = useField('area')
-const image = useField('image')
+// const image = useField('image')
 const photoList = ref([]);
 
 const PropertyTypes = ref([
@@ -478,28 +480,103 @@ const PropertyTypes = ref([
     'House'
 ])
 
+const fileInput = ref(null);
+const allFiles = ref([]);
+const combinedImages = ref([]);
+
 const { proxy } = getCurrentInstance();
+
+function triggerFileInput() {
+    fileInput.value.click();
+}
+
+function showUploadPhoto() {
+    // const files = Object.values(image.value.value);
+    const files = Object.values(combinedImages.value);
+    const fileReadPromises = files.map((file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    });
+
+    Promise.all(fileReadPromises).then((results) => {
+        photoList.value = results;
+        allFiles.value = files;
+        combinedImages.value = allFiles.value;
+        console.log('Photo list:', photoList.value);
+    }).catch((error) => {
+        console.error('Error reading files:', error);
+    });
+}
+
+function addMorePhotos(event) {
+  const files = Object.values(event.target.files);
+  const fileReadPromises = files.map((file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resolve({ file, url: e.target.result });
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  });
+
+  Promise.all(fileReadPromises).then((results) => {
+    // Append new photos to the existing photo list
+    photoList.value = photoList.value.concat(results);
+    allFiles.value = allFiles.value.concat(files);
+    combinedImages.value = allFiles.value;
+    console.log('Updated photo list:', allFiles.value);
+  }).catch((error) => {
+    console.error('Error reading files:', error);
+  });
+}
+
+function removeImage(index) {
+    photoList.value.splice(index, 1);
+    // image.value.value.splice(index, 1);
+    combinedImages.value = allFiles.value;
+    allFiles.value.splice(index, 1);
+}
 
 const submit = async () => {
 
-    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-    console.log(subUser.subUserId);
-    const subUserId = subUser.subUserId;
+const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+console.log(subUser.subUserId);
+const subUserId = subUser.subUserId;
 
-    const formData = new FormData();
-    formData.append('subUserId', subUserId);
-    formData.append('title', title.value.value);
-    formData.append('description', Description.value.value);
-    formData.append('property_type', propertyTypes.value.value);
-    formData.append('price', price.value.value);
-    formData.append('area', area.value.value);
-    formData.append('location_id', proxy.selectedLocation);
-    // Append the files as an array
-    const files = Object.values(image.value.value);
-    console.log(files);
-    files.forEach((file) => {
-        formData.append('files', file);
-    });
+const formData = new FormData();
+formData.append('subUserId', subUserId);
+formData.append('title', title.value.value);
+formData.append('description', Description.value.value);
+formData.append('property_type', propertyTypes.value.value);
+formData.append('price', price.value.value);
+formData.append('area', area.value.value);
+formData.append('location_id', proxy.selectedLocation);
+// Append the files as an array
+// const files = Object.values(image.value.value);
+// console.log(files);
+// files.forEach((file) => {
+//     formData.append('files', file);
+// });
+
+allFiles.value.forEach((file) => {
+    formData.append('files', file);
+});
+
+console.log(photoList.value + "dr ka origin kaw additional kaw pr tae photoList")
+
+formData.forEach((value, key) => {
+    console.log(`${key}:`, value);
+});
+
+console.log("------------------- auto submit when add additional photo ---------------------")
 
     Swal.fire({
         title: 'Posting...',
@@ -562,33 +639,6 @@ const submit = async () => {
         });
     }
 };
-
-function showUploadPhoto() {
-    const files = Object.values(image.value.value);
-    const fileReadPromises = files.map((file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                resolve({ file, url: e.target.result });
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    });
-
-    Promise.all(fileReadPromises).then((results) => {
-        photoList.value = results;
-        console.log('Photo list:', photoList.value);
-    }).catch((error) => {
-        console.error('Error reading files:', error);
-    });
-}
-
-
-function removeImage(index) {
-    photoList.value.splice(index, 1);
-    image.value.value.splice(index, 1);
-}
 
 </script>
 
