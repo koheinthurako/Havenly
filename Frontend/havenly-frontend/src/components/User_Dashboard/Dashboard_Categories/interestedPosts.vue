@@ -85,7 +85,10 @@
                         <!-- card end -->
                     </div>
                     <div v-else>
-                        No post found
+                        You maked no interest.<br><br>
+                        <v-btn to="/" color="primary" rounded>
+                            See all posts
+                        </v-btn>
                     </div>
                 </div>
 

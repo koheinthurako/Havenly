@@ -39,7 +39,7 @@
                                     @click="clickPost(post.post_id)">
                                     <div class="card-container">
                                         <!-- TZH card styles -->
-                                        <div class="card" style="height: 380px;">
+                                        <div class="card" style="height: 400px;">
                                             <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                                     <img :src="url" class="w-100 h-100" alt="Card image cap">
                                                 </div> -->
@@ -48,16 +48,18 @@
                                                     alt="Card image cap">
                                             </div>
                                             <div class="card-body px-3 py-2 d-flex flex-column">
-                                                <h5 class="card-title mb-3">{{ truncateText(post.title, 30) }}</h5>
+                                                <h5 class="card-title mb-2">{{ truncateText(post.title, 30) }}</h5>
                                                 <p class="card-text small opacity-75" style="text-indent: 30px;">{{
                                                     truncateText(post.description, 80) }}
                                                 </p>
-                                                <!-- <div class="d-flex mb-3 justify-content-between">
-                                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
-                                                            }}</span>
-                                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{
+                                                <div class="d-flex mb-3 justify-content-between">
+                                                    <span v-if="post.deposit" class="small opacity-75">Deposit : {{
+                                                        post.deposit
+                                                    }}</span>
+                                                    <span v-if="post.least_contract" class="small opacity-75">Contract :
+                                                        {{
                                                             post.least_contract }}</span>
-                                                    </div> -->
+                                                </div>
                                                 <p class="card-text text-danger small opacity-75 mb-1 ">
                                                     <v-icon>mdi-map-marker-radius</v-icon>
                                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
@@ -205,11 +207,11 @@ export default {
     },
 
     methods: {
-        clickPost(post) {
+        clickPost(post_id) {
             // router.push('/PostsView')
-            const encryptData = this.encryptId(post);
+            const afterEncrypt = this.encryptId(post_id);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
         },
 
         splitData(data) {
@@ -231,9 +233,9 @@ export default {
                 .then(data => {
                     data.forEach(post => {
                         if (post.rentpost) {
-                            this.processPost(post.rentpost, 'rentpost');
+                            this.processPost(post.rentpost, post, 'rentpost');
                         } else if (post.sellpost) {
-                            this.processPost(post.sellpost, 'sellpost');
+                            this.processPost(post.sellpost, post, 'sellpost');
                         }
                     });
                     this.loading = false;
@@ -244,7 +246,7 @@ export default {
                 });
         },
         // Process post data
-        processPost(postData, type) {
+        processPost(postData, upperData, type) {
             if (postData.description.length > 100) {
                 postData.description = postData.description.substring(0, 100) + '...';
             }
@@ -255,7 +257,7 @@ export default {
                 province: postData.locations.province,
                 region: postData.locations.region,
                 country: postData.locations.countries.country_name,
-                post_id: postData.sell_post_id,
+                post_id: upperData.post_id,
                 title: postData.title,
                 description: postData.description,
                 property_type: postData.property_type,

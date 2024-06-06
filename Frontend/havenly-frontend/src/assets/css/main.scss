@@ -11,6 +11,7 @@ $font-family: "Roboto", sans-serif;
   font-family: $font-family;
   position: relative;
   text-decoration: none;
+  transition: all 0.2s ease-in-out;
   .bg-redbrick {
     background-color: #e86f52;
   }
@@ -567,6 +568,31 @@ body {
     .header {
       padding: 10px 0px;
 
+      .search-bar {
+        border: 1px solid #525252;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        display: flex;
+        overflow: hidden;
+
+        input {
+          width: 75%;
+          padding: 10px;
+          &:focus {
+            outline: none;
+          }
+        }
+        .v-btn {
+          width: auto;
+          height: auto;
+          color: #fff;
+          background-color: #e86f52;
+          text-transform: capitalize;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+
       span {
         font-weight: bold;
       }
@@ -708,6 +734,49 @@ body {
       color: #fff;
       .v-btn {
         text-transform: capitalize;
+      }
+    }
+
+    .interst-posts {
+      @include request-detail-card();
+      position: relative;
+      .header {
+        @include header-absolute();
+        .v-icon {
+          color: #fff;
+          font-size: 20px;
+        }
+      }
+      .post-icon {
+        border-radius: 6px;
+        overflow: hidden;
+        width: 100%;
+        margin: auto;
+        border: 1px solid #525252;
+        cursor: pointer;
+        position: relative;
+        height: 60px;
+        .pi-overlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          background-color: rgba(0, 0, 0, 0.3);
+          display: none;
+          transition: all 0.4s ease-in-out;
+        }
+        p {
+          font-size: 14px;
+          span {
+            color: #e86f52;
+          }
+        }
+
+        &:hover .pi-overlay {
+          display: block;
+        }
       }
     }
   }
@@ -1041,7 +1110,7 @@ body {
   .third-carousel {
     width: 100%;
     height: auto;
-    padding: 40px 0px;
+    padding: 100px 0px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -1053,7 +1122,7 @@ body {
       transition: transform 0.4s ease-in-out;
     }
     .card-img {
-      width: 600px;
+      width: 400px;
       border-radius: 6px;
       position: relative;
       display: flex;
@@ -1541,15 +1610,7 @@ body {
 /* For fifth Doc Page end */
 
 /* For Commercial Page (one) start */
-.commercial-vue {
-  width: 100%;
-  height: 100vh;
 
-  .commercial-vue-data {
-    .left-pic {
-    }
-  }
-}
 /* For Commercial Page (two) End */
 
 /* For Contact Page start */
@@ -2642,7 +2703,7 @@ body {
   height: auto;
 
   .dashboard {
-    min-height: 100vh;
+    min-height: 70vh;
 
     .sidebar {
       background-color: #f8f9fa;
@@ -2660,6 +2721,13 @@ body {
       }
     }
   }
+}
+/* For Main Index Dashboard end */
+
+/* For Main Index Dashboard start */
+.admin-dashboard {
+  width: 100%;
+  height: auto;
 }
 /* For Main Index Dashboard end */
 
@@ -2803,7 +2871,8 @@ body {
   .second-tabContent {
     width: 100%;
     height: auto;
-    padding: 30px 0px 60px;
+    padding-top: 30px;
+    padding-bottom: 10px;
 
     .second-tabContent-data {
       .tab-carousel-content {
@@ -2900,10 +2969,11 @@ body {
   /* For Commercial Page (one) start d */
   .commercial-vue {
     width: 100%;
-    height: 90vh;
+    height: 60vh;
+    background-color: #f6f5f2;
 
     .commercial-vue-data {
-      width: 85%;
+      width: 100%;
       height: 100%;
       margin: auto;
       position: relative;
@@ -2916,27 +2986,26 @@ body {
         .img-content::after {
           content: "";
           position: absolute;
-          width: 50vh;
-          height: 50vh;
+          width: 45vh;
+          height: 45vh;
 
           border-radius: 14px;
           z-index: 500;
         }
         .img-content::before {
           background-color: #e86f52;
-          margin-left: 17%;
-          margin-top: 13%;
-          box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.3);
+          margin-left: 6%;
+          margin-top: 2%;
+          // box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
         }
 
         .img-content::after {
-          margin-left: 24%;
-          margin-top: 20%;
-          background-image: url("../img/house-1.jpg");
+          margin-left: 14%;
+          margin-top: 7%;
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
-          box-shadow: 0px 4px 24px 6px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.5);
           z-index: 500;
         }
 
@@ -2959,14 +3028,13 @@ body {
         .right-data {
           padding: 10px;
           position: absolute;
-          margin-top: 16%;
+          // margin-top: 16%;
           h2 {
             color: #e86f52;
           }
           .custom-btn {
             background-color: #e86f52;
             color: #fff;
-            box-shadow: 0px 6px 20px 2px rgba(0, 0, 0, 0.3);
             .custom-icon {
               transition: all 0.3s ease-in-out;
               margin-top: 1px;

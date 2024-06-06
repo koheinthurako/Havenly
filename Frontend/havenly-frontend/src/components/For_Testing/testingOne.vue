@@ -1,124 +1,100 @@
-<!-- <template>
-  <div class="testing-edit">
-    <swiper :style="{
-      '--swiper-navigation-color': '#fff',
-      '--swiper-pagination-color': '#fff',
-    }" :spaceBetween="10" :autoplay="{
-      delay: 2500,
-      disableOnInteraction: false,
-    }" :navigation="true" :loop="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
-      <swiper-slide v-for="(img, index) in images" :key="index">
-        <v-img :src="img.img" />
-      </swiper-slide>
-    </swiper>
-    <swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true" :watchSlidesProgress="true"
-      :modules="modules" class="mySwiper">
-      <swiper-slide v-for="(img, index) in images" :key="index">
-        <v-img :src="img.img" />
-      </swiper-slide>
-    </swiper>
-  </div>
-</template>
-<script>
-import { ref } from 'vue';
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-import 'swiper/css';
-
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-
-// import required modules
-import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
-
-export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-  setup() {
-    const thumbsSwiper = ref(null);
-
-    const setThumbsSwiper = (swiper) => {
-      thumbsSwiper.value = swiper;
-    };
-
-    return {
-      thumbsSwiper,
-      setThumbsSwiper,
-      modules: [Autoplay, FreeMode, Navigation, Thumbs],
-    };
-  },
-
-  data: () => ({
-    images: [
-      { img: require('@/assets/img/1.jpg') },
-      { img: require('@/assets/img/3.jpg') },
-      { img: require('@/assets/img/5.jpg') },
-      { img: require('@/assets/img/2.jpg') },
-      { img: require('@/assets/img/4.jpg') },
-      { img: require('@/assets/img/6.jpg') },
-    ],
-  })
-};
-</script> -->
-
-
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Left Column -->
-      <div class="col-md-8 col-sm-12">
-        <div class="image-container">
-          <img src="https://via.placeholder.com/800x600" class="img-fluid" alt="Large Image" />
-        </div>
-      </div>
-      <!-- Right Column -->
-      <div class="col-md-4 col-sm-12 right-column">
-        <div class="image-container">
-          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 1" />
-        </div>
-        <div class="image-container">
-          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 2" />
-        </div>
-      </div>
-    </div>
+  <div>
+    <h1>Locations</h1>
+    <ul>
+      <li v-for="location in locations" :key="location.region">
+        {{ location.province }}, {{ location.amphoe }}, {{ location.region }}:
+        Latitude: {{ location.latitude }}, Longitude: {{ location.longitude }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'ImageLayout',
+  data() {
+    return {
+      locations: [
+        {
+          "province": "Krabi",
+          "amphoe": "Klongtom",
+          "region": "Khlong Thom Nuea",
+          "latitude": 0,
+          "longitude": 0,
+          "countries": {
+            "country_id": 2
+          }
+        },
+        {
+          "province": "Krabi",
+          "amphoe": "Klongtom",
+          "region": "Klongtom Tai",
+          "latitude": 0,
+          "longitude": 0,
+          "countries": {
+            "country_id": 2
+
+          }
+        },
+        {
+          "province": "Krabi",
+          "amphoe": "Klongtom",
+          "region": "Klongphon",
+          "latitude": 0,
+          "longitude": 0,
+          "countries": {
+            "country_id": 2
+
+          }
+        },
+      ],
+      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
+    };
+  },
+  mounted() {
+    this.fetchCoordinates();
+  },
+  methods: {
+    async fetchCoordinates() {
+      const promises = this.locations.map(location => this.getCoordinates(location));
+      const results = await Promise.all(promises);
+      this.locations = results.filter(result => result !== null);
+    },
+    async getCoordinates(location) {
+      const { province, amphoe, region } = location;
+      let address = `${region}, ${amphoe}, ${province}, Thailand`;
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${this.apiKey}`;
+
+      console.log(`Querying address: ${address}`);
+
+      try {
+        let response = await axios.get(url);
+        let data = response.data;
+        if (data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry.location;
+          return { ...location, latitude: lat, longitude: lng };
+        } else {
+          console.warn(`No results found for ${address}. Trying fallback.`);
+          // Fallback to a more generic search
+          address = `${amphoe}, ${province}, Thailand`;
+          url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${this.apiKey}`;
+          response = await axios.get(url);
+          data = response.data;
+          if (data.results.length > 0) {
+            const { lat, lng } = data.results[0].geometry.location;
+            return { ...location, latitude: lat, longitude: lng };
+          } else {
+            console.error(`No results found for fallback ${address}`);
+            return null;
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching coordinates for ${address}:`, error);
+        return null;
+      }
+    }
+  }
 };
 </script>
-
-<style scoped>
-.image-container {
-  height: 100%;
-  overflow: hidden;
-}
-
-.right-column {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.right-column .image-container {
-  flex: 1;
-  margin-bottom: 1rem;
-}
-
-.right-column .image-container:last-child {
-  margin-bottom: 0;
-}
-
-.img-fluid {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>

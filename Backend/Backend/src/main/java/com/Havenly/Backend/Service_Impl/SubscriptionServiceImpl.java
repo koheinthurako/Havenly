@@ -2,6 +2,7 @@ package com.Havenly.Backend.Service_Impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -85,6 +86,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		return user2;
 		// }
 
+	}
+
+	@Override
+	public List<Subscription> getAllSubUserInfo() {
+		return subscribeRepo.findAll();
 	}
 
 }

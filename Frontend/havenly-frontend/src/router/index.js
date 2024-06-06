@@ -7,23 +7,27 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 // import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
+
+// for Testing
 import testingPage from '../components/For_Testing/testingOne.vue'
+
 import login from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
-import AdminView from '../views/AdminView.vue'
+// import AdminView from '../views/adminDashboardCategories/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
-import AdminBanList from '../views/AdminBanList.vue'
+// import AdminBanList from '../views/adminDashboardCategories/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CreditCard from '@/views/CreditCard.vue'
 
 // For Posts
 import postDetailView from '@/views/PostDetailView.vue'
 import AllPostView from '@/views/AllPostView.vue'
-import AdminPost from '@/views/AdminPost.vue'
+// import AdminPost from '@/views/adminDashboardCategories/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
 
-
+// admin index
+import indexAdminDashboard from '@/views/indexAdminDashboard.vue'
 
 const routes = [
   {
@@ -73,6 +77,7 @@ const routes = [
     name: 'testingPage',
     component: testingPage
   },
+
   // {
   //   path: '/tempDoc',
   //   name: 'tempDoc',
@@ -94,26 +99,32 @@ const routes = [
     component: About
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: AdminView,
-    meta: { requiresAdmin: true }
-  },
-  {
     path: '/admin/login',
     name: 'AdminLogin',
     component: AdminLoginView
   },
+  // {
+  //   path: '/admin',
+  //   name: 'Admin',
+  //   component: AdminView,
+  //   meta: { requiresAdmin: true }
+  // },
+  // {
+  //   path: '/admin/ban',
+  //   name: 'AdminBanList',
+  //   component: AdminBanList,
+  //   meta: { requiresAdmin: true }
+  // },
+  // {
+  //   path: '/admin/post',
+  //   name: 'AdminPost',
+  //   component: AdminPost,
+  //   meta: { requiresAdmin: true },
+  // },
   {
-    path: '/admin/ban',
-    name: 'AdminBanList',
-    component: AdminBanList,
-    meta: { requiresAdmin: true }
-  },
-  {
-    path: '/admin/post',
-    name: 'AdminPost',
-    component: AdminPost,
+    path: '/admin/dashboard',
+    name: 'indexAdminDashboard',
+    component: indexAdminDashboard,
     meta: { requiresAdmin: true },
   },
   {

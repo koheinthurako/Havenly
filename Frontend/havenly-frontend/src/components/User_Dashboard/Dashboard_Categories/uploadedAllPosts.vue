@@ -29,10 +29,10 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
                 <div v-else>
-                    <h3 class="mb-3">Admin approved your uploaded posts.</h3>
+                    <h3 class="mb-3">Your uploaded posts.</h3>
                     <!-- display posts start -->
                     <div class="row mb-5 g-3">
-                        <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                        <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
                             <div class="card-container">
                                 <!-- TZH card styles -->
                                 <div class="card cursor-pointer" style="height: 460px;">
@@ -297,6 +297,7 @@
 
 <script>
 import axios from 'axios';
+import AES from 'crypto-js/aes'
 import { toRaw, shallowRef } from 'vue';
 // import * as bootstrap from 'bootstrap';
 
@@ -386,6 +387,33 @@ export default {
     },
 
     methods: {
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        clickPost(post) {
+            // // router.push('/PostsView')
+            // const afterEncrypt = this.encryptId(post_id);
+            // // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            // this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+
+            if (post.status === 'complete') {
+                // router.push('/PostsView')
+                const afterEncrypt = this.encryptId(post.post_id);
+                // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
+            } else if (post.status === 'pending') {
+                Swal.fire({
+                    title: 'Pending',
+                    text: 'You can see detail at pending state',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+            }
+        },
+
 
         fetchLocations() {
             fetch('http://localhost:8083/locations/getall')

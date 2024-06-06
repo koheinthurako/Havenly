@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -31,5 +32,5 @@ public class Interest {
 	private LocalDate interest_date;
 
 	@Column(name = "interest_time")
-	private LocalDateTime interest_time;
+	private LocalTime interest_time;
 }

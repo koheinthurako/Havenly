@@ -42,7 +42,6 @@ public class Subscription {
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reg_user_id", referencedColumnName = "register_id")
-	@JsonIgnore
 	private Reg_user reg_user;
 
 	@OneToOne(mappedBy = "sub1")

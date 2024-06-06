@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <navbar_vue />
+      <navbar_vue v-if="showNavbar" />
       <router-view />
       <footer_vue />
     </v-main>
@@ -17,6 +17,12 @@ export default {
   components: {
     navbar_vue,
     footer_vue
+  },
+
+  computed: {
+    showNavbar() {
+      return !this.$route.path.startsWith('/admin/dashboard');
+    }
   },
 
   data: () => ({

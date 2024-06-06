@@ -12,11 +12,21 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/" :class="{
               'nav-link': true, active:
                 isNavLinkActive('/')
             }">Home</router-link>
+          </li> -->
+
+          <li class="nav-item">
+            <router-link to="/testingPage" :class="{ active: isActive('/testingPage') }" class=" nav-link">
+              Testing</router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/" :class="{ active: isActive('/') }" class=" nav-link">
+              Home</router-link>
           </li>
 
           <li class="nav-item">
@@ -43,16 +53,7 @@
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
 
-          <li class="nav-item">
-            <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" @click="cleanStorage()">Notification</button> -->
-            <div class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight">
-              <v-badge :content="notificationCount" color="red" overlap>
-                <v-icon large>mdi-bell</v-icon>
-              </v-badge>
-            </div>
-          </li>
+
 
 
           <div v-if="getUser">
@@ -88,6 +89,21 @@
         </ul>
 
         <ul class="navbar-nav">
+
+          <div v-if="getUser2">
+            <li class="nav-item">
+              <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight" @click="cleanStorage()">Notification</button> -->
+              <div class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight">
+                <v-badge :content="notificationCount" color="red" overlap>
+                  <v-icon large>mdi-bell</v-icon>
+                </v-badge>
+              </div>
+            </li>
+          </div>
+
+
           <li class="nav-item">
             <div v-if="register_statue">
               <div v-if="login_status">
@@ -117,6 +133,8 @@
               <router-link v-model="loginText" to="/login" class="nav-link">{{ loginText }}</router-link>
             </div>
           </li>
+
+
         </ul>
       </div>
     </div>
@@ -207,18 +225,19 @@
               </span>
               <hr class="mx-0 px-0">
               <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
-                class="w-100" v-model="obj.name" label="Name"></v-text-field>
+                class="w-100 mb-3" v-model="obj.name" label="Name" hide-details></v-text-field>
               <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
-                class="w-100" v-model="obj.email" label="Gmail"></v-text-field>
+                class="w-100 mb-3" v-model="obj.email" label="Gmail" hide-details></v-text-field>
               <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
-                class="w-100" v-model="obj.phone" label="Phone"></v-text-field>
+                class="w-100 mb-3" v-model="obj.phone" label="Phone" hide-details></v-text-field>
               <v-textarea bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
-                class="w-100" v-model="obj.description" rows="1" auto-grow label="Description"></v-textarea>
-              <div class="d-flex justify-space-between m-0 p-0">
+                class="w-100 mb-3" v-model="obj.description" rows="1" auto-grow label="Description"></v-textarea>
+              <div class="d-flex justify-space-between m-0 p-0" hide-details>
                 <div @click="hideCard(obj.post_id)" style="border-bottom:2px dashed red; cursor:pointer;">
                   remove
                 </div>
-                <div style="border-bottom:2px dashed green; cursor:pointer;" @click="clickPost(obj.post_id)">
+                <div data-bs-dismiss="offcanvas" style="border-bottom:2px dashed green; cursor:pointer;"
+                  @click="clickPost(obj.post_id)">
                   see post <v-icon>mdi-chevron-double-right</v-icon>
                 </div>
               </div>
@@ -229,8 +248,8 @@
 
       </div>
       <div v-else>
-        <v-btn @click="cleanStorage">
-          Get All notification
+        <v-btn @click="cleanStorage" class="w-100">
+          Show All notification
         </v-btn>
       </div>
 
@@ -298,18 +317,18 @@ export default {
 
     const clickPost = (postId) => {
 
-      activeButton.value = null;
-      activeButton.value = postId;
+      // activeButton.value = null;
+      // activeButton.value = postId;
 
-      // Add the ID of the hidden card to localStorage
-      const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
-      hiddenCards.push(activeButton.value);
-      localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
+      // // Add the ID of the hidden card to localStorage
+      // const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
+      // hiddenCards.push(activeButton.value);
+      // localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
 
-      // Update the filteredOjbs based on the new hiddenCards list
-      filteredOjbs.value = filterData(objs.value);
+      // // Update the filteredOjbs based on the new hiddenCards list
+      // filteredOjbs.value = filterData(objs.value);
 
-      console.log("Sent Post id : ", postId);
+      // console.log("Sent Post id : ", postId);
       const enyId = encryptId(postId);
 
       router.push({ name: 'postDetailView', params: { id: `${enyId} Success` } });
@@ -395,6 +414,7 @@ export default {
       // btn_display.value = true;
     };
 
+
     const fetchNotifications = () => {
       const user = JSON.parse(sessionStorage.getItem('sub_user'));
 
@@ -422,6 +442,21 @@ export default {
                   photo_url: imgUrls,
                 });
 
+              } else if (obj.posts.rentpost) {
+                let imgUrls = Array.isArray(obj.posts.rentpost.image)
+                  ? obj.posts.rentpost.image
+                  : [obj.posts.rentpost.image];
+
+                objs.value.unshift({
+                  id: obj.post_id,
+                  register_id: obj.reg_user.register_id,
+                  name: obj.reg_user.name,
+                  phone: obj.reg_user.phone,
+                  email: obj.reg_user.email,
+                  description: obj.description,
+                  post_id: obj.posts.post_id,
+                  photo_url: imgUrls,
+                });
               }
             });
             // Initialize notification count with the length of fetched notifications

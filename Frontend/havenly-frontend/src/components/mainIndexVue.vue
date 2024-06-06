@@ -99,6 +99,8 @@
       <contactpage />
     </div>
 
+
+
     <button :class="{ show: showBackToTop }" @click="scrollToTop" id="backToTopBtn"><v-icon
         style="transform:rotate(-90deg)">mdi-arrow-right</v-icon></button>
   </div>
@@ -110,6 +112,7 @@ import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
 import fourthPackage from './For_MainIndex/fourthPackageVue.vue'
 import fifthDoc from './For_MainIndex/fifthDocContent.vue'
+
 
 import contactpage from './For_MainIndex/ContactVue.vue'
 
@@ -194,7 +197,6 @@ export default {
 
     //   this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
     // },
-
 
 
 
@@ -295,7 +297,8 @@ export default {
       fetchNotifications();
       window.addEventListener('scroll', scrollFunction);
       getUser.value = JSON.parse(sessionStorage.getItem('login_user'));
-
+      localStorage.removeItem('openTab');
+      localStorage.removeItem('adminTab');
       filteredOjbs.value = filterData(objs.value);
     });
 
