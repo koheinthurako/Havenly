@@ -109,9 +109,9 @@
                             <div class="row mt-3">
                                 <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
                                     <v-card class="customImgBox">
-                                        <v-card-actions>
+                                        <jv-card-actions>
                                             <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
-                                        </v-card-actions>
+                                        </jv-card-actions>
                                         <v-img :src="photo.url" class="customImg" height="160px"></v-img>
                                     </v-card>
                                 </div>
@@ -559,18 +559,10 @@ formData.append('property_type', propertyTypes.value.value);
 formData.append('price', price.value.value);
 formData.append('area', area.value.value);
 formData.append('location_id', proxy.selectedLocation);
-// Append the files as an array
-// const files = Object.values(image.value.value);
-// console.log(files);
-// files.forEach((file) => {
-//     formData.append('files', file);
-// });
 
 allFiles.value.forEach((file) => {
     formData.append('files', file);
 });
-
-console.log(photoList.value + "dr ka origin kaw additional kaw pr tae photoList")
 
 formData.forEach((value, key) => {
     console.log(`${key}:`, value);

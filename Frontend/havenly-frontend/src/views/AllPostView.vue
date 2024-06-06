@@ -36,7 +36,7 @@
                         <div v-else>
                             <div class="row mb-3 g-3 " style="cursor: pointer;">
                                 <div v-for="post in displayedPosts" :key="post.post_id" class="display-post col-md-4"
-                                    @click="clickPost(post.post_id)">
+                                    @click="clickPost(post)">
                                     <div class="card-container">
                                         <!-- TZH card styles -->
                                         <div class="card" style="height: 380px;">
@@ -207,9 +207,10 @@ export default {
     methods: {
         clickPost(post) {
             // router.push('/PostsView')
-            const encryptData = this.encryptId(post);
+            // const encryptData = this.encryptId(post);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            console.log(post);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
         },
 
         splitData(data) {
