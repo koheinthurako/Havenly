@@ -3,7 +3,7 @@
         <div class="googleMapContainer col-12">
             <GoogleMapSearchVue @location-selected="handleLocationSelected"/>
         </div>
-        <div class="locationPostsContainer col-12">
+        <div class="locationPostsContainer col-12" ref="postsByLocation">
             <PostsByLocationVue :encryptedLocationId="encryptedLocationId"/>
         </div>
     </main>
@@ -31,6 +31,13 @@
         methods: {
             handleLocationSelected(encryptedId) {
                 this.encryptedLocationId = encryptedId;
+                setTimeout(() => {
+                    const container = this.$refs.postsByLocation;
+                    const scrollToElement = container.querySelector('.element-to-scroll-to');
+                    if (scrollToElement) {
+                        scrollToElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 200);
             },
         },
 

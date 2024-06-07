@@ -354,17 +354,18 @@ export default {
 
         handleReset() {
             Swal.fire({
-                title: 'Are you sure?',
-                text: 'All information will be lost!',
-                icon: 'info',
-                customClass: {
-                    confirmButton: 'myCustomButton'
-                },
-                buttonsStyling: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then(() => {
-                window.location.reload();
+                title: "Are you sure?",
+                text: "All sell post information will be lost!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#E86F52",
+                cancelButtonColor: "##525252",
+                confirmButtonText: "Yes delete all!",
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
             });
         },
 

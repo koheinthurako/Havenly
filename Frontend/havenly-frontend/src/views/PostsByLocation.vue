@@ -29,9 +29,9 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
 
-            <!-- <div class="pt-5">
+            <div class="pt-5">
                 <div class="row mb-3 g-3">
-                    <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12"
+                    <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12 element-to-scroll-to"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <div class="card cursor-pointer" style="height: 390px;">
@@ -64,9 +64,9 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
-            <div class="pt-5">
+            <!-- <div class="pt-5">
                 <div class="row my-4 g-3 justify-content-center">
                     <div v-for="post in posts" :key="post.post_id" class="col-10"
                         @click="clickPost(post.post_id)">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </main>
     </v-container>
@@ -112,6 +112,7 @@
 import axios from 'axios';
 import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
+import Swal from 'sweetalert2';
 
 
     export default {
@@ -171,7 +172,21 @@ import Utf8 from 'crypto-js/enc-utf8';
             },
 
             async fetchLocations() {
+
                 try {
+
+                    Swal.fire({
+                        title: 'Loading',
+                        text: 'Fetching locations...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     const response = await fetch('http://localhost:8083/locations/getall');
                     const data = await response.json();
                     const mappedData = data.map(location => ({
@@ -186,6 +201,7 @@ import Utf8 from 'crypto-js/enc-utf8';
                     sessionStorage.setItem('locations', JSON.stringify(mappedData));
                     this.locations = mappedData;
                     this.mapLocations = mappedData;
+                    Swal.close();
                 } catch (error) {
                     console.error('Error fetching locations:', error);
                 }

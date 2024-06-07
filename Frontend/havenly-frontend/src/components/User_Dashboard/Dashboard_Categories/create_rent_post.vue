@@ -339,6 +339,23 @@ export default {
 
     methods: {
 
+        handleReset() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "All rent post information will be lost!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#E86F52",
+                cancelButtonColor: "##525252",
+                confirmButtonText: "Yes delete all!",
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        },
+
         fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
                 .then(response => response.json())
