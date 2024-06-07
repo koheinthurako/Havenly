@@ -34,7 +34,22 @@
 
 
   <template>
-    <div class="first-index mt-5 pt-5">
+    <!-- <div class="row flex-column mt-5 pt-3">
+      <div class="col-10 mt-5">
+        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
+              :center="center"
+              :zoom="zoom"
+              style="width: 100%; height: 400px; padding-bottom: 50px;">
+            <Marker v-for="(location, index) in mapLocations"
+            :key="index"
+            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
+        </GoogleMap>
+      </div>
+      <button class="btn btn-danger" @click="goToPostLocation">Search Posts by Location</button>
+    </div> -->
+
+
+    <div class="first-index mt-5">
       <div class="button-group d-flex flex-column mt-5 py-5">
         <div class="filterBox">
           <div class="form-header">
@@ -46,9 +61,9 @@
                 <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
                 <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
                 <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
                 <div class="form-btn-group" :hidden="!selectedRegion">
-                  <v-btn class="me-3 submit" type="submit">Search</v-btn>
+                  <v-btn class="me-3 submit" type="submit" @click="searchPostByLocations(selectedLocation)">Search</v-btn>
                   <v-btn class="clear" @click="clearFields">Clear</v-btn>
                 </div>
               </div>
@@ -59,13 +74,12 @@
                 :center="center"
                 :zoom="zoom"
                 style="width: 100%; height: 400px; padding-bottom: 50px;">
-            <!-- Add markers here if needed -->
-            <!-- <Marker :options="{position: this.center}"/> -->
             <Marker v-for="(location, index) in mapLocations"
             :key="index"
             :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
         </GoogleMap>
       </div>
+      
     </div>
   </template>
 
@@ -74,6 +88,8 @@
 import json_data from '../../assets/json/thailand_location.json'
 import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 import axios from 'axios';
+import { AES } from 'crypto-js';
+// import router from '@/router';
 
 export default {
   name: 'firstIndexContent',
@@ -91,6 +107,7 @@ export default {
       selectedProvince: '',
       selectedAmphoe: '',
       selectedRegion: '',
+      selectedLocation: '',
       zipCode: '',
       center: { lat: 16.90177, lng: 96.09596 }, // Initial center of the map
       zoom: 13,
@@ -113,8 +130,12 @@ export default {
       return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
     },
     
-    uniqueDistricts() {
+    uniqueRegions() {
       return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
+    },
+
+    uniqueLocations() {
+      return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
     },
     
     filteredLocations() {
@@ -127,7 +148,20 @@ export default {
     },
   },
 
+  watch: {
+    selectedRegion(newRegion) {
+      if (newRegion) {
+        const selectedLocation = this.locations.find(location => location.region === newRegion);
+        if (selectedLocation) {
+          this.selectedLocation = selectedLocation.location_id;
+          console.log(this.selectedLocation); // Log the location_id
+        }
+      }
+    }
+  },
+
   mounted() {
+    localStorage.removeItem('openTab');
     const cachedData = this.getLocationsFromSessionStorage();
     if(cachedData) {
         this.locations = cachedData;
@@ -135,58 +169,95 @@ export default {
     } else {
         this.fetchLocations();
     }
-
     this.fetchSubUser();
-
   },
 
   methods: {
 
-    fetchLocations() {
-      fetch('http://localhost:8083/locations/getall')
-      .then(response => response.json())
-      .then(data => {
-            const mappedData = data.map(location => ({
-              location_id: location.location_id,
-              country_name: location.country_name,
-              province: location.province,
-              amphoe: location.amphoe,
-              region: location.region,
-              latitude: location.latitude,
-              longitude: location.longitude
-          }));
-          sessionStorage.setItem('locations', JSON.stringify(mappedData));
-          this.locations = mappedData;
-          this.mapLocations = mappedData;
-      })
-      .catch(error => {
-          console.error('Error fetching locations:', error);
-      });
+    async fetchLocations() {
+      try {
+        const response = await fetch('http://localhost:8083/locations/getall');
+        const data = await response.json();
+        const mappedData = data.map(location => ({
+          location_id: location.location_id,
+          country_name: location.country_name,
+          province: location.province,
+          amphoe: location.amphoe,
+          region: location.region,
+          latitude: location.latitude,
+          longitude: location.longitude
+        }));
+        sessionStorage.setItem('locations', JSON.stringify(mappedData));
+        this.locations = mappedData;
+        this.mapLocations = mappedData;
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
     },
+
+    // fetchLocations() {
+    //   fetch('http://localhost:8083/locations/getall')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //         const mappedData = data.map(location => ({
+    //           location_id: location.location_id,
+    //           country_name: location.country_name,
+    //           province: location.province,
+    //           amphoe: location.amphoe,
+    //           region: location.region,
+    //           latitude: location.latitude,
+    //           longitude: location.longitude
+    //       }));
+    //       sessionStorage.setItem('locations', JSON.stringify(mappedData));
+    //       this.locations = mappedData;
+    //       this.mapLocations = mappedData;
+    //   })
+    //   .catch(error => {
+    //       console.error('Error fetching locations:', error);
+    //   });
+    // },
 
     getLocationsFromSessionStorage() {
         const data = sessionStorage.getItem('locations');
         return data ? JSON.parse(data) : null;
     },
 
-    fetchSubUser() {
-      if(sessionStorage.getItem('login_user')) {
-        const user = JSON.parse(sessionStorage.getItem('login_user'));
-        const registerId = user.register_id;
-        console.log("registerId to send backend to show subUser informations : " + registerId)
-        axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-            params: {
-                registerId: registerId
-            }
-        })
-        .then(response => {
-          sessionStorage.setItem('sub_user',JSON.stringify(response.data))
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error); // Handle the error
-        }); 
+    async fetchSubUser() {
+      const user = sessionStorage.getItem('login_user');
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        const registerId = parsedUser.register_id;
+        console.log("registerId to send backend to show subUser informations: " + registerId);
+
+        try {
+          const response = await axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+            params: { registerId: registerId }
+          });
+          sessionStorage.setItem('sub_user', JSON.stringify(response.data));
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
       }
     },
+
+    // fetchSubUser() {
+    //   if(sessionStorage.getItem('login_user')) {
+    //     const user = JSON.parse(sessionStorage.getItem('login_user'));
+    //     const registerId = user.register_id;
+    //     console.log("registerId to send backend to show subUser informations : " + registerId)
+    //     axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+    //         params: {
+    //             registerId: registerId
+    //         }
+    //     })
+    //     .then(response => {
+    //       sessionStorage.setItem('sub_user',JSON.stringify(response.data))
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching data:', error); // Handle the error
+    //     }); 
+    //   }
+    // },
 
     submit() {
       this.mapLocations = this.filteredLocations;
@@ -207,13 +278,32 @@ export default {
 
     clearFields() {
       // Clear selected fields
+      console.log("clear clicked!")
       this.selectedCountry = '';
       this.selectedProvince = '';
       this.selectedAmphoe = '';
       this.selectedRegion = '';
       this.zipCode = '';
-    }
-  }
+    },
+
+    encryptId(id) {
+      const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+      const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+      return encryptedId;
+    },
+
+    searchPostByLocations(location_id) {
+      console.log(location_id + " location search htae ka id");
+      const encryptedId = this.encryptId(location_id);
+      this.$router.push({ name: 'MainLocationPosts', params: { locationId: `${encryptedId} Success` } });
+    },
+
+    // goToPostLocation() {
+    //   router.push('/all/posts/mainLocationPosts')
+    //   // this.$router.push({ name: 'MainLocationPosts' });
+    // }
+
+  },
 }
 </script>
 

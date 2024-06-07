@@ -23,10 +23,11 @@
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="title.value.value" :counter="10"
-                                        :error-messages="title.errorMessage.value" placeholder="Title"></v-text-field>
+                                        v-model="title.value.value" :counter="50"
+                                        :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                        placeholder="Title"></v-text-field>
                                 </div>
                             </div>
 
@@ -36,10 +37,10 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
-                                        :counter="10000" :error-messages="Description.errorMessage.value"
-                                        placeholder="Description"></v-textarea>
+                                        :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                        :counter="10000" placeholder="Description"></v-textarea>
                                 </div>
                             </div>
                             <hr>
@@ -52,44 +53,30 @@
                                     :disabled="!selectedProvince" label="Select amphoe" required></v-select>
                                 <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
                                     :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                                <v-select bg-color="white" v-model="selectedLocation" :items="uniqueLocations"
-                                    :disabled="!selectedRegion" label="Country_id" required></v-select>
                             </div>
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small"> House Type </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="houseTypes.value.value"
-                                        :error-messages="houseTypes.errorMessage.value" :items="HouseTypes"
-                                        placeholder="Select house type"></v-select>
-                                </div>
-                            </div> -->
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small"> Property Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-select bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
+                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
                                         variant="solo" rounded="lg" density="compact"
                                         v-model="propertyTypes.value.value"
-                                        :error-messages="propertyTypes.errorMessage.value" :items="PropertyTypes"
-                                        placeholder="Select property type"></v-select>
+                                        :items="PropertyTypes" placeholder="Select property type"></v-select>
                                 </div>
                             </div>
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price($Dollar)<span
+                                    <span class="float-left mt-2 small">Price<span
                                             class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="price.value.value" :error-messages="price.errorMessage.value"
-                                        placeholder="price"></v-text-field>
+                                        :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                        v-model="price.value.value" placeholder="price"></v-text-field>
                                 </div>
                             </div>
 
@@ -99,8 +86,9 @@
                                     <span class="float-left mt-2 small">Area</span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
                                         v-model="area.value.value" placeholder="Area"></v-text-field>
                                 </div>
                             </div>
@@ -109,8 +97,9 @@
                                     <span class="float-left mt-2 small">Deposit</span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
                                         v-model="deposit.value.value" placeholder="Deposit"></v-text-field>
                                 </div>
                             </div>
@@ -121,23 +110,10 @@
                                 <div class="col-md-9 col-sm-12">
                                     <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                        :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
                                         v-model="least_contract.value.value" placeholder="Least Contract"></v-text-field>
                                 </div>
                             </div>
-
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span> </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
-                                        truncate-length="15" v-model="image.value.value"
-                                        :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto" placeholder="Pick an avatar"
-                                        prepend-icon="mdi-camera"></v-file-input>
-                                </div>
-                            </div> -->
-
 
                             <div class="row justify-content-between">
                                 <div class="col-md-3 col-sm-12 py-0">
@@ -145,26 +121,27 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input counter multiple color="deep-purple-accent-4" chips
-                                        truncate-length="15" v-model="image.value.value"
-                                        :error-messages="image.errorMessage.value" :rules="rules"
-                                        accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
-                                        prepend-icon="mdi-camera"></v-file-input>
+                                    <v-file-input required class="disableClearBtn" counter multiple color="deep-purple-accent-4"
+                                        chips truncate-length="15" v-model="combinedImages"
+                                        :rules="rules" accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
+                                        prepend-icon="mdi-camera" show-input="false"></v-file-input>
                                 </div>
                             </div>
 
-
-                            <!-- <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Image Url<span class="text-red">*</span></span>
+                            <div class="row mt-3">
+                                <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
+                                    <v-card class="customImgBox">
+                                        <v-card-actions>
+                                            <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
+                                        </v-card-actions>
+                                        <v-img :src="photo.url" class="customImg" height="160px"></v-img>
+                                    </v-card>
                                 </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="image.value.value" placeholder="Enter your image url"></v-text-field>
+                                <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
+                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos" style="display: none;">
                                 </div>
-                            </div> -->
-
+                            </div>
 
                             <div class="w-100 d-flex mt-3 justify-content-end">
                                 <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
@@ -245,8 +222,8 @@ export default {
         location_id: '',
         title: '',
         description: '',
-        // image: [],
         image: '',
+        combinedImages: [],
         price: '',
         area: '',
         property_type: '',
@@ -337,6 +314,18 @@ export default {
 
     },
 
+    watch: {
+        selectedRegion(newRegion) {
+        if (newRegion) {
+            const selectedLocation = this.locations.find(location => location.region === newRegion);
+            if(selectedLocation) {
+                this.selectedLocation = selectedLocation.location_id;
+                console.log(this.selectedLocation);
+            }
+        }
+        }
+    },
+
     mounted() {
         const cachedData = this.getLocationsFromSessionStorage();
         if (cachedData) {
@@ -344,9 +333,6 @@ export default {
         } else {
             this.fetchLocations();
         }
-
-        // const subUserData = JSON.parse(sessionStorage.getItem('sub_user'));
-        // this.availPosts = subUserData.availPosts;
         this.fetchSubUserInfo();
         this.fetchAllRentPosts();
     },
@@ -467,18 +453,16 @@ export default {
     import router from '@/router';
     import Swal from 'sweetalert2';
 
-
+    
     /* Field collection */
     const title = useField('title')
     const Description = useField('Description')
-    // const houseTypes = useField('houseTypes')
     const propertyTypes = useField('propertyTypes')
     const price = useField('price')
     const area = useField('area')
     const deposit = useField('deposit');
     const least_contract = useField('least_contract');
-    const image = useField('image')
-    let photoList = null
+    const photoList = ref([]);
 
     const PropertyTypes = ref([
         'Condo',
@@ -486,125 +470,156 @@ export default {
         'House'
     ])
 
-    // const HouseTypes = ref([
-    //     'Stand-alone House',
-    //     'Two-story House',
-    //     'Three-story House'
-    // ])
+    const fileInput = ref(null);
+    const allFiles = ref([]);
+    const combinedImages = ref([]);
 
     
-
-    const selectedLocation = ref('')
-    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-    const subUserId = subUser.subUserId;
-    // const availPosts = ref('')
     const { proxy } = getCurrentInstance();
 
-    const submit = async () => {
+    function triggerFileInput() {
+        fileInput.value.click();
+    }
 
-        const formData = new FormData();
-        formData.append('subUserId', subUserId);
-        formData.append('title', title.value.value);
-        formData.append('description', Description.value.value);
-        // formData.append('house_type', houseTypes.value.value);
-        formData.append('property_type', propertyTypes.value.value);
-        formData.append('price', price.value.value);
-        formData.append('area', area.value.value);
-        formData.append('deposit', deposit.value.value);
-        formData.append('least_contract', least_contract.value.value);
-        formData.append('location_id', selectedLocation.value);
-        // Append the files as an array
-        photoList.forEach((file) => {
-            formData.append('files', file);
+    function showUploadPhoto() {
+        const files = Object.values(combinedImages.value);
+        const fileReadPromises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+            });
         });
 
-        Swal.fire({
-            title: 'Posting...',
-            text: 'Your post is being submitted. Please wait...',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-            Swal.showLoading(); // Show loading spinner
-            }
+        Promise.all(fileReadPromises).then((results) => {
+            photoList.value = results;
+            allFiles.value = files;
+            combinedImages.value = allFiles.value;
+            console.log('Photo list:', photoList.value);
+        }).catch((error) => {
+            console.error('Error reading files:', error);
+        });
+    }
+
+    function addMorePhotos(event) {
+        const files = Object.values(event.target.files);
+        const fileReadPromises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+            });
         });
 
-        try {
-            if(proxy.availPosts > 0) {
-                const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
-                    headers: {
-                    'Content-Type': 'multipart/form-data'
+        Promise.all(fileReadPromises).then((results) => {
+            photoList.value = photoList.value.concat(results);
+            allFiles.value = allFiles.value.concat(files);
+            combinedImages.value = allFiles.value;
+            console.log('Updated photo list:', allFiles.value);
+        }).catch((error) => {
+            console.error('Error reading files:', error);
+        });
+        }
+
+
+        function removeImage(index) {
+            photoList.value.splice(index, 1);
+            combinedImages.value = allFiles.value;
+            allFiles.value.splice(index, 1);
+        }
+
+        const submit = async () => {
+
+            const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+            const subUserId = subUser.subUserId;
+            const formData = new FormData();
+            formData.append('subUserId', subUserId);
+            formData.append('title', title.value.value);
+            formData.append('description', Description.value.value);
+            formData.append('property_type', propertyTypes.value.value);
+            formData.append('price', price.value.value);
+            formData.append('area', area.value.value);
+            formData.append('deposit', deposit.value.value);
+            formData.append('least_contract', least_contract.value.value);
+            formData.append('location_id', proxy.selectedLocation);
+
+            allFiles.value.forEach((file) => {
+                formData.append('files', file);
+            });
+
+            formData.forEach((value, key) => {
+                console.log(`${key}:`, value);
+            });
+
+            console.log("------------------- auto submit when add additional photo ---------------------")
+
+            Swal.fire({
+                title: 'Posting...',
+                text: 'Your post is being submitted. Please wait...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                Swal.showLoading(); // Show loading spinner
+                }
+            });
+
+            try {
+                if(proxy.availPosts > 0) {
+                    const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
+                        headers: {
+                        'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    if(response.status === 200) {
+                        Swal.fire({
+                            title: 'Successfully Posted',
+                            text: 'Your post is requested to admin now!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'myCustomSuccessButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     }
-                });
-                if(response.status === 200) {
+                } else {
                     Swal.fire({
-                        title: 'Successfully Posted',
-                        text: 'Your post is requested to admin now!',
-                        icon: 'success',
+                        title: 'Buy Package',
+                        text: 'Your package is gone! Please buy another package!',
+                        icon: 'error',
                         customClass: {
-                            confirmButton: 'myCustomSuccessButton'
+                            confirmButton: 'myCustomButton'
                         },
                         buttonsStyling: false,
                         allowOutsideClick: false,
                         allowEscapeKey: false
-                    }).then(() => {
-                        window.location.reload();
+                        }).then(() => {
+                        router.push('/package');
                     });
                 }
-            } else {
+            } catch (error) {
                 Swal.fire({
-                    title: 'Buy Package',
-                    text: 'Your package is gone! Please buy another package!',
+                    title: 'Error',
+                    text: 'There was an error submitting your post. Please try again.',
                     icon: 'error',
                     customClass: {
-                        confirmButton: 'myCustomButton'
+                        confirmButton: 'myCustomErrorButton'
                     },
                     buttonsStyling: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false
-                    }).then(() => {
-                    router.push('/package'); 
                 });
             }
-        } catch (error) {
-            Swal.fire({
-                title: 'Error',
-                text: 'There was an error submitting your post. Please try again.',
-                icon: 'error',
-                customClass: {
-                    confirmButton: 'myCustomErrorButton'
-                },
-                buttonsStyling: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            });
-        }
-
-    // if(availPosts.value > 0) {
-    //     try {
-    //         const response = await axios.post('http://localhost:8083/saverentpost', formData, {
-    //             headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //             }
-    //         });
-    //             console.log(response.data);
-    //             window.location.reload();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // } else {
-    //     alert("Your package is gone! Please buy another package!");
-    // }
-
-    };  
-
-    function showUploadPhoto() {
-        photoList = Object.values(image.value.value);
-        console.log(title.value.value)
-        console.log(Description.value.value)
-        console.log(photoList);
-        console.log(selectedLocation.value)
-        console.log(proxy.availPosts)
-    }
+        };
 
 </script>
 
@@ -713,8 +728,8 @@ export default {
             transform: translateY(0);
         }
 
-
     }
+
 }
 
 @keyframes aniOne {
@@ -760,4 +775,28 @@ export default {
         transform: scale(1);
     }
 }
+
+    .customImgBox {
+
+
+        .v-card-actions {
+            color: red;
+            position: absolute;
+            z-index: 1000;
+            background-color: #fff;
+            opacity: 0.95;
+            right: 0;
+            border-radius: 0 0 0 10px;
+        }
+
+        .customImg>img {
+            object-fit: cover !important;
+        }
+
+    }
+
+    .disableClearBtn .v-field__clearable {
+        display: none !important;
+    }
+
 </style>

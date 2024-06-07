@@ -7,17 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
-//import com.Havenly.Backend.Entity.PasswordResetToken;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
-//import com.Havenly.Backend.Repo.TokenRepository;
-import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.util.EmailUtil;
-
 
 import jakarta.mail.MessagingException;
 
@@ -127,58 +124,20 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		return "error";
 	}
-//	@Override
-//	
-//	public String sendEmail(Reg_user user) {
-//		// TODO Auto-generated method stub
-//		try {
-//			String resetLink=generateResetToken(user);
-//			
-//			
-//			SimpleMailMessage msg =new SimpleMailMessage();
-//			msg.setFrom("aungkhantm33@gmail.com");
-//			msg.setTo(user.getEmail());
-//			
-//			msg.setSubject("Welcome To My cahnnel");
-//			msg.setText("Hello \n\n"+"Please click on this link to reset your Password : "+resetLink +". \n\n"+"Regards \n"+ "ABC");
-//			mail.send(msg);
-//			return "Success";
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//			return "error";
-//		}		
-//	}
-//	@Override
-//	public String generateResetToken(Reg_user user) {
-//		// TODO Auto-generated method stub
-//		UUID uuid=UUID.randomUUID();
-//		LocalDateTime currentDateTime=LocalDateTime.now();
-//		LocalDateTime expiryDateTime = currentDateTime.plusMinutes(30);
-//		PasswordResetToken resetToken =new PasswordResetToken();
-//		resetToken.setUser(user);
-//		resetToken.setToken(uuid.toString());
-//		resetToken.setExpiryDateTime(expiryDateTime);
-//		resetToken.setUser(user);
-//		PasswordResetToken token=tokenRepository.save(resetToken);
-//		if(token != null) {
-//			String endpointUrl="http://localhost:8083/resetPassword";
-//			return endpointUrl + "/" + resetToken.getToken();
-//		}
-//		return "";
-//	}
-//	@Override
-//	public boolean hasExpired(LocalDateTime expiryDateTime) {
-//		// TODO Auto-generated method stub
-//		LocalDateTime currentDateTime=LocalDateTime.now();
-//		return expiryDateTime.isAfter(currentDateTime);
-//	}
+
+	@Override
+	public Reg_user getDataBySubId(int id) {
+		return regRepo.findDataBySubId(id);
+	}
+
 	@Override
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
 	Reg_user user=	regRepo.findByEmail(email);
 	if(user!=null) {
 			try {
-				emailUtil.sendSetPasswordEmail(user.getEmail());
+				emailUtil.sendSetPasswordEmail(email);
+				
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException("Unable to send set password email please try again");
@@ -189,6 +148,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	return "failed to send msg";
 	
 	}
+
 	
 	@Override
 	public String setPassword(String email, String newPassword) {

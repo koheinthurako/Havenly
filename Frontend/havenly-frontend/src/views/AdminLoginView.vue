@@ -28,6 +28,7 @@
 
 import router from '@/router';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 export default {
@@ -41,7 +42,9 @@ export default {
       };
   },
  
-  
+  mounted() {
+    localStorage.removeItem('openTab');
+  },
 
   methods: {
 
@@ -49,28 +52,40 @@ export default {
       this.showPassword = !this.showPassword;
     },
 
-        login() {
-            function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===400){alert("Invalid Username or Password...Please try again!!!")}
-                            }
-                            }
-                    }
-          axios.post("http://localhost:8083/admin/login",this.user)
-           
-            .then(function(response){
-              sessionStorage.setItem('admin_user',JSON.stringify(response.data))
-                    const status=JSON.parse(response.status);
-                    if(status=='200'){
-                        router.push('/admin/post');
-                    }
-                    
-                        })
-            .catch(httpErrorHandler)
-                 },
+    login() {
+      function httpErrorHandler(error) {
+        if (axios.isAxiosError(error)) {
+          const response = error?.response
+          if(response){
+            const statusCode = response?.status
+            if(statusCode===400){
+              Swal.fire({
+                title: 'Invalid Informations!',
+                text: 'Invalid Username or Password.Please try again!',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+              });
+            }
+          }
+        }
+      }
+      axios.post("http://localhost:8083/admin/login",this.user)
+        
+        .then(function(response){
+          sessionStorage.setItem('admin_user',JSON.stringify(response.data))
+                const status=JSON.parse(response.status);
+                if(status=='200'){
+                    router.push('/admin/post');
+                }
+                
+                    })
+        .catch(httpErrorHandler)
     },
+  },
 }
 </script>

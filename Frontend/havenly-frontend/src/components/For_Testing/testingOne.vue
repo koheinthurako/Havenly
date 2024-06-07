@@ -1,205 +1,124 @@
+<!-- <template>
+  <div class="testing-edit">
+    <swiper :style="{
+      '--swiper-navigation-color': '#fff',
+      '--swiper-pagination-color': '#fff',
+    }" :spaceBetween="10" :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false,
+    }" :navigation="true" :loop="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
+      <swiper-slide v-for="(img, index) in images" :key="index">
+        <v-img :src="img.img" />
+      </swiper-slide>
+    </swiper>
+    <swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true" :watchSlidesProgress="true"
+      :modules="modules" class="mySwiper">
+      <swiper-slide v-for="(img, index) in images" :key="index">
+        <v-img :src="img.img" />
+      </swiper-slide>
+    </swiper>
+  </div>
+</template>
+<script>
+import { ref } from 'vue';
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
+// import required modules
+import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
+export default {
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    const thumbsSwiper = ref(null);
+
+    const setThumbsSwiper = (swiper) => {
+      thumbsSwiper.value = swiper;
+    };
+
+    return {
+      thumbsSwiper,
+      setThumbsSwiper,
+      modules: [Autoplay, FreeMode, Navigation, Thumbs],
+    };
+  },
+
+  data: () => ({
+    images: [
+      { img: require('@/assets/img/1.jpg') },
+      { img: require('@/assets/img/3.jpg') },
+      { img: require('@/assets/img/5.jpg') },
+      { img: require('@/assets/img/2.jpg') },
+      { img: require('@/assets/img/4.jpg') },
+      { img: require('@/assets/img/6.jpg') },
+    ],
+  })
+};
+</script> -->
+
+
 <template>
-
-  <div style="margin-top: 7%;"></div>
-  <div class="w-100 d-flex p-0 m-0">
-    <span class="mt-2 me-2">Choose an option : </span>
-    <v-radio-group v-model="change_type" inline>
-      <v-radio label="Option one" value="one" color="orange"></v-radio>
-      <v-radio label="Option two" value="two" color="orange"></v-radio>
-    </v-radio-group>
-  </div>
-
-  <div v-if="box_data">
-    <v-btn @click="change">
-      Off
-    </v-btn>
-  </div>
-  <div v-if="!box_data">
-    <v-btn @click="change">On</v-btn>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-6 mx-auto"
-      style="transition: all 0.4s ease-in-out;padding: 20px; background-color: #ddd; position: sticky; top: 0;">
-      <form @submit.prevent="submit">
-        <v-text-field v-model="name.value.value" fast-fail="true" :counter="10"
-          :error-messages="name.errorMessage.value" label="Name"></v-text-field>
-
-        <v-text-field v-model="phone.value.value" :counter="7" :error-messages="phone.errorMessage.value"
-          label="Phone Number"></v-text-field>
-
-        <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value"
-          label="E-mail"></v-text-field>
-
-        <v-select v-model="select.value.value" :error-messages="select.errorMessage.value" :items="items"
-          label="Select"></v-select>
-
-        <div :class="{ fade_in: change_type === 'one', fade_right_gone: change_type !== 'one' }">
-          <v-checkbox v-model="checkbox.value.value" :error-messages="checkbox.errorMessage.value" label="Option"
-            type="checkbox" value="1"></v-checkbox>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-8 col-sm-12">
+        <div class="image-container">
+          <img src="https://via.placeholder.com/800x600" class="img-fluid" alt="Large Image" />
         </div>
-
-        <v-btn :class="{ up_ward: change_type !== 'one' }" class="me-4" type="submit">
-          submit
-        </v-btn>
-
-        <v-btn @click="handleReset">
-          clear
-        </v-btn>
-      </form>
+      </div>
+      <!-- Right Column -->
+      <div class="col-md-4 col-sm-12 right-column">
+        <div class="image-container">
+          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 1" />
+        </div>
+        <div class="image-container">
+          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 2" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  data: () => ({
-    change_type: 'one',
-    box_data: true
-  }),
-
-  computed: {
-    changer() {
-      return !this.box_data;
-    }
-  },
-
-  methods: {
-    change() {
-      this.box_data = this.changer;
-    }
-  }
-}
-
+  name: 'ImageLayout',
+};
 </script>
 
-<script setup>
-import { ref } from 'vue'
-import { useField, useForm } from 'vee-validate'
-
-const { handleSubmit, handleReset } = useForm({
-  validationSchema: {
-    name(value) {
-      if (value?.length >= 2) return true
-
-      return 'Name needs to be at least 2 characters.'
-    },
-    phone(value) {
-      if (value?.length > 9 && /[0-9-]+/.test(value)) return true
-
-      return 'Phone number needs to be at least 9 digits.'
-    },
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
-
-      return 'Must be a valid e-mail.'
-    },
-    select(value) {
-      if (value) return true
-
-      return 'Select an item.'
-    },
-    checkbox(value) {
-      if (value === '1') return true
-
-      return 'Must be checked.'
-    },
-  },
-})
-const name = useField('name')
-const phone = useField('phone')
-const email = useField('email')
-const select = useField('select')
-const checkbox = useField('checkbox')
-
-const items = ref([
-  'Item 1',
-  'Item 2',
-  'Item 3',
-  'Item 4',
-])
-
-const submit = handleSubmit(values => {
-  alert(JSON.stringify(values, null, 2))
-})
-</script>
-
-<style>
-.v-text-field,
-.v-select,
-.v-checkbox {
-  transition: all 0.4s ease-in-out both;
+<style scoped>
+.image-container {
+  height: 100%;
+  overflow: hidden;
 }
 
-.up_ward {
-  animation: upward 1s ease-in-out both;
+.right-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.fade_right_gone {
-  animation: fadeRightGone 0.6s ease-in-out both;
+.right-column .image-container {
+  flex: 1;
+  margin-bottom: 1rem;
 }
 
-@keyframes fadeRightGone {
-  0% {
-    transform: translateX(0px);
-  }
-
-  45% {
-    opacity: 0.5;
-    transform: translateX(-50px);
-  }
-
-  100% {
-    display: none;
-    opacity: 0;
-    transform: translateX(-200px);
-  }
+.right-column .image-container:last-child {
+  margin-bottom: 0;
 }
 
-@keyframes upward {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-50px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.fade_in {
-  animation: ScaleIn 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
-}
-
-.fade_out {
-  animation: myAnim 0.1s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
-}
-
-@keyframes ScaleIn {
-  0% {
-    transform: scale(0);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes myAnim {
-  0% {
-    transform: rotate(0);
-    transform-origin: top;
-  }
-
-  100% {
-    display: none;
-    transform: rotate(360deg);
-    transform-origin: top;
-  }
+.img-fluid {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

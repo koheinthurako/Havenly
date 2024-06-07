@@ -102,6 +102,7 @@ import axios from 'axios';
       },
 
       mounted(){
+        localStorage.removeItem('openTab');
         this.fetchUsers();
       },
 

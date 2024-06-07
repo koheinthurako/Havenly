@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.PackageTypesService;
 import com.Havenly.Backend.DTO.PackageTypesDTO;
 import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Repo.PackageTypesRepo;
-import com.Havenly.Backend.Service.PackageTypesService;
 @Configuration
 public class PackageTypesServiceImpl implements PackageTypesService{
 

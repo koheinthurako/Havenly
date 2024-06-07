@@ -259,6 +259,10 @@ export default {
         }
     },
 
+    mounted() {
+        localStorage.removeItem('openTab');
+    },
+
     methods: {
         change() {
             this.show_register = this.changer

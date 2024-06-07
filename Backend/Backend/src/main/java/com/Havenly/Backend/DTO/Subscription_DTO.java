@@ -3,7 +3,9 @@ package com.Havenly.Backend.DTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
 import com.Havenly.Backend.Entity.Reg_user;
+
 import com.Havenly.Backend.Entity.Subscription;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +31,7 @@ public class Subscription_DTO {
 	private String packageType;
 	private String packagePrice;
 	private int availPosts;
+	private int availAds;
 //	private int availPosts;
 
 	

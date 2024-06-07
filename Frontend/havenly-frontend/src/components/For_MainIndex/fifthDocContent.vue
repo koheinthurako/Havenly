@@ -1,6 +1,6 @@
 <template>
   <div class="fifth-doc">
-    <div class="container">
+    <div class="mx-5 px-5">
       <div class="fifth-doc-data">
         <div class="row p-0">
           <div class="col-md-12 p-2">

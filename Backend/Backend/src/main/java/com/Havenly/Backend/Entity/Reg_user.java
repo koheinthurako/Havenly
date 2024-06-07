@@ -1,7 +1,9 @@
 package com.Havenly.Backend.Entity;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -49,11 +52,38 @@ public class Reg_user {
 	private LocalDate date;
 	private LocalTime time;
 	
+	@Column(name = "reset_token")
+    private String resetToken;
+	
+	@Column(name = "token_expiry_time")
+    private Instant tokenExpiryTime;
+	
 //	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 //	PasswordResetToken  passwordResetToken;
 
 	
-	@OneToOne(mappedBy = "reg_user")
 	@JsonIgnore
+	@OneToOne(mappedBy = "reg_user")
 	private Subscription sub;
+	
+	@JsonIgnore
+    @OneToMany(mappedBy = "reg_user")
+    private List<Interest> interest;
+	
+	
+	 public String getResetToken() {
+	        return resetToken;
+	    }
+
+	    public void setResetToken(String resetToken) {
+	        this.resetToken = resetToken;
+	    }
+
+	    public Instant getTokenExpiryTime() {
+	        return tokenExpiryTime;
+	    }
+
+	    public void setTokenExpiryTime(Instant tokenExpiryTime) {
+	        this.tokenExpiryTime = tokenExpiryTime;
+	    }
 }
