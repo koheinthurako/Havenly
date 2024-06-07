@@ -358,13 +358,6 @@ export default {
     },
 
     mounted() {
-        const cachedData = this.getLocationsFromSessionStorage();
-        if (cachedData) {
-            this.locations = cachedData;
-        } else {
-            this.fetchLocations();
-        }
-
         this.fetchPosts();
 
         document.addEventListener('keydown', (event) => {
@@ -405,25 +398,39 @@ export default {
             this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
         },
 
-        fetchLocations() {
-            fetch('http://localhost:8083/locations/getall')
-                .then(response => response.json())
-                .then(data => {
-                    const mappedData = data.map(location => ({
-                        location_id: location.location_id,
-                        country_name: location.country_name,
-                        province: location.province,
-                        amphoe: location.amphoe,
-                        region: location.region,
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                })
-                .catch(error => {
-                    console.error('Error fetching locations:', error);
+        async fetchLocations() {
+            try {
+
+                Swal.fire({
+                    title: 'Loading Information',
+                    text: 'Please wait we are getting your information...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
                 });
+
+                const response = await fetch('http://localhost:8083/locations/getall');
+                const data = await response.json();
+                const mappedData = data.map(location => ({
+                location_id: location.location_id,
+                country_name: location.country_name,
+                province: location.province,
+                amphoe: location.amphoe,
+                region: location.region,
+                latitude: location.latitude,
+                longitude: location.longitude
+            }));
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+                this.mapLocations = mappedData;
+                Swal.close();
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+            }
         },
 
         getLocationsFromSessionStorage() {
@@ -802,6 +809,13 @@ export default {
         },
 
         editPost(post) {
+            const cachedData = this.getLocationsFromSessionStorage();
+            if (cachedData) {
+                this.locations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
+
             this.currentPost = toRaw(post);
             this.title = this.currentPost.title;
             this.fullDescription = this.currentPost.fullDescription;
@@ -857,18 +871,6 @@ export default {
                     });
                 }
             });
-            // const confirmed = window.confirm("Do you want to delete this post?");
-            // if(confirmed) {
-            //     axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-            //     .then(response => {
-            //         console.log(response.data);
-            //         this.fetchPosts();
-            //         window.location.reload();
-            //     })
-            //     .catch(error => {
-            //         console.error("There was an error deleting the post!", error);
-            //     });
-            // }
         },
 
         getStatusClass(status) {
