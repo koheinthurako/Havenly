@@ -80,7 +80,7 @@
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
                                                     currentPost.post_type }}</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                    aria-label="Close" @click="reloadWindow"></button>
                                             </div>
                                             <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
                                                 <form @submit.prevent="submit" enctype="multipart/form-data"
@@ -91,9 +91,10 @@
                                                                     class="text-red">*</span></span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
                                                                 clearable class="w-100" v-model="title"
+                                                                :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
                                                                 placeholder="Title"></v-text-field>
                                                         </div>
                                                     </div>
@@ -105,9 +106,10 @@
                                                             </span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12 py-0">
-                                                            <v-textarea bg-color="#EDEDED" class="w-100"
+                                                            <v-textarea required bg-color="#EDEDED" class="w-100"
                                                                 clear-icon="mdi-close-circle" clearable variant="solo"
                                                                 rounded="lg" density="compact" v-model="fullDescription"
+                                                                :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
                                                                 :counter="10000" placeholder="Description"></v-textarea>
                                                         </div>
                                                     </div>
@@ -132,7 +134,7 @@
                                                             <span class="float-left mt-2 small"> Property Type </span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-select bg-color="#EDEDED" class="w-100"
+                                                            <v-select required bg-color="#EDEDED" class="w-100"
                                                                 clear-icon="mdi-close-circle" clearable variant="solo"
                                                                 rounded="lg" density="compact" v-model="property_type"
                                                                 :items="PropertyTypes"
@@ -146,9 +148,10 @@
                                                                     class="text-red">*</span></span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
                                                                 clearable class="w-100" v-model="price"
+                                                                :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
                                                                 placeholder="price"></v-text-field>
                                                         </div>
                                                     </div>
@@ -158,9 +161,10 @@
                                                             <span class="float-left mt-2 small">Area</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
                                                                 clearable class="w-100" v-model="area"
+                                                                :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
                                                                 placeholder="Area"></v-text-field>
                                                         </div>
                                                     </div>
@@ -169,9 +173,10 @@
                                                             <span class="float-left mt-2 small">Deposit</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
                                                                 clearable class="w-100" v-model="deposit"
+                                                                :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
                                                                 placeholder="Deposit"></v-text-field>
                                                         </div>
                                                     </div>
@@ -181,9 +186,10 @@
                                                             <span class="float-left mt-2 small">Least Contract</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field bg-color="#EDEDED" filled variant="solo"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
                                                                 clearable class="w-100" v-model="least_contract"
+                                                                :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
                                                                 placeholder="Least Contract"></v-text-field>
                                                         </div>
                                                     </div>
@@ -199,7 +205,7 @@
                                                                 <!-- Render original photos -->
                                                                 <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
                                                                     <img :src="photo" class="img-thumbnail" alt="Current Post Image">
-                                                                    <button v-if="index > 0" @click="deletePhoto(index, 'original')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'original')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
                                                                         <v-icon class="text-danger">mdi-close</v-icon>
                                                                     </button>
                                                                 </div>
@@ -207,7 +213,7 @@
                                                                 <!-- Render additional photos -->
                                                                 <div v-for="(photo, index) in additionalPhotos" :key="'extra_photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
                                                                     <img :src="photo" class="img-thumbnail" alt="Additional Photo">
-                                                                    <button @click="deletePhoto(index, 'additional')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'additional')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
                                                                         <v-icon class="text-danger">mdi-close</v-icon>
                                                                     </button>
                                                                 </div>
@@ -227,7 +233,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-danger"
-                                                    data-bs-dismiss="modal">Close</button>
+                                                    data-bs-dismiss="modal" @click="reloadWindow">Close</button>
                                                 <button type="button" class="btn btn-danger"
                                                     @click="submit(currentPost)">Save
                                                     changes</button>
@@ -274,7 +280,8 @@ export default {
         displayError: null,
         posts: [],
         post_id: '',
-        currentPost: shallowRef({}),
+        // currentPost: shallowRef({}),
+        currentPost: shallowRef({ photo_url: [] }),
         additionalPhotos: [],
         clickedPhotoType: '',
         location_id: '',
@@ -295,9 +302,17 @@ export default {
         image: shallowRef([]),
         clickedPhotoIndex: null,
         forceRerender: false,
+        modalOpen: true,
     }),
 
     computed: {
+
+        totalPhotos() {
+            return (this.currentPost.photo_url ? this.currentPost.photo_url.length : 0) + this.additionalPhotos.length;
+        },
+        canDeletePhoto() {
+            return this.totalPhotos > 1;
+        },
 
         uniqueCountries() {
             return [...new Set(this.locations.map(location => location.country_name))];
@@ -351,9 +366,24 @@ export default {
         }
 
         this.fetchPosts();
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && this.modalOpen) {
+                this.closeModal();
+            }
+        });
     },
 
     methods: {
+
+        reloadWindow() {
+            window.location.reload();
+        },
+
+        closeModal() {
+            this.modalOpen = false;
+            this.reloadWindow();
+        },
 
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
@@ -463,16 +493,48 @@ export default {
 
         deletePhoto(index, type) {
 
+            if (!this.canDeletePhoto) {
+                alert("Can't delete this photo.");
+                return;
+            }
+            
             if (type === 'original') {
                 this.currentPost.photo_url.splice(index, 1);
             } else if (type === 'additional') {
                 this.additionalPhotos.splice(index, 1);
-                }
+            }
             this.forceRerender = !this.forceRerender;
+        
+            
+        },
 
+        validateBeforeSubmit() {
+            if (!this.title || !this.fullDescription || !this.property_type || !this.price || !this.area || !this.selectedCountry || !this.selectedProvince || !this.selectedAmphoe || !this.selectedRegion) {
+                Swal.fire({
+                    title: "Incomplete Form!",
+                    text: "Please fill in all required fields.",
+                    icon: "error",
+                    showConfirmButton: false,
+                });
+                return false;
+            } else if (this.additionalPhotos.length === 0 && this.currentPost.photo_url.length === 0) {
+                Swal.fire({
+                    title: "Empty Photo!",
+                    text: "Please add at least one photo.",
+                    icon: "error",
+                    showConfirmButton: false,
+                });
+                return false;
+            }
+            return true;
         },
 
         async submit(currentPost) {
+
+            if (!this.validateBeforeSubmit()) {
+                return;
+            }
+
             const formData = new FormData();
             formData.append('postId', currentPost.post_id);
             formData.append('title', this.title);
@@ -755,6 +817,10 @@ export default {
             this.selectedAmphoe = post.amphoe;
             this.selectedRegion = post.region;
             this.selectedLocation = post.location_id;
+
+            if (!Array.isArray(this.currentPost.photo_url)) {
+                this.currentPost.photo_url = [];
+            }
 
             console.log(this.currentPost);
         },

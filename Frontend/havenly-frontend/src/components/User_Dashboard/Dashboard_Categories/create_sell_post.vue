@@ -109,9 +109,9 @@
                             <div class="row mt-3">
                                 <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
                                     <v-card class="customImgBox">
-                                        <jv-card-actions>
+                                        <v-card-actions>
                                             <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
-                                        </jv-card-actions>
+                                        </v-card-actions>
                                         <v-img :src="photo.url" class="customImg" height="160px"></v-img>
                                     </v-card>
                                 </div>
@@ -121,8 +121,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-100 d-flex mt-3 justify-content-end">
-                                <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
+                            <div class="w-100 d-flex justify-content-end mb-3">
+                                <v-btn class="me-2" type="submit" rounded="xl" color="#E86F52">
                                     submit
                                 </v-btn>
 
@@ -351,6 +351,22 @@ export default {
     },
 
     methods: {
+
+        handleReset() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'All information will be lost!',
+                icon: 'info',
+                customClass: {
+                    confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                window.location.reload();
+            });
+        },
 
         fetchLocations() {
             fetch('http://localhost:8083/locations/getall')
