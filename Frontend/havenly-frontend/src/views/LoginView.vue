@@ -17,12 +17,19 @@
            
 
             <a href="/forgotpassword" class="text-body-2 font-weight-regular">Forgot Password?</a>
+            <v-row justify="space-around">
+      <v-col cols="auto">
+        
+        <div class="text-center mr-2">
+              <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
+      </div>
+  
 
-            <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3">Sign in</v-btn>
+      </v-col> </v-row>
 
         </v-form>
         <div class="mt-2">
-            <p class="text-body-2">Don't have an account? <a href="/registerakm">Sign Up</a></p>
+            <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
         </div>
     </v-sheet>
 </div>
@@ -87,7 +94,7 @@
           const user = JSON.parse(sessionStorage.getItem('login_user'));
           const registerId = user.register_id;
           console.log("registerId to send backend to show subUser informations : " + registerId)
-          axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+          axios.get('http://localhost:8083/subscribe/getSubUser', {
               params: {
                   registerId: registerId
               }
@@ -97,8 +104,12 @@
           })
           .catch(error => {
             console.error('Error fetching data:', error); // Handle the error
-          });              
-          router.push('/');
+          }); 
+            
+          router.push("/").then(() => {
+          // Reload the page after navigation
+          window.location.reload();
+        });         
       }
 
         const aa=response.data

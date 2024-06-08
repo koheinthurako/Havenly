@@ -32,11 +32,7 @@ public class SubscriptionController {
 	@Autowired
 	SubscribeRepo subRepo;
 	
-//	@DeleteMapping("/subscribe/cancel")
-//	public ResponseEntity<?> cancelSub(@Valid @RequestBody Subscription_DTO dto){
-//		return new ResponseEntity <>(subService.cancel(dto),HttpStatus.OK);		
-//	}
-//	
+
 	@GetMapping("/subscribe/getSubUser")
 	public ResponseEntity<Subscription_DTO> getSubUser(@RequestParam("registerId") int registerId) {
 		return new ResponseEntity<Subscription_DTO>(subService.getByRegId(registerId), HttpStatus.OK);
@@ -52,19 +48,20 @@ public class SubscriptionController {
 	@PostMapping("/subscribe")
 	public ResponseEntity<Subscription_DTO> subscribe(@Valid @RequestBody Subscription_DTO dto){
 		if(dto==null) {
-			return ResponseEntity.unprocessableEntity().build();
-		}
-
-		if(this.regRepo.findByEmail(dto.getEmail()) == null) {
-			return ResponseEntity.notFound().build();
-		}
-		if(this.subRepo.findByNrc(dto.getNrc()) != null) {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.noContent().build();
 		}
 		dto.setSubStartDate(LocalDate.now());
 		dto.setSubStartTime(LocalDateTime.now());
+//		Reg_user reg = regRepo.findByEmail(dto.getEmail());
+		if(dto.getPackageType() == null) {
+			return ResponseEntity.notFound().build();
+		}
+//		if(reg.getSub() != null) {
+//			return ResponseEntity.badRequest().build();
+//		}
+		Subscription_DTO dto1 = subService.subscribe(dto);
 		
-			return new ResponseEntity <Subscription_DTO>(subService.subscribe(dto),HttpStatus.OK);		
+			return ResponseEntity.ok().body(dto1);		
 	}
 	
 	

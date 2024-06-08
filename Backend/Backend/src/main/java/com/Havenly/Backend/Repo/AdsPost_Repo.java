@@ -12,4 +12,8 @@ public interface AdsPost_Repo extends JpaRepository<AdsPost,String>{
 	@Query(value = "SELECT * FROM ads_post WHERE sub_user_id = ?1", nativeQuery = true)
 	public List<AdsPost> findAllSubUserAds(int subUserId);
 
+	@Query(value = "SELECT * FROM ads_post WHERE status = ?1", nativeQuery = true)
+	public List<AdsPost> findAllAds(String status);
+	
+
 }

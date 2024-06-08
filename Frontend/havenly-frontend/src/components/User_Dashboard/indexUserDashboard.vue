@@ -84,8 +84,7 @@
                     <div v-else-if="openTab === 'create-rent-post'">
                         <create_rent_post_page />
                     </div>
-                    <div v-else-if="openTab === 'create-ads_post'">
-
+                    <div v-else-if="openTab === 'create-ads-post'">
                         <create_ads_post />
                         <!-- <h3>Add Ads Content</h3>
                         <p>This is where the add ads content will be displayed.</p> -->

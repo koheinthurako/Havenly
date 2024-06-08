@@ -5,7 +5,7 @@
         <div style="height: 40px"><v-flex class="mx-auto brick-text">
        Hello, {{name}}!
       </v-flex></div>
-      <v-form fast-fail @submit.prevent="submitForm">
+      <v-form ref="form" fast-fail @submit.prevent="submitForm">
        
         <v-select
           v-model="selectedNRCCode"
@@ -50,27 +50,16 @@
         ></v-text-field>
       <v-row justify="space-around">
       <v-col cols="auto">
-        <div class="d-flex justify-center mt-2">
+        
         <div class="text-center mr-2">
     <v-btn type="submit" v-bind:rounded="true" block class="m-2 bg-redbrick text-white mt-3" 
-    style="height: 40px; width: 150px;">Subscribe</v-btn>
+    style="height: 40px; width: 164px;">Subscribe</v-btn>
       </div>
-      <div class="text-center ml-2">
-    <v-btn to="/" v-bind:rounded="true" block class="m-2 bg-grey text-white mt-3" 
-    style="height: 40px; width: 150px;">Cancel</v-btn>
-      </div>
-      </div>
+  
+
       </v-col> </v-row>
       </v-form>
-  
-       <!-- Cancel // Return to home -->
-      <!-- <div class="mt-2">
-      <br>
-                <p class="text-body-2">
-                  <a href="/home"> Cancel </a>
-                </p>
-                
-            </div> -->
+
           </v-sheet>
     </div>
   </template>
@@ -88,6 +77,7 @@
           selectedNRCType: null,
           nrcNumber: '',
           userIsSubbed: '',
+          name: '',
           
           nrcData: [],
           
@@ -102,7 +92,6 @@
 
       computed: {
       nrcCodes() {
-        //return this.nrcData.map(item => item.nrc_code);
         return ['1','2','3','4','5','6','7','8', '9','10','11','12','13','14'];
       },
       nrcTypes() {
@@ -143,6 +132,8 @@
         const email = loginUser.email;
         this.user.email = email;
         console.log('User is logged in.');
+        const name = loginUser.name;
+        this.name = name;
       }
     
     },
@@ -161,19 +152,18 @@
         const nrcNum = this.nrcNumber || '';
         this.user.nrc = `${nrcCode}/${nameEn}${nrcType}${nrcNum}`;
       },
+
         submitForm() {
-          
+        
           function httpErrorHandler(error) {
                           if (axios.isAxiosError(error)) {
                               const response = error?.response
                               if(response){
                                   const statusCode = response?.status
                                   if(statusCode===500){console.log("error")}
-                                  if(statusCode===422){console.log("nrc data is empty")}
-                                  if(statusCode===404){
-                                  alert("Register or login first to subscribe!");
-                                  router.push('/register');
-                                }
+                                   if(statusCode===204){console.log("data is empty")}
+                                  // if(statusCode===400){console.log("User is subbed.")}
+                                  // if(statusCode===404){console.log("User not found.")}
                                   }
                               }
                       }
@@ -188,54 +178,41 @@
             text: 'Please fill in all required fields!',
             icon: 'info',
             customClass: {
-                confirmButton: 'myCustomButton'
+            confirmButton: 'myCustomButton'
             },
             buttonsStyling: false,
             allowOutsideClick: false,
             allowEscapeKey: false
           });
           return;
-        }else{
-          try {
-            axios.post("http://localhost:8083/subscribe",this.user).then(response => console.log(response));
+        } //else{
+            axios.post("http://localhost:8083/subscribe",this.user).then(function(response){
+            // .then(response => console.log(response));
             this.userIsSubbed = true;
             console.log(this.userIsSubbed);
-            Swal.fire({
-              title: 'Subscribed Success!',
-              text: 'Thank you for subscription. Enjoy your free trial!',
-              icon: 'success',
-              customClass: {
-                  confirmButton: 'myCustomSuccessButton'
-              },
-              buttonsStyling: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false
-              }).then(() => {
-                router.push('/'); 
-            });
-          }catch {
-            httpErrorHandler();
-          }
-        }
+            const status=response.status;
+              console.log(status);
+                  if(status===200){
+                    Swal.fire({
+                      title: 'Subscription Success',
+                      text: 'Welcome! Thank you for registering.',
+                      icon: 'success',
+                      customClass: {
+                      confirmButton: 'myCustomSuccessButton'
+                      },
+                      buttonsStyling: false,
+                      allowOutsideClick: false,
+                      allowEscapeKey: false
+                      }).then(() => {
+                        router.push('/'); 
+                      });
+                  }
+
+        }).catch(httpErrorHandler)
+          
+       // }
           this.resetForm();
         },
-
-        // fetchSubUser() {
-        //   const user = JSON.parse(sessionStorage.getItem('login_user'));
-        //   const registerId = user.register_id;
-        //   console.log("registerId to send backend to show subUser informations : " + registerId)
-        //   axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-        //       params: {
-        //           registerId: registerId
-        //       }
-        //   })
-        //   .then(response => {
-        //     sessionStorage.setItem('sub_user',JSON.stringify(response.data))
-        //   })
-        //   .catch(error => {
-        //     console.error('Error fetching data:', error); // Handle the error
-        //   });    
-        // },
 
       resetForm() {
         this.selectedNRCCode = null;

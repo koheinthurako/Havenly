@@ -29,10 +29,9 @@ public class PackagesServiceImpl implements PackagesService{
 	@Autowired
 	Reg_user_Repo regRepo;
 
-	Packages_DD pack_dd = new Packages_DD();
-
 	@Override
 	public boolean delete(Packages_DD pack) {
+		Packages_DD pack_dd = new Packages_DD();
 		Packages delPack = pack_dd.convertToEntity(pack);
 		int delId = delPack.getPackageId();
 		if(packRepo.existsById(delId)){
@@ -58,7 +57,7 @@ public class PackagesServiceImpl implements PackagesService{
 	@Override
 	public Packages_DD buyPack(String email, String packType, String amount) {
 		Reg_user reg = regRepo.findByEmail(email);
-		Subscription subUser = subRepo.findByNrc(reg.getSub().getNrc());
+		Subscription subUser = reg.getSub();
 		PackageTypes packTypes = packTypesRepo.findByPackName(packType);
 		Packages packUser = subUser.getPackages();
 		if(packUser==null) {
@@ -67,7 +66,6 @@ public class PackagesServiceImpl implements PackagesService{
 		if(!(this.payment(packType, amount))) {
 			return null;
 		}		
-//		packUser.setSub1(subUser);
 		packUser.setPackType(packTypes);
 		packUser.setPackDate(LocalDate.now());
 		packUser.setPackTime(LocalDateTime.now());	
@@ -81,19 +79,11 @@ public class PackagesServiceImpl implements PackagesService{
 		subUser.setNrc(subUser.getNrc());
 		subRepo.save(subUser);
 		
+		Packages_DD pack_dd = new Packages_DD();
 		Packages_DD packUser3 = pack_dd.convertToObject(packUser2);
 		return packUser3;
 		
 	}
-
-	@Override
-	public Packages_DD showPackage(Packages_DD dto) {
-		Packages packUser = pack_dd.convertToEntity(dto);
-		
-		Packages_DD packUser2 = pack_dd.convertToObject(packUser);
-		return packUser2;
-	}
-
 
 	
 

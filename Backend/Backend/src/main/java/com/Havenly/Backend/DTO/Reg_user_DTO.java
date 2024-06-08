@@ -33,8 +33,6 @@ private int register_id;
 	private LocalDate date;
 	private LocalTime time;
 	
-	private String profileImg;
-	
 	public Reg_user covertToEntity(Reg_user_DTO dto) {
 		Reg_user user=new Reg_user();
 		user.setRegister_id(dto.getRegister_id());
@@ -58,9 +56,7 @@ private int register_id;
 		dto.setPassword(user.getPassword());
 		dto.setDate(user.getDate());
 		dto.setTime(user.getTime());
-		 if (user.getProfileImg() != null) {
-             dto.setProfileImg(user.getProfileImg());
-         }
+		
 		return dto;
 		
 	}

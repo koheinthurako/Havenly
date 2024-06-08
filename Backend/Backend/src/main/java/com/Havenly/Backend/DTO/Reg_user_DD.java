@@ -20,6 +20,7 @@ public class Reg_user_DD {
 	
 	private int register_id;
 	private String name;
+	private String nrc;
 	private String phone;
 	private String email;
 	private String password;
@@ -58,6 +59,7 @@ public class Reg_user_DD {
 		dto.setProfileImg(user.getProfileImg());
 		
 		if(sub!=null) {
+			dto.setNrc(sub.getNrc());			
 			dto.setSubUserId(sub.getSubUserId());		
 			dto.setPackageTypeId(sub.getPackages().getPackType().getPackageTypeId());
 			dto.setPackageName(sub.getPackages().getPackType().getPackName());	

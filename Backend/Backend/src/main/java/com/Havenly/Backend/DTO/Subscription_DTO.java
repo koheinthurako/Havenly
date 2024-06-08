@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Subscription_DTO {
+	
 	private int subUserId;
 	private String nrc;
 	private String email;
@@ -24,8 +26,8 @@ public class Subscription_DTO {
     private String phone;
 	private LocalDate subStartDate;
 	private LocalDateTime subStartTime;
-	private String packageName;
-	private int packageTypeId;
+	private String price;
+	private String packageType;
 	private int availPosts;
 	private int availAds;
 
@@ -51,10 +53,11 @@ public class Subscription_DTO {
 		dto.setEmail(subUser.getReg_user().getEmail());
 		dto.setName(subUser.getReg_user().getName());
 		dto.setPhone(subUser.getReg_user().getPhone());
-		dto.setPackageName(subUser.getPackages().getPackType().getPackName());
-		dto.setPackageTypeId(subUser.getPackages().getPackType().getPackageTypeId());
+		dto.setPackageType(subUser.getPackages().getPackType().getPackName());
+		dto.setPrice(subUser.getPackages().getPackType().getPrice());
 		dto.setAvailPosts(subUser.getPackages().getAvailPosts());
 		dto.setAvailAds(subUser.getPackages().getAvailAds());
+		
 		return dto;
 		
 	}

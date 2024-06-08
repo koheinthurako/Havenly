@@ -11,22 +11,13 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-          <!-- <li class="nav-item">
-            <router-link to="/testingPage" class="nav-link">Testing</router-link>
-          </li> -->
 
           <li class="nav-item">
-            <router-link to="/" :class="{ 'nav-link': true, active: 
-            ('home') }">Home</router-link>
+            <router-link to="/" :class="{ 'nav-link': true, active: isNavLinkActive('home') }">Home</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/"
-              :class="{ 'nav-link': true, active: isNavLinkActive('category') }">Category</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link to="/packages"
+            <router-link to="/package"
               :class="{ 'nav-link': true, active: isNavLinkActive('package') }">Packages</router-link>
           </li>
 
@@ -39,15 +30,14 @@
             <router-link to="/about" :class="{ 'nav-link': true, active: isNavLinkActive('about') }">About</router-link>
           </li>
 
-          <!-- <li class="nav-item" v-if="login_status">
-            <router-link to="/profile"
-              :class="{ 'nav-link': true, active: isNavLinkActive('profile') }">Profile</router-link>
-          </li> -->
+          <li class="nav-item" v-if="login_status">
+            <router-link to="/userdashboard"
+              :class="{ 'nav-link': true, active: isNavLinkActive('userdashboard') }">Profile</router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav">
           <li class="nav-item">
-            <!-- <div v-if="register_statue"> -->
               <div v-if="login_status">
                 <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                   <v-icon class=" me-1">mdi-account-box</v-icon>{{ user_data.name }}
@@ -57,22 +47,14 @@
                     <router-link to="/userdashboard" class="dropdown-item"><v-icon
                         class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
                   </li>
-                  <!-- <li>
-                    <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                        class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li> -->
                   <li>
                     <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
                     </div>
                   </li>
                 </ul>
               </div>
-              <!-- <div v-else>
-                <router-link to="/login" class="nav-link">Login</router-link>
-              </div> -->
-            </div>
             <div v-else>
-              <router-link v-model="loginText" to="/login" class="nav-link">{{loginText}}</router-link>
+              <router-link v-model="loginText" to="/login" class="nav-link">Login</router-link>
             </div>
           </li>
         </ul>
@@ -85,6 +67,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'navbarVue',
@@ -98,10 +81,6 @@ export default {
       return id === activeNavLink.value;
     };
 
-    // const isLoggedIn = computed(() => {
-    //   return !!sessionStorage.getItem('login_user');
-    // });
-
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       if (router.currentRoute.value.path === '/') {
@@ -111,8 +90,11 @@ export default {
           activeNavLink.value = 'package';
         } else if (scrollPosition < 3500) {
           activeNavLink.value = 'blog';
-        } else {
+        } else if (scrollPosition < 4100) {
           activeNavLink.value = 'about';
+        }
+         else {
+          activeNavLink.value = 'userdashboard';
         }
       } else if (router.currentRoute.value.path === '/package') {
         activeNavLink.value = 'package';
@@ -159,22 +141,40 @@ this.loginUserData = loginUser;
       // Return whether the route name matches the current route
       return this.$route.name === routeName;
     },
-    
-    // isLoggedIn() {
-    //   // Check if user information is stored in session storage
-    //   console.log("User is included in session storage");
-    //   const user = sessionStorage.getItem('login_user');
-    //   return !!user; // Return true if user is logged in, false otherwise
-    // },
 
     logout() {
-      console.log('Logout');
-      sessionStorage.clear();
-     router.push("/").then(() => {
+            Swal.fire({
+                title: 'Logout',
+                text: "Are you sure you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#E86F52',
+                cancelButtonColor: '#999'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.clear();
+        router.push("/").then(() => {
           // Reload the page after navigation
           window.location.reload();
         });
-    }
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    this.$router.push('/userdashboard');
+                }
+                else {
+                    this.$router.push('/userdashboard'); // Redirect to dashboard after timeout
+                }
+            });
+        }
+    // logout() {
+    //   console.log('Logout');
+    //   sessionStorage.clear();
+    //  router.push("/").then(() => {
+    //       // Reload the page after navigation
+    //       window.location.reload();
+    //     });
+    // }
   }
 };
 </script>

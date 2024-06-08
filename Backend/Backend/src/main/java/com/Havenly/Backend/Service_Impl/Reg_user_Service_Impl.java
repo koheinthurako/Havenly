@@ -46,11 +46,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Autowired
 	Ban_user_Repo banRepo;
 	
-//	@Autowired
-//	TokenRepository tokenRepository;
-	
 	Reg_user_DTO user_dto= new Reg_user_DTO();
 	Reg_user_DD user3= new Reg_user_DD();
+	
 	@Override
 	public List<Reg_user_DTO> findAll() {
 		List<Reg_user> users = regRepo.findAll();
@@ -61,6 +59,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		return reg_user_list;
 	}
+	
 	@Override
 	public Reg_user_DTO register(Reg_user_DTO dto) {
 		Reg_user user=user_dto.covertToEntity(dto);
@@ -74,16 +73,15 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 				}
 	return null;
 	}
+	
 	@Override
 	public Reg_user_DD Login(String gmail, String password) {
 		Reg_user user = regRepo.findByEmail(gmail);
 		
-		if (user == null && !pwencoder.matches(password, user.getPassword())) {
+		if (user == null || !pwencoder.matches(password, user.getPassword())) {
 			return null;
 		}
-//		if (!pwencoder.matches(password, user.getPassword())) {
-//			return null;
-//		}
+
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}
@@ -121,6 +119,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		
 		return user4;
 	}
+	
 	@Override
 	public Reg_user_DTO pwdUpdate(String username, String password , String new_password) {
 		Reg_user user = regRepo.findByEmail(username);
@@ -149,51 +148,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		return "error";
 	}
-//	@Override
-//	
-//	public String sendEmail(Reg_user user) {
-//		// TODO Auto-generated method stub
-//		try {
-//			String resetLink=generateResetToken(user);
-//			
-//			
-//			SimpleMailMessage msg =new SimpleMailMessage();
-//			msg.setFrom("aungkhantm33@gmail.com");
-//			msg.setTo(user.getEmail());
-//			
-//			msg.setSubject("Welcome To My cahnnel");
-//			msg.setText("Hello \n\n"+"Please click on this link to reset your Password : "+resetLink +". \n\n"+"Regards \n"+ "ABC");
-//			mail.send(msg);
-//			return "Success";
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//			return "error";
-//		}		
-//	}
-//	@Override
-//	public String generateResetToken(Reg_user user) {
-//		// TODO Auto-generated method stub
-//		UUID uuid=UUID.randomUUID();
-//		LocalDateTime currentDateTime=LocalDateTime.now();
-//		LocalDateTime expiryDateTime = currentDateTime.plusMinutes(30);
-//		PasswordResetToken resetToken =new PasswordResetToken();
-//		resetToken.setUser(user);
-//		resetToken.setToken(uuid.toString());
-//		resetToken.setExpiryDateTime(expiryDateTime);
-//		resetToken.setUser(user);
-//		PasswordResetToken token=tokenRepository.save(resetToken);
-//		if(token != null) {
-//			String endpointUrl="http://localhost:8083/resetPassword";
-//			return endpointUrl + "/" + resetToken.getToken();
-//		}
-//		return "";
-//	}
-//	@Override
-//	public boolean hasExpired(LocalDateTime expiryDateTime) {
-//		// TODO Auto-generated method stub
-//		LocalDateTime currentDateTime=LocalDateTime.now();
-//		return expiryDateTime.isAfter(currentDateTime);
-//	}
+
 	@Override
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
@@ -208,8 +163,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 				
 				return "Please check your email to set new password to your account";
 			}
-	return "failed to send msg";
-	
+	return "failed to send msg";	
 	}
 	
 	@Override

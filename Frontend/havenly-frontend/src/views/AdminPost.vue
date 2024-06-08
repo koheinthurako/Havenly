@@ -207,7 +207,7 @@ export default {
                     title: 'Successfully Approved!',
                     icon: 'success',
                     customClass: {
-                        confirmButton: 'myCustomSuccessButton'
+                    confirmButton: 'myCustomSuccessButton'
                     },
                     buttonsStyling: false,
                     allowOutsideClick: false,
@@ -241,7 +241,7 @@ axios.put("http://localhost:8083/posts/decline",post)
                 title: 'Successfully Canceled!',
                 icon: 'success',
                 customClass: {
-                    confirmButton: 'myCustomButton'
+                confirmButton: 'myCustomButton'
                 },
                 buttonsStyling: false,
                 allowOutsideClick: false,

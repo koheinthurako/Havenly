@@ -7,9 +7,10 @@
                     <div class="profile-box-data pt-2 pb-5">
                         <div class="profile-img-container">
           <v-img
-            :src="profileImage || acc_img"
+            :src="profileImage || profilePicture"
             class="profile-img"
             alt="Profile Picture"
+            padding = 5px
             max-height="150"
             max-width="150"
             contain
@@ -160,7 +161,7 @@
                                             <div class="d-flex justify-space-between">
                                                 <p>Subscribed Package</p>
                                                 <p><span :v-if="user_data !== null">
-                                                        {{ user_data.packageName || '' }}
+                                                        {{ items.packageName || '' }}
                                                     </span></p>
                                             </div>
                                             <button class="close-btn1" @click="packageDialogClose"><v-icon>mdi-close-circle</v-icon>
@@ -279,8 +280,8 @@ export default {
 
     data: () => ({
 
-        img: require('@/assets/img/9.jpg'),
-        acc_img: require('@/assets/img/img_avatar.png'),
+        // img: require('@/assets/img/9.jpg'),
+        // acc_img: require('@/assets/img/img_avatar.png'),
         resetdialog: false,
         packageDialog: false,
         editDialog: false,
@@ -403,8 +404,8 @@ handleFileUpload(event) {
                             const response = error?.response
                             if(response){
                                 const statusCode = response?.status
-                                if(statusCode===404){alert("Update Information failed!!!   Please check your E-mail and fill again!!")}
-                                if(statusCode===500){alert("Update Information failed!!!   Please check your Phone number and fill again!!")}
+                                if(statusCode===404){console.log("Update Information failed!!!   Please check your E-mail and fill again!!")}
+                                if(statusCode===500){console.log("Update Information failed!!!   Please check your Phone number and fill again!!")}
                                 console.log("error : ", response);
                             }
                             }
@@ -429,15 +430,26 @@ handleFileUpload(event) {
 
     const status = response.status;
     if (status === 200) {
-      alert("Profile updated successfully!");
+       
 
       let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
       userData.name = this.user.name;
       userData.phone = this.user.phone;
-    //   userData.profilePicture = this.selectedFile;
+      userData.profilePicture = this.profileImage;
       sessionStorage.setItem('login_user', JSON.stringify(userData));
-
-      window.location.reload();
+        Swal.fire({
+                      title: 'Subscription Success',
+                      text: 'Welcome! Thank you for registering.',
+                      icon: 'success',
+                      customClass: {
+                      confirmButton: 'myCustomSuccessButton'
+                      },
+                      buttonsStyling: false,
+                      allowOutsideClick: false,
+                      allowEscapeKey: false
+                      }).then(() => {
+                        window.location.reload();
+                      });
     }
   } catch (error) {
     httpErrorHandler(error);
@@ -696,9 +708,11 @@ const submit = handleSubmit(values => {
                 border-radius: 50%;
                 margin: left;
                 margin-left: 10px;
+                object-fit: cover;
             }
 
             .profile-img-container {
+                padding-top: 10px;
                 position: relative;
                 display: inline-block;
             }

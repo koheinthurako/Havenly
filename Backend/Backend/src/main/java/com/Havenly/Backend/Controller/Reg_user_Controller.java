@@ -40,12 +40,6 @@ public class Reg_user_Controller {
 	@Autowired
 	Reg_user_Service regService;
 	
-//	@Autowired
-//	Reg_user_Repo regRepo;
-	
-//	@Autowired
-//	TokenRepository tokenRepository;
-	
 	@Autowired
 	Reg_user_Repo userRepo;
 	
@@ -62,10 +56,6 @@ public class Reg_user_Controller {
 		return new ResponseEntity<Reg_user_DD>(regService.getById(registerId),HttpStatus.OK);
 	}
 	
-//	@GetMapping("/getSubUserInfo")
-//	public ResponseEntity<Reg_user_DD> getSubUserInfo() {
-//		return new ResponseEntity<Reg_user_DD>(userRepo.getSubUserInfo(), HttpStatus.OK);
-//	}
 	
 	@PostMapping("/register")
 	public ResponseEntity<Reg_user_DTO> register(@Valid @RequestBody Reg_user_DTO dto){
@@ -124,47 +114,6 @@ public class Reg_user_Controller {
 		String user1=regService.deleteByEmail(email);
 		return user1;
 	}
-	
-//	@GetMapping("/forgotPassword")
-//	public String forgotPassword() {
-//		return "forgotPassword";
-//	}
-//	
-//	@PostMapping("/forgotPassword")
-//	public String forgotPasswordProcess(@RequestBody Reg_user user) {
-//		String output="";
-//		Reg_user user1=regRepo.findByEmail(user.getEmail());
-//		if(user1 != null ) {
-//			output = regService.sendEmail(user1);
-//		}
-//		
-//		 if(output.equals("success")) {
-//			return "success";
-//		}
-//		 return "error";
-//		
-//	}
-//
-//	@GetMapping("/resetPassword/{token}")
-//	public String resetPasswordForm(String token,Model model) {
-//		
-//		PasswordResetToken reset= tokenRepository.findByToken(token);
-//		if(reset != null && regService.hasExpired(reset.getExpiryDateTime())) {
-//			model.addAttribute("email",reset.getUser().getEmail());
-//			return  "resetPassword";
-//		}
-//		return "redirect:/forgotPassword?error";
-//	}
-//	
-//	@PostMapping("/resetPassword/{token}")
-//	public String passwordResetProcess(@ModelAttribute Reg_user user){
-//		Reg_user user1=userRepo.findByEmail(user.getEmail());
-//		if(user1 != null) {	
-//			user1.setPassword(this.pwencoder.encode(user.getPassword()));
-//			userRepo.save(user1);
-//			}
-//		return "redirect:/login";
-//	}
 	
 	
 	@PutMapping("/forgotpassword")

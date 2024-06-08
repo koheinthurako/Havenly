@@ -29,14 +29,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	PackageTypesRepo packTypesRepo;
 	
 
-//	@Override
-//	public Subscription_DTO getByNrc(String nrc) {
-//		Subscription_DTO subUser = new Subscription_DTO();
-//		Subscription user = subscribeRepo.findByNrc(nrc);
-//		Subscription_DTO user2 = subUser.convertToObject(user);
-//		return user2;
-//	}
-
 	@Override
 	public boolean cancel(Subscription_DTO dto) {
 		Subscription sub = subscribeRepo.findByNrc(dto.getNrc());
@@ -56,8 +48,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription_DTO subUser = new Subscription_DTO();
 		Subscription sub = subUser.convertToEntity(dto);
 		String email = dto.getEmail();
-		String packName = dto.getPackageName();
-		System.out.println("PackName : " + packName);
+		String packName = dto.getPackageType();
 		Reg_user reg_user = regRepo.findByEmail(email);
 		
 		sub.setNrc(sub.getNrc());
@@ -81,7 +72,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription_DTO user2 = subUser.convertToObject(user);
 
 		return user2;
-		// }
 
 	}
 

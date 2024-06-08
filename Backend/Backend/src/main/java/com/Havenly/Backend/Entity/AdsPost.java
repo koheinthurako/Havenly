@@ -24,10 +24,12 @@ public class AdsPost {
 	
 	@Id
 	private String ads_post_id;
+	
 	private LocalDate date;
 	private LocalDateTime time;
 	private String title;
-	
+	private String status;
+
 	@Lob
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private String imageUrl;

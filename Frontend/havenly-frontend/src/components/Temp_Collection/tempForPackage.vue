@@ -69,8 +69,8 @@
                         </div>
                         <div v-else>No items found.</div>
                         </div>
-                        <!-- package one end -->
-                    </swiper-slide>
+                        package one end
+                    </swiper-slide>-->
                     <swiper-slide>
                         <!-- package two start -->
                         <div class="temp-package">
@@ -191,7 +191,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -286,23 +286,33 @@ export default {
         },
         parseAndGoNext(item) {
             if(this.availPosts>0 && this.availAds>0 && this.purchasedPackage!=="Free Trial"){
-                alert("You have packages left!");
+                Swal.fire({
+                            title: 'Cannot Buy Package!',
+                            text: 'You still have available posts in your package!',
+                            icon: 'error',
+                            customClass: {
+                            confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                            });
             }else{
-                // Parse data and store in session storage
+        // Parse data and store in session storage
       sessionStorage.setItem('packageData', JSON.stringify(item));       
       // Go to the next page
-      router.push('/packages/payment'); 
+      router.push('/payment'); 
             }
       
     },
     fetchSubUserInfo() {
                 const user = JSON.parse(sessionStorage.getItem('login_user'));
-                if(user.nrc!==null){
-                  const nrc = user.nrc;
-                  console.log("nrc to send backend to show subUser informations : " + nrc)
-                  axios.get('http://localhost:8083/subscribe/getSubUser', {
+                if(user.register_id!==null){
+                  const registerId = user.register_id;
+                  console.log("registerId to send backend to show subUser informations : " + registerId)
+                  axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
                       params: {
-                          nrc: nrc
+                        registerId: registerId
                       }
                   })
                   .then(response => {
@@ -321,22 +331,6 @@ export default {
             },
 
     },
-
-    // setup() {
-
-    //     return {
-    //         modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
-
-    //     };
-
-    // },
-
-
-    // computed: {
-    //     user_info() {
-    //         return this.$store.getters.Take_Userinfo
-    //     }
-    // },
 
 }
 

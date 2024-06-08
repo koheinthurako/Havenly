@@ -3,20 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
-import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
-import createAdsView from '@/components/User_Dashboard/Dashboard_Categories/create_ads_post.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import login from '../views/LoginView.vue'
-import registerakm from '../views/RegisterView.vue'
+import register from '../views/RegisterView.vue'
 import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import Payment from '@/views/Payment.vue'
-// import Packages from '@/components/Temp_Collection/Packages.vue'
 import PostsView from '@/views/PostsView.vue'
 import AdminPost from '@/views/AdminPost.vue'
+import AdminAd from '@/views/AdminAd.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
 
@@ -29,20 +27,14 @@ const routes = [
     component: HomeIndex
   },
   {
-    path: '/packages',
+    path: '/package',
     name: 'package',
     component: tempPackage
   },
-
   {
     path: '/register',
     name: 'register',
     component: register
-  },
-  {
-    path: '/registerakm',
-    name: 'registerakm',
-    component: registerakm
   },
   {
     path: '/login',
@@ -65,11 +57,6 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/create/adspost',
-    name: 'createAdsView',
-    component: createAdsView,
-  },
-  {
     path: '/testingPage',
     name: 'testingPage',
     component: testingPage
@@ -80,7 +67,7 @@ const routes = [
     component: tempDoc
   },
   {
-    path: '/packages/payment',
+    path: '/payment',
     name: 'Payment',
     component: Payment
   },
@@ -115,6 +102,12 @@ const routes = [
     path: '/admin/post',
     name: 'AdminPost',
     component: AdminPost,
+    meta: { requiresAdmin: true },
+  },
+  {
+    path: '/admin/ad',
+    name: 'AdminAd',
+    component: AdminAd,
     meta: { requiresAdmin: true },
   },
 
@@ -165,7 +158,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/packages/payment') {
+  } else if (to.path === '/package/payment') {
     if(!user) {
       Swal.fire({
         title: 'Login Required',

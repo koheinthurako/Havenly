@@ -11,5 +11,9 @@ public interface AdsPostService {
 	
 	public AdsPost createAdsPost(MultipartFile file, int subUserId, String title);
 	public void deleteAdsPost(int subUserid, String ads_post_id);
+	public void deleteByAdmin(String ads_post_id);
 	public List<AdsPost> getAllSubUserAds(int subUserId);
+	public List<AdsPost> getAllCompleteAds();
+	public List<AdsPost> getAllPendingAds();
+	public AdsPost updateStatus(AdsPost ad,  String status);
 }

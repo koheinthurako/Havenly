@@ -3,7 +3,7 @@
   <v-sheet width="400" class="mx-auto">
     <h4 class="flex" style="height: 80px">Payment for purchasing Package</h4>
     <div><v-flex class="grey-text">
-        <p>Chosen Package : {{user.packageName}}</p>  
+        <p>Chosen Package : {{user.packageType}}</p>  
         <p>Price : {{user.amount}}</p> 
       </v-flex></div> 
     <v-form fast-fail @submit.prevent="submitForm">
@@ -13,13 +13,21 @@
       <v-text-field v-model="cvv" label="CVV (###)" :rules="[value => value.length>2 || 'Wrong CVV format!']" required></v-text-field>
       <v-row justify="space-around">
       <v-col cols="auto">
-        <div class="text-center"> 
+        <div class="d-flex justify-center mt-2">
+        <div class="text-center mr-2"> 
                 <v-btn type="submit" block class="m-2 bg-redbrick text-white mt-3" 
                 v-bind:rounded="true" style="height: 40px; width: 164px;">
                 Submit Payment</v-btn>
-      </div></v-col>
-    </v-row>    </v-form>
-    <p><a href="/packages"> Go Back </a></p> 
+      </div>
+      <div class="text-center ml-2">
+                <v-btn to="/package" v-bind:rounded="true" block class="m-2 bg-grey text-white mt-3" 
+                style="height: 40px; width: 164px;">Cancel</v-btn>
+      </div>
+    </div>
+    </v-col>
+    </v-row>    
+  </v-form>
+    <!-- <p><a href="/package"> Go Back </a></p>  -->
   </v-sheet>
   </div>
 </template>
@@ -52,33 +60,17 @@
     },
     created() {
       // Fetch session data from sessionStorage
-      const packageData = JSON.parse(sessionStorage.getItem('packageName'));
+      const packageData = JSON.parse(sessionStorage.getItem('packageData'));
 
       if(packageData!== null){
-        this.user.packageType=packageData.name;
+        this.user.packageType=packageData.packName;
         this.user.amount=packageData.price;
-        console.log("package name : ", packageData.name);
+        console.log("package name : ", packageData.packName);
         console.log("amount: ", packageData.price)
       }else{ 
         console.log("no package data in session storage!");
       }
 
-      if (!sessionStorage.getItem('login_user')) {    
-        Swal.fire({
-          title: 'Login Required',
-          text: 'Please login first to subscribe!',
-          icon: 'info',
-          customClass: {
-            confirmButton: 'myCustomButton'
-          },
-          buttonsStyling: false,
-          allowOutsideClick: false,
-          allowEscapeKey: false
-        }).then(() => {
-          router.push('/login'); 
-        });
-        
-      } else {
         const loginUser = JSON.parse(sessionStorage.getItem('login_user'));
         const email = loginUser.email;
         const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
@@ -89,7 +81,7 @@
           this.login.alreadyPurchased= subUser.packageType;
           console.log("packagetype : ", this.login.alreadyPurchased);
         } 
-      }
+      
     },
 
     methods: {
@@ -161,16 +153,16 @@
               }
         }
 
-        axios.post("http://localhost:8083/packages/payment",this.user)
+        axios.post("http://localhost:8083/payment",this.user)
         .then(function(response){
           const status=JSON.parse(response.status);
-          if(status===200){
+          if(status=='200'){
             Swal.fire({
               title: 'Payment Success!',
               text: 'Thank you for buying our package.',
               icon: 'success',
               customClass: {
-                  confirmButton: 'myCustomSuccessButton'
+              confirmButton: 'myCustomSuccessButton'
               },
               buttonsStyling: false,
               allowOutsideClick: false,

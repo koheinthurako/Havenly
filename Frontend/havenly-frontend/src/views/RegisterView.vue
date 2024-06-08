@@ -41,10 +41,15 @@
             phone:'',
             email: '',
             password: ''
-          }
+          },
+          showPassword: false
         };
     },
     methods: {
+
+      togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
         signup() {
         
           function httpErrorHandler(error) {
@@ -66,7 +71,7 @@
                   if(status=='200'){
                     Swal.fire({
                       title: 'Register Success',
-                      text: 'Welcome! Thankyou for register.',
+                      text: 'Welcome! Thank you for registering.',
                       icon: 'success',
                       customClass: {
                           confirmButton: 'myCustomSuccessButton'
