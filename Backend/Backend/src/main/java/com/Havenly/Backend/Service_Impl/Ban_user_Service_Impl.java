@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.Ban_user_Service;
 import com.Havenly.Backend.Entity.Ban_user;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
-import com.Havenly.Backend.Service.Ban_user_Service;
 
 @Configuration
 public class Ban_user_Service_Impl implements Ban_user_Service{

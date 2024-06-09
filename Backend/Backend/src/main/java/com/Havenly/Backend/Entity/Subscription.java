@@ -35,13 +35,13 @@ public class Subscription {
 
 	private LocalDateTime subStartTime;
 
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reg_user_id", referencedColumnName = "register_id")
-	@JsonIgnore
 	private Reg_user reg_user;
 
-	@OneToOne(mappedBy = "sub1")
 	@JsonIgnore
+	@OneToOne(mappedBy = "sub1")
 	private Packages packages;
 	
 }

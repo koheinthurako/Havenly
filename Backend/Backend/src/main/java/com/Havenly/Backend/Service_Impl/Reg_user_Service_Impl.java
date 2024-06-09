@@ -13,17 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
-//import com.Havenly.Backend.Entity.PasswordResetToken;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
-//import com.Havenly.Backend.Repo.TokenRepository;
-import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.util.EmailUtil;
-
 
 import jakarta.mail.MessagingException;
 
@@ -150,12 +147,18 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	}
 
 	@Override
+	public Reg_user getDataBySubId(int id) {
+		return regRepo.findDataBySubId(id);
+	}
+
+	@Override
 	public String forgotPassword(String email) {
 		// TODO Auto-generated method stub
 	Reg_user user=	regRepo.findByEmail(email);
 	if(user!=null) {
 			try {
-				emailUtil.sendSetPasswordEmail(user.getEmail());
+				emailUtil.sendSetPasswordEmail(email);
+				
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException("Unable to send set password email please try again");
@@ -165,6 +168,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 			}
 	return "failed to send msg";	
 	}
+
 	
 	@Override
 	public String setPassword(String email, String newPassword) {

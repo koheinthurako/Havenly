@@ -23,14 +23,15 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <!-- <swiper-slide>
+                    <swiper-slide>
+                        <!-- package three start -->
                         <div class="temp-package">
                             <div v-if=package1>
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
                                     <div>{{package1.packName}}</div>&nbsp;&nbsp;
                                 </h3>
-                                <h5>For subscribers</h5>
+                                <h5>For real-estate agents</h5>
                             </div>
                             <div>
                                 <h1 class="mt-4 mb-5">$ {{package1.price}}</h1>
@@ -48,18 +49,18 @@
                                     </p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p3">3
+                                        class="p3">Up to 5
                                         images per
                                         post.</p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p4">300+
+                                        class="p4">1000+
                                         words per
                                         post.</p>
                                 </div>
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" to="/subscribe">
+                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items2)">
                                     <div class="toggle-v-l">
                                         <span class="visible">Try Free Trial</span>
                                         <span class="later-visible">Subscribe now</span>

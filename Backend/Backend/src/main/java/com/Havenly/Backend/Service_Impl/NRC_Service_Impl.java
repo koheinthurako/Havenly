@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.Havenly.Backend.Service.NRC_Service;
 import com.Havenly.Backend.DTO.NRC_DTO;
 import com.Havenly.Backend.Entity.NRC;
 import com.Havenly.Backend.Repo.NRC_Repo;
-import com.Havenly.Backend.Service.NRC_Service;
 @Configuration
 public class NRC_Service_Impl implements NRC_Service{
 

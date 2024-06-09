@@ -1,23 +1,23 @@
 package com.Havenly.Backend.Controller;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +27,12 @@ import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
+import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
-//import com.Havenly.Backend.Repo.TokenRepository;
+import com.Havenly.Backend.Repo.TokenRepo;
 import com.Havenly.Backend.Service.Reg_user_Service;
+import com.Havenly.Backend.util.EmailUtil;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,14 +44,48 @@ public class Reg_user_Controller {
 	Reg_user_Service regService;
 	
 	@Autowired
+	TokenRepo tokenRepo;
+	
+	@Autowired
 	Reg_user_Repo userRepo;
 	
 	@Autowired
 	PasswordEncoder pwencoder;
 
+	@Autowired
+	EmailUtil emailUtil;
+	
+	
+	@GetMapping("/akmakmset")
+    public String resetPassword(@RequestParam("token") String token) {
+        Optional<Reg_user> userOptional = tokenRepo.findByResetToken(token);
+
+        if (userOptional.isPresent()) {
+            Reg_user user = userOptional.get();
+            if (user.getTokenExpiryTime().isAfter(Instant.now())) {
+                // Token is valid, proceed with resetting the password
+            	tokenRepo.invalidateToken(user.getEmail());
+                return "Token is valid. Allow user to reset the password.";
+            } else {
+            	tokenRepo.invalidateToken(user.getEmail());
+                return "Token has expired.";
+            }
+        } else {
+            return "Invalid token.";
+        }
+    }
+
 	@GetMapping("/getAll")
 	public ResponseEntity<List<Reg_user_DTO>> getAll() {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
+	}
+
+	@GetMapping("/findByMail/{email}")
+	public ResponseEntity<Reg_user> findByMail(@PathVariable String email) {
+		Reg_user get_user = userRepo.findByEmail(email);
+		return(get_user != null)?
+				new ResponseEntity<>(get_user, HttpStatus.OK):
+				new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/getLoginUser")
@@ -116,16 +153,39 @@ public class Reg_user_Controller {
 	}
 	
 	
-	@PutMapping("/forgotpassword")
-	public ResponseEntity<String> forgotpassword(@RequestParam String email){
+	@PutMapping("/forgotpassword/{email}")
+	public ResponseEntity<String> forgotpassword(@PathVariable String email){
 		return new ResponseEntity<>(regService.forgotPassword(email),HttpStatus.OK);
 	}
 	
-	@PutMapping("/setpassword")
-	public ResponseEntity<String> setPassword(@RequestParam String email,@RequestHeader String newPassword){
-		return new ResponseEntity<>(regService.setPassword(email,newPassword),HttpStatus.OK);
-	}
-	
+	@PutMapping("/setpassword/{email}/{newPassword}")
+	public ResponseEntity<String> setPassword(@PathVariable String email,@PathVariable String newPassword){
+		
+		Reg_user userOptional = userRepo.findByEmail(email);
+
+        if (userOptional.getResetToken()!=null && userOptional.getTokenExpiryTime().isAfter(Instant.now())) {
+        	
+        	 regService.setPassword(email, newPassword);
+            	tokenRepo.invalidateToken(email);
+            	System.out.println("AKM");
+               return new ResponseEntity<>("Token has been reset successfully ",HttpStatus.OK);
+            } else {
+            	tokenRepo.invalidateToken(email);
+                return new ResponseEntity<>( "Token has expired.",HttpStatus.BAD_REQUEST);
+            }
+        }
+
+		@GetMapping("/getDataBySubId/{id}")
+		public ResponseEntity<Reg_user> getBySubId(@PathVariable int id) {
+			Reg_user get_data = regService.getDataBySubId(id);
+			return(get_data != null)?
+					new ResponseEntity<>(get_data, HttpStatus.OK):
+					new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
 
 }
+	
+
+
+

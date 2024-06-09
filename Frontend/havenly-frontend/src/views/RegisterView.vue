@@ -45,26 +45,54 @@
           showPassword: false
         };
     },
+
+    mounted() {
+      localStorage.removeItem('openTab');
+    },
+
     methods: {
 
       togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
-        signup() {
-        
-          function httpErrorHandler(error) {
-                          if (axios.isAxiosError(error)) {
-                              const response = error?.response
-                              if(response){
-                                  const statusCode = response?.status
-                                  if(statusCode===500){alert("Something Worng!!Please use another email or another phone number!!!")}
-                                  else if(statusCode===400){alert("Please fill the information!!!")}
-                                  
-                              }
-                              }
+
+      signup() {
+      
+        function httpErrorHandler(error) {
+          if (axios.isAxiosError(error)) {
+            const response = error?.response
+            if(response){
+              const statusCode = response?.status
+              if(statusCode===500){
+                Swal.fire({
+                  title: 'Invalid Informations!',
+                  text: 'Something Worng! Please use another email or another phone number.',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey: false
+                });
+              } else if(statusCode===400){
+                Swal.fire({
+                  title: 'Missing Informations!',
+                  text: 'Please fill the information!',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey: false
+                });
+              }
+            }
           }
-          
-          axios.post("http://localhost:8083/register",this.user)
+        }
+        
+        axios.post("http://localhost:8083/register",this.user)
 
           .then(function(response){
                   const status=JSON.parse(response.status);

@@ -11,8 +11,8 @@
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                            :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button w-25"
-                            @click="openTab(visibleStartIndex + index)"
+                            :elevation="10" :key="index" style="text-transform:capitalize;"
+                            class="tab-carousel-button w-25" @click="openTab(visibleStartIndex + index)"
                             :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                             {{ button }}
                         </v-btn>
@@ -20,7 +20,7 @@
                 </div>
 
 
-                <div class="d-block d-sm-none mb-5">
+                <!-- <div class="d-block d-sm-none mb-5">
                     <v-btn size="small"
                         v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
                         :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
@@ -29,7 +29,7 @@
                         {{ button }}
                     </v-btn>
 
-                </div>
+                </div> -->
 
 
             </div>
@@ -51,20 +51,20 @@ export default {
     },
     data() {
         return {
-            
-            buttons: ['Condo', 'Apartment', 'House'],
+
+            buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office'],
             offset: 0,
             visibleStartIndex: 0,
-            visibleButtons: 5,
+            visibleButtons: 3,
             contents: [
-                { title: 'phone apple Condo' },
-                { title: 'phone samsung Apartment' },
-                { title: 'phone xiaomi House' },
-                { title: 'phone vivo Hostel' },
-                { title: 'phone apple Industrial' },
-                { title: 'phone samsung Office' },
-                { title: 'phone xiaomi Restaurant' },
-                { title: 'phone vivo Land' },
+                { title: 'Condo' },
+                { title: 'Apartment' },
+                { title: 'House' },
+                { title: 'Hostel' },
+                { title: 'Industrial' },
+                { title: 'Office' },
+                { title: 'Restaurant' },
+                { title: 'Land' },
             ],
             activeTab: 1 // Set the default active tab to the first tab
         };
@@ -75,10 +75,12 @@ export default {
         },
         isNextButtonHidden() {
             return this.visibleStartIndex + this.visibleButtons >= this.buttons.length;
-        }
+        },
+
+
     },
     mounted() {
-        
+
 
         const savedTab = localStorage.getItem('activeTab');
         if (savedTab !== null) {
@@ -96,7 +98,7 @@ export default {
     },
 
     methods: {
-        
+
         saveScrollPosition() {
             sessionStorage.setItem('scrollPosition', window.scrollY);
         },

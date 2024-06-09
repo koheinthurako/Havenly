@@ -2,9 +2,7 @@ package com.Havenly.Backend.DTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import com.Havenly.Backend.Entity.Subscription;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +28,7 @@ public class Subscription_DTO {
 	private String packageType;
 	private int availPosts;
 	private int availAds;
+
 
 	
 	public Subscription convertToEntity(Subscription_DTO dto) {

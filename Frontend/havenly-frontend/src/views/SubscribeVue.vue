@@ -243,9 +243,12 @@
           .catch(httpErrorHandler);
         }
       },
+
       mounted() {
+        localStorage.removeItem('openTab');
         this.fetchData();
-      }
+      },
+      
     }
   </script>
 

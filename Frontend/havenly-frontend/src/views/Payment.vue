@@ -11,6 +11,10 @@ import CreditCardForm from '@/components/Payment/CreditCardForm.vue';
 export default defineComponent({
   name: 'PaymentVue',
 
+  mounted() {
+    localStorage.removeItem('openTab');
+  },
+
   components: {
     // HelloWorld,
     // VCreditCard,

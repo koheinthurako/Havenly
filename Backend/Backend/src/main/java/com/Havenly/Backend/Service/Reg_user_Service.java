@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 
@@ -23,5 +23,6 @@ public interface Reg_user_Service {
 	public String forgotPassword(String email);
 	public String setPassword(String email, String newPassword);
 	String deleteByEmail(String email);
+	Reg_user getDataBySubId(int id);
 
 }

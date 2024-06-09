@@ -2,7 +2,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeIndex from '../components/mainIndexVue.vue'
 import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
-import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
+
+// Documentation ?
+// import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
+import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import login from '../views/LoginView.vue'
@@ -11,14 +14,20 @@ import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import Payment from '@/views/Payment.vue'
-import PostsView from '@/views/PostsView.vue'
+import CreditCard from '@/views/CreditCard.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
+import ResetPassword from '@/views/ResetPassword.vue'
+
+// For Posts
+import postDetailView from '@/views/PostDetailView.vue'
+import AllPostView from '@/views/AllPostView.vue'
+import uploadedAllPosts from '@/components/User_Dashboard/Dashboard_Categories/uploadedAllPosts.vue'
 import AdminPost from '@/views/AdminPost.vue'
 import AdminAd from '@/views/AdminAd.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
-
-
+import PostsByLocation from '@/views/PostsByLocation.vue'
+import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
 const routes = [
   {
@@ -27,8 +36,14 @@ const routes = [
     component: HomeIndex
   },
   {
+    path: '/',
+    redirect: '/home',
+  },
+
+  // change with temp For Package
+  {
     path: '/package',
-    name: 'package',
+    name: 'tempPackage',
     component: tempPackage
   },
   {
@@ -47,10 +62,6 @@ const routes = [
     component: SubscribeVue
   },
   {
-    path: '/Home',
-    redirect: '/',
-  },
-  {
     path: '/userdashboard',
     name: 'User_dashboard',
     component: userDashboard,
@@ -61,20 +72,25 @@ const routes = [
     name: 'testingPage',
     component: testingPage
   },
-  {
-    path: '/tempDoc',
-    name: 'tempDoc',
-    component: tempDoc
-  },
+  // {
+  //   path: '/tempDoc',
+  //   name: 'tempDoc',
+  //   component: tempDoc
+  // },
   {
     path: '/payment',
     name: 'Payment',
     component: Payment
   },
   {
-    path: '/PostsView',
-    name: 'PostsView',
-    component: PostsView
+    path: '/post/alluserposts',
+    name: 'uploadedAllPosts',
+    component: uploadedAllPosts
+  },
+  {
+    path: '/post/detail/view/:id',
+    name: 'postDetailView',
+    component: postDetailView
   },
   {
     path: '/about',
@@ -84,13 +100,13 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    component : AdminView,
+    component: AdminView,
     meta: { requiresAdmin: true }
   },
   {
     path: '/admin/login',
     name: 'AdminLogin',
-    component : AdminLoginView
+    component: AdminLoginView
   },
   {
     path: '/admin/ban',
@@ -109,6 +125,31 @@ const routes = [
     name: 'AdminAd',
     component: AdminAd,
     meta: { requiresAdmin: true },
+  },
+  {
+    path: '/all/posts/of/:postType',
+    name: 'AllPostView',
+    component: AllPostView,
+  },
+  {
+    path: '/all/posts/postsbylocation/:locationId',
+    name: 'PostsByLocation',
+    component: PostsByLocation,
+  },
+  {
+    path: '/all/posts/mainLocationPosts/:locationId',
+    name: 'MainLocationPosts',
+    component: MainLocationPosts,
+  },
+  {
+    path: '/forgot',
+    name: 'ForgotPassword',
+    component: ForgotPassword
+  },
+  {
+    path: '/akmakmset',
+    name: 'ResetPassword',
+    component: ResetPassword
   },
 
 ]
@@ -158,8 +199,8 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/package/payment') {
-    if(!user) {
+  } else if (to.path === '/packages/payment') {
+    if (!user) {
       Swal.fire({
         title: 'Login Required',
         text: 'Please login first to proceed with the payment!',
@@ -179,13 +220,13 @@ router.beforeEach((to, from, next) => {
         text: 'You must be subscribed to buy our packages!',
         icon: 'error',
         customClass: {
-            confirmButton: 'myCustomButton'
+          confirmButton: 'myCustomButton'
         },
         buttonsStyling: false,
         allowOutsideClick: false,
         allowEscapeKey: false
-        }).then(() => {
-          next('/subscribe');
+      }).then(() => {
+        next('/subscribe');
       });
     } else if (subUser.packageType !== 'Free Trial' && subUser.availPosts > 0) {
       Swal.fire({
@@ -193,13 +234,13 @@ router.beforeEach((to, from, next) => {
         text: 'Please use your package until 0 post!',
         icon: 'error',
         customClass: {
-            confirmButton: 'myCustomButton'
+          confirmButton: 'myCustomButton'
         },
         buttonsStyling: false,
         allowOutsideClick: false,
         allowEscapeKey: false
-        }).then(() => {
-          next(false);
+      }).then(() => {
+        next(false);
       });
     } else {
       next();
