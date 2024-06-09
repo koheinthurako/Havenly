@@ -67,7 +67,6 @@
 
                     <div v-if="adminTab === 'adminProfile'">
                         <!-- <profile_page /> -->
-                        <div style="margin-top: 200px;"></div>
                         <AdminProfile />
                     </div>
 
@@ -122,15 +121,15 @@ export default {
     data() {
         return {
             adminExpanded: false,  // for left side dashboard collapse and expand
-            adminTab: localStorage.getItem('adminTab') || 'adminProfile',
+            adminTab: sessionStorage.getItem('adminTab') || 'adminProfile',
 
         };
     },
 
     mounted() {
 
-        const getData = localStorage.getItem("adminTab");
-        if (getData === "adminProfile" || this.adminTab === "adminProfile") {
+        sessionStorage.removeItem('adminTab');
+        if (this.adminTab === "adminProfile") {
             this.adminExpanded = true;
         }
     },
@@ -170,7 +169,7 @@ export default {
 
         changeAdminTab(tab) {
             this.adminTab = tab;
-            localStorage.setItem('adminTab', this.adminTab);
+            sessionStorage.setItem('adminTab', this.adminTab);
         },
 
         // changeTabForSub(tab) {

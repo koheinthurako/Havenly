@@ -1,23 +1,28 @@
 <template>
-  <nav class="navbar navbar-expand-lg p-0 fixed-top py-2">
+  <nav class="navbar navbar-expand-lg p-0 fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <h2>Havenly</h2>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+
+      <!-- style one start -->
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
+      <!-- style one end -->
 
+      <!-- style two start -->
+      <button class="navbar-toggler" type="button" @click="toggleSidebar">
+        <span v-if="!isSidebarActive" class="navbar-toggler-icon"></span>
+        <!-- <span v-else class="close-icon">&times;</span> -->
+        <span v-else class="close-icon"><v-icon>mdi-window-close</v-icon></span>
+      </button>
+      <!-- style two end -->
+
+      <!-- style one start -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
-
-          <!-- <li class="nav-item">
-            <router-link to="/" :class="{
-              'nav-link': true, active:
-                isNavLinkActive('/')
-            }">Home</router-link>
-          </li> -->
 
           <li class="nav-item">
             <router-link to="/testingPage" :class="{ active: isActive('/testingPage') }" class=" nav-link">
@@ -44,17 +49,10 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('/about') }">About</router-link>
           </li>
 
-          <!-- <li class="nav-item">
-            <router-link to="/" class=" nav-link" :class="{ active: isActive('/') }">Contact</router-link>
-          </li> -->
-
           <li class="nav-item">
             <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
-
-
-
 
           <div v-if="getUser">
             <div class="dropdown">
@@ -92,8 +90,7 @@
 
           <div v-if="getUser2">
             <li class="nav-item">
-              <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                aria-controls="offcanvasRight" @click="cleanStorage()">Notification</button> -->
+
               <div class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
                 <v-badge :content="notificationCount" color="red" overlap>
@@ -105,40 +102,111 @@
 
 
           <li class="nav-item">
-            <div v-if="register_statue">
-              <div v-if="login_status">
-                <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <v-icon class=" me-1">mdi-account-box</v-icon>{{ user_data.name }}
-                </button>
-                <ul class="dropdown-menu p-0">
-                  <li>
-                    <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                        class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
-                  </li>
-                  <!-- <li>
-                    <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                        class="me-1">mdi-view-dashboard</v-icon>User dashboard</router-link>
-                  </li> -->
-                  <li>
-                    <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <!-- <div v-else>
-                <router-link to="/login" class="nav-link">Login</router-link>
-              </div> -->
+            <div v-if="getUser2">
+
+              <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
+              </button>
+              <ul class="dropdown-menu p-0">
+                <li>
+                  <router-link to="/userdashboard" class="dropdown-item"><v-icon
+                      class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                </li>
+
+                <li>
+
+                  <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
+                  </div>
+                </li>
+              </ul>
             </div>
+
             <div v-else>
-              <router-link v-model="loginText" to="/login" class="nav-link">{{ loginText }}</router-link>
+              <router-link to="/login" class="nav-link">Login</router-link>
             </div>
           </li>
 
 
         </ul>
       </div>
+      <!-- style one end -->
+
     </div>
   </nav>
+
+  <!-- style two start -->
+  <div :class="['navSidebar', { 'activeOne': isSidebarActive }]" @click="toggleSidebar">
+    <ul class="style-two navbar-nav mx-auto">
+      <li class="items nav-item" :class="{ sideBarActive: isActive('/') }">
+        <router-link to="/" class="item-edit nav-link">
+          Home</router-link>
+      </li>
+      <li class="items nav-item" :class="{ sideBarActive: isActive('/package') }">
+        <router-link to="/package" class="item-edit nav-link">
+          Package</router-link>
+      </li>
+      <li class="items nav-item" :class="{ sideBarActive: isActive('/subscribe') }">
+        <router-link to="/subscribe" class="item-edit nav-link">
+          Subscribe</router-link>
+      </li>
+      <li class="items nav-item" :class="{ sideBarActive: isActive('/about') }">
+        <router-link to="/about" class="item-edit nav-link">
+          About</router-link>
+      </li>
+      <li class="items nav-item">
+        <div v-if="getUser2">
+
+          <v-expansion-panels @click.stop>
+            <v-expansion-panel>
+              <v-expansion-panel-title>
+                <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="p-0">
+                <ul class="navbar-nav mx-auto">
+                  <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
+                    <router-link @click="toggleSidebar" to="/userDashboard" class="item-edit nav-link">
+                      <v-icon class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                  </li>
+                </ul>
+              </v-expansion-panel-text>
+              <v-expansion-panel-text class="p-0">
+                <ul class="navbar-nav mx-auto">
+                  <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
+                    <router-link @click="logout" class="item-edit nav-link">
+                      <v-icon class="me-1">mdi-logout-variant</v-icon>Logout</router-link>
+                  </li>
+                </ul>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+
+          <!-- <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
+          </button>
+          <ul class="dropdown-menu p-0">
+            <li>
+              <router-link to="/userdashboard" class="dropdown-item"><v-icon
+                  class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+            </li>
+
+            <li>
+
+              <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
+              </div>
+            </li>
+          </ul> -->
+
+
+        </div>
+
+        <div v-else>
+          <router-link to="/login" :class="{ sideBarActive: isActive('/login') }"
+            class="nav-link item-edit">Login</router-link>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- style two end -->
 
   <!-- offcanvas start -->
   <div class="offcanvas offcanvas-end offcanvas-edit" tabindex="-1" id="offcanvasRight"
@@ -513,10 +581,10 @@ export default {
 
   data() {
     return {
+      isSidebarActive: false,
       getUser: [],
       getUser2: [],
       activeDataLink: '',
-      loginText: 'Login',
     };
   },
 
@@ -539,10 +607,14 @@ export default {
   mounted() {
     this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
     this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
-    console.log("Logined user : ", this.getUser2);
   },
 
   methods: {
+    toggleSidebar() {
+      this.isSidebarActive = !this.isSidebarActive;
+    },
+
+
     isActive(route) {
       return this.$route.path === route;
     },
@@ -555,14 +627,14 @@ export default {
     // },
 
     logout() {
-      this.$store.dispatch('To_Logout_Action');
-      this.$router.push('/home');
+      sessionStorage.removeItem('login_user');
+      window.location.reload();
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .active {
   background-color: #e86f52 !important;
   color: #fff !important;

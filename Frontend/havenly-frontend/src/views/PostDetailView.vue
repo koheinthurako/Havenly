@@ -11,7 +11,7 @@
                     <div class="left">
 
                         <div class="col-md-12">
-                            <div class="header">
+                            <div class="header me-3">
 
                                 <div class="row">
 
@@ -25,8 +25,51 @@
                                     </div>
                                     <div class="col-md-4 d-none d-sm-block">
                                         <div class="search-bar mt-2">
-                                            <input type="text" id="fname" name="fname" placeholder="Search here">
-                                            <v-btn class="px-4">Search</v-btn>
+
+                                            <!-- search bar start -->
+                                            <v-row>
+                                                <v-col cols="12">
+                                                    <v-menu v-model="menu" :close-on-content-click="false" offset-y
+                                                        :activator="activator" transition="scale-transition"
+                                                        max-height="160">
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-text-field variant="outlined" ref="activator"
+                                                                v-model="search" label="Search posts by name"
+                                                                append-inner-icon="mdi-magnify" clearable v-bind="attrs"
+                                                                v-on="on || {}" @input="onSearch"></v-text-field>
+                                                        </template>
+                                                        <v-list v-if="filteredTitles.length" class="p-0">
+                                                            <h4 class="ms-3 mt-2" style="color: #e86f52;">Available
+                                                                posts</h4>
+                                                            <v-list-item v-for="post in filteredTitles" :key="post.id"
+                                                                @click="handleItemClick(post)"
+                                                                style="border-bottom: 1px solid #000;">
+                                                                <v-list-item-title>
+                                                                    <v-chip v-if="post.type === 'Sell'"
+                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                        size="small" rounded-pill color="red"
+                                                                        variant="flat" class="me-2">
+                                                                        {{ post.type }}
+                                                                    </v-chip>
+                                                                    <v-chip v-else
+                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                        size="small" rounded-pill color="green"
+                                                                        variant="flat" class="me-2">
+                                                                        {{ post.type }}
+                                                                    </v-chip>
+                                                                    {{ post.title }}
+                                                                </v-list-item-title>
+                                                            </v-list-item>
+                                                        </v-list>
+
+                                                        <v-alert v-else-if="search" type="warning" class="ma-0">
+                                                            No post available
+                                                        </v-alert>
+                                                    </v-menu>
+                                                </v-col>
+                                            </v-row>
+                                            <!-- search bar end -->
+
                                         </div>
                                     </div>
                                 </div>
@@ -497,10 +540,19 @@
                             posts<v-icon>mdi-chevron-double-right</v-icon></v-btn>
                     </div>
                 </div>
-
-
-
             </div> -->
+
+            <v-snackbar elevation="24" v-model="alert.show" :timeout="alert.timeout" :color="alert.color"
+                :bottom="true">
+                <v-icon>mdi-exclamation</v-icon>
+                {{ alert.message }}
+
+                <v-btn color="info" variant="text" @click="alert.show = false">
+                    Close
+                </v-btn>
+                <!-- <v-icon @click="alert.show = false">mdi-close</v-icon> -->
+                <!-- <v-btn color="white" text >x</v-btn> -->
+            </v-snackbar>
 
         </v-container>
     </div>
@@ -517,6 +569,27 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+
+        // search bar staff start
+        search: '',
+        menu: false,
+        postTitles: [
+            { id: 1, title: 'Welcome Home smatha js auto wind and search bar ' },
+            { id: 2, title: 'Wonderful World' },
+            { id: 3, title: 'Amazing Grace' },
+            { id: 4, title: 'Beautiful Life' },
+        ],
+        tempPostTitles: [],
+        activator: null,
+        alert: {
+            show: false,
+            message: '',
+            timeout: 2000, // Duration in milliseconds
+            color: 'deep-purple-accent-4' // Change color as needed
+        },
+        // search bar staff end 
+
+
         drawer: false,
         showData: false,
         items: [
@@ -585,8 +658,16 @@ export default {
     }),
 
     mounted() {
+        // remove item
+        localStorage.removeItem('openTab');
+
+
         this.fetchPost(this.splitData(this.$route.params.id)[0]);
         this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
+
+        // search bar staff
+        this.activator = this.$refs.activator;
+        this.fetchAllPosts();
     },
     computed: {
         phonePrefix() {
@@ -597,15 +678,39 @@ export default {
             } else {
                 return ''; // Or any default prefix you want
             }
-        }
+        },
+
+        // search bar staff
+        filteredTitles() {
+            if (!this.search) return [];
+            return this.tempPostTitles.filter((post) =>
+                post.title.toLowerCase().startsWith(this.search.toLowerCase())
+            );
+        },
+
     },
 
     methods: {
 
-        clickPost(data) {
-            alert(data);
-
+        onSearch() {
+            this.menu = !!this.search; // Show the menu only if there is a search query
         },
+        handleItemClick(post) {
+            // Check if post ID matches the main post ID
+            if (post.id === this.mainPostId) {
+                this.alert.message = "This post is already displayed!";
+                this.alert.color = '#e86f52';
+                this.alert.show = true;
+
+            } else {
+                const afterEncrypt = this.encryptId(post.id);
+                // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            }
+            this.menu = false;
+            this.search = '';
+        },
+
 
         formatDesc(data) {
             return data.split('\n').join('<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -887,6 +992,43 @@ export default {
             this.reqDialog = false;
         },
 
+        // for search staff 
+        async fetchAllPosts() {
+            try {
+                const response = await fetch('http://localhost:8083/posts/allComplete');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parse the response as JSON
+                const data = await response.json();
+
+                // Initialize an empty array to store post data
+                const tempPostTitles = [];
+
+                // Iterate over each post in the response data
+                data.forEach(postData => {
+                    // Extract relevant data for each post
+                    const temp_post_id = postData.post_id;
+                    const temp_post_title = postData.sellpost ? postData.sellpost.title : postData.rentpost ? postData.rentpost.title : '';
+                    const temp_post_type = postData.sellpost ? 'Sell' : postData.rentpost ? 'Rent' : '';
+
+                    // Push the extracted data into the tempPostTitles array
+                    tempPostTitles.push({
+                        id: temp_post_id,
+                        title: temp_post_title,
+                        type: temp_post_type
+                    });
+                });
+
+                // Update the component's tempPostTitles property
+                this.tempPostTitles = tempPostTitles;
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        },
+
+
         async fetchPost(postId) {
 
             // then decrypt 
@@ -903,8 +1045,6 @@ export default {
 
                 // Parse the response as JSON
                 const data = await response.json();
-
-                console.log("Show post detail : ", data);
 
                 // Taking Post Main id
                 this.mainPostId = data.post_id;

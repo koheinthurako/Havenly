@@ -2,9 +2,7 @@
   <div class="main-index" id="main-index">
 
     <!-- notification btn start -->
-
-
-    <div v-if="this.getUser">
+    <!-- <div v-if="this.getUser">
       <v-badge v-show="!btn_display" class="popup-btn" @click="togglePopup" :content="notificationCount" color="red"
         overlap>
         <v-icon large>mdi-bell</v-icon>
@@ -14,12 +12,11 @@
     <v-card v-if="isCardVisible" class="popup-card">
       <h5 class="header">short info</h5><br><br><br>
 
-      <!-- btn part -->
+     
       <div class="close-btn" @click="hideCard">
         <v-icon>mdi-close</v-icon>
       </div>
 
-      <!-- data part -->
       <div class="card-data">
         <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg" class="w-100"
           v-model="userData.name" label="Name"></v-text-field>
@@ -70,7 +67,7 @@
 
 
       </div>
-    </div>
+    </div> -->
     <!-- notification btn end -->
 
     <div class="for-first-index">
@@ -94,6 +91,9 @@
       <fifthDoc />
     </div>
 
+    <div class="for-About-in-main">
+      <AboutInMain />
+    </div>
 
     <div class="for-contact-page">
       <contactpage />
@@ -113,6 +113,7 @@ import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
 import fourthPackage from './For_MainIndex/fourthPackageVue.vue'
 import fifthDoc from './For_MainIndex/fifthDocContent.vue'
 
+import AboutInMain from '@/components/For_MainIndex/AboutInMain.vue'
 
 import contactpage from './For_MainIndex/ContactVue.vue'
 
@@ -152,6 +153,7 @@ export default {
     fourthPackage,
     fifthDoc,
     contactpage,
+    AboutInMain,
   },
 
   // mounted() {
