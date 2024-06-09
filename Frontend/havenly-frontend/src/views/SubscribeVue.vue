@@ -185,34 +185,31 @@
             allowEscapeKey: false
           });
           return;
-        } //else{
-            axios.post("http://localhost:8083/subscribe",this.user).then(function(response){
-            // .then(response => console.log(response));
-            this.userIsSubbed = true;
-            console.log(this.userIsSubbed);
-            const status=response.status;
-              console.log(status);
-                  if(status===200){
-                    Swal.fire({
-                      title: 'Subscription Success',
-                      text: 'Welcome! Thank you for registering.',
-                      icon: 'success',
-                      customClass: {
-                      confirmButton: 'myCustomSuccessButton'
-                      },
-                      buttonsStyling: false,
-                      allowOutsideClick: false,
-                      allowEscapeKey: false
-                      }).then(() => {
-                        router.push('/'); 
-                      });
-                  }
-
-        }).catch(httpErrorHandler)
-          
-       // }
-          this.resetForm();
-        },
+        } else{
+            axios.post("http://localhost:8083/subscribe",this.user).then((response) => {
+      this.userIsSubbed = true;
+      console.log(this.userIsSubbed);
+      const status = response.status;
+      console.log(status);
+      if (status === 200) {
+        Swal.fire({
+          title: 'Subscription Success',
+          text: 'Welcome! Thank you for subscribing.',
+          icon: 'success',
+          customClass: {
+            confirmButton: 'myCustomSuccessButton'
+          },
+          buttonsStyling: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then(() => {
+          router.push('/');
+        });
+      }
+    }).catch(httpErrorHandler);
+  }
+  this.resetForm();
+},
 
       resetForm() {
         this.selectedNRCCode = null;

@@ -1,7 +1,7 @@
 <template>
-    <br><br><br><br><br>
+
     <div class="user-profile">
-        <div class="row p-0 m-0">
+        <div class="row p-2 m-2">
             <div class="col-md-6 col-sm-12 p-2">
                 <div class="profile-box h-auto">
                     <div class="profile-box-data pt-2 pb-5">
@@ -190,7 +190,7 @@
                                                     :error-messages="profile_password.errorMessage.value"
                                                     :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
                                                     :rules="[rules.required, rules.min]"
-                                                    :type="visible ? 'text' : 'password'" :value="user_data.password || ''"
+                                                    :type="visible ? 'text' : 'password'" 
                                                     class="input-group--focused" hint="At least 8 characters"
                                                     label="Password" name="input-10-2"
                                                     @click:append="visible = !visible"></v-text-field>
@@ -287,6 +287,8 @@ export default {
         editDialog: false,
         visible: false,
         visible1: false,
+        nameErrorMessages: [],
+        phoneErrorMessages: [],
       
         items: [],
 
@@ -312,16 +314,16 @@ export default {
         },
     }),
 
-    created(){
-    const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    if (loginUserData ==null ) { 
-        router.push("/");
-    }
-    else{
-        this.user.name = loginUserData.name;
-        this.user.phone = loginUserData.phone;
-    }
-    },
+    // created(){
+    // const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
+    // if (loginUserData !==null ) { 
+    
+    //     this.user.name = loginUserData.name;
+    //     this.user.phone = loginUserData.phone;
+    //     this.user.profilePicture = loginUserData.profileImg
+    // }
+    // },
+
     mounted() {
       this.fetchData();
     },
@@ -354,13 +356,13 @@ export default {
             this.resetdialog = false;
         },
         openEditDialog() {
-    
-      this.editDialog = true;
-    },
-    closeEditDialog() {
-      this.editDialog = false;
-    },
-    fetchData() {
+            this.editDialog = true;
+        },
+        closeEditDialog() {
+            this.editDialog = false;
+        },
+        
+        fetchData() {
         const user = JSON.parse(sessionStorage.getItem('login_user'));
         const registerId = user.register_id;
         axios.get('http://localhost:8083/getLoginUser',{ 
@@ -374,15 +376,17 @@ export default {
             const profilepic = response.data.profileImg;
             if (profilepic !== null) {
           this.profileImage = profilepic;
-          console.log(profilepic);
           console.log("Profile image exists!");
         }
+        this.user.name = response.data.name;
+        this.user.phone = response.data.phone;
           })
           .catch(error => {
             console.error('Error fetching data:', error);
           });
     },
-handleFileUpload(event) {
+
+    handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
         this.selectedFile = file;
@@ -397,15 +401,37 @@ handleFileUpload(event) {
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
+
+    validateForm() {
+    this.nameErrorMessages = [];
+    this.phoneErrorMessages = [];
+
+    if (!this.user.name) {
+      this.nameErrorMessages.push('Name is required');
+    }
+
+    if (!this.user.phone) {
+      this.phoneErrorMessages.push('Phone number is required');
+    } else if (this.user.phone.length < 9) {
+      this.phoneErrorMessages.push('Phone number must be at least 9 digits');
+    }
+
+    return this.nameErrorMessages.length === 0 && this.phoneErrorMessages.length === 0;
+  },
+
     async update(){
+        if (!this.validateForm()) {
+        return;
+        }
             this.user.email=this.user_data.email;
+
             function httpErrorHandler(error) {
                         if (axios.isAxiosError(error)) {
                             const response = error?.response
                             if(response){
                                 const statusCode = response?.status
-                                if(statusCode===404){console.log("Update Information failed!!!   Please check your E-mail and fill again!!")}
-                                if(statusCode===500){console.log("Update Information failed!!!   Please check your Phone number and fill again!!")}
+                                if(statusCode===404){console.log("Email missing")}
+                                if(statusCode===500){console.log("Phone number missing")}
                                 console.log("error : ", response);
                             }
                             }
@@ -415,11 +441,22 @@ handleFileUpload(event) {
       formData.append('name', this.user.name);
       formData.append('phone', this.user.phone);
       formData.append('email', this.user.email);
-      if (this.selectedFile) {
+      if (this.selectedFile !== null) {
         formData.append('profileImg', this.selectedFile);
-      }else{
-        formData.append('profileImg', this.profileImage);
+      } else if (this.profileImage !== null) {
+      // Convert base64 string to Blob
+      const byteString = atob(this.profileImage.split(',')[1]);
+      const mimeString = this.profileImage.split(',')[0].split(':')[1].split(';')[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
       }
+      const blob = new Blob([ab], { type: mimeString });
+      formData.append('profileImg', blob, 'profile.jpg');
+    } else {
+      formData.append('profileImg', new Blob([]), 'profile.jpg'); // Ensure profileImg is always set
+    }
                
       try {
     const response = await axios.put("http://localhost:8083/profile/update", formData, {
@@ -431,15 +468,14 @@ handleFileUpload(event) {
     const status = response.status;
     if (status === 200) {
        
-
       let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
       userData.name = this.user.name;
       userData.phone = this.user.phone;
       userData.profilePicture = this.profileImage;
       sessionStorage.setItem('login_user', JSON.stringify(userData));
         Swal.fire({
-                      title: 'Subscription Success',
-                      text: 'Welcome! Thank you for registering.',
+                      title: 'Profile Change Success',
+                      text: 'Your profile is successfully updated',
                       icon: 'success',
                       customClass: {
                       confirmButton: 'myCustomSuccessButton'

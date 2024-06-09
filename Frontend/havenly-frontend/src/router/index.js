@@ -5,7 +5,7 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 
 // Documentation ?
 // import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
-import register from '../components/Login_&_Register/registerVue.vue'
+// import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 import testingPage from '../components/For_Testing/testingOne.vue'
 import login from '../views/LoginView.vue'
@@ -14,7 +14,8 @@ import AdminView from '../views/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminBanList from '../views/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import CreditCard from '@/views/CreditCard.vue'
+// import CreditCard from '@/views/CreditCard.vue'
+import Payment from '@/views/Payment.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import ResetPassword from '@/views/ResetPassword.vue'
 
@@ -199,7 +200,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/packages/payment') {
+  } else if (to.path === '/payment') {
     if (!user) {
       Swal.fire({
         title: 'Login Required',
@@ -230,7 +231,7 @@ router.beforeEach((to, from, next) => {
       });
     } else if (subUser.packageType !== 'Free Trial' && subUser.availPosts > 0) {
       Swal.fire({
-        title: 'Alread Purchased',
+        title: 'Already Purchased',
         text: 'Please use your package until 0 post!',
         icon: 'error',
         customClass: {

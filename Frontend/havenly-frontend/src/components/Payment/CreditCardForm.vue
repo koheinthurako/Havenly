@@ -19,15 +19,15 @@
                 v-bind:rounded="true" style="height: 40px; width: 164px;">
                 Submit Payment</v-btn>
       </div>
-      <div class="text-center ml-2">
+      <!-- <div class="text-center ml-2">
                 <v-btn to="/package" v-bind:rounded="true" block class="m-2 bg-grey text-white mt-3" 
                 style="height: 40px; width: 164px;">Cancel</v-btn>
-      </div>
+      </div> -->
     </div>
     </v-col>
     </v-row>    
   </v-form>
-    <!-- <p><a href="/package"> Go Back </a></p>  -->
+    <p><a href="/package"> Go Back </a></p> 
   </v-sheet>
   </div>
 </template>

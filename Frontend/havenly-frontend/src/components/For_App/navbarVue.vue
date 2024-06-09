@@ -38,7 +38,7 @@
             <router-link to="/" class=" nav-link" :class="{ active: isActive('/') }">Contact</router-link>
           </li> -->
 
-          <li class="nav-item">
+          <li class="nav-item" v-if="login_status">
             <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
@@ -241,7 +241,7 @@ import { useRouter } from 'vue-router';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { AES } from 'crypto-js';
 
-import router from '@/router';
+// import router from '@/router';
 import Swal from 'sweetalert2';
 
 export default {
@@ -500,12 +500,6 @@ this.loginUserData = loginUser;
     console.log("Logined user : ", this.getUser2);
   },
 
-  mounted() {
-    this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
-    this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
-    console.log("Logined user : ", this.getUser2);
-  },
-
   methods: {
     isActive(route) {
       return this.$route.path === route;
@@ -524,7 +518,7 @@ this.loginUserData = loginUser;
             }).then((result) => {
                 if (result.isConfirmed) {
                     sessionStorage.clear();
-        router.push("/").then(() => {
+                    this.$router.push("/").then(() => {
           // Reload the page after navigation
           window.location.reload();
         });

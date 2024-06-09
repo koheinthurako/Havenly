@@ -6,8 +6,9 @@
       <br>
       <!-- Form to create a new ad post -->
       <div class="d-flex mb-5">
-      <span class="d-flex align-center" @click="openAdsDialog" style="width: 5%; justify-content: center;">
-              <v-icon class="edit-icon">mdi-plus</v-icon>
+      <span class="d-flex align-center" @click="openAdsDialog" 
+      style="width: 8%; justify-content: center; border: 1px dashed; border-radius: 10%; border-color:#ccc; padding:20px">
+              <v-icon class="edit-icon elevation-5">mdi-plus</v-icon>
             </span>
       <span class="d-flex align-center" style="width: 90%; justify-content: right;">
         <h5>Available Ads : {{ availAds }}</h5></span>
@@ -49,7 +50,7 @@
           </div>
           <p>
           <v-row cols="12" class="w-100 mt-4">
-              <v-btn class="submit ms-auto me-3"  type="submitAdPost" style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+              <v-btn class="submit ms-auto me-3"  type="submitAdPost">
                 Submit
               </v-btn>
             </v-row></p>
@@ -425,7 +426,15 @@ export default {
         
     }
 
-    .submit,
+    .submit{
+      color: #fff; 
+      padding: 4px 14px; 
+      background-color: #E97559; 
+      border-radius: 20px; 
+      cursor: pointer;
+      height:40px;
+      width: auto;
+    }
     .clear {
         border-radius: 20px;
     }

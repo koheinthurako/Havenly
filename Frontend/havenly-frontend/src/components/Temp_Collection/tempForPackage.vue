@@ -23,8 +23,8 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <swiper-slide>
-                        <!-- package three start -->
+                    <!-- <swiper-slide>
+                       // package one start
                         <div class="temp-package">
                             <div v-if=package1>
                             <div style="line-height: 0px;">
@@ -71,7 +71,7 @@
                         <div v-else>No items found.</div>
                         </div>
                         package one end
-                    </swiper-slide>-->
+                    </swiper-slide> -->
                     <swiper-slide>
                         <!-- package two start -->
                         <div class="temp-package">
@@ -192,7 +192,7 @@
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -225,7 +225,7 @@ export default {
         items: [],
 
         user: {
-          name:'John Doe'
+          name:''
         },
         message: ''
       }
@@ -233,18 +233,16 @@ export default {
     created(){
     const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
     if (loginUserData !==null ) { 
-        if(loginUserData.nrc == null){ 
+        if(loginUserData.subUserId == null){ 
             this.message = "You must be subscribed to buy a package!";
             console.log("User is not subscribed");
         }else{
             this.purchasedPackage = loginUserData.packageName;
         }
-        this.user.name = loginUserData.name;
-       
+        this.user.name = loginUserData.name; 
     }
     else{
         console.log("User is not logged in.");   
-        // router.push("/");
     }
     },
     mounted() {
@@ -286,24 +284,24 @@ export default {
             }, 20);
         },
         parseAndGoNext(item) {
-            if(this.availPosts>0 && this.availAds>0 && this.purchasedPackage!=="Free Trial"){
-                Swal.fire({
-                            title: 'Cannot Buy Package!',
-                            text: 'You still have available posts in your package!',
-                            icon: 'error',
-                            customClass: {
-                            confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                            });
-            }else{
+            // if(this.availPosts>0 && this.availAds>0 && this.purchasedPackage!=="Free Trial"){
+            //     Swal.fire({
+            //                 title: 'Cannot Buy Package!',
+            //                 text: 'You still have available posts in your package!',
+            //                 icon: 'error',
+            //                 customClass: {
+            //                 confirmButton: 'myCustomButton'
+            //                 },
+            //                 buttonsStyling: false,
+            //                 allowOutsideClick: false,
+            //                 allowEscapeKey: false
+            //                 });
+            // }else{
         // Parse data and store in session storage
       sessionStorage.setItem('packageData', JSON.stringify(item));       
       // Go to the next page
       router.push('/payment'); 
-            }
+         //   }
       
     },
     fetchSubUserInfo() {

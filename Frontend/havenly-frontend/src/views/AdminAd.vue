@@ -51,18 +51,17 @@
                <div v-for="ad in ads" :key="ad.ads_post_id" class="col-md-3">
                    <div class="card-container">
                        <!-- TZH card styles -->
-                       <div class="card d-flex" style="height: 350px;">
+                       <div class="card d-flex" style="height: 350px; width:fit-content;">
                           
-                           <div class="cardImgBox mb-2" style="height: 165px;">
+                           <div class="cardImgBox mb-2" >
                                <img :src="ad.imageUrl" class="w-100 h-100" alt="Card image cap">
                            </div>
                            <div class="card-body p-2 d-flex flex-column">
-                               <h5 class="card-title mb-1">{{ ad.title }}</h5>
-                               <p>{{ ad.status }}</p>
-                               <!-- <v-divider :thickness="2" class="border-opacity-25 d-block"/> -->
-                               
+                               <h5 class="card-title mb-2 pl-2">{{ ad.title }}</h5>
+                               <p class="pl-2">{{ ad.status }}</p>
+                               <v-divider :thickness="2" class="border-opacity-25 d-block"/>
                            </div>
-                           <div style="padding: 20px;">
+                           <div style="padding: 0px 20px 20px 20px;">
                             <v-row>
                                <v-col cols="6">
                                    <v-btn @click="approve(ad)">Approve</v-btn>

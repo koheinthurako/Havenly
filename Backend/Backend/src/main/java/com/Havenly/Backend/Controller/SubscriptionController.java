@@ -52,16 +52,13 @@ public class SubscriptionController {
 		}
 		dto.setSubStartDate(LocalDate.now());
 		dto.setSubStartTime(LocalDateTime.now());
-//		Reg_user reg = regRepo.findByEmail(dto.getEmail());
 		if(dto.getPackageType() == null) {
 			return ResponseEntity.notFound().build();
 		}
-//		if(reg.getSub() != null) {
-//			return ResponseEntity.badRequest().build();
-//		}
-		Subscription_DTO dto1 = subService.subscribe(dto);
-		
-			return ResponseEntity.ok().body(dto1);		
+		return new ResponseEntity<Subscription_DTO>(subService.subscribe(dto), HttpStatus.OK);
+//		Subscription_DTO dto1 = subService.subscribe(dto);
+//		
+//			return ResponseEntity.ok().body(dto1);		
 	}
 	
 	
