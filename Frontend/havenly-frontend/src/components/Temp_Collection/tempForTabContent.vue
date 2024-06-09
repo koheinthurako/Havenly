@@ -6,22 +6,22 @@
                 <v-row class="g-1 mb-3">
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                 </v-row>
@@ -37,40 +37,36 @@
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <!-- TZH card styles -->
-                            <div class="card" style="height: 350px;">
+                            <div class="card" style="height: 390px;">
                                 <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                         <img :src="url" class="w-100 h-100" alt="Card image cap">
                                     </div> -->
                                 <div class="cardImgBox" style="width: 100%; height: 160px;">
                                     <img :src="post.photo_url[0]" class="h-100 w-100 m-auto py-0" alt="Card image cap">
                                 </div>
-                                <div class="card-body py-2 px-3 d-flex flex-column">
+                                <div class="card-body p-3 d-flex flex-column">
                                     <h5 class="card-title mb-2">{{ post.title }}</h5>
-                                    <p class="card-text small opacity-75">{{ truncateText(post.description, 70) }}
+                                    <p class="card-text small opacity-75 mb-1">{{ post.description }}</p>
+                                    <p class="card-text text-danger small opacity-75">
+                                        <v-icon>mdi-map-marker-radius</v-icon>
+                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
                                     </p>
-                                    <div class="d-flex mb-1 justify-content-between">
+                                    <div class="d-flex mb-3 justify-content-between mb-auto">
                                         <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
                                             }}</span>
                                         <span v-if="post.least_contract" class="small opacity-75">Contract : {{
                                             post.least_contract }}</span>
                                     </div>
-                                    <p class="card-text text-danger small mb-auto opacity-75">
-                                        <v-icon>mdi-map-marker-radius</v-icon>
-                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                    </p>
                                     <div class="d-flex align-items-center justify-content-between ">
                                         <span class="badge text-bg-danger rounded-pill">{{ post.property_type
                                             }}</span>
                                         <div class="d-flex text-danger">
-                                            <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
+                                            <!-- <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon> -->
                                             <p class="m-0 small fw-bold fs-3">
                                                 {{ post.price }}
                                             </p>
                                         </div>
                                     </div>
-
-
-
 
                                     <!-- <div class="d-flex align-items-center justify-content-between">
                                             <p class="m-0 small">{{ post.area }} sqft</p>
@@ -125,7 +121,7 @@
 
 <script>
 // import router from '@/router';
-import AES from 'crypto-js/aes'
+import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 
@@ -162,7 +158,6 @@ export default {
             return this.$store.getters.LoginData
         },
 
-
         displayedPosts() {
             // Filter posts based on the selected type
             const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
@@ -170,7 +165,6 @@ export default {
             // Return only the first four filtered posts
             return filteredPosts.slice(0, 8);
         },
-
 
     },
 
@@ -208,9 +202,9 @@ export default {
                 data.forEach(post => {
                     const mainId = post.post_id;
                     if (post.rentpost) {
-                        if (post.rentpost.description.length > 100) {
+                        if (post.rentpost.description.length > 60) {
                             let des = post.rentpost.description;
-                            post.rentpost.description = des.substring(0, 100) + "...";
+                            post.rentpost.description = des.substring(0, 60) + "...";
                         }
 
                         let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
@@ -231,9 +225,9 @@ export default {
                         });
 
                     } else if (post.sellpost) {
-                        if (post.sellpost.description.length > 100) {
+                        if (post.sellpost.description.length > 60) {
                             let des = post.sellpost.description;
-                            post.sellpost.description = des.substring(0, 100) + "...";
+                            post.sellpost.description = des.substring(0, 60) + "...";
                         }
 
                         let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];

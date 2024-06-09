@@ -18,15 +18,19 @@ import AdminLoginView from '../views/AdminLoginView.vue'
 // import AdminBanList from '../views/adminDashboardCategories/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
 import CreditCard from '@/views/CreditCard.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
+import ResetPassword from '@/views/ResetPassword.vue'
 
 // For Posts
 import postDetailView from '@/views/PostDetailView.vue'
 import AllPostView from '@/views/AllPostView.vue'
-// import AdminPost from '@/views/adminDashboardCategories/AdminPost.vue'
+import uploadedAllPosts from '@/components/User_Dashboard/Dashboard_Categories/uploadedAllPosts.vue'
+// import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
+import PostsByLocation from '@/views/PostsByLocation.vue'
+import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
-// admin index
 import indexAdminDashboard from '@/views/indexAdminDashboard.vue'
 
 const routes = [
@@ -89,6 +93,11 @@ const routes = [
     component: CreditCard
   },
   {
+    path: '/post/alluserposts',
+    name: 'uploadedAllPosts',
+    component: uploadedAllPosts
+  },
+  {
     path: '/post/detail/view/:id',
     name: 'postDetailView',
     component: postDetailView
@@ -131,6 +140,26 @@ const routes = [
     path: '/all/posts/of/:postType',
     name: 'AllPostView',
     component: AllPostView,
+  },
+  {
+    path: '/all/posts/postsbylocation/:locationId',
+    name: 'PostsByLocation',
+    component: PostsByLocation,
+  },
+  {
+    path: '/all/posts/mainLocationPosts/:locationId',
+    name: 'MainLocationPosts',
+    component: MainLocationPosts,
+  },
+  {
+    path: '/forgot',
+    name: 'ForgotPassword',
+    component: ForgotPassword
+  },
+  {
+    path: '/akmakmset',
+    name: 'ResetPassword',
+    component: ResetPassword
   },
 
 ]

@@ -218,6 +218,73 @@ body {
   h2 {
     color: #e86f52;
   }
+
+  .navSidebar.activeOne {
+    left: 0;
+  }
+
+  .sideBarActive {
+    background-color: #e86f52 !important;
+    color: #fff;
+  }
+
+  .navSidebar {
+    margin-top: 48px;
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    background-color: #525252;
+    transition: all 0.3s ease-in-out;
+    z-index: 1200;
+    border-radius: none !important;
+
+    .style-two {
+      border-radius: none !important;
+      list-style-type: none;
+
+      .items {
+        width: 100%;
+        border-radius: none !important;
+        border: none !important;
+        cursor: pointer;
+        padding: 0 !important;
+
+        .v-expansion-panel-text__wrapper {
+          padding: 0 !important;
+          background-color: #8e8c8c;
+        }
+
+        .item-edit {
+          color: #fff;
+          width: 100%;
+          text-decoration: none;
+          border: none !important;
+          border-radius: none !important;
+          padding: 12px 20px;
+        }
+
+        &:hover {
+          background-color: #e86f52;
+        }
+      }
+
+      .notification-panel {
+        overflow-y: auto;
+        max-height: 200px;
+
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #e83b4f #f1f1f1;
+        -webkit-scrollbar-color: #e83b4f;
+
+        span {
+          color: #e86f52;
+        }
+      }
+    }
+  }
 }
 
 /* for offcanvas */
@@ -276,6 +343,27 @@ body {
   z-index: 300;
 }
 /* For First Index end */
+
+// GoogleMapContainer for locationPost view
+.googleContainerBox {
+  width: 100%;
+  height: 100vh;
+  background-image: url(../img/main-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-color: #fff !important;
+}
+.googleContainerBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 18, 18, 0.8);
+  z-index: 300;
+}
 
 @mixin outline-btn {
   border: 2px solid transparent;
@@ -2830,58 +2918,58 @@ body {
 
 /* For navside bar start */
 
-.navSidebar.activeOne {
-  left: 0;
-}
+// .navSidebar.activeOne {
+//   left: 0;
+// }
 
-.sideBarActive {
-  background-color: #e86f52 !important;
-  color: #fff;
-}
+// .sideBarActive {
+//   background-color: #e86f52 !important;
+//   color: #fff;
+// }
 
-.navSidebar {
-  margin-top: 48px;
-  height: 100vh;
-  width: 260px;
-  position: fixed;
-  top: 0;
-  left: -270px;
-  background-color: #525252;
-  transition: all 0.3s ease-in-out;
-  z-index: 1200;
-  border-radius: none !important;
+// .navSidebar {
+//   margin-top: 48px;
+//   height: 100vh;
+//   width: 260px;
+//   position: fixed;
+//   top: 0;
+//   left: -270px;
+//   background-color: #525252;
+//   transition: all 0.3s ease-in-out;
+//   z-index: 1200;
+//   border-radius: none !important;
 
-  .style-two {
-    border-radius: none !important;
-    list-style-type: none;
+//   .style-two {
+//     border-radius: none !important;
+//     list-style-type: none;
 
-    .items {
-      width: 100%;
-      border-radius: none !important;
-      border: none !important;
-      cursor: pointer;
-      padding: 0 !important;
+//     .items {
+//       width: 100%;
+//       border-radius: none !important;
+//       border: none !important;
+//       cursor: pointer;
+//       padding: 0 !important;
 
-      .v-expansion-panel-text__wrapper {
-        padding: 0 !important;
-        background-color: #8e8c8c;
-      }
+//       .v-expansion-panel-text__wrapper {
+//         padding: 0 !important;
+//         background-color: #8e8c8c;
+//       }
 
-      .item-edit {
-        color: #fff;
-        width: 100%;
-        text-decoration: none;
-        border: none !important;
-        border-radius: none !important;
-        padding: 14px 20px;
-      }
+//       .item-edit {
+//         color: #fff;
+//         width: 100%;
+//         text-decoration: none;
+//         border: none !important;
+//         border-radius: none !important;
+//         padding: 12px 20px;
+//       }
 
-      &:hover {
-        background-color: #e86f52;
-      }
-    }
-  }
-}
+//       &:hover {
+//         background-color: #e86f52;
+//       }
+//     }
+//   }
+// }
 
 /* For navside bar end */
 
@@ -2959,7 +3047,7 @@ body {
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
 
         border-radius: 6px;
 
@@ -2988,7 +3076,6 @@ body {
               padding-top: 10px;
               padding-left: 16px;
               padding-right: 16px;
-              padding-bottom: 30px;
               backdrop-filter: blur(20px);
               -webkit-backdrop-filter: blur(20px);
               border-radius: 10px;
@@ -3004,6 +3091,88 @@ body {
     }
   }
   /* For First Index end */
+
+  // GoogleMapContainer for LocationPosts
+  .googleContainerBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .button-group {
+      z-index: 450;
+      width: 80%;
+      height: auto;
+      margin: auto;
+      position: relative;
+
+      .form-header {
+        position: absolute;
+        top: -46px;
+        left: 6px;
+        padding-top: 10px;
+        padding-bottom: 4px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-top: 5px solid #fff;
+        border-left: 5px solid #fff;
+        border-right: 5px solid #fff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        h5 {
+          color: #e86f52;
+        }
+      }
+
+      .form-edit {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+
+        border-radius: 6px;
+
+        .row {
+          width: 100%;
+
+          .row-1,
+          .row-2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .v-select,
+            .v-text-field {
+              z-index: 400;
+              font-size: 24px;
+              width: 25%;
+              font-weight: bold;
+              color: #000;
+            }
+
+            .form-btn-group {
+              z-index: 390;
+              right: 10px;
+              bottom: 100px;
+              position: absolute;
+              padding-top: 10px;
+              padding-left: 16px;
+              padding-right: 16px;
+              backdrop-filter: blur(20px);
+              -webkit-backdrop-filter: blur(20px);
+              border-radius: 10px;
+              .submit {
+                background-color: #e86f52;
+                color: #fff;
+                text-transform: capitalize;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
   /* For Second Tab Content start */
   // For Second Tab Content Main page

@@ -80,7 +80,10 @@ export default {
           sessionStorage.setItem('admin_user', JSON.stringify(response.data))
           const status = JSON.parse(response.status);
           if (status == '200') {
-            router.push('/admin/dashboard');
+            // router.push('/admin/dashboard');
+            router.push('/admin/dashboard').then(() => {
+              window.location.href = '/admin/dashboard';
+            });
           }
 
         })

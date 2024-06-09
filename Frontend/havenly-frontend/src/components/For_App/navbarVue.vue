@@ -13,11 +13,140 @@
       <!-- style one end -->
 
       <!-- style two start -->
-      <button class="navbar-toggler" type="button" @click="toggleSidebar">
-        <span v-if="!isSidebarActive" class="navbar-toggler-icon"></span>
-        <!-- <span v-else class="close-icon">&times;</span> -->
-        <span v-else class="close-icon"><v-icon>mdi-window-close</v-icon></span>
-      </button>
+      <div v-click-outside="onClickOutside">
+        <button class="navbar-toggler" type="button" @click="toggleSidebar">
+          <span v-if="!isSidebarActive" class="navbar-toggler-icon"></span>
+          <span v-else class="close-icon"><v-icon>mdi-window-close</v-icon></span>
+        </button>
+
+        <!-- navbar for mobile view start -->
+        <div :class="['navSidebar', { 'activeOne': isSidebarActive }]" class="d-block d-sm-none">
+          <ul class="style-two navbar-nav mx-auto">
+            <h4 class="mt-2 ms-2" style="color: #e86f52;">Links</h4>
+            <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
+              :class="{ sideBarActive: isActive('/') }">
+              <router-link to="/" class="item-edit nav-link">
+                Home</router-link>
+            </li>
+            <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
+              :class="{ sideBarActive: isActive('/package') }">
+              <router-link to="/package" class="item-edit nav-link">
+                Package</router-link>
+            </li>
+            <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
+              :class="{ sideBarActive: isActive('/subscribe') }">
+              <router-link to="/subscribe" class="item-edit nav-link">
+                Subscribe</router-link>
+            </li>
+            <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
+              :class="{ sideBarActive: isActive('/about') }">
+              <router-link to="/about" class="item-edit nav-link">
+                About</router-link>
+            </li>
+            <hr class="mx-2 p-0 my-0" style="color:#e86f52; border: 1px solid;">
+            <h4 class="mt-2 ms-2" style="color: #e86f52;">User status</h4>
+            <li class="items nav-item">
+              <div v-if="getUser2">
+
+                <v-expansion-panels @click.stop>
+                  <v-expansion-panel>
+                    <v-expansion-panel-title>
+                      <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text class="p-0">
+                      <ul class="navbar-nav mx-auto">
+                        <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
+                          <router-link @click="toggleSidebar" to="/userDashboard" class="item-edit nav-link">
+                            <v-icon class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                        </li>
+                      </ul>
+                    </v-expansion-panel-text>
+                    <v-expansion-panel-text class="p-0">
+                      <ul class="navbar-nav mx-auto">
+                        <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
+                          <div @click="logout" class="item-edit nav-link">
+                            <v-icon class="me-1">mdi-logout-variant</v-icon>Logout
+                          </div>
+                        </li>
+                      </ul>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </div>
+              <div v-else>
+                <router-link @click.stop="isSidebarActive = !isSidebarActive" to="/login"
+                  :class="{ sideBarActive: isActive('/login') }" class="nav-link item-edit">Login</router-link>
+              </div>
+            </li>
+
+            <div v-if="getUser2">
+              <hr class="mx-2 p-0 my-3" style="color:#e86f52; border: 1px solid;">
+              <div class="d-flex ">
+                <h4 class="mt-2 ms-2 mb-3" style="color: #e86f52;">Notifications</h4>
+                <v-spacer></v-spacer>
+                <v-badge class="mt-2 me-3" :content="notificationCount" color="red">
+                  <v-icon color="white">mdi-bell</v-icon>
+                </v-badge>
+              </div>
+              <!-- noti start -->
+
+              <div v-if="filteredOjbs && filteredOjbs.length > 0" class="notification-panel">
+                <v-expansion-panels>
+                  <v-expansion-panel v-for="obj in filteredOjbs" :key="obj.post_id">
+                    <v-expansion-panel-title>
+                      <div class="row" style="width: 100%;">
+                        <div class="col-md-4 col-4">
+                          <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
+                        </div>
+                        <div class="col-md-8 col-8" style="font-size: 13px;">
+                          <span>{{ obj.name }}{{ obj.id }}</span> make interested your post.
+                        </div>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text style="background-color: #eee; border: 1px solid red; margin: 0px auto;">
+
+                      <span>
+                        Interested user info
+                      </span>
+                      <hr class="mx-0 px-0">
+                      <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                        class="w-100 mb-3" v-model="obj.name" label="Name" hide-details></v-text-field>
+                      <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                        class="w-100 mb-3" v-model="obj.email" label="Gmail" hide-details></v-text-field>
+                      <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                        class="w-100 mb-3" v-model="obj.phone" label="Phone" hide-details></v-text-field>
+                      <v-textarea bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg"
+                        class="w-100 mb-3" v-model="obj.description" rows="1" auto-grow
+                        label="Description"></v-textarea>
+                      <div class="d-flex justify-space-between m-0 p-0" hide-details>
+                        <div @click="hideCard(obj.post_id)" style="border-bottom:2px dashed red; cursor:pointer;">
+                          remove
+                        </div>
+                        <div style="border-bottom:2px dashed green; cursor:pointer;"
+                          @click.stop="isSidebarActive = !isSidebarActive" @click="clickPost(obj.post_id)">
+                          see post <v-icon>mdi-chevron-double-right</v-icon>
+                        </div>
+                      </div>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+
+
+              </div>
+              <div v-else>
+                <v-btn @click="cleanStorage" class="w-100">
+                  Show All notification
+                </v-btn>
+              </div>
+            </div>
+            <!-- noti end -->
+
+          </ul>
+        </div>
+        <!-- navbar for mobile view end -->
+
+      </div>
+
       <!-- style two end -->
 
       <!-- style one start -->
@@ -56,7 +185,7 @@
 
           <div v-if="getUser">
             <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
+              <button class="btn btn-success dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Subscribe User
               </button>
@@ -104,13 +233,19 @@
           <li class="nav-item">
             <div v-if="getUser2">
 
+              <!-- profile start -->
+
+
+              <!-- profile end -->
+
               <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
               </button>
               <ul class="dropdown-menu p-0">
                 <li>
                   <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                      class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                      class="me-1">mdi-account-circle</v-icon>User
+                    Profile</router-link>
                 </li>
 
                 <li>
@@ -119,6 +254,7 @@
                   </div>
                 </li>
               </ul>
+
             </div>
 
             <div v-else>
@@ -128,6 +264,7 @@
 
 
         </ul>
+
       </div>
       <!-- style one end -->
 
@@ -135,8 +272,10 @@
   </nav>
 
   <!-- style two start -->
-  <div :class="['navSidebar', { 'activeOne': isSidebarActive }]" @click="toggleSidebar">
+
+  <!-- <div v-click-outside="onClickOutside" :class="['navSidebar', { 'activeOne': isSidebarActive }]">
     <ul class="style-two navbar-nav mx-auto">
+      <h4 class="mt-2 ms-2" style="color: #e86f52;">Links</h4>
       <li class="items nav-item" :class="{ sideBarActive: isActive('/') }">
         <router-link to="/" class="item-edit nav-link">
           Home</router-link>
@@ -153,6 +292,8 @@
         <router-link to="/about" class="item-edit nav-link">
           About</router-link>
       </li>
+      <hr class="mx-2 p-0 my-0" style="color:#e86f52; border: 1px solid;">
+      <h4 class="mt-2 ms-2" style="color: #e86f52;">User status</h4>
       <li class="items nav-item">
         <div v-if="getUser2">
 
@@ -179,24 +320,6 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
-
-          <!-- <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
-          </button>
-          <ul class="dropdown-menu p-0">
-            <li>
-              <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                  class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
-            </li>
-
-            <li>
-
-              <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
-              </div>
-            </li>
-          </ul> -->
-
-
         </div>
 
         <div v-else>
@@ -204,8 +327,17 @@
             class="nav-link item-edit">Login</router-link>
         </div>
       </li>
+
+      <hr class="mx-2 p-0 my-3" style="color:#e86f52; border: 1px solid;">
+      <h4 class="mt-2 ms-2" style="color: #e86f52;">Notifications</h4>
+
+      <li class="items nav-item" :class="{ sideBarActive: isActive('/subscribe') }">
+        <router-link to="/subscribe" class="item-edit nav-link">
+          Subscribe</router-link>
+      </li>
+
     </ul>
-  </div>
+  </div> -->
   <!-- style two end -->
 
   <!-- offcanvas start -->
@@ -217,66 +349,10 @@
     </div>
     <div class="offcanvas-body">
 
-      <!-- <div class="popup-data">
-        <div v-if="filteredOjbs && filteredOjbs.length > 0">
-          <div v-for="obj in filteredOjbs" :key="obj.id">
-            <div class="row box-content">
-              <div class="col-1 toggle-btn" :class="{ 'notiActive': activeButton === obj.post_id }"
-                @click="getData(obj.name, obj.email, obj.phone, obj.description, obj.post_id)">
-                <v-icon>mdi-menu-left</v-icon>
-              </div>
-              <div class="col-4 p-0">
-                <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
-              </div>
-              <div class="col-7 p-0 ps-2 right">
-                <span>{{ obj.name }}{{ obj.id }}</span> just interested your post.
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <v-btn color="danger" @click="cleanStorage">cleanStorage</v-btn>
-        </div>
-      </div> -->
-
-      <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div v-if="filteredOjbs && filteredOjbs.length > 0">
-          <div v-for="obj in filteredOjbs" :key="obj.id">
-
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Accordion Item #1
-                </button>
-              </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the
-                  <code>.accordion-flush</code> class. This is the first item's accordion body.
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div> -->
-
-
-
       <div v-if="filteredOjbs && filteredOjbs.length > 0">
-
-
-        <v-expansion-panels>
+        <v-expansion-panels rounded="none">
           <v-expansion-panel v-for="obj in filteredOjbs" :key="obj.post_id">
             <v-expansion-panel-title>
-              <!-- <v-row class="p-0 m-0">
-                <v-col md="3" sm="4">
-                  <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
-                </v-col>
-                <v-col md="9" sm="8">
-                  <span>{{ obj.name }}{{ obj.id }}</span> interested your post.
-                </v-col>
-              </v-row> -->
               <div class="row" style="width: 100%;">
                 <div class="col-md-4">
                   <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
@@ -336,6 +412,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { AES } from 'crypto-js';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'navbarVue',
@@ -353,50 +430,13 @@ export default {
     const getUser = ref([]);
     const objs = ref([]);
     const filteredOjbs = ref([]);
-    // const userData = ref({
-    //   post_id: '',
-    //   name: '',
-    //   email: '',
-    //   phone: '',
-    //   description: ''
-    // });
+
 
     const isNavLinkActive = (path) => {
       return route.path === path;
     };
 
-    // const getData = (index) => {
-    //   activeButton.value = null;
-    //   activeButton.value = index;
-
-    //   console.log("Get id : ", activeButton.value);
-    // };
-
-    // const getData = (name, email, phone, description, index) => {
-    //   activeButton.value = null;
-    //   userData.value.post_id = index;
-    //   userData.value.name = name;
-    //   userData.value.email = email;
-    //   userData.value.phone = phone;
-    //   userData.value.description = description;
-    //   isCardVisible.value = true;
-    //   activeButton.value = index;
-    // };
-
     const clickPost = (postId) => {
-
-      // activeButton.value = null;
-      // activeButton.value = postId;
-
-      // // Add the ID of the hidden card to localStorage
-      // const hiddenCards = JSON.parse(localStorage.getItem('hiddenCards')) || [];
-      // hiddenCards.push(activeButton.value);
-      // localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
-
-      // // Update the filteredOjbs based on the new hiddenCards list
-      // filteredOjbs.value = filterData(objs.value);
-
-      // console.log("Sent Post id : ", postId);
       const enyId = encryptId(postId);
 
       router.push({ name: 'postDetailView', params: { id: `${enyId} Success` } });
@@ -407,13 +447,6 @@ export default {
       const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
       return encryptedId;
     };
-
-    // const decryptId = (encryptedId) => {
-    //   const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
-    //   const decryptedBytes = AES.decrypt(encryptedId, secretKey);
-    //   const decryptedId = decryptedBytes.toString(Utf8);
-    //   return parseInt(decryptedId, 10);
-    // };
 
     const hideCard = (index) => {
       // isCardVisible.value = false;
@@ -458,10 +491,12 @@ export default {
       getUser.value = JSON.parse(sessionStorage.getItem('login_user'));
 
       filteredOjbs.value = filterData(objs.value);
+
     });
 
     onUnmounted(() => {
       window.removeEventListener('scroll', scrollFunction);
+
     });
 
     const togglePopup = () => {
@@ -474,14 +509,7 @@ export default {
     const hidePopup = () => {
       isPopupDisable.value = false;
       isCardVisible.value = false;
-      // setTimeout(() => {
-      //   btn_display.value = !btn_display.value;
-      // }, 400);
-
-      // // to counter error
-      // btn_display.value = true;
     };
-
 
     const fetchNotifications = () => {
       const user = JSON.parse(sessionStorage.getItem('sub_user'));
@@ -492,29 +520,25 @@ export default {
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
           .then((response) => response.json())
           .then((data) => {
-
+            // Create a set to store unique post IDs
+            const uniquePostIds = new Set();
             data.forEach((obj) => {
-              if (obj.posts.sellpost) {
-                let imgUrls = Array.isArray(obj.posts.sellpost.image)
-                  ? obj.posts.sellpost.image
-                  : [obj.posts.sellpost.image];
+              // Check if the post ID is unique
+              if (!uniquePostIds.has(obj.posts.post_id)) {
+                uniquePostIds.add(obj.posts.post_id);
 
-                objs.value.unshift({
-                  id: obj.post_id,
-                  register_id: obj.reg_user.register_id,
-                  name: obj.reg_user.name,
-                  phone: obj.reg_user.phone,
-                  email: obj.reg_user.email,
-                  description: obj.description,
-                  post_id: obj.posts.post_id,
-                  photo_url: imgUrls,
-                });
+                let imgUrls;
+                if (obj.posts.sellpost) {
+                  imgUrls = Array.isArray(obj.posts.sellpost.image)
+                    ? obj.posts.sellpost.image
+                    : [obj.posts.sellpost.image];
+                } else if (obj.posts.rentpost) {
+                  imgUrls = Array.isArray(obj.posts.rentpost.image)
+                    ? obj.posts.rentpost.image
+                    : [obj.posts.rentpost.image];
+                }
 
-              } else if (obj.posts.rentpost) {
-                let imgUrls = Array.isArray(obj.posts.rentpost.image)
-                  ? obj.posts.rentpost.image
-                  : [obj.posts.rentpost.image];
-
+                // Add the notification to the array
                 objs.value.unshift({
                   id: obj.post_id,
                   register_id: obj.reg_user.register_id,
@@ -578,42 +602,43 @@ export default {
 
   },
 
-
-  data() {
-    return {
-      isSidebarActive: false,
-      getUser: [],
-      getUser2: [],
-      activeDataLink: '',
-    };
-  },
-
-  computed: {
-
-    user_data() {
-      return this.$store.getters.Take_Userinfo
+  data: () => ({
+    isSidebarActive: false,
+    getUser: [],
+    getUser2: [],
+    activeDataLink: '',
+    user: {
+      initials: 'JD',
+      fullName: 'John Doe',
+      email: 'john.doe@doe.com',
     },
 
-    register_statue() {
-      return this.$store.getters.RegisterData
-    },
+    items: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' },
+    ],
+  }),
 
-    login_status() {
-      return this.$store.getters.LoginData
-    }
-
-  },
 
   mounted() {
     this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
     this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
   },
 
+
   methods: {
     toggleSidebar() {
       this.isSidebarActive = !this.isSidebarActive;
+
     },
 
+    onClickOutside(event) {
+      if (this.isSidebarActive && !this.$el.contains(event.target)) {
+        this.isSidebarActive = false;
+      }
+    },
 
     isActive(route) {
       return this.$route.path === route;
@@ -627,9 +652,21 @@ export default {
     // },
 
     logout() {
-      sessionStorage.removeItem('login_user');
-      window.location.reload();
-    }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will be logged out!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log me out!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sessionStorage.removeItem('login_user');
+          window.location.reload();
+        }
+      });
+    },
   }
 };
 </script>

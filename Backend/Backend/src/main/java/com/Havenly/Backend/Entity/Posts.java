@@ -3,6 +3,7 @@ package com.Havenly.Backend.Entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -48,7 +49,7 @@ public class Posts {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "posts")
-	List<Interest> interest;
+	private List<Interest> interest;
 	
 	
 }

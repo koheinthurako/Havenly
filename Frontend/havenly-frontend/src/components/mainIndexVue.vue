@@ -7,12 +7,12 @@
         overlap>
         <v-icon large>mdi-bell</v-icon>
       </v-badge>
-    </div>
+    </div> -->
 
     <v-card v-if="isCardVisible" class="popup-card">
       <h5 class="header">short info</h5><br><br><br>
 
-     
+
       <div class="close-btn" @click="hideCard">
         <v-icon>mdi-close</v-icon>
       </div>
@@ -67,7 +67,7 @@
 
 
       </div>
-    </div> -->
+    </div>
     <!-- notification btn end -->
 
     <div class="for-first-index">
@@ -87,9 +87,9 @@
     </div>
 
     <!-- delete able -->
-    <div class="for-fifth-Doc">
+    <!-- <div class="for-fifth-Doc">
       <fifthDoc />
-    </div>
+    </div> -->
 
     <div class="for-About-in-main">
       <AboutInMain />
@@ -111,7 +111,7 @@ import firstIndex from './For_MainIndex/firstIndexContent.vue'
 import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
 import fourthPackage from './For_MainIndex/fourthPackageVue.vue'
-import fifthDoc from './For_MainIndex/fifthDocContent.vue'
+// import fifthDoc from './For_MainIndex/fifthDocContent.vue'
 
 import AboutInMain from '@/components/For_MainIndex/AboutInMain.vue'
 
@@ -151,14 +151,15 @@ export default {
     secondTabContent,
     thirdCarousel,
     fourthPackage,
-    fifthDoc,
+    // fifthDoc,
     contactpage,
     AboutInMain,
   },
 
-  // mounted() {
-  //   this.fetchRegisterUser();
-  // },
+  mounted() {
+    localStorage.removeItem('openTab');
+    localStorage.removeItem('adminTab');
+  },
 
 
   methods: {

@@ -45,6 +45,31 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
             "LEFT JOIN countries c ON l.country_id = c.country_id " +
             "WHERE p.status = 'complete'", nativeQuery = true)
 	public List<Posts> getAllCompletePosts();
+	
+	@Query(value = "SELECT p.*, " +
+            "COALESCE(sp.title, rp.title) AS title, " +
+            "COALESCE(sp.description, rp.description) AS description, " +
+            "COALESCE(sp.area, rp.area) AS area, " +
+            "COALESCE(sp.price, rp.price) AS price, " +
+            "COALESCE(sp.date, rp.date) AS date, " +
+            "COALESCE(sp.time, rp.time) AS time, " +
+            "COALESCE(sp.image, rp.image) AS image, " +
+            "COALESCE(sp.property_type, rp.property_type) AS property_type, " +
+            "COALESCE(sp.location_id, rp.location_id) AS location_id, " +
+            "COALESCE(l1.province, l2.province) AS province, " +
+            "COALESCE(l1.region, l2.region) AS region, " +
+            "COALESCE(c1.country, c2.country) AS country, " +
+            "rp.deposit, rp.least_contract " +
+        "FROM posts p " +
+        "LEFT JOIN subscription sub ON p.sub_user_id = sub.sub_user_id " +
+        "LEFT JOIN rentpost rp ON p.rent_post_id = rp.rent_post_id " +
+        "LEFT JOIN sell_post sp ON p.sell_post_id = sp.sell_post_id " +
+        "LEFT JOIN locations l1 ON sp.location_id = l1.location_id " +
+        "LEFT JOIN locations l2 ON rp.location_id = l2.location_id " +
+        "LEFT JOIN countries c1 ON l1.country_id = c1.country_id " +
+        "LEFT JOIN countries c2 ON l2.country_id = c2.country_id " +
+        "WHERE (l1.location_id = ?1 OR l2.location_id = ?1) AND p.status = 'complete'", nativeQuery = true)
+	public List<Posts> getAllPostsByLocation(@Param("locationId") int locationId);
 
 	// Retrieve post from interest and then Retrieve post data by id
 	@Query(value = "SELECT p.post_id, p.post_type, p.status, p.sub_user_id, tp.sell_post_id, rp.rent_post_id, " +
@@ -112,5 +137,6 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 //			"    AND p.status = 'complete'", nativeQuery = true)
 //	List<Posts> getInterestedPostsByRegId(@Param("r_id") int r_id);
 
+	List<Posts> findBySubUserSubUserId(int subUserId);
 
 }

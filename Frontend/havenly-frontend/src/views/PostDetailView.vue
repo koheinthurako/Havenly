@@ -48,13 +48,13 @@
                                                                     <v-chip v-if="post.type === 'Sell'"
                                                                         prepend-icon="mdi-checkbox-marked-circle"
                                                                         size="small" rounded-pill color="red"
-                                                                        variant="flat" class="me-2">
+                                                                        variant="flat" class="me-1">
                                                                         {{ post.type }}
                                                                     </v-chip>
                                                                     <v-chip v-else
                                                                         prepend-icon="mdi-checkbox-marked-circle"
                                                                         size="small" rounded-pill color="green"
-                                                                        variant="flat" class="me-2">
+                                                                        variant="flat" class="me-1">
                                                                         {{ post.type }}
                                                                     </v-chip>
                                                                     {{ post.title }}
@@ -713,7 +713,7 @@ export default {
 
 
         formatDesc(data) {
-            return data.split('\n').join('<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+            return data.split('\n').join('<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
         },
 
         // async interest() {
