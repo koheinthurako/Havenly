@@ -80,23 +80,23 @@
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
 
                                             <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                                rounded="lg" variant="solo" v-model="reset.gmail"
+                                                rounded="lg" variant="solo" v-model="change_pw.username"
                                                 :rules="[validateGmail]" label="G-mail"></v-text-field>
 
                                             <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                v-model="reset.password"
+                                                v-model="change_pw.password"
                                                 :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
                                                 :rules="[validateResetPassword]" :type="visible ? 'text' : 'password'"
                                                 class="input-group--focused" hint="At least 8 characters"
-                                                label="New password" name="input-10-2"
+                                                label="Password" name="input-10-2"
                                                 @click:append="visible = !visible"></v-text-field>
 
                                             <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                v-model="reset.confirm_password"
+                                                v-model="change_pw.new_password"
                                                 :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
                                                 :rules="[validateResetConfirmPassword]"
                                                 :type="visible1 ? 'text' : 'password'" class="input-group--focused"
-                                                hint="At least 8 characters" label="Confirm password" name="input-10-2"
+                                                hint="At least 8 characters" label="New Password" name="input-10-2"
                                                 @click:append="visible1 = !visible1"></v-text-field>
 
                                             <v-row cols="12" class="w-100 mt-4">
@@ -260,10 +260,10 @@ export default {
         },
 
         // for Password reset dialog (optional)
-        reset: {
-            gmail: '',
+        change_pw: {
+            username: '',
             password: '',
-            confirm_password: '',
+            new_password: '',
         },
 
         img: require('@/assets/img/9.jpg'),
@@ -338,7 +338,7 @@ export default {
                 return 'Required';
             } else if (value.length < 5) {
                 return 'Password is weak!'
-            } else if (value != this.reset.password) {
+            } else if (value != this.change_pw.password) {
                 return 'Passwords do not match';
             }
             return true;
@@ -370,7 +370,7 @@ export default {
 
         },
 
-        change() {
+        handleSubmit() {
             function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {
                     const response = error?.response
@@ -390,7 +390,7 @@ export default {
                     }
                 })
                 .catch(httpErrorHandler)
-            this.user.name = '',
+           
                 this.change_pw.username = '',
                 this.change_pw.password = '',
                 this.change_pw.new_password = ''

@@ -38,7 +38,7 @@ public class EmailUtil {
 		    
 		    String resetUrl = "http://localhost:8080/akmakmset?token=" + token;
 		    
-         System.out.println("hahahahhah");
+         
 		SimpleMailMessage msg=new SimpleMailMessage();
 		msg.setTo(email);
 		msg.setSubject("Set Password");

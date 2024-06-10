@@ -72,7 +72,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public Reg_user_DD Login(String gmail, String password) {
 		Reg_user user = regRepo.findByEmail(gmail);
 		
-		if (user == null && !pwencoder.matches(password, user.getPassword())) {
+		if (user == null || !pwencoder.matches(password,user.getPassword())) {
 			return null;
 		}
 //		if (!pwencoder.matches(password, user.getPassword())) {
@@ -106,7 +106,8 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		if (!pwencoder.matches(password, user.getPassword())) {
 			return null;
 		}
-		user.setPassword(this.pwencoder.encode(new_password));
+		String encodedNewPassword = pwencoder.encode(new_password);
+		user.setPassword(encodedNewPassword);
 		Reg_user user1=regRepo.save(user);
 		Reg_user_DTO user2=user_dto.covertToObject(user1);
 		
@@ -149,7 +150,8 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	public String setPassword(String email, String newPassword) {
 		// TODO Auto-generated method stub
 		Reg_user user=regRepo.findByEmail(email);
-		user.setPassword(this.pwencoder.encode(newPassword));
+		String encodedNewPassword = pwencoder.encode(newPassword);
+		user.setPassword(encodedNewPassword);
 		regRepo.save(user);
 		return "New password is set succeessfully.";
 	}
