@@ -3,6 +3,7 @@ package com.Havenly.Backend.Entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -34,13 +35,13 @@ public class Posts {
 	private String post_type;
 	private String status;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "sell_post_id", referencedColumnName = "sell_post_id")
-	TestSellPost testsellpostss;
+	SellPost sellpost;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "rent_post_id", referencedColumnName = "rent_post_id")
-	RentPost testrentposts;
+	RentPost rentpost;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="sub_user_id")
@@ -48,7 +49,7 @@ public class Posts {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "posts")
-	List<Interest> interest;
+	private List<Interest> interest;
 	
 	
 }

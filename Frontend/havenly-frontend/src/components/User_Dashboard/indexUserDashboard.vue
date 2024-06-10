@@ -2,14 +2,15 @@
     <div class="user-dashboard">
         <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
             <div class="d-flex">
-                <button class="toggle-btn" type="button" @click="toggleSidebar">
-                    <v-icon>mdi-view-grid</v-icon>
+                <button class="toggle-btn" type="button" @click="toggleSidebar" :title="dynamicTitle">
+                    <v-icon :hidden="isExpanded">mdi-view-grid</v-icon>
+                    <v-icon :hidden="!isExpanded">mdi-close</v-icon>
                 </button>
                 <div class="sidebar-logo">
                     <a href="#">Dashboard</a>
                 </div>
             </div>
-            <ul class="sidebar-nav ">
+            <ul class="sidebar-nav">
                 <li class="sidebar-item">
 
                     <a class="sideTextLink" :class="{ active: openTab === 'profile' }"
@@ -18,6 +19,15 @@
                         <span>Profile</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sideTextLink" :class="{ active: openTab === 'all-interest-post' }"
+                        @click="changeTab('all-interest-post'); toggleSidebar2()">
+                        <v-icon>mdi-star-box-multiple</v-icon>
+                        <span>Interested post</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
                         @click="changeTabForSub('all-post'); toggleSidebar2()">
@@ -25,6 +35,8 @@
                         <span>All post</span>
                     </a>
                 </li>
+
+
 
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
@@ -36,7 +48,7 @@
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
                         @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
-                        <v-icon >mdi-note-plus-outline</v-icon>
+                        <v-icon>mdi-note-plus-outline</v-icon>
                         <span>Create Rent Post</span>
                     </a>
                 </li>
@@ -70,23 +82,24 @@
             <div class="row">
                 <div class="col-md-12 p-0 ">
 
-
                     <div v-if="openTab === 'profile'">
                         <profile_page />
                     </div>
-                    <div v-else-if="openTab === 'all-post'">
+
+                    <div v-else-if="openTab === 'all-interest-post'">
                         <!-- <h3>All Post Content</h3>
                         <p>This is where the add post content will be displayed.</p> -->
-                        <uploadedAllPosts/>
+                        <interestedPosts />
+                    </div>
+                    <div v-else-if="openTab === 'all-post'">
+                        <uploadedAllPosts />
                     </div>
 
                     <div v-else-if="openTab === 'create-sell-post'">
-
                         <create_sell_post_page />
                     </div>
 
                     <div v-else-if="openTab === 'create-rent-post'">
-
                         <create_rent_post_page />
                     </div>
                     <div v-else-if="openTab === 'create-ads'">
@@ -95,24 +108,11 @@
                     </div>
                 </div>
 
-                <!-- <div class="col-md-4 col-sm-0 p-2">
-    
-                        <div class="row-12">
-                            <event />
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="row-12"
-                            style="box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.5); border-radius: 12px; padding: 16px 0px;">
-                            <ads_medium_page />
-                        </div>
-                    </div> -->
-
             </div>
 
         </div>
 
     </div>
-
 
 </template>
 
@@ -125,6 +125,7 @@ import profile_page from './Dashboard_Categories/profileVue.vue'
 import create_sell_post_page from './Dashboard_Categories/create_sell_post.vue'
 import uploadedAllPosts from './Dashboard_Categories/uploadedAllPosts.vue'
 import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
+import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
 import router from '@/router';
 
 
@@ -135,17 +136,22 @@ export default {
         profile_page,
         uploadedAllPosts,
         create_sell_post_page,
-        create_rent_post_page
+        create_rent_post_page,
+        interestedPosts
     },
 
     data() {
-        // const storedDialogDash = localStorage.getItem('dialogDash');
-        // const dialogDash = storedDialogDash !== null && storedDialogDash !== undefined ? storedDialogDash === 'true' : false;
         return {
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
             openTab: localStorage.getItem('openTab') || 'profile',
+            // openTab: 'profile',
         };
+    },
+    computed: {
+        dynamicTitle() {
+            return this.isExpanded ? 'Close Sidebar' : 'Open Sidebar';
+        }
     },
     methods: {
 
@@ -169,16 +175,26 @@ export default {
         },
 
         changeTabForSub(tab) {
-            const checkSubUser = JSON.parse(sessionStorage.getItem('login_user'));
-
-            this.openTab = tab;
-            localStorage.setItem('openTab', this.openTab);
-            if (checkSubUser.packageType) {
+            const checkSubUser = JSON.parse(sessionStorage.getItem('sub_user'));
+            const packageType = checkSubUser.packageType;
+            console.log(packageType);
+            if (packageType) {
                 this.openTab = tab;
                 localStorage.setItem('openTab', this.openTab);
             } else {
-                alert("This is for subscriber user only. Please subscribe first")
-                router.push('/subscribe');
+                Swal.fire({
+                    title: 'Need Subscription!',
+                    text: 'This is for subscriber user only. Please subscribe first.',
+                    icon: 'info',
+                    customClass: {
+                        confirmButton: 'myCustomButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(() => {
+                    router.push('/subscribe');
+                });
             }
         },
 
@@ -202,24 +218,29 @@ export default {
                 cancelButtonColor: '#d33'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$store.dispatch('To_Logout_Action');
-                    this.$router.push('/home');
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    this.$router.push('/userdashboard');
-                }
-                else {
-                    this.$router.push('/userdashboard'); // Redirect to dashboard after timeout
+                    sessionStorage.removeItem('login_user');
+                    this.$router.push('/login');
                 }
             });
         }
 
     },
     mounted() {
-        window.addEventListener('click', this.closeSidebarOnClickOutside);
+        // console.log("Reached Mounted !");
+        // if (this.openTab === "profile") {
+        //     console.log("REached into!", this.openTab);
+        //     this.isExpanded = true;
+        // }
+        const getData = localStorage.getItem("openTab");
+        if (getData === "profile" || this.openTab === "profile") {
+            this.isExpanded = true;
+        }
+        // window.addEventListener('click', this.closeSidebarOnClickOutside);
     },
     beforeUnmount() {
         window.removeEventListener('click', this.closeSidebarOnClickOutside);
-    }
+    },
+
 }
 </script>
 
@@ -288,7 +309,7 @@ export default {
     left: 0;
     width: 70px;
     min-width: 70px;
-    height: 100vh;
+    height: 92vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     padding-top: 43px;
@@ -301,10 +322,16 @@ export default {
         cursor: pointer;
         border: 0;
         padding: 1rem 1.5rem;
+        display: block;
 
         .v-icon {
             font-size: 1.5rem;
             color: #FFF;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }
@@ -456,5 +483,4 @@ export default {
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
 }
-
 </style>

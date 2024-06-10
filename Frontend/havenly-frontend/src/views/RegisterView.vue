@@ -24,33 +24,63 @@
   </div>
 </template>
 <script>
-import router from '@/router';
-import axios from 'axios'
-export default {
- 
-  data() {
-      return {
-        user :{
-          name: '',
-          phone:'',
-          email: '',
-          password: ''
-        }
-      };
-  },
-  methods: {
+  import router from '@/router';
+  import axios from 'axios'
+  import Swal from 'sweetalert2';
+
+  export default {
+  
+    data() {
+        return {
+          user :{
+            name: '',
+            phone:'',
+            email: '',
+            password: ''
+          }
+        };
+    },
+
+    mounted() {
+      localStorage.removeItem('openTab');
+    },
+
+    methods: {
+
       signup() {
-       
+      
         function httpErrorHandler(error) {
-                        if (axios.isAxiosError(error)) {
-                            const response = error?.response
-                            if(response){
-                                const statusCode = response?.status
-                                if(statusCode===500){alert("Something Worng!!Please use another email or another phone number!!!")}
-                                else if(statusCode===400){alert("Please fill the information!!!")}
-                                
-                            }
-                            }
+          if (axios.isAxiosError(error)) {
+            const response = error?.response
+            if(response){
+              const statusCode = response?.status
+              if(statusCode===500){
+                Swal.fire({
+                  title: 'Invalid Informations!',
+                  text: 'Something Worng! Please use another email or another phone number.',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey: false
+                });
+              } else if(statusCode===400){
+                Swal.fire({
+                  title: 'Missing Informations!',
+                  text: 'Please fill the information!',
+                  icon: 'error',
+                  customClass: {
+                    confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false,
+                  allowOutsideClick: false,
+                  allowEscapeKey: false
+                });
+              }
+            }
+          }
         }
         
         axios.post("http://localhost:8083/register",this.user)
@@ -58,19 +88,27 @@ export default {
         .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status=='200'){
-                  alert("Registered Successfully")
-                  router.push('/loginakm');
+                  Swal.fire({
+                    title: 'Register Success',
+                    text: 'Welcome! Thankyou for register.',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'myCustomSuccessButton'
+                    },
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                    }).then(() => {
+                      router.push('/login'); 
+                    });
                 }
             })
             .catch(httpErrorHandler)
             this.user.name='',
-                  this.user.phone='',
-                  this.user.email='',
-                  this.user.password=''
-                
-   
-          //
+            this.user.phone='',
+            this.user.email='',
+            this.user.password=''
       },
-  },
-};
+    },
+  };
 </script>

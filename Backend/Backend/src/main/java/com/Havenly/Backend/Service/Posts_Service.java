@@ -11,8 +11,13 @@ public interface Posts_Service {
 	
 	public List<Posts> getAllPendingPosts();
 	public List<Posts> getAllCompletePosts();
-	public List<Posts> getAllPosts(int subUserId);
+	public List<Posts> getAllSubuserPosts(int subUserId);
+	public List<Posts> getAllPostsByLocation(int locationId);
+//	public List<Posts> getAllSubuserRentPosts(int subUserId);
+	public Posts getPostById(int postId);
 	public Posts update(Posts post);
-	public Posts decline(Posts post);
+	public void deletePost(int postId);
 
+	// get interested posts
+	List<Posts> getInterestPostByRegId(int id);
 }

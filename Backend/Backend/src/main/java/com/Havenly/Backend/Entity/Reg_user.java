@@ -62,8 +62,8 @@ public class Reg_user {
 //	PasswordResetToken  passwordResetToken;
 
 	
-	@OneToOne(mappedBy = "reg_user")
 	@JsonIgnore
+	@OneToOne(mappedBy = "reg_user")
 	private Subscription sub;
 	
 	@JsonIgnore

@@ -82,6 +82,14 @@ public class Reg_user_Controller {
 	public ResponseEntity<List<Reg_user_DTO>> getAll() {
 		return new ResponseEntity<List<Reg_user_DTO>>(regService.findAll(), HttpStatus.OK);
 	}
+
+	@GetMapping("/findByMail/{email}")
+	public ResponseEntity<Reg_user> findByMail(@PathVariable String email) {
+		Reg_user get_user = userRepo.findByEmail(email);
+		return(get_user != null)?
+				new ResponseEntity<>(get_user, HttpStatus.OK):
+				new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 	
 	@GetMapping("/getLoginUser")
 	public ResponseEntity<Reg_user_DTO> getById() {
@@ -206,8 +214,17 @@ public class Reg_user_Controller {
                 return new ResponseEntity<>( "Token has expired.",HttpStatus.BAD_REQUEST);
             }
         }
-		
-	}
+
+		@GetMapping("/getDataBySubId/{id}")
+		public ResponseEntity<Reg_user> getBySubId(@PathVariable int id) {
+			Reg_user get_data = regService.getDataBySubId(id);
+			return(get_data != null)?
+					new ResponseEntity<>(get_data, HttpStatus.OK):
+					new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+
+}
 	
 
 

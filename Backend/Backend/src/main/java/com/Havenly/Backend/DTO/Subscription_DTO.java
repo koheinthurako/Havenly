@@ -31,6 +31,7 @@ public class Subscription_DTO {
 	private String packageType;
 	private String packagePrice;
 	private int availPosts;
+	private int availAds;
 //	private int availPosts;
 
 	

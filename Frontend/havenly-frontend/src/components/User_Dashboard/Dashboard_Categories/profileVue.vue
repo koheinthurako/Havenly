@@ -301,8 +301,6 @@ export default {
         validateName(value) {
             if (!value) {
                 return 'Required';
-            } else if (value.length < 5) {
-                return 'Name must be at least 5 characters long';
             }
             return true;
         },
