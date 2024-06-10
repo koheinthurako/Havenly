@@ -13,7 +13,7 @@
               </v-text-field>
              
   
-              <a href="/loginakm" class="text-body-2 font-weight-regular">Log in</a>
+              <a href="/login" class="text-body-2 font-weight-regular">Log in</a>
   
               <v-btn  type="submit" block class="mt-2 bg-redbrick text-white mt-3">Submit</v-btn>
   
