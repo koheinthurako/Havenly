@@ -38,12 +38,11 @@
                                         <div class="cardImgBox mb-2">
                                             <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                                         </div>
-                                        <div class="card-body p-3 d-flex flex-column" @click="clickPost(post)">
+                                        <div class="card-body p-3 d-flex flex-column" @click="clickPost(post.post_id)">
                                             <div class="d-flex gap-1">
                                                 <div class="mb-2">
                                                     <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                        :class="getStatusClass(post.post_type)">{{ post.post_type
-                                                        }}</span>
+                                                        :class="getStatusClass(post.post_type)">{{ post.post_type }}</span>
                                                 </div>
                                                 <div class="mb-2">
                                                     <span class="px-3 badge rounded-pill text-uppercase small d-inline"
@@ -61,7 +60,8 @@
                                         <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
                                             <button class="btn btn-outline-danger w-100" @click="editPost(post)"
                                                 data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                            <button class="btn btn-danger w-100" @click="deletePost(post)">Delete
+                                            <button class="btn btn-danger w-100"
+                                                @click="deletePost(post)">Delete
                                             </button>
                                         </div>
                                     </div>
@@ -91,10 +91,9 @@
                                                                     class="text-red">*</span></span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="title"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="title"
                                                                 :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
                                                                 placeholder="Title"></v-text-field>
                                                         </div>
@@ -149,10 +148,9 @@
                                                                     class="text-red">*</span></span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="price"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="price"
                                                                 :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
                                                                 placeholder="price"></v-text-field>
                                                         </div>
@@ -163,10 +161,9 @@
                                                             <span class="float-left mt-2 small">Area</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="area"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="area"
                                                                 :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
                                                                 placeholder="Area"></v-text-field>
                                                         </div>
@@ -176,10 +173,9 @@
                                                             <span class="float-left mt-2 small">Deposit</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="deposit"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="deposit"
                                                                 :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
                                                                 placeholder="Deposit"></v-text-field>
                                                         </div>
@@ -190,10 +186,9 @@
                                                             <span class="float-left mt-2 small">Least Contract</span>
                                                         </div>
                                                         <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="least_contract"
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="least_contract"
                                                                 :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
                                                                 placeholder="Least Contract"></v-text-field>
                                                         </div>
@@ -205,44 +200,30 @@
                                                                 <span class="float-left mt-2 small">Replace Image<span
                                                                         class="text-red">*</span></span>
                                                             </div>
-                                                            <div
-                                                                class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
+                                                            <div class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
 
                                                                 <!-- Render original photos -->
-                                                                <div v-for="(photo, index) in currentPost.photo_url"
-                                                                    :key="'photo_' + index"
-                                                                    class="mb-2 col-12 col-md-4 position-relative">
-                                                                    <img :src="photo" class="img-thumbnail"
-                                                                        alt="Current Post Image">
-                                                                    <button v-if="canDeletePhoto"
-                                                                        @click="deletePhoto(index, 'original')"
-                                                                        class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
+                                                                    <img :src="photo" class="img-thumbnail" alt="Current Post Image">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'original')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
                                                                         <v-icon class="text-danger">mdi-close</v-icon>
                                                                     </button>
                                                                 </div>
 
                                                                 <!-- Render additional photos -->
-                                                                <div v-for="(photo, index) in additionalPhotos"
-                                                                    :key="'extra_photo_' + index"
-                                                                    class="mb-2 col-12 col-md-4 position-relative">
-                                                                    <img :src="photo" class="img-thumbnail"
-                                                                        alt="Additional Photo">
-                                                                    <button v-if="canDeletePhoto"
-                                                                        @click="deletePhoto(index, 'additional')"
-                                                                        class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                <div v-for="(photo, index) in additionalPhotos" :key="'extra_photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
+                                                                    <img :src="photo" class="img-thumbnail" alt="Additional Photo">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'additional')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
                                                                         <v-icon class="text-danger">mdi-close</v-icon>
                                                                     </button>
                                                                 </div>
 
                                                                 <!-- Hidden file input -->
-                                                                <input type="file" ref="fileInput"
-                                                                    style="display: none;" @change="handleFileChange">
+                                                                <input type="file" ref="fileInput" style="display: none;"
+                                                                    @change="handleFileChange">
                                                                 <div class="mb-2 col-12 col-md-4">
-                                                                    <button @click.prevent="triggerFileInput"
-                                                                        class="btn btn-outline-danger w-100 h-100 fs-1">
-                                                                        + </button>
-                                                                    <input type="file" ref="fileExtraInput" multiple
-                                                                        @change="addMorePhotos" style="display: none;">
+                                                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                                                    <input type="file" ref="fileExtraInput" multiple @change="addMorePhotos" style="display: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -262,7 +243,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                    </div>
                     </div>
                     <div v-else>
                         No post found
@@ -277,7 +258,6 @@
 
 <script>
 import axios from 'axios';
-// import AES from 'crypto-js/aes'
 import { toRaw, shallowRef } from 'vue';
 
 function dataURLtoFile(dataUrl) {
@@ -367,13 +347,13 @@ export default {
 
     watch: {
         selectedRegion(newRegion) {
-            if (newRegion) {
-                const selectedLocation = this.locations.find(location => location.region === newRegion);
-                if (selectedLocation) {
-                    this.selectedLocation = selectedLocation.location_id;
-                    console.log(this.selectedLocation);
-                }
+        if (newRegion) {
+            const selectedLocation = this.locations.find(location => location.region === newRegion);
+            if(selectedLocation) {
+                this.selectedLocation = selectedLocation.location_id;
+                console.log(this.selectedLocation);
             }
+        }
         }
     },
 
@@ -411,25 +391,11 @@ export default {
             return parseInt(decryptedId, 10);
         },
 
-        clickPost(post) {
-            // // router.push('/PostsView')
-            // const afterEncrypt = this.encryptId(post_id);
-            // // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            // this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
-
-            if (post.status === 'complete') {
-                // router.push('/PostsView')
-                const afterEncrypt = this.encryptId(post.post_id);
-                // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
-            } else if (post.status === 'pending') {
-                Swal.fire({
-                    title: 'Pending',
-                    text: 'You can see detail at pending state',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                });
-            }
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
         },
 
         async fetchLocations() {
@@ -450,14 +416,14 @@ export default {
                 const response = await fetch('http://localhost:8083/locations/getall');
                 const data = await response.json();
                 const mappedData = data.map(location => ({
-                    location_id: location.location_id,
-                    country_name: location.country_name,
-                    province: location.province,
-                    amphoe: location.amphoe,
-                    region: location.region,
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                }));
+                location_id: location.location_id,
+                country_name: location.country_name,
+                province: location.province,
+                amphoe: location.amphoe,
+                region: location.region,
+                latitude: location.latitude,
+                longitude: location.longitude
+            }));
                 sessionStorage.setItem('locations', JSON.stringify(mappedData));
                 this.locations = mappedData;
                 this.mapLocations = mappedData;
@@ -502,12 +468,12 @@ export default {
             if (file) {
                 let reader = new FileReader();
                 reader.onload = () => {
-                    if (this.clickedPhotoType === 'original') {
-                        this.currentPost.photo_url.splice(this.clickedPhotoIndex, 1, reader.result);
-                    } else if (this.clickedPhotoType === 'additional') {
-                        this.additionalPhotos.splice(this.clickedPhotoIndex, 1, reader.result);
-                    }
-                    this.forceRerender = !this.forceRerender;
+                if (this.clickedPhotoType === 'original') {
+                    this.currentPost.photo_url.splice(this.clickedPhotoIndex, 1, reader.result);
+                } else if (this.clickedPhotoType === 'additional') {
+                    this.additionalPhotos.splice(this.clickedPhotoIndex, 1, reader.result);
+                }
+                this.forceRerender = !this.forceRerender;
                 };
                 reader.readAsDataURL(file);
                 console.log(this.currentPost.photo_url);
@@ -520,8 +486,8 @@ export default {
                 const file = files[i];
                 const maxSize = 30 * 1024 * 1024; // 30 MB
                 if (file.size > maxSize) {
-                    alert('File size exceeds the limit of 30 MB.');
-                    continue;
+                alert('File size exceeds the limit of 30 MB.');
+                continue;
                 }
                 let reader = new FileReader();
                 reader.onload = () => {
@@ -538,15 +504,15 @@ export default {
                 alert("Can't delete this photo.");
                 return;
             }
-
+            
             if (type === 'original') {
                 this.currentPost.photo_url.splice(index, 1);
             } else if (type === 'additional') {
                 this.additionalPhotos.splice(index, 1);
             }
             this.forceRerender = !this.forceRerender;
-
-
+        
+            
         },
 
         validateBeforeSubmit() {
@@ -618,7 +584,7 @@ export default {
                 formData.append('rentPostId', rentId);
                 formData.append('deposit', this.deposit);
                 formData.append('least_contract', this.least_contract);
-
+                
                 formData.forEach((value, key) => {
                     console.log(`${key}:`, value);
                 });
@@ -772,74 +738,74 @@ export default {
                     subUserId: subUserId
                 }
             })
-                .then(response => {
-                    response.data.forEach(post => {
+            .then(response => {
+                response.data.forEach(post => {
+                    console.log(post);
+                    if (post.rentpost) {
+                        let des = post.rentpost.description;
+                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
+
+                        let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
+                        console.log(imageUrls);
                         console.log(post);
-                        if (post.rentpost) {
-                            let des = post.rentpost.description;
-                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
-                            console.log(imageUrls);
-                            console.log(post);
+                        this.posts.unshift({
+                            post_id: post.post_id,
+                            rentPostId: post.rentpost.rent_post_id,
+                            province: post.rentpost.locations.province,
+                            region: post.rentpost.locations.region,
+                            amphoe: post.rentpost.locations.amphoe,
+                            location_id: post.rentpost.locations.location_id,
+                            country: post.rentpost.locations.countries.country_name,
+                            title: post.rentpost.title,
+                            shortDescription: shortDescription,
+                            fullDescription: post.rentpost.description,
+                            property_type: post.rentpost.property_type,
+                            area: post.rentpost.area,
+                            price: post.rentpost.price,
+                            deposit: post.rentpost.deposit,
+                            least_contract: post.rentpost.least_contract,
+                            photo_url: imageUrls,
+                            status: post.status,
+                            post_type: post.post_type,
+                        });
+                    } else if (post.sellpost) {
+                        console.log(post);
+                        let des = post.sellpost.description;
+                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                            this.posts.unshift({
-                                post_id: post.post_id,
-                                rentPostId: post.rentpost.rent_post_id,
-                                province: post.rentpost.locations.province,
-                                region: post.rentpost.locations.region,
-                                amphoe: post.rentpost.locations.amphoe,
-                                location_id: post.rentpost.locations.location_id,
-                                country: post.rentpost.locations.countries.country_name,
-                                title: post.rentpost.title,
-                                shortDescription: shortDescription,
-                                fullDescription: post.rentpost.description,
-                                property_type: post.rentpost.property_type,
-                                area: post.rentpost.area,
-                                price: post.rentpost.price,
-                                deposit: post.rentpost.deposit,
-                                least_contract: post.rentpost.least_contract,
-                                photo_url: imageUrls,
-                                status: post.status,
-                                post_type: post.post_type,
-                            });
-                        } else if (post.sellpost) {
-                            console.log(post);
-                            let des = post.sellpost.description;
-                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
+                        let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
+                        console.log(imageUrls);
+                        console.log(post);
 
-                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
-                            console.log(imageUrls);
-                            console.log(post);
-
-                            this.posts.unshift({
-                                post_id: post.post_id,
-                                sellPostId: post.sellpost.sell_post_id,
-                                province: post.sellpost.locations.province,
-                                region: post.sellpost.locations.region,
-                                amphoe: post.sellpost.locations.amphoe,
-                                location_id: post.sellpost.locations.location_id,
-                                country: post.sellpost.locations.countries.country_name,
-                                title: post.sellpost.title,
-                                shortDescription: shortDescription,
-                                fullDescription: post.sellpost.description,
-                                property_type: post.sellpost.property_type,
-                                area: post.sellpost.area,
-                                price: post.sellpost.price,
-                                photo_url: imageUrls,
-                                status: post.status,
-                                post_type: post.post_type,
-                            });
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching posts:', error);
-                    this.displayError = 'Error fetching posts';
-                })
-                .finally(() => {
-                    this.loading = false;  // Stop loading
+                        this.posts.unshift({
+                            post_id: post.post_id,
+                            sellPostId: post.sellpost.sell_post_id,
+                            province: post.sellpost.locations.province,
+                            region: post.sellpost.locations.region,
+                            amphoe: post.sellpost.locations.amphoe,
+                            location_id: post.sellpost.locations.location_id,
+                            country: post.sellpost.locations.countries.country_name,
+                            title: post.sellpost.title,
+                            shortDescription: shortDescription,
+                            fullDescription: post.sellpost.description,
+                            property_type: post.sellpost.property_type,
+                            area: post.sellpost.area,
+                            price: post.sellpost.price,
+                            photo_url: imageUrls,
+                            status: post.status,
+                            post_type: post.post_type,
+                        });
+                    }
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                this.displayError = 'Error fetching posts';
+            })
+            .finally(() => {
+                this.loading = false;  // Stop loading
+            });
         },
 
         editPost(post) {
@@ -950,29 +916,29 @@ function triggerFileInput() {
 </script>
 
 <style>
-.card-container .card {
-    transition: 0.2s
-}
+    .card-container .card {
+        transition: 0.2s
+    }
 
-.card-container .card:hover {
-    transform: scale(1.007);
-}
+    .card-container .card:hover {
+        transform: scale(1.007);
+    }
 
-.editOffcanvasBox {
-    z-index: 3000;
-}
+    .editOffcanvasBox {
+        z-index: 3000;
+    }
 
-.editModalBox {
-    position: absolute;
-    z-index: 2000;
-}
+    .editModalBox {
+        position: absolute;
+        z-index: 2000;
+    }
 
-body.modal-open {
-    overflow: hidden;
-}
+    body.modal-open {
+        overflow: hidden;
+    }
 
-.modal {
-    display: flex;
-    align-items: center;
-}
+    .modal {
+        display: flex;
+        align-items: center;
+    }
 </style>

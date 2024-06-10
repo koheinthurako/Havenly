@@ -66,43 +66,6 @@
                 </div>
             </div>
 
-            <!-- <div class="pt-5">
-                <div class="row my-4 g-3 justify-content-center">
-                    <div v-for="post in posts" :key="post.post_id" class="col-10"
-                        @click="clickPost(post.post_id)">
-                        <div class="card-container">
-                            <div class="card cursor-pointer flex-row" style="height: 100%;">
-                                <div class="cardImgBox col-6">
-                                    <img :src="post.photo_url[0]" class="h-100 w-100" alt="Card image cap">
-                                </div>
-                                <div class="card-body p-3 d-flex flex-column">
-                                    <h5 class="card-title mb-2">{{ post.title }}</h5>
-                                    <p class="card-text small opacity-75 mb-1">{{ post.shortDescription }}</p>
-                                    <p class="card-text text-danger small opacity-75">
-                                        <v-icon>mdi-map-marker-radius</v-icon>
-                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                    </p>
-                                    <div class="d-flex mb-3 justify-content-between mb-auto">
-                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
-                                            }}</span>
-                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{
-                                            post.least_contract }}</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between ">
-                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
-                                        <div class="d-flex text-danger">
-                                            <p class="m-0 small fw-bold fs-3">
-                                                {{ post.price }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
         </main>
     </v-container>
     

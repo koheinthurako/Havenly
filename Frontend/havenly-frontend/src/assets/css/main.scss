@@ -11,7 +11,6 @@ $font-family: "Roboto", sans-serif;
   font-family: $font-family;
   position: relative;
   text-decoration: none;
-  transition: all 0.2s ease-in-out;
   .bg-redbrick {
     background-color: #e86f52;
   }
@@ -218,80 +217,13 @@ body {
   h2 {
     color: #e86f52;
   }
-
-  .navSidebar.activeOne {
-    left: 0;
-  }
-
-  .sideBarActive {
-    background-color: #e86f52 !important;
-    color: #fff;
-  }
-
-  .navSidebar {
-    margin-top: 48px;
-    height: 100vh;
-    width: 300px;
-    position: fixed;
-    top: 0;
-    left: -300px;
-    background-color: #525252;
-    transition: all 0.3s ease-in-out;
-    z-index: 1200;
-    border-radius: none !important;
-
-    .style-two {
-      border-radius: none !important;
-      list-style-type: none;
-
-      .items {
-        width: 100%;
-        border-radius: none !important;
-        border: none !important;
-        cursor: pointer;
-        padding: 0 !important;
-
-        .v-expansion-panel-text__wrapper {
-          padding: 0 !important;
-          background-color: #8e8c8c;
-        }
-
-        .item-edit {
-          color: #fff;
-          width: 100%;
-          text-decoration: none;
-          border: none !important;
-          border-radius: none !important;
-          padding: 12px 20px;
-        }
-
-        &:hover {
-          background-color: #e86f52;
-        }
-      }
-
-      .notification-panel {
-        overflow-y: auto;
-        max-height: 200px;
-
-        overflow-y: scroll;
-        scrollbar-width: thin;
-        scrollbar-color: #e83b4f #f1f1f1;
-        -webkit-scrollbar-color: #e83b4f;
-
-        span {
-          color: #e86f52;
-        }
-      }
-    }
-  }
 }
 
 /* for offcanvas */
 .offcanvas-edit {
   background-color: #ccc;
   padding: 0px;
-  margin-top: 50px;
+  margin-top: 70px;
   width: 380px !important;
 
   .offcanvas-body {
@@ -656,31 +588,6 @@ body {
     .header {
       padding: 10px 0px;
 
-      .search-bar {
-        // border: 1px solid #525252;
-        // margin-bottom: 12px;
-        // border-radius: 10px;
-        // display: flex;
-        // overflow: hidden;
-
-        // input {
-        //   width: 75%;
-        //   padding: 10px;
-        //   &:focus {
-        //     outline: none;
-        //   }
-        // }
-        // .v-btn {
-        //   width: auto;
-        //   height: auto;
-        //   color: #fff;
-        //   background-color: #e86f52;
-        //   text-transform: capitalize;
-        //   border-top-right-radius: 10px;
-        //   border-bottom-right-radius: 10px;
-        // }
-      }
-
       span {
         font-weight: bold;
       }
@@ -822,49 +729,6 @@ body {
       color: #fff;
       .v-btn {
         text-transform: capitalize;
-      }
-    }
-
-    .interst-posts {
-      @include request-detail-card();
-      position: relative;
-      .header {
-        @include header-absolute();
-        .v-icon {
-          color: #fff;
-          font-size: 20px;
-        }
-      }
-      .post-icon {
-        border-radius: 6px;
-        overflow: hidden;
-        width: 100%;
-        margin: auto;
-        border: 1px solid #525252;
-        cursor: pointer;
-        position: relative;
-        height: 60px;
-        .pi-overlay {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          left: 0;
-          top: 0;
-          z-index: 1;
-          background-color: rgba(0, 0, 0, 0.3);
-          display: none;
-          transition: all 0.4s ease-in-out;
-        }
-        p {
-          font-size: 14px;
-          span {
-            color: #e86f52;
-          }
-        }
-
-        &:hover .pi-overlay {
-          display: block;
-        }
       }
     }
   }
@@ -1198,7 +1062,7 @@ body {
   .third-carousel {
     width: 100%;
     height: auto;
-    padding: 100px 0px;
+    padding: 40px 0px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -1210,7 +1074,7 @@ body {
       transition: transform 0.4s ease-in-out;
     }
     .card-img {
-      width: 400px;
+      width: 600px;
       border-radius: 6px;
       position: relative;
       display: flex;
@@ -1698,7 +1562,15 @@ body {
 /* For fifth Doc Page end */
 
 /* For Commercial Page (one) start */
+.commercial-vue {
+  width: 100%;
+  height: 100vh;
 
+  .commercial-vue-data {
+    .left-pic {
+    }
+  }
+}
 /* For Commercial Page (two) End */
 
 /* For Contact Page start */
@@ -2033,88 +1905,6 @@ body {
 }
 
 /* For Temp Package End */
-
-/* For About in Main start */
-.about-in-main {
-  padding: 80px 0px;
-  background-color: #ddd;
-  position: relative;
-
-  .card-box {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    padding-top: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    background-color: #fff;
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    overflow: hidden;
-
-    .overlay-circle {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background-color: #e86f52;
-      // background: linear-gradient(#ffffff, #e86f52);
-      transform: translateX(-25%) translateY(-70%);
-    }
-
-    .inner-box {
-      padding: 25px;
-      border-radius: 10px;
-      margin: auto;
-      background-color: #fff;
-      position: relative;
-      cursor: pointer;
-      box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.1);
-
-      .top-circle {
-        position: absolute;
-        width: 85px;
-        height: 85px;
-        border-radius: 50%;
-        border: 2px solid #eee;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateX(70%) translateY(-80%);
-        background-color: #eee;
-        box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-
-        .v-icon {
-          font-size: 32px;
-          padding: 32px;
-          // background-color: #e86f52;
-          // background: linear-gradient(145deg, #ffffff, #d1d1d1);
-          background: linear-gradient(125deg, #fff, #e44720);
-          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
-            -5px -5px 15px rgba(255, 255, 255, 0.5);
-
-          border-radius: 50%;
-          color: #525252;
-        }
-      }
-
-      .header {
-        padding-top: 30px;
-        h4 {
-          margin: 10px 0px;
-          color: #e86f52;
-        }
-      }
-
-      &:hover {
-        box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-}
-/* For About in Main end */
 
 /* Post Detail view start */
 @mixin filter_above_img {
@@ -2873,7 +2663,7 @@ body {
   height: auto;
 
   .dashboard {
-    min-height: 70vh;
+    min-height: 100vh;
 
     .sidebar {
       background-color: #f8f9fa;
@@ -2894,13 +2684,6 @@ body {
 }
 /* For Main Index Dashboard end */
 
-/* For Main Index Dashboard start */
-.admin-dashboard {
-  width: 100%;
-  height: auto;
-}
-/* For Main Index Dashboard end */
-
 /* Footer start */
 .footer-vue {
   width: 100%;
@@ -2915,63 +2698,6 @@ body {
   }
 }
 /* Footer End */
-
-/* For navside bar start */
-
-// .navSidebar.activeOne {
-//   left: 0;
-// }
-
-// .sideBarActive {
-//   background-color: #e86f52 !important;
-//   color: #fff;
-// }
-
-// .navSidebar {
-//   margin-top: 48px;
-//   height: 100vh;
-//   width: 260px;
-//   position: fixed;
-//   top: 0;
-//   left: -270px;
-//   background-color: #525252;
-//   transition: all 0.3s ease-in-out;
-//   z-index: 1200;
-//   border-radius: none !important;
-
-//   .style-two {
-//     border-radius: none !important;
-//     list-style-type: none;
-
-//     .items {
-//       width: 100%;
-//       border-radius: none !important;
-//       border: none !important;
-//       cursor: pointer;
-//       padding: 0 !important;
-
-//       .v-expansion-panel-text__wrapper {
-//         padding: 0 !important;
-//         background-color: #8e8c8c;
-//       }
-
-//       .item-edit {
-//         color: #fff;
-//         width: 100%;
-//         text-decoration: none;
-//         border: none !important;
-//         border-radius: none !important;
-//         padding: 12px 20px;
-//       }
-
-//       &:hover {
-//         background-color: #e86f52;
-//       }
-//     }
-//   }
-// }
-
-/* For navside bar end */
 
 // Styles for desktop view
 @media only screen and (min-width: 768px) {
@@ -3179,8 +2905,7 @@ body {
   .second-tabContent {
     width: 100%;
     height: auto;
-    padding-top: 30px;
-    padding-bottom: 10px;
+    padding: 30px 0px 60px;
 
     .second-tabContent-data {
       .tab-carousel-content {
@@ -3277,11 +3002,10 @@ body {
   /* For Commercial Page (one) start d */
   .commercial-vue {
     width: 100%;
-    height: 60vh;
-    background-color: #f6f5f2;
+    height: 90vh;
 
     .commercial-vue-data {
-      width: 100%;
+      width: 85%;
       height: 100%;
       margin: auto;
       position: relative;
@@ -3294,25 +3018,28 @@ body {
         .img-content::after {
           content: "";
           position: absolute;
-          width: 45vh;
-          height: 45vh;
+          width: 50vh;
+          height: 50vh;
+
           border-radius: 14px;
+          z-index: 500;
         }
         .img-content::before {
           background-color: #e86f52;
-          margin-left: 6%;
-          margin-top: 2%;
-          // box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+          margin-left: 17%;
+          margin-top: 13%;
+          box-shadow: 0px 4px 20px -2px rgba(0, 0, 0, 0.3);
         }
 
         .img-content::after {
-          margin-left: 14%;
-          margin-top: 7%;
+          margin-left: 24%;
+          margin-top: 20%;
+          background-image: url("../img/house-1.jpg");
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
-          box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.5);
-          z-index: 1;
+          box-shadow: 0px 4px 24px 6px rgba(0, 0, 0, 0.5);
+          z-index: 500;
         }
 
         .left-text {
@@ -3325,14 +3052,6 @@ body {
           -webkit-backdrop-filter: blur(20px);
           border-radius: 10px;
         }
-        &:hover .img-content::before {
-          z-index: 1;
-          box-shadow: 0px 4px 20px 1px rgba(0, 0, 0, 0.5);
-        }
-        &:hover .img-content::after {
-          z-index: 0;
-          box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.5);
-        }
       }
 
       .right-part {
@@ -3342,16 +3061,17 @@ body {
         .right-data {
           padding: 10px;
           position: absolute;
-          // margin-top: 16%;
+          margin-top: 16%;
           h2 {
             color: #e86f52;
           }
           .custom-btn {
             background-color: #e86f52;
             color: #fff;
+            box-shadow: 0px 6px 20px 2px rgba(0, 0, 0, 0.3);
             .custom-icon {
               transition: all 0.3s ease-in-out;
-              margin-top: 4px;
+              margin-top: 1px;
             }
 
             &:hover .custom-icon {
