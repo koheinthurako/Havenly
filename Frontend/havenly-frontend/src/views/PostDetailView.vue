@@ -235,8 +235,8 @@
 
                                 </v-dialog>
 
-                                <v-bottom-sheet v-model="sheet" inset>
-                                    <v-card class="text-center">
+                                <v-bottom-sheet v-model="sheet" inset class="v-btn-sheet">
+                                    <v-card class="text-center v-btn-sheet-card">
                                         <v-card-text class="p-0 m-0">
                                             <div class="d-flex justify-space-between py-2 px-4">
                                                 <h4 style="color:#e86f52;">More images</h4>
@@ -1135,20 +1135,14 @@ export default {
 
 
 <style lang="scss" scoped>
-.v-bottom-sheet {
+.v-btn-sheet {
     border-radius: 10px !important;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 
     .v-bottom-sheet__content.v-overlay__content {
-        .v-card {
+        .v-btn-sheet-card {
             border-radius: 10px;
         }
-
-    }
-
-    .v-img {
-        border-radius: 10px;
-
     }
 }
 </style>
