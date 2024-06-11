@@ -629,6 +629,11 @@ export default {
 
 
   methods: {
+    goTo(get) {
+      // this.$router.push({ name: 'About' });
+      this.$router.push({ name: 'About', params: { href: `${get} explain` } });
+    },
+
     toggleSidebar() {
       this.isSidebarActive = !this.isSidebarActive;
 

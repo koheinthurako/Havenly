@@ -5,7 +5,7 @@
                 <div class="col-md-3 col-12">
                     <div class="card-box">
                         <div class="overlay-circle"></div>
-                        <div @click="goTo" class="inner-box">
+                        <div @click="goTo('createAcc')" class="inner-box">
                             <div class="top-circle">
                                 <v-icon>mdi-account</v-icon>
                             </div>
@@ -103,6 +103,7 @@ export default {
         },
 
         goTo() {
+            // this.$router.push({ name: 'About' });
             this.$router.push({ name: 'About' });
         }
     }
