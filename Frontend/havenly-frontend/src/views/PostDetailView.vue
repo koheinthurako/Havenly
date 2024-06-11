@@ -1151,9 +1151,4 @@ export default {
 
     }
 }
-
-.v-card {
-    max-height: 400px;
-    overflow-y: auto;
-}
 </style>
