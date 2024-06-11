@@ -916,29 +916,29 @@ function triggerFileInput() {
 </script>
 
 <style>
-.card-container .card {
-    transition: 0.2s
-}
+    .card-container .card {
+        transition: 0.2s
+    }
 
-.card-container .card:hover {
-    transform: scale(1.007);
-}
+    .card-container .card:hover {
+        transform: scale(1.007);
+    }
 
-.editOffcanvasBox {
-    z-index: 3000;
-}
+    .editOffcanvasBox {
+        z-index: 3000;
+    }
 
-.editModalBox {
-    position: absolute;
-    z-index: 2000;
-}
+    .editModalBox {
+        position: absolute;
+        z-index: 2000;
+    }
 
-body.modal-open {
-    overflow: hidden;
-}
+    body.modal-open {
+        overflow: hidden;
+    }
 
-.modal {
-    display: flex;
-    align-items: center;
-}
+    .modal {
+        display: flex;
+        align-items: center;
+    }
 </style>

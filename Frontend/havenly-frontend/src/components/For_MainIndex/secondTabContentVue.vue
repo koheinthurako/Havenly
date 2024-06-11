@@ -34,8 +34,8 @@
 
             </div>
 
-            <button class="sec-prev" @click="prev" :hidden="isPrevButtonHidden">&lt;</button>
-            <button class="sec-next" @click="next" :hidden="isNextButtonHidden">&gt;</button>
+            <!-- <button class="sec-prev" @click="prev" :hidden="isPrevButtonHidden">&lt;</button>
+            <button class="sec-next" @click="next" :hidden="isNextButtonHidden">&gt;</button> -->
 
         </div>
         <TabContent v-if="activeTab !== null" :content="contents[activeTab]" />
@@ -45,14 +45,16 @@
 <script>
 import TabContent from '../Temp_Collection/tempForTabContent.vue';
 
+
 export default {
     components: {
-        TabContent
+        TabContent,
+
     },
     data() {
         return {
 
-            buttons: ['Condo', 'Apartment', 'House', 'Hostel', 'Industrial', 'Office'],
+            buttons: ['Condo', 'Apartment', 'House'],
             offset: 0,
             visibleStartIndex: 0,
             visibleButtons: 3,
@@ -60,11 +62,7 @@ export default {
                 { title: 'Condo' },
                 { title: 'Apartment' },
                 { title: 'House' },
-                { title: 'Hostel' },
-                { title: 'Industrial' },
-                { title: 'Office' },
-                { title: 'Restaurant' },
-                { title: 'Land' },
+
             ],
             activeTab: 1 // Set the default active tab to the first tab
         };
@@ -81,10 +79,12 @@ export default {
     },
     mounted() {
 
-
+        localStorage.removeItem('activeTab');
         const savedTab = localStorage.getItem('activeTab');
         if (savedTab !== null) {
             this.activeTab = parseInt(savedTab);
+        } else {
+            this.activeTab = 0;
         }
 
         window.addEventListener('beforeunload', this.saveScrollPosition);

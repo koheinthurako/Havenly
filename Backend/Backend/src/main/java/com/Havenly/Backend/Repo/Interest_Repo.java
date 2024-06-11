@@ -28,11 +28,12 @@ public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 //	public List<Interest> getAllInterestForNoti(int id);
 
 
-	@Query(value = "SELECT DISTINCT i.id ,i.description, i.interest_date, i.interest_time, r.register_id, r.name, r.phone, r.email, p.post_id, t.image\n" +
+	@Query(value = "SELECT DISTINCT i.id ,i.description, i.interest_date, i.interest_time, r.register_id, r.name, r.phone, r.email, p.post_id, COALESCE(t.image, rt.image) As image\n" +
 			"FROM interest i\n" +
 			"JOIN posts p ON i.post_id = p.post_id\n" +
 			"JOIN reg_user r ON r.register_id = i.register_id\n" +
-			"JOIN sell_post t ON p.sell_post_id = t.sell_post_id\n" +
+			"LEFT JOIN sell_post t ON p.sell_post_id = t.sell_post_id\n" +
+			"LEFT JOIN rentpost rt ON p.rent_post_id = rt.rent_post_id\n" +
 			"WHERE p.sub_user_id= ?",nativeQuery = true)
 	public List<Interest> getAllInterestForNoti(int id);
 
@@ -52,5 +53,10 @@ public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 	@Modifying
 	@Query(value = "DELETE FROM Interest WHERE post_id = :postId AND register_id = :user_id", nativeQuery = true)
 	void deleteByPostIdAndEmail(int postId, int user_id);
+
+
+	// find data by Post id in interest
+	@Query(value = "select * from interest where post_id = ?;", nativeQuery = true)
+	List<Interest> findDataByPostId(int postId);
 
 }

@@ -1,64 +1,51 @@
 <template>
-    <div class="user-dashboard">
-        <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
+
+    <div class="admin-dashboard">
+        <div id="sidebar" ref="sidebar2" :class="{ expand: adminExpanded }">
             <div class="d-flex">
-                <button class="toggle-btn" type="button" @click="toggleSidebar" :title="dynamicTitle">
-                    <v-icon :hidden="isExpanded">mdi-view-grid</v-icon>
-                    <v-icon :hidden="!isExpanded">mdi-close</v-icon>
+                <button class="toggle-btn" type="button" @click="toggleAdminSidebar" :title="dynamicTitle">
+                    <v-icon :hidden="adminExpanded">mdi-view-grid</v-icon>
+                    <v-icon :hidden="!adminExpanded">mdi-close</v-icon>
                 </button>
                 <div class="sidebar-logo">
                     <a href="#">Dashboard</a>
                 </div>
             </div>
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav ">
                 <li class="sidebar-item">
 
-                    <a class="sideTextLink" :class="{ active: openTab === 'profile' }"
-                        @click="changeTab('profile'); toggleSidebar2()">
+                    <a class="sideTextLink" :class="{ adminActive: adminTab === 'adminProfile' }"
+                        @click="changeAdminTab('adminProfile'); toggleAdminSidebar2()">
                         <v-icon>mdi-account</v-icon>
                         <span>Profile</span>
                     </a>
                 </li>
 
+
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-interest-post' }"
-                        @click="changeTab('all-interest-post'); toggleSidebar2()">
-                        <v-icon>mdi-star-box-multiple</v-icon>
-                        <span>Interested post</span>
+                    <a class="sideTextLink" :class="{ adminActive: adminTab === 'pending-post' }"
+                        @click="changeAdminTab('pending-post'); toggleAdminSidebar2()">
+                        <v-icon>mdi-database-sync</v-icon>
+                        <span>Pending posts</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
-                        @click="changeTabForSub('all-post'); toggleSidebar2()">
-                        <v-icon>mdi-post</v-icon>
-                        <span>All post</span>
+                    <a class="sideTextLink" :class="{ adminActive: adminTab === 'register-user' }"
+                        @click="changeAdminTab('register-user'); toggleAdminSidebar2()">
+                        <v-icon>mdi-account-group</v-icon>
+                        <span>Register users</span>
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sideTextLink" :class="{ adminActive: adminTab === 'ban-user' }"
+                        @click="changeAdminTab('ban-user'); toggleAdminSidebar2()">
+                        <v-icon>mdi-account-off</v-icon>
+                        <span>Ban users</span>
+                    </a>
+                </li>
 
-
-                <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
-                        @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
-                        <v-icon>mdi-note-plus</v-icon>
-                        <span>Create Sell Post</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
-                        @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
-                        <v-icon>mdi-note-plus-outline</v-icon>
-                        <span>Create Rent Post</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads-post' }"
-                        @click="changeTabForSub('create-ads-post'); toggleSidebar2()">
-                        <v-icon>mdi-google-ads</v-icon>
-                        <span>Create Ads</span>
-                    </a>
-                </li>
 
             </ul>
             <div class="d-flex custom-logout" @click="logout" style="cursor:pointer;">
@@ -72,41 +59,33 @@
 
         </div>
 
-
-
-
-
         <div class="main-data">
 
 
             <div class="row">
                 <div class="col-md-12 p-0 ">
 
-                    <div v-if="openTab === 'profile'">
-                        <profile_page />
+                    <div v-if="adminTab === 'adminProfile'">
+                        <!-- <profile_page /> -->
+                        <AdminProfile />
                     </div>
 
-                    <div v-else-if="openTab === 'all-interest-post'">
+                    <div v-else-if="adminTab === 'pending-post'">
                         <!-- <h3>All Post Content</h3>
                         <p>This is where the add post content will be displayed.</p> -->
-                        <interestedPosts />
+                        <!-- <interestedPosts /> -->
+                        <AdminPost />
                     </div>
-                    <div v-else-if="openTab === 'all-post'">
-                        <uploadedAllPosts />
-                    </div>
-
-                    <div v-else-if="openTab === 'create-sell-post'">
-                        <create_sell_post_page />
+                    <div v-else-if="adminTab === 'register-user'">
+                        <!-- <uploadedAllPosts /> -->
+                        <AdminView />
                     </div>
 
-                    <div v-else-if="openTab === 'create-rent-post'">
-                        <create_rent_post_page />
+                    <div v-else-if="adminTab === 'ban-user'">
+                        <!-- <create_sell_post_page /> -->
+                        <AdminBanList />
                     </div>
-                    <div v-else-if="openTab === 'create-ads-post'">
-                        <create_ads_post />
-                        <!-- <h3>Add Ads Content</h3>
-                        <p>This is where the add ads content will be displayed.</p> -->
-                    </div>
+
                 </div>
 
             </div>
@@ -122,86 +101,104 @@
 import Swal from 'sweetalert2';
 
 // page import 
-import profile_page from './Dashboard_Categories/profileVue.vue'
-import create_sell_post_page from './Dashboard_Categories/create_sell_post.vue'
-import uploadedAllPosts from './Dashboard_Categories/uploadedAllPosts.vue'
-import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
-import create_ads_post from './Dashboard_Categories/create_ads_post.vue';
-import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
-import router from '@/router';
+import AdminView from '@/views/adminDashboardCategories/AdminView.vue'
+import AdminPost from '@/views/adminDashboardCategories/AdminPost.vue'
+import AdminBanList from '@/views/adminDashboardCategories/AdminBanList.vue'
+import AdminProfile from '@/views/adminDashboardCategories/adminProfile.vue'
+// import router from '@/router';
 
 
 export default {
     name: 'indexUserDashboard',
 
     components: {
-        profile_page,
-        uploadedAllPosts,
-        create_sell_post_page,
-        create_rent_post_page,
-        create_ads_post,
-        interestedPosts
+        AdminView,
+        AdminPost,
+        AdminBanList,
+        AdminProfile
     },
 
     data() {
         return {
-            isExpanded: false,  // for left side dashboard collapse and expand
-            isCollapsed: false,
-            openTab: localStorage.getItem('openTab') || 'profile',
-            // openTab: 'profile',
+            adminExpanded: false,  // for left side dashboard collapse and expand
+            adminTab: sessionStorage.getItem('adminTab') || 'adminProfile',
+
         };
     },
-    computed: {
-        dynamicTitle() {
-            return this.isExpanded ? 'Close Sidebar' : 'Open Sidebar';
+
+    mounted() {
+
+        sessionStorage.removeItem('adminTab');
+        if (this.adminTab === "adminProfile") {
+            this.adminExpanded = true;
         }
     },
+
+    watch: {
+        '$route'(to, from) {
+            console.log("Route change detected!");
+            console.log("From:", from.name, "To:", to.name);
+        }
+    },
+
+    // beforeUnmount() {
+    //   window.removeEventListener('click', this.closeOnClickOutside);
+    // },
+
+    computed: {
+        dynamicTitle() {
+            return this.adminExpanded ? 'Close Sidebar' : 'Open Sidebar';
+        }
+    },
+
+
     methods: {
-        toggleSidebar() {
-            this.isExpanded = !this.isExpanded;
-            if (this.isExpanded) {
-                window.addEventListener('click', this.closeSidebarOnClickOutside);
+
+        toggleAdminSidebar() {
+            this.adminExpanded = !this.adminExpanded;
+            if (this.adminExpanded) {
+                window.addEventListener('click', this.closeOnClickOutside);
             } else {
-                window.removeEventListener('click', this.closeSidebarOnClickOutside);
+                window.removeEventListener('click', this.closeOnClickOutside);
             }
         },
 
-        toggleSidebar2() {
-            this.isExpanded = false;
+        toggleAdminSidebar2() {
+            this.adminExpanded = false;
         },
 
-        changeTab(tab) {
-            this.openTab = tab;
-            localStorage.setItem('openTab', this.openTab);
+        changeAdminTab(tab) {
+            this.adminTab = tab;
+            sessionStorage.setItem('adminTab', this.adminTab);
         },
 
-        changeTabForSub(tab) {
-            const checkSubUser = JSON.parse(sessionStorage.getItem('sub_user'));
-            const packageType = checkSubUser.packageType;
-            console.log(packageType);
-            if (packageType) {
-                this.openTab = tab;
-                localStorage.setItem('openTab', this.openTab);
-            } else {
-                Swal.fire({
-                    title: 'Need Subscription!',
-                    text: 'This is for subscriber user only. Please subscribe first.',
-                    icon: 'info',
-                    customClass: {
-                        confirmButton: 'myCustomButton'
-                    },
-                    buttonsStyling: false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then(() => {
-                    router.push('/subscribe');
-                });
-            }
-        },
+        // changeTabForSub(tab) {
+        //   const checkSubUser = JSON.parse(localStorage.getItem('sub_user'));
+        //   const packageType = checkSubUser.packageType;
+        //   console.log(packageType);
+        //   if (packageType) {
+        //     this.adminTab = tab;
+        //     localStorage.setItem('adminTab', this.adminTab);
+        //   } else {
+        //     Swal.fire({
+        //       title: 'Need Subscription!',
+        //       text: 'This is for subscriber user only. Please subscribe first.',
+        //       icon: 'info',
+        //       customClass: {
+        //         confirmButton: 'myCustomButton'
+        //       },
+        //       buttonsStyling: false,
+        //       allowOutsideClick: false,
+        //       allowEscapeKey: false
+        //     }).then(() => {
+        //       router.push('/subscribe');
+        //     });
+        //   }
+        // },
 
-        closeSidebarOnClickOutside(event) {
-            if (!this.$refs.sidebar || !this.$refs.sidebar.contains(event.target)) {
-                this.isExpanded = false;
+        closeOnClickOutside(event) {
+            if (!this.$refs.sidebar2 || !this.$refs.sidebar2.contains(event.target)) {
+                this.adminExpanded = false;
             }
         },
 
@@ -219,29 +216,13 @@ export default {
                 cancelButtonColor: '#d33'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    sessionStorage.removeItem('login_user');
-                    this.$router.push('/login');
+                    sessionStorage.removeItem('admin_user');
+                    this.$router.push('/admin/login');
                 }
             });
         }
 
     },
-    mounted() {
-        // console.log("Reached Mounted !");
-        // if (this.openTab === "profile") {
-        //     console.log("REached into!", this.openTab);
-        //     this.isExpanded = true;
-        // }
-        const getData = localStorage.getItem("openTab");
-        if (getData === "profile" || this.openTab === "profile") {
-            this.isExpanded = true;
-        }
-        // window.addEventListener('click', this.closeSidebarOnClickOutside);
-    },
-    beforeUnmount() {
-        window.removeEventListener('click', this.closeSidebarOnClickOutside);
-    },
-
 }
 </script>
 
@@ -306,11 +287,11 @@ export default {
 #sidebar {
     overflow: hidden;
     position: fixed;
-    top: 8%;
+    top: 0;
     left: 0;
     width: 70px;
     min-width: 70px;
-    height: 92vh;
+    height: 100vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     padding-top: 43px;
@@ -323,16 +304,11 @@ export default {
         cursor: pointer;
         border: 0;
         padding: 1rem 1.5rem;
-        display: block;
+        transition: all 0.3s ease-in-out;
 
         .v-icon {
             font-size: 1.5rem;
             color: #FFF;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
     }
 }
@@ -483,5 +459,13 @@ export default {
 
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
+}
+
+.adminActive {
+    background-color: #e86f52;
+
+    .v-icon {
+        color: #525252;
+    }
 }
 </style>

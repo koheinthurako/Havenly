@@ -2,8 +2,6 @@
   <div class="main-index" id="main-index">
 
     <!-- notification btn start -->
-
-
     <!-- <div v-if="this.getUser">
       <v-badge v-show="!btn_display" class="popup-btn" @click="togglePopup" :content="notificationCount" color="red"
         overlap>
@@ -14,12 +12,11 @@
     <v-card v-if="isCardVisible" class="popup-card">
       <h5 class="header">short info</h5><br><br><br>
 
-      <!-- btn part -->
+
       <div class="close-btn" @click="hideCard">
         <v-icon>mdi-close</v-icon>
       </div>
 
-      <!-- data part -->
       <div class="card-data">
         <v-text-field bg-color="#EDEDED" readonly filled variant="outlined" density="compact" rounded="lg" class="w-100"
           v-model="userData.name" label="Name"></v-text-field>
@@ -90,14 +87,19 @@
     </div>
 
     <!-- delete able -->
-    <div class="for-fifth-Doc">
+    <!-- <div class="for-fifth-Doc">
       <fifthDoc />
-    </div>
+    </div> -->
 
+    <div class="for-About-in-main">
+      <AboutInMain />
+    </div>
 
     <div class="for-contact-page">
       <contactpage />
     </div>
+
+
 
     <button :class="{ show: showBackToTop }" @click="scrollToTop" id="backToTopBtn"><v-icon
         style="transform:rotate(-90deg)">mdi-arrow-right</v-icon></button>
@@ -109,7 +111,9 @@ import firstIndex from './For_MainIndex/firstIndexContent.vue'
 import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
 import fourthPackage from './For_MainIndex/fourthPackageVue.vue'
-import fifthDoc from './For_MainIndex/fifthDocContent.vue'
+// import fifthDoc from './For_MainIndex/fifthDocContent.vue'
+
+import AboutInMain from '@/components/For_MainIndex/AboutInMain.vue'
 
 import contactpage from './For_MainIndex/ContactVue.vue'
 
@@ -147,13 +151,15 @@ export default {
     secondTabContent,
     thirdCarousel,
     fourthPackage,
-    fifthDoc,
+    // fifthDoc,
     contactpage,
+    AboutInMain,
   },
 
-  // mounted() {
-  //   this.fetchRegisterUser();
-  // },
+  mounted() {
+    localStorage.removeItem('openTab');
+    localStorage.removeItem('adminTab');
+  },
 
 
   methods: {
@@ -194,7 +200,6 @@ export default {
 
     //   this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
     // },
-
 
 
 
@@ -295,7 +300,8 @@ export default {
       fetchNotifications();
       window.addEventListener('scroll', scrollFunction);
       getUser.value = JSON.parse(sessionStorage.getItem('login_user'));
-
+      localStorage.removeItem('openTab');
+      localStorage.removeItem('adminTab');
       filteredOjbs.value = filterData(objs.value);
     });
 

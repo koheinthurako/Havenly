@@ -2,6 +2,7 @@ package com.Havenly.Backend.Service_Impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -77,13 +78,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	}
 
-	@Override
-	public Subscription_DTO getByRegId(int registerId) {
-		Reg_user reg = regRepo.findById(registerId);
-		Subscription sub_user = reg.getSub();
-		Subscription_DTO subUser = new Subscription_DTO();
-		Subscription_DTO user2 = subUser.convertToObject(sub_user);
-		return user2;
+
+	public List<Subscription> getAllSubUserInfo() {
+		return subscribeRepo.findAll();
 	}
 
 }

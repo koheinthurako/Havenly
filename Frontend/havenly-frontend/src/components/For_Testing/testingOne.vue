@@ -1,124 +1,168 @@
-<!-- <template>
-  <div class="testing-edit">
-    <swiper :style="{
-      '--swiper-navigation-color': '#fff',
-      '--swiper-pagination-color': '#fff',
-    }" :spaceBetween="10" :autoplay="{
-      delay: 2500,
-      disableOnInteraction: false,
-    }" :navigation="true" :loop="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2">
-      <swiper-slide v-for="(img, index) in images" :key="index">
-        <v-img :src="img.img" />
-      </swiper-slide>
-    </swiper>
-    <swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true" :watchSlidesProgress="true"
-      :modules="modules" class="mySwiper">
-      <swiper-slide v-for="(img, index) in images" :key="index">
-        <v-img :src="img.img" />
-      </swiper-slide>
-    </swiper>
+<template>
+  <div>
+    <h1>Update Coordinates</h1>
+    <button @click="updateCoordinates">Update Coordinates</button>
+    <div v-if="loading">Loading...</div>
+    <div v-else>
+      <pre>{{ updatedLocations }}</pre>
+    </div>
   </div>
 </template>
+
 <script>
-import { ref } from 'vue';
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-import 'swiper/css';
-
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-
-// import required modules
-import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import axios from 'axios';
 
 export default {
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-  setup() {
-    const thumbsSwiper = ref(null);
-
-    const setThumbsSwiper = (swiper) => {
-      thumbsSwiper.value = swiper;
-    };
-
+  data() {
     return {
-      thumbsSwiper,
-      setThumbsSwiper,
-      modules: [Autoplay, FreeMode, Navigation, Thumbs],
+      locations: [
+        {
+          province: "Krabi",
+          amphoe: "Plai Phraya",
+          region: "เขาเขน",
+          latitude: 0,
+          longitude: 0,
+          countries: { country_id: 2 },
+        },
+        {
+          province: "Krabi",
+          amphoe: "Lam Thap",
+          region: "ดินอุดม",
+          latitude: 0,
+          longitude: 0,
+          countries: { country_id: 2 },
+        },
+        {
+          province: "Krabi",
+          amphoe: "Lam Thap",
+          region: "ดินแดง",
+          latitude: 0,
+          longitude: 0,
+          countries: { country_id: 2 },
+        },
+        {
+          province: "Krabi",
+          amphoe: "Lam Thap",
+          region: "ทุ่งไทรทอง",
+          latitude: 0,
+          longitude: 0,
+          countries: { country_id: 2 },
+        },
+        {
+          province: "Krabi",
+          amphoe: "Lam Thap",
+          region: "ลำทับ",
+          latitude: 0,
+          longitude: 0,
+          countries: { country_id: 2 },
+        },
+      ],
+      updatedLocations: [],
+      loading: false,
+      apiKey: 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=myMap', // Replace with your actual Google Maps API key
     };
   },
+  methods: {
+    async updateCoordinates() {
+      this.loading = true;
+      const promises = this.locations.map(async (location) => {
+        const address = `${location.region}, ${location.amphoe}, ${location.province}, Thailand`;
+        try {
+          const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params: {
+              address: address,
+              key: this.apiKey,
+            },
+          });
 
-  data: () => ({
-    images: [
-      { img: require('@/assets/img/1.jpg') },
-      { img: require('@/assets/img/3.jpg') },
-      { img: require('@/assets/img/5.jpg') },
-      { img: require('@/assets/img/2.jpg') },
-      { img: require('@/assets/img/4.jpg') },
-      { img: require('@/assets/img/6.jpg') },
-    ],
-  })
+          const results = response.data.results;
+          if (results.length > 0) {
+            const { lat, lng } = results[0].geometry.location;
+            return {
+              ...location,
+              latitude: lat,
+              longitude: lng,
+            };
+          } else {
+            return location;
+          }
+        } catch (error) {
+          console.error(`Error fetching geocode for ${address}:`, error);
+          return location;
+        }
+      });
+
+      this.updatedLocations = await Promise.all(promises);
+      this.loading = false;
+    },
+  },
 };
-</script> -->
+</script>
+
+<style scoped>
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+</style>
 
 
-<template>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Left Column -->
-      <div class="col-md-8 col-sm-12">
-        <div class="image-container">
-          <img src="https://via.placeholder.com/800x600" class="img-fluid" alt="Large Image" />
-        </div>
+<!-- <template>
+  <div>
+    <h1>Update Coordinates</h1>
+    <div v-for="(location, index) in locations" :key="index">
+      <h2>{{ location.region }}, {{ location.amphoe }}, {{ location.province }}, Thailand</h2>
+      <div>
+        Latitude: <input type="text" v-model="location.latitude">
+        Longitude: <input type="text" v-model="location.longitude">
       </div>
-      <!-- Right Column -->
-      <div class="col-md-4 col-sm-12 right-column">
-        <div class="image-container">
-          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 1" />
-        </div>
-        <div class="image-container">
-          <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Small Image 2" />
-        </div>
-      </div>
+      <hr>
+    </div>
+    <button @click="showUpdatedData">Show Updated Data</button>
+    <div v-if="showData">
+      <pre>{{ updatedLocations }}</pre>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ImageLayout',
+  data() {
+    return {
+      locations: [
+        {
+          province: "Krabi",
+          amphoe: "Plai Phraya",
+          region: "เขาเขน",
+          latitude: "", // Leave these blank initially
+          longitude: "",
+          countries: { country_id: 2 },
+        },
+        {
+          province: "Krabi",
+          amphoe: "Lam Thap",
+          region: "ดินอุดม",
+          latitude: "",
+          longitude: "",
+          countries: { country_id: 2 },
+        },
+        // Add more locations here...
+      ],
+      showData: false,
+    };
+  },
+  methods: {
+    showUpdatedData() {
+      this.showData = true;
+      this.updatedLocations = this.locations.map(location => {
+        return {
+          ...location,
+          latitude: parseFloat(location.latitude), // Convert to number
+          longitude: parseFloat(location.longitude),
+        };
+      });
+    },
+  },
 };
-</script>
-
-<style scoped>
-.image-container {
-  height: 100%;
-  overflow: hidden;
-}
-
-.right-column {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.right-column .image-container {
-  flex: 1;
-  margin-bottom: 1rem;
-}
-
-.right-column .image-container:last-child {
-  margin-bottom: 0;
-}
-
-.img-fluid {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>
+</script> -->

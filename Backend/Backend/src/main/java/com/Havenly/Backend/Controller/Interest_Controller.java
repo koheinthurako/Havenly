@@ -69,7 +69,7 @@ public class Interest_Controller {
 			interest.setReg_user(Reg_all_data);
 			interest.setPosts(post_all_data);
 			interest.setInterest_date(LocalDate.now());
-			interest.setInterest_time(LocalDateTime.now());
+			interest.setInterest_time(LocalTime.now());
 			in_service.save(interest);
 		} else {
 			return new ResponseEntity<>("No post or User Exist", HttpStatus.NOT_ACCEPTABLE);
@@ -92,6 +92,21 @@ public class Interest_Controller {
 	
 	@GetMapping("/getAllNotiBySubId/{id}")
 	public ResponseEntity<List<Interest>> getAllNotiBySubId(@PathVariable int id){
-		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
+//		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
+		List<Interest> data = in_service.getAllInterestForNoti(id);
+		if (data == null || data.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
+
+	@GetMapping("/getDataByPostId/{id}")
+	public ResponseEntity<List<Interest>> getDataByPostId(@PathVariable int id) {
+		List<Interest> data = in_service.getDataByPostId(id);
+		if (data == null || data.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
 }

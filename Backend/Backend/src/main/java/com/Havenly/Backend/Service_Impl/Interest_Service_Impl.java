@@ -52,4 +52,9 @@ public class Interest_Service_Impl implements Interest_Service{
 		}
 	}
 
+	@Override
+	public List<Interest> getDataByPostId(int id) {
+		return repo.findDataByPostId(id);
+	}
+
 }

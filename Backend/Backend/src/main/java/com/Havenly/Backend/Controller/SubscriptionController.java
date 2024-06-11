@@ -2,6 +2,8 @@ package com.Havenly.Backend.Controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import com.Havenly.Backend.Entity.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +33,6 @@ public class SubscriptionController {
 	
 	@Autowired
 	SubscribeRepo subRepo;
-	
-
-	@GetMapping("/subscribe/getSubUser")
-	public ResponseEntity<Subscription_DTO> getSubUser(@RequestParam("registerId") int registerId) {
-		return new ResponseEntity<Subscription_DTO>(subService.getByRegId(registerId), HttpStatus.OK);
-	}
 
 	
 	@GetMapping("/subscribe/getSubUserInfo")
@@ -61,6 +57,13 @@ public class SubscriptionController {
 //			return ResponseEntity.ok().body(dto1);		
 	}
 	
-	
+	@GetMapping("/subscribe/getAll")
+	public ResponseEntity<List<Subscription>> getAllUserInfo() {
+		List<Subscription> data = subService.getAllSubUserInfo();
+		if (data == null || data.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 	
 }
