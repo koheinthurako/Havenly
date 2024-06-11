@@ -30,7 +30,16 @@ import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
 import indexAdminDashboard from '@/views/indexAdminDashboard.vue'
 
+// for testing 
+import testingOne from '@/components/For_Testing/testingOne.vue'
+
 const routes = [
+
+  {
+    path: '/testingPage',
+    name: 'testingPage',
+    component: testingOne
+  },
   {
     path: '/',
     name: 'home',

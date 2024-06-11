@@ -1,168 +1,83 @@
 <template>
-  <div>
-    <h1>Update Coordinates</h1>
-    <button @click="updateCoordinates">Update Coordinates</button>
-    <div v-if="loading">Loading...</div>
-    <div v-else>
-      <pre>{{ updatedLocations }}</pre>
-    </div>
+  <div class="container" style="margin-top: 200px;">
+    <v-row>
+      <v-col cols="12">
+        <v-menu v-model="menu" :close-on-content-click="false" offset-y :activator="activator"
+          transition="scale-transition" max-height="160">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-if="!searchActive" icon @click="showSearchBar" v-bind="attrs" v-on="on">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+          <template v-slot:default>
+            <v-overlay :value="searchActive" absolute>
+              <v-container class="d-flex justify-center align-center">
+                <v-text-field variant="outlined" v-model="search" label="Search posts by name"
+                  append-inner-icon="mdi-magnify" clearable @input="onSearch" ref="searchField"></v-text-field>
+              </v-container>
+            </v-overlay>
+          </template>
+        </v-menu>
+        <v-list v-if="filteredTitles.length" class="p-0">
+          <h4 class="ms-3 mt-2" style="color: #e86f52;">Available posts</h4>
+          <v-list-item v-for="post in filteredTitles" :key="post.id" @click="handleItemClick(post)"
+            style="border-bottom: 1px solid #000;">
+            <v-list-item-title>
+              <v-chip v-if="post.type === 'Sell'" prepend-icon="mdi-checkbox-marked-circle" size="small" rounded-pill
+                color="red" variant="flat" class="me-1">
+                {{ post.type }}
+              </v-chip>
+              <v-chip v-else prepend-icon="mdi-checkbox-marked-circle" size="small" rounded-pill color="green"
+                variant="flat" class="me-1">
+                {{ post.type }}
+              </v-chip>
+              {{ post.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+        <v-alert v-else-if="search" type="warning" class="ma-0">
+          No post available
+        </v-alert>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   data() {
     return {
-      locations: [
-        {
-          province: "Krabi",
-          amphoe: "Plai Phraya",
-          region: "เขาเขน",
-          latitude: 0,
-          longitude: 0,
-          countries: { country_id: 2 },
-        },
-        {
-          province: "Krabi",
-          amphoe: "Lam Thap",
-          region: "ดินอุดม",
-          latitude: 0,
-          longitude: 0,
-          countries: { country_id: 2 },
-        },
-        {
-          province: "Krabi",
-          amphoe: "Lam Thap",
-          region: "ดินแดง",
-          latitude: 0,
-          longitude: 0,
-          countries: { country_id: 2 },
-        },
-        {
-          province: "Krabi",
-          amphoe: "Lam Thap",
-          region: "ทุ่งไทรทอง",
-          latitude: 0,
-          longitude: 0,
-          countries: { country_id: 2 },
-        },
-        {
-          province: "Krabi",
-          amphoe: "Lam Thap",
-          region: "ลำทับ",
-          latitude: 0,
-          longitude: 0,
-          countries: { country_id: 2 },
-        },
-      ],
-      updatedLocations: [],
-      loading: false,
-      apiKey: 'https://maps.googleapis.com/maps/api/js?sensor=false&callback=myMap', // Replace with your actual Google Maps API key
+      menu: false,
+      search: '',
+      searchActive: false,
+      filteredTitles: [], // Initialize with your data
     };
   },
   methods: {
-    async updateCoordinates() {
-      this.loading = true;
-      const promises = this.locations.map(async (location) => {
-        const address = `${location.region}, ${location.amphoe}, ${location.province}, Thailand`;
-        try {
-          const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-              address: address,
-              key: this.apiKey,
-            },
-          });
-
-          const results = response.data.results;
-          if (results.length > 0) {
-            const { lat, lng } = results[0].geometry.location;
-            return {
-              ...location,
-              latitude: lat,
-              longitude: lng,
-            };
-          } else {
-            return location;
-          }
-        } catch (error) {
-          console.error(`Error fetching geocode for ${address}:`, error);
-          return location;
+    showSearchBar() {
+      this.searchActive = true;
+      this.$nextTick(() => {
+        if (this.$refs.searchField) {
+          this.$refs.searchField.focus();
         }
       });
-
-      this.updatedLocations = await Promise.all(promises);
-      this.loading = false;
+    },
+    onSearch() {
+      // Your search logic here
+    },
+    handleItemClick(post) {
+      // Handle item click
+      alert(`Selected post: ${post.title}`);
+      this.searchActive = false; // Hide search bar after selecting an item
     },
   },
 };
 </script>
 
 <style scoped>
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-bottom: 20px;
+.v-overlay__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
-
-
-<!-- <template>
-  <div>
-    <h1>Update Coordinates</h1>
-    <div v-for="(location, index) in locations" :key="index">
-      <h2>{{ location.region }}, {{ location.amphoe }}, {{ location.province }}, Thailand</h2>
-      <div>
-        Latitude: <input type="text" v-model="location.latitude">
-        Longitude: <input type="text" v-model="location.longitude">
-      </div>
-      <hr>
-    </div>
-    <button @click="showUpdatedData">Show Updated Data</button>
-    <div v-if="showData">
-      <pre>{{ updatedLocations }}</pre>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      locations: [
-        {
-          province: "Krabi",
-          amphoe: "Plai Phraya",
-          region: "เขาเขน",
-          latitude: "", // Leave these blank initially
-          longitude: "",
-          countries: { country_id: 2 },
-        },
-        {
-          province: "Krabi",
-          amphoe: "Lam Thap",
-          region: "ดินอุดม",
-          latitude: "",
-          longitude: "",
-          countries: { country_id: 2 },
-        },
-        // Add more locations here...
-      ],
-      showData: false,
-    };
-  },
-  methods: {
-    showUpdatedData() {
-      this.showData = true;
-      this.updatedLocations = this.locations.map(location => {
-        return {
-          ...location,
-          latitude: parseFloat(location.latitude), // Convert to number
-          longitude: parseFloat(location.longitude),
-        };
-      });
-    },
-  },
-};
-</script> -->

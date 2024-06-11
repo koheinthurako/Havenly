@@ -23,7 +23,7 @@
                                                     post.country }}</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 d-none d-sm-block">
+                                    <div class="col-md-4">
                                         <div class="search-bar mt-2">
 
                                             <!-- search bar start -->
@@ -31,12 +31,13 @@
                                                 <v-col cols="12">
                                                     <v-menu v-model="menu" :close-on-content-click="false" offset-y
                                                         :activator="activator" transition="scale-transition"
-                                                        max-height="160">
+                                                        max-height="200">
                                                         <template v-slot:activator="{ on, attrs }">
                                                             <v-text-field variant="outlined" ref="activator"
                                                                 v-model="search" label="Search posts by name"
-                                                                append-inner-icon="mdi-magnify" clearable v-bind="attrs"
-                                                                v-on="on || {}" @input="onSearch"></v-text-field>
+                                                                prepend-inner-icon="mdi-magnify" clearable
+                                                                v-bind="attrs" v-on="on || {}"
+                                                                @input="onSearch"></v-text-field>
                                                         </template>
                                                         <v-list v-if="filteredTitles.length" class="p-0">
                                                             <h4 class="ms-3 mt-2" style="color: #e86f52;">Available
@@ -69,6 +70,11 @@
                                                 </v-col>
                                             </v-row>
                                             <!-- search bar end -->
+
+                                            <!-- search bar 2 start -->
+
+
+                                            <!-- search bar 2 end -->
 
                                         </div>
                                     </div>
@@ -571,6 +577,7 @@ export default {
     data: () => ({
 
         // search bar staff start
+        searchDialog: false,
         search: '',
         menu: false,
         postTitles: [
@@ -691,10 +698,17 @@ export default {
     },
 
     methods: {
+        showSearchBar() {
+            this.searchActive = true;
+            this.$nextTick(() => {
+                this.$refs.searchField && this.$refs.searchField.focus();
+            });
+        },
 
         onSearch() {
             this.menu = !!this.search; // Show the menu only if there is a search query
         },
+
         handleItemClick(post) {
             // Check if post ID matches the main post ID
             if (post.id === this.mainPostId) {
@@ -1120,7 +1134,7 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-bottom-sheet {
     border-radius: 10px !important;
     padding-bottom: 20px;
@@ -1136,5 +1150,10 @@ export default {
         border-radius: 10px;
 
     }
+}
+
+.v-card {
+    max-height: 400px;
+    overflow-y: auto;
 }
 </style>
