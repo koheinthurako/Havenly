@@ -1,6 +1,6 @@
 <template>
-    <div class="commercial-vue">
-        <div class="commercial-vue-data">
+    <div class="no-post-view">
+        <div class="no-post-view-data">
 
             <div class="row">
                 <div class="col-md-6 p-0 h-100">

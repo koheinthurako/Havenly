@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div v-else class="row" style="background-color: #fff;">
-                    <CommercialVue />
+                    <noPostView />
                     <!-- <div class="col-md-6 col-sm-6">
                         <v-img :src="img1" class="w-100"></v-img>
                     </div>
@@ -126,13 +126,13 @@ import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 
 
-import CommercialVue from '@/components/For_MainIndex/CommercialVue.vue';
+import noPostView from '@/components/For_MainIndex/noPostView.vue';
 export default {
 
     name: 'tempVue',
 
     components: {
-        CommercialVue,
+        noPostView,
     },
 
     props: {
