@@ -1,52 +1,37 @@
 <template>
-<div  style=" height: 60px; color: #e86f52; background-color: white; text-align: center;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly</em></h1></div>
+    
  <div class="container">
+    
  <div class="box1">
-       <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
-           <div class="d-flex">
-
-            <v-icon>mdi-view-grid</v-icon>
- 
-               <ul class="sidebar-nav ">
-               <li class="sidebar-item">
-                   <a class="sidebar-link"
-                       @click="pushhh()">
-                       <span>Pending Ads</span>
-                   </a>
-               </li>
-                <!-- <li class="sidebar-item">
-                   <a class="sidebar-link"
-                       @click="pushy()">
-                       <span>Users</span>
-                   </a>
-               </li>
-               <li class="sidebar-item">
-                   <a class="sidebar-link" 
-                        @click="ban()">
-                       
-                       <span>Ban List</span>
-                   </a>
-               </li> -->
-
-
-
-           </ul>
-               
-           </div>
-          
-           <div class="d-flex custom-logout" @click="logout" style="cursor:pointer;">
-               <button class="toggle-btn" type="button">
-                   <v-icon>mdi-logout</v-icon>
-               </button>
-               <div class="sidebar-logo">
-                   <a class="sidebar-link">&nbsp; &nbsp; &nbsp; &nbsp;Logout</a>
-               </div>
-           </div>
-
+  <h1>Users' pending ads!</h1>
      </div>
-     </div>
- 
 
+     <div v-if="loading">
+            <v-row class="g-1 mb-3">
+                <v-col cols="12" md="3">
+                    <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, actions"
+                        style="height: 400px; overflow:hidden;"></v-skeleton-loader>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, actions"
+                        style="height: 400px; overflow:hidden;"></v-skeleton-loader>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, actions"
+                        style="height: 400px; overflow:hidden;"></v-skeleton-loader>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, actions"
+                        style="height: 400px; overflow:hidden;"></v-skeleton-loader>
+                </v-col>
+
+
+            </v-row>
+        </div>
+        <div v-else>
     <div class="row mb-5 g-3 box2"  >
                <div v-for="ad in ads" :key="ad.ads_post_id" class="col-md-3">
                    <div class="card-container">
@@ -76,18 +61,20 @@
 </div>
 </div>
 </div>
+</div>
 
 </template>
 
 <script>
 import axios from 'axios';
-import router from '@/router';
+// import router from '@/router';
 import Swal from 'sweetalert2';
 
 export default {
    
    data: () => ({
        ads : [],
+       loading: false,
    }),
 
       mounted(){
@@ -98,13 +85,9 @@ export default {
 
        fetchAds() {
        // fetch ads from backend
+       this.loading = true
       fetch('http://localhost:8083/ads/all/pending')
-        //  .then(response => {
-        //   if (response.data !== null) {
-        //     this.ads = response.data;            
-        //     console.log("Ads", this.ads);
-        //   }
-        // })   
+          
         .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -121,15 +104,13 @@ export default {
                         title: ad.title,                      
                         imageUrl: ad.imageUrl,
                     });
-                  //  console.log(imgUrl)
-                
                 
             });
-            // console.log(this.posts);
           })    
          .catch(error => {
            console.error('Error fetching photos:', error);
          });
+         this.loading = false;
      },
 
      approve(ad){
@@ -204,19 +185,7 @@ axios.delete("http://localhost:8083/admin/decline",{
    })
    .catch(httpErrorHandler)
 },
-    //  pushy(){
-    //    router.push('/admin')
-    //  },
-    //  ban(){
-    //    router.push('/admin/ban')
-    //  },
-     logout(){
-           router.push('/admin/login')
-       },
-    pushhh(){
-           router.push('/admin/ad')
-       }
-   
+    
        }
    }
 
@@ -240,7 +209,7 @@ axios.delete("http://localhost:8083/admin/decline",{
 
 .box1 {
   /* Distribute available space equally */
- padding: 20px;
+ padding: 10px;
  
  
  

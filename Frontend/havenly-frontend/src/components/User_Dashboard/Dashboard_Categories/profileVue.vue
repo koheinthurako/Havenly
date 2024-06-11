@@ -46,13 +46,13 @@
               <v-icon>mdi-pencil</v-icon>&nbsp;Edit
             </span>
           </p>
-          <p
+          <!-- <p
             style="width: 90px; height:40px"
             class="ml-2">
             <span class="custom-button d-flex align-center" @click="logout" style="width: 100%; justify-content: center;">
               Logout
             </span>
-          </p>
+          </p> -->
         
         <!-- Edit Dialog Start -->
         <v-dialog v-model="editDialog" class="create-pop-up" persistent>
@@ -65,10 +65,10 @@
             </button>
             <div class="profile-pic">
 
-            <div class="profile-img-container1" @click="triggerFileInput">
+            <div class="profile-img-container1 align-center" @click="triggerFileInput">
           <v-img
             :src="profileImage || profilePicture"
-            class="profile-img1"
+            class="profile-img1 mb-2"
             alt="Profile Picture"
             max-height="150"
             max-width="150"
@@ -272,7 +272,6 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
-
 import Swal from 'sweetalert2';
 
 export default {
@@ -503,7 +502,7 @@ export default {
                             }
                     }
 
-            axios.put("http://localhost:8083/pwdUpdate",this.change_pw)
+            axios.put("http://localhost:8083/akmakmset",this.change_pw)
             .then(function(response){
                 const status=JSON.parse(response.status);
                 if(status=='200'){
@@ -517,31 +516,31 @@ export default {
                   this.change_pw.new_password=''
         },
 
-        logout() {
-            Swal.fire({
-                title: 'Logout',
-                text: "Are you sure you want to logout?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Logout',
-                cancelButtonText: 'Cancel',
-                confirmButtonColor: '#E86F52',
-                cancelButtonColor: '#999'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    sessionStorage.clear();
-        router.push("/").then(() => {
-          // Reload the page after navigation
-          window.location.reload();
-        });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    this.$router.push('/userdashboard');
-                }
-                else {
-                    this.$router.push('/userdashboard'); // Redirect to dashboard after timeout
-                }
-            });
-        }
+        // logout() {
+        //     Swal.fire({
+        //         title: 'Logout',
+        //         text: "Are you sure you want to logout?",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Logout',
+        //         cancelButtonText: 'Cancel',
+        //         confirmButtonColor: '#E86F52',
+        //         cancelButtonColor: '#999'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             sessionStorage.clear();
+        // router.push("/").then(() => {
+        //   // Reload the page after navigation
+        //   window.location.reload();
+        // });
+        //         } else if (result.dismiss === Swal.DismissReason.cancel) {
+        //             this.$router.push('/userdashboard');
+        //         }
+        //         else {
+        //             this.$router.push('/userdashboard'); // Redirect to dashboard after timeout
+        //         }
+        //     });
+        // }
 
     }
 }
@@ -665,7 +664,7 @@ const submit = handleSubmit(values => {
                 font-size: 24px;
 } 
 .profile-img-container1 {
-                position: relative;
+                position: absolute;
                 display: inline-block;
                 cursor: pointer;
             }

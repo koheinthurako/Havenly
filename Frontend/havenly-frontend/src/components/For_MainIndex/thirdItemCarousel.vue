@@ -6,7 +6,7 @@
           <div class="inner" ref="inner" :style="innerStyles">
 
          
-            <v-img v-for="card in cards" :key="card.ads_post_id" :src="card.imageUrl || ''" class=" card-img" height="250px" width="400px" contain>
+            <v-img v-for="(data, index) in cards" :key="index" :src="data.imageUrl || ''" class=" card-img" height="250px" width="400px" contain>
               
             </v-img>
            
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        
+<!--         
         <v-sheet class="mx-auto" elevation="6">
             <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
                 <v-slide-group-item v-for="n in 15" :key="n" v-slot="{ isSelected, toggle }">
@@ -96,7 +96,7 @@
                     </v-card>
                 </v-slide-group-item>
             </v-slide-group>
-        </v-sheet>
+        </v-sheet> -->
     </div></div>
   </template>
   

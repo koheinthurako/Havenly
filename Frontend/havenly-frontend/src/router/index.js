@@ -10,11 +10,8 @@ import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 
 import login from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
-// import AdminView from '../views/adminDashboardCategories/AdminView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
-// import AdminBanList from '../views/adminDashboardCategories/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-// import CreditCard from '@/views/CreditCard.vue'
 import Payment from '@/views/Payment.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import ResetPassword from '@/views/ResetPassword.vue'
@@ -23,8 +20,6 @@ import ResetPassword from '@/views/ResetPassword.vue'
 import postDetailView from '@/views/PostDetailView.vue'
 import AllPostView from '@/views/AllPostView.vue'
 import uploadedAllPosts from '@/components/User_Dashboard/Dashboard_Categories/uploadedAllPosts.vue'
-// import AdminPost from '@/views/AdminPost.vue'
-import AdminAd from '@/views/AdminAd.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
 import PostsByLocation from '@/views/PostsByLocation.vue'
@@ -52,7 +47,7 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: register
+    component: registerakm
   },
   {
     path: '/login',
@@ -103,23 +98,29 @@ const routes = [
     // meta: { requiresAdmin: true }
   },
   {
-    path: '/admin/ban',
-    name: 'AdminBanList',
-    component: AdminBanList,
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: indexAdminDashboard,
     meta: { requiresAdmin: true }
   },
-  {
-    path: '/admin/post',
-    name: 'AdminPost',
-    component: AdminPost,
-    meta: { requiresAdmin: true },
-  },
-  {
-    path: '/admin/ad',
-    name: 'AdminAd',
-    component: AdminAd,
-    meta: { requiresAdmin: true },
-  },
+  // {
+  //   path: '/admin/ban',
+  //   name: 'AdminBanList',
+  //   component: AdminBanList,
+  //   meta: { requiresAdmin: true }
+  // },
+  // {
+  //   path: '/admin/post',
+  //   name: 'AdminPost',
+  //   component: AdminPost,
+  //   meta: { requiresAdmin: true },
+  // },
+  // {
+  //   path: '/admin/ad',
+  //   name: 'AdminAd',
+  //   component: AdminAd,
+  //   meta: { requiresAdmin: true },
+  // },
   {
     path: '/all/posts/of/:postType',
     name: 'AllPostView',

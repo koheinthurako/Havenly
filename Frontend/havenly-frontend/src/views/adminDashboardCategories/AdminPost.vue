@@ -1,7 +1,10 @@
 <template>
 
     <div class="container">
-        <h1>Users' pending posts!</h1>
+        <div class="box1">
+            <h1>Users' pending posts!</h1>     
+        </div>
+       
         <!-- <div class="box1">
             <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
                 <div class="d-flex">
@@ -130,7 +133,7 @@
 
 <script>
 import axios from 'axios';
-import router from '@/router';
+// import router from '@/router';
 import Swal from 'sweetalert2';
 
 export default {
@@ -327,18 +330,18 @@ export default {
                 })
                 .catch(httpErrorHandler)
         },
-        pushy() {
-            router.push('/admin')
-        },
-        ban() {
-            router.push('/admin/ban')
-        },
-        logout() {
-            router.push('/admin/login')
-        },
-        pushhh() {
-            router.push('/admin/post')
-        }
+        // pushy() {
+        //     router.push('/admin')
+        // },
+        // ban() {
+        //     router.push('/admin/ban')
+        // },
+        // logout() {
+        //     router.push('/admin/login')
+        // },
+        // pushhh() {
+        //     router.push('/admin/post')
+        // }
 
     }
 }
@@ -359,7 +362,7 @@ export default {
 
 .box1 {
     /* Distribute available space equally */
-    padding: 20px;
+    padding: 10px;
 
 
 
@@ -372,7 +375,7 @@ export default {
 
 .box2 {
     /* Distribute available space equally */
-
+    padding: 20px;
 
 }
 

@@ -173,7 +173,7 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('/about') }">About</router-link>
           </li>
 
-          <li class="nav-item" v-if="login_status">
+          <li class="nav-item" v-if="getUser2">
             <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>

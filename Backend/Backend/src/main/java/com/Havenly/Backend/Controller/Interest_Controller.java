@@ -22,7 +22,7 @@ import com.Havenly.Backend.Entity.Interest;
 import com.Havenly.Backend.Service.Interest_Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/interest")
