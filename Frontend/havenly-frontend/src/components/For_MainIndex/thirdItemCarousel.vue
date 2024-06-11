@@ -5,9 +5,11 @@
 
       <h2 class="p-0 ms-3 mt-4" style="color: #e86f52; margin-bottom: -20px;">Hello world</h2>
 
-      <div class="third-carousel" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll">
+      <div class="third-carousel">
         <div class="inner" ref="inner" :style="innerStyles">
-          <v-img v-for="(data, index) in cards" :key="index" :src="data.url" class="card-img">
+          <v-img @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll" v-for="(data, index) in posts" :key="index"
+            :src="data.photo_url[0]" class="card-img" style="cursor:pointer;">
+
 
             <!-- <div class="split left-part">
 
@@ -45,6 +47,16 @@
 
 
           </v-img>
+
+          <!-- <v-btn icon @click="prev" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll"
+            style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); z-index: 1000;">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+          <v-btn icon @click="next" @mouseenter="stopAutoScroll" @mouseleave="startAutoScroll"
+            style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 1000;">
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn> -->
+
         </div>
       </div>
       <!-- <v-sheet class="mx-auto" elevation="6">
@@ -108,9 +120,11 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
+      posts: [],
       cards: [
         { url: require('@/assets/img/1.jpg') },
         { url: require('@/assets/img/2.jpg') },
@@ -133,25 +147,79 @@ export default {
   },
 
   mounted() {
-    this.setStep();
-    this.resetTranslate();
-    this.startAutoScroll();
+    // this.setStep();
+    // this.resetTranslate();
+    // this.startAutoScroll();
+
+    this.fetchPosts();
   },
 
   methods: {
-    setStep() {
-      const innerWidth = this.$refs.inner.offsetWidth;
-      const totalCards = this.cards.length;
-      this.step = `${innerWidth / totalCards}px`;
+    async fetchPosts() {
+      this.loading = true;
+      try {
+        const response = await axios.get('http://localhost:8083/posts/allComplete');
+        const data = response.data;
+
+        const fetchedPosts = data.map(post => {
+          const mainId = post.post_id;
+          const postDetails = post.rentpost || post.sellpost;
+          const description = postDetails.description.length > 60
+            ? postDetails.description.substring(0, 60) + "..."
+            : postDetails.description;
+          const imageUrls = Array.isArray(postDetails.image) ? postDetails.image : [postDetails.image];
+
+          return {
+            province: postDetails.locations.province,
+            region: postDetails.locations.region,
+            country: postDetails.locations.countries.country_name,
+            post_id: mainId,
+            title: postDetails.title,
+            description: description,
+            property_type: postDetails.property_type,
+            area: postDetails.area,
+            price: postDetails.price,
+            deposit: postDetails.deposit || null,
+            least_contract: postDetails.least_contract || null,
+            photo_url: imageUrls,
+          };
+        });
+
+        this.posts = fetchedPosts;
+        this.$nextTick(() => {
+          this.setStep();  // Reinitialize step after fetching posts
+          this.resetTranslate();  // Reset translation after fetching posts
+          this.startAutoScroll(); // Start auto-scroll after initialization
+        });
+
+      } catch (error) {
+        console.error('Error fetching photos:', error);
+      } finally {
+        this.loading = false;
+      }
     },
+
+    setStep() {
+      this.$nextTick(() => {
+        const innerWidth = this.$refs.inner ? this.$refs.inner.offsetWidth : 0;
+        const totalCards = this.posts.length;
+        this.step = totalCards > 0 ? `${innerWidth / totalCards}px` : '0px';
+      });
+    },
+
+    // setStep() {
+    //   const innerWidth = this.$refs.inner.offsetWidth;
+    //   const totalCards = this.cards.length;
+    //   this.step = `${innerWidth / totalCards}px`;
+    // },
 
     next() {
       if (this.transitioning) return;
       this.transitioning = true;
       this.moveLeft();
       this.afterTransition(() => {
-        const card = this.cards.shift();
-        this.cards.push(card);
+        const card = this.posts.shift();
+        this.posts.push(card);
         this.resetTranslate();
         this.transitioning = false;
       });
@@ -162,8 +230,8 @@ export default {
       this.transitioning = true;
       this.moveRight();
       this.afterTransition(() => {
-        const card = this.cards.pop();
-        this.cards.unshift(card);
+        const card = this.posts.pop();
+        this.posts.unshift(card);
         this.resetTranslate();
         this.transitioning = false;
       });
@@ -171,13 +239,15 @@ export default {
 
     moveLeft() {
       this.innerStyles = {
-        transform: `translateX(-${this.step}) translateX(-${this.step})`
+        transition: 'transform 0.5s ease',
+        transform: `translateX(-${this.step})`
       };
     },
 
     moveRight() {
       this.innerStyles = {
-        transform: `translateX(${this.step}) translateX(-${this.step})`
+        transition: 'transform 0.5s ease',
+        transform: `translateX(${this.step})`
       };
     },
 
@@ -194,18 +264,21 @@ export default {
     resetTranslate() {
       this.innerStyles = {
         transition: 'none',
-        transform: `translateX(-${this.step})`
+        transform: `translateX(0px)`
       };
     },
-
     startAutoScroll() {
       this.autoScrollInterval = setInterval(() => {
         this.next();
       }, this.autoScrollSpeed);
     },
 
+
     stopAutoScroll() {
-      clearInterval(this.autoScrollInterval);
+      if (this.autoScrollInterval) {
+        clearInterval(this.autoScrollInterval);
+        this.autoScrollInterval = null;
+      }
     }
   }
 };
