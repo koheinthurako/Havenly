@@ -217,6 +217,73 @@ body {
   h2 {
     color: #e86f52;
   }
+
+  .navSidebar.activeOne {
+    left: 0;
+  }
+
+  .sideBarActive {
+    background-color: #e86f52 !important;
+    color: #fff;
+  }
+
+  .navSidebar {
+    margin-top: 48px;
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    background-color: #525252;
+    transition: all 0.3s ease-in-out;
+    z-index: 1200;
+    border-radius: none !important;
+
+    .style-two {
+      border-radius: none !important;
+      list-style-type: none;
+
+      .items {
+        width: 100%;
+        border-radius: none !important;
+        border: none !important;
+        cursor: pointer;
+        padding: 0 !important;
+
+        .v-expansion-panel-text__wrapper {
+          padding: 0 !important;
+          background-color: #8e8c8c;
+        }
+
+        .item-edit {
+          color: #fff;
+          width: 100%;
+          text-decoration: none;
+          border: none !important;
+          border-radius: none !important;
+          padding: 12px 20px;
+        }
+
+        &:hover {
+          background-color: #e86f52;
+        }
+      }
+
+      .notification-panel {
+        overflow-y: auto;
+        max-height: 200px;
+
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #e83b4f #f1f1f1;
+        -webkit-scrollbar-color: #e83b4f;
+
+        span {
+          color: #e86f52;
+        }
+      }
+    }
+  }
 }
 
 /* for offcanvas */
@@ -1905,6 +1972,88 @@ body {
 }
 
 /* For Temp Package End */
+
+/* For About in Main start */
+.about-in-main {
+  padding: 80px 0px;
+  background-color: #ddd;
+  position: relative;
+
+  .card-box {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    padding-top: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    background-color: #fff;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    .overlay-circle {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background-color: #e86f52;
+      // background: linear-gradient(#ffffff, #e86f52);
+      transform: translateX(-25%) translateY(-70%);
+    }
+
+    .inner-box {
+      padding: 25px;
+      border-radius: 10px;
+      margin: auto;
+      background-color: #fff;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.1);
+
+      .top-circle {
+        position: absolute;
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        border: 2px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(70%) translateY(-80%);
+        background-color: #eee;
+        box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+
+        .v-icon {
+          font-size: 32px;
+          padding: 32px;
+          // background-color: #e86f52;
+          // background: linear-gradient(145deg, #ffffff, #d1d1d1);
+          background: linear-gradient(125deg, #fff, #e44720);
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3),
+            -5px -5px 15px rgba(255, 255, 255, 0.5);
+
+          border-radius: 50%;
+          color: #525252;
+        }
+      }
+
+      .header {
+        padding-top: 30px;
+        h4 {
+          margin: 10px 0px;
+          color: #e86f52;
+        }
+      }
+
+      &:hover {
+        box-shadow: 0px 6px 20px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+/* For About in Main end */
 
 /* Post Detail view start */
 @mixin filter_above_img {

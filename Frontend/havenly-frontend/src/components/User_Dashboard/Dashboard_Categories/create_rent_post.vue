@@ -441,6 +441,12 @@ export default {
             })
             .then(response => {
                     response.data.forEach(post => {
+                        
+                        if(post.title.length > 20) {
+                            let tt = post.title;
+                            post.title = tt.substring(0, 20) + "...";
+                        }
+
                         if(post.description.length > 50) {
                             let des = post.description;
                             post.description = des.substring(0, 50) + "...";

@@ -75,7 +75,7 @@
 import axios from 'axios';
 import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 
     export default {
@@ -126,7 +126,6 @@ import Swal from 'sweetalert2';
                 const decryptedId = decryptedBytes.toString(Utf8);
                 console.log(decryptedId + "decryptedId");
                 return parseInt(decryptedId, 10);
-                // return decryptedId;
             },
 
             clickPost(post_id) {
@@ -134,46 +133,46 @@ import Swal from 'sweetalert2';
                 this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
             },
 
-            async fetchLocations() {
+            // async fetchLocations() {
 
-                try {
+            //     try {
 
-                    Swal.fire({
-                        title: 'Loading',
-                        text: 'Fetching locations...',
-                        icon: 'info',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false,
-                        willOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
+            //         Swal.fire({
+            //             title: 'Loading',
+            //             text: 'Fetching locations...',
+            //             icon: 'info',
+            //             allowOutsideClick: false,
+            //             allowEscapeKey: false,
+            //             showConfirmButton: false,
+            //             willOpen: () => {
+            //                 Swal.showLoading();
+            //             }
+            //         });
 
-                    const response = await fetch('http://localhost:8083/locations/getall');
-                    const data = await response.json();
-                    const mappedData = data.map(location => ({
-                    location_id: location.location_id,
-                    country_name: location.country_name,
-                    province: location.province,
-                    amphoe: location.amphoe,
-                    region: location.region,
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                    this.mapLocations = mappedData;
-                    Swal.close();
-                } catch (error) {
-                    console.error('Error fetching locations:', error);
-                }
-            },
+            //         const response = await fetch('http://localhost:8083/locations/getall');
+            //         const data = await response.json();
+            //         const mappedData = data.map(location => ({
+            //         location_id: location.location_id,
+            //         country_name: location.country_name,
+            //         province: location.province,
+            //         amphoe: location.amphoe,
+            //         region: location.region,
+            //         latitude: location.latitude,
+            //         longitude: location.longitude
+            //         }));
+            //         sessionStorage.setItem('locations', JSON.stringify(mappedData));
+            //         this.locations = mappedData;
+            //         this.mapLocations = mappedData;
+            //         Swal.close();
+            //     } catch (error) {
+            //         console.error('Error fetching locations:', error);
+            //     }
+            // },
 
-            getLocationsFromSessionStorage() {
-                const data = sessionStorage.getItem('locations');
-                return data ? JSON.parse(data) : null;
-            },
+            // getLocationsFromSessionStorage() {
+            //     const data = sessionStorage.getItem('locations');
+            //     return data ? JSON.parse(data) : null;
+            // },
 
             async fetchPostsByLocation(encryptedLocationId) {
                 this.posts.splice(0, this.posts.length);
@@ -262,13 +261,13 @@ import Swal from 'sweetalert2';
 
         mounted() {
 
-            const cachedData = this.getLocationsFromSessionStorage();
-            if(cachedData) {
-                this.locations = cachedData;
-                this.mapLocations = cachedData;
-            } else {
-                this.fetchLocations();
-            }
+            // const cachedData = this.getLocationsFromSessionStorage();
+            // if(cachedData) {
+            //     this.locations = cachedData;
+            //     this.mapLocations = cachedData;
+            // } else {
+            //     this.fetchLocations();
+            // }
             
 
             if (this.encryptedLocationId) {
