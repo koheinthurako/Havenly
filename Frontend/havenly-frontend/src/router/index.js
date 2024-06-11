@@ -8,9 +8,6 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 
-// for Testing
-import testingPage from '../components/For_Testing/testingOne.vue'
-
 import login from '../views/LoginView.vue'
 import registerakm from '../views/RegisterView.vue'
 // import AdminView from '../views/adminDashboardCategories/AdminView.vue'
@@ -76,11 +73,6 @@ const routes = [
     component: userDashboard,
     meta: { requiresAuth: true }
   },
-  {
-    path: '/testingPage',
-    name: 'testingPage',
-    component: testingPage
-  },
 
   // {
   //   path: '/tempDoc',
@@ -110,7 +102,8 @@ const routes = [
   {
     path: '/admin/login',
     name: 'AdminLogin',
-    component: AdminLoginView
+    component: AdminLoginView,
+    // meta: { requiresAdmin: true }
   },
   // {
   //   path: '/admin',

@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <h1>All pending posts!</h1>
+        <h1>Users' pending posts!</h1>
         <!-- <div class="box1">
             <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
                 <div class="d-flex">

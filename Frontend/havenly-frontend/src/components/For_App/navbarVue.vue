@@ -154,11 +154,6 @@
         <ul class="navbar-nav mx-auto">
 
           <li class="nav-item">
-            <router-link to="/testingPage" :class="{ active: isActive('/testingPage') }" class=" nav-link">
-              Testing</router-link>
-          </li>
-
-          <li class="nav-item">
             <router-link to="/" :class="{ active: isActive('/') }" class=" nav-link">
               Home</router-link>
           </li>
