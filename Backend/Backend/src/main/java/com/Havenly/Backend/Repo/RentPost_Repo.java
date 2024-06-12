@@ -37,4 +37,9 @@ public interface RentPost_Repo extends JpaRepository<RentPost, String>{
 //			)
 //	List<RentPost_DTO> getAllSubuserRentPosts(@Param("subUserId") int subUserId);
 	
+	 @Transactional
+	    @Modifying
+	    @Query(value = "DELETE FROM rentpost WHERE rent_post_id = ?1", nativeQuery = true)
+	    void deleteFromRentpost(String id);
+	
 }

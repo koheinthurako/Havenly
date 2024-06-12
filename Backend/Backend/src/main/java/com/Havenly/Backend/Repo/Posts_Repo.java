@@ -3,10 +3,12 @@ package com.Havenly.Backend.Repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Havenly.Backend.Entity.Posts;
 
@@ -138,5 +140,15 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 //	List<Posts> getInterestedPostsByRegId(@Param("r_id") int r_id);
 
 	List<Posts> findBySubUserSubUserId(int subUserId);
-
+	
+	 @Transactional
+	    @Modifying
+	    @Query(value = "DELETE FROM posts WHERE sub_user_id = ?", nativeQuery = true)
+	    void deleteFromposts(int id);
+	    
+	    @Query(value = "SELECT sell_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
+	    String getSellId(int id);
+	    
+	    @Query(value = "SELECT rent_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
+	    String getRentId(int id);
 }

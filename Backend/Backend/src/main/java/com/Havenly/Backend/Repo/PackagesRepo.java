@@ -19,4 +19,9 @@ public interface PackagesRepo extends JpaRepository<Packages, Integer> {
 	@Query(value = "UPDATE packages SET avail_posts = ?1 WHERE sub_user_id = ?2", nativeQuery = true)
 	public void updatePost(int postCount, int subUserId);
 	
+	@Transactional
+    @Modifying
+	 @Query(value = "Delete from packages  WHERE sub_user_id = ?", nativeQuery = true)
+	    void deleteFrompackages(int id);
+	
 }

@@ -12,14 +12,29 @@ import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
 import com.Havenly.Backend.Entity.Reg_user;
+import com.Havenly.Backend.Entity.RentPost;
+import com.Havenly.Backend.Entity.SellPost;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
+import com.Havenly.Backend.Repo.Interest_Repo;
+import com.Havenly.Backend.Repo.PackagesRepo;
+import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
+import com.Havenly.Backend.Repo.RentPost_Repo;
+import com.Havenly.Backend.Repo.SellPost_Repo;
+import com.Havenly.Backend.Repo.SubscribeRepo;
 import com.Havenly.Backend.util.EmailUtil;
 
 import jakarta.mail.MessagingException;
 
 @Configuration
 public class Reg_user_Service_Impl implements Reg_user_Service{
+	
+//	@Autowired
+//	SellPost sellpost;
+//	
+//	@Autowired
+//	RentPost rentPost;
+	
 	
 	@Autowired
 	Reg_user_Repo regRepo;
@@ -30,6 +45,23 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Autowired
 	JavaMailSender mail;
 	
+	@Autowired
+	Interest_Repo interestRepo;
+	
+	@Autowired
+	SubscribeRepo subRepo;
+	
+	@Autowired
+	SellPost_Repo sellPosetRepo;
+	
+	@Autowired
+	PackagesRepo packrepo;
+	
+	@Autowired
+	Posts_Repo postsRepo;
+	
+	@Autowired
+	RentPost_Repo rentRepo;
 	
 	@Autowired
 	EmailUtil emailUtil;
@@ -118,8 +150,45 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Override
 	public String deleteByEmail(String email) {
 	
+//		SellPost sellpost=new SellPost();
+//		RentPost rentPost=new RentPost();
+		
 		Reg_user user1 = regRepo.findByEmail(email);
-		if(user1!=null) {
+		
+		if(user1.getSub()!=null) {
+			
+		int user_id=user1.getRegister_id();
+		
+		interestRepo.DeleteByregisterId(user_id);
+		
+		int sub_id=subRepo.getsubId(user_id);
+		
+		String sell_id=postsRepo.getSellId(sub_id);
+		String rent_id=postsRepo.getRentId(sub_id);
+		
+		postsRepo.deleteFromposts(sub_id);
+		
+		
+		
+		System.out.println(sell_id+"ayesay");
+		System.out.println(rent_id+"ayesay");
+		
+		sellPosetRepo.deleteFromSell_post(sell_id);
+		
+		
+		
+		
+		rentRepo.deleteFromRentpost(rent_id);
+		 
+		System.out.println(sell_id+"khasfghgskdgfgsdgfkghsdhkggk");
+		
+		packrepo.deleteFrompackages(sub_id);
+		
+		subRepo.deleteFromSub(sub_id);
+		}
+        		
+		
+		if(user1!=null ) {
 			regRepo.deleteByEmail(email);
 			return "Deleted!";
 		}

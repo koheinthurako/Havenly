@@ -61,8 +61,12 @@ public class PackagesServiceImpl implements PackagesService{
 	public Packages_DD buyPack(String email, String packType, String amount) {
 		Reg_user reg = regRepo.findByEmail(email);
 		Subscription subUser = subRepo.findByNrc(reg.getSub().getNrc());
+		
+
 		PackageTypes packTypes = packTypesRepo.findByPackName(packType);
+		System.out.println("AKMMMMMMMMMMMMMMMM");
 		Packages packUser = subUser.getPackages();
+		
 		if(packUser==null) {
 			return null;
 		}
@@ -70,6 +74,7 @@ public class PackagesServiceImpl implements PackagesService{
 			return null;
 		}		
 //		packUser.setSub1(subUser);
+		
 		packUser.setPackType(packTypes);
 		packUser.setPackDate(LocalDate.now());
 		packUser.setPackTime(LocalDateTime.now());	

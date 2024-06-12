@@ -59,5 +59,10 @@ public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 	// find data by Post id in interest
 	@Query(value = "select * from interest where post_id = ?;", nativeQuery = true)
 	List<Interest> findDataByPostId(int postId);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM Interest WHERE register_id =?", nativeQuery = true)
+	void DeleteByregisterId(int user_id);
 
 }
