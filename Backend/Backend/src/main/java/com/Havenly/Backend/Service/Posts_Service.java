@@ -17,6 +17,7 @@ public interface Posts_Service {
 	public Posts getPostById(int postId);
 	public Posts update(Posts post);
 	public void decliePost(int subUserId, int postId);
+	public void deletePost(int postId);
 
 	// get interested posts
 	List<Posts> getInterestPostByRegId(int id);

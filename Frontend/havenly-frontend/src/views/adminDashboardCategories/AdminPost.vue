@@ -111,8 +111,8 @@
                                 <v-btn elevation="0" variant="outlined" @click="approve(post)"
                                     style="text-transform:capitalize;">Approve</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn elevation="0" variant="outlined" @click="cancel(post)"
-                                    style="text-transform:capitalize;">Cancel</v-btn>
+                                <v-btn elevation="0" variant="outlined" @click="reject(post)"
+                                    style="text-transform:capitalize;">Reject</v-btn>
                             </v-card-actions>
                         </div>
 
@@ -293,7 +293,7 @@ export default {
                 .catch(httpErrorHandler)
         },
 
-        cancel(post) {
+        reject(post) {
 
             console.log(post);
 
@@ -320,7 +320,7 @@ export default {
                         title: 'Successfully Canceled!',
                         icon: 'success',
                         customClass: {
-                            confirmButton: 'myCustomButton'
+                            confirmButton: 'myCustomSuccessButton'
                         },
                         buttonsStyling: false,
                         allowOutsideClick: false,

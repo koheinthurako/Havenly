@@ -83,11 +83,21 @@ public class Posts_Service_Impl implements Posts_Service {
 	    }
 //		postsRepo.delete(post);
 	}
+	
+	@Transactional
+	@Override
+	public void deletePost(int postId) {
+		Posts post = postsRepo.findById(postId)
+	            .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+		postsRepo.delete(post);
+	}
 
 	@Override
 	public List<Posts> getInterestPostByRegId(int id) {
 		return postsRepo.getInterestedPostsByRegId(id);
 	}
+
+	
 
 	
 

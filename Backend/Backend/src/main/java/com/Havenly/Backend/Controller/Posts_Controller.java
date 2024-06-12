@@ -79,6 +79,16 @@ public class Posts_Controller {
             return ResponseEntity.status(500).body("Error declining post: " + e.getMessage());
         }
 	}
+	
+	@DeleteMapping("/deletepost/{postId}")
+	public ResponseEntity<String> deletePost(@PathVariable int postId){
+		try {
+            postService.deletePost(postId);
+            return ResponseEntity.ok("Post deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting post: " + e.getMessage());
+        }
+	}
 
 
 	@GetMapping("/getInterestedPostsByRegId/{reg_id}")
