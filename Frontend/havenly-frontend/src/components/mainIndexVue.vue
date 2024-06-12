@@ -359,8 +359,8 @@ export default {
             // Initialize notification count with the length of fetched notifications
             filteredOjbs.value = filterData(objs.value);
           })
-          .catch((error) => {
-            console.error('Error fetching photos:', error);
+          .catch(() => {
+            console.error('Error fetching photos: error');
           });
       } else {
         console.log("No Recently a user Registered!");

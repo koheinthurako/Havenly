@@ -212,7 +212,7 @@
               allowOutsideClick: false,
               allowEscapeKey: false
               }).then(() => {
-                router.push('/'); 
+                router.push('/');
             });
           }catch {
             httpErrorHandler();
