@@ -14,8 +14,9 @@
                             </div>
                             <div class="content">
 
-                                <p>If you want to create an account goto login inside the navbar. If you reached login
-                                    page then click create account. see more ...</p>
+                                {{ truncateText(`To log in, click "Login" in the navbar and enter your credentials. If
+                                you don't have an account, click "Create Account" on the login page, fill in the
+                                required details, and submit to register.`, 159) }}
 
                             </div>
                         </div>
@@ -33,8 +34,8 @@
                             </div>
                             <div class="content">
 
-                                <p>After creating an account, you can buy a package. There have multiple packages we
-                                    offered with fair prices. see more ...</p>
+                                {{ truncateText(`After creating an account, you can buy a package. There have multiple
+                                packages we offered with fair prices and unique process.`, 140) }}
 
                             </div>
                         </div>
@@ -53,8 +54,8 @@
                             </div>
                             <div class="content">
 
-                                <p>After subscribe a package successfully, you can sell or rent your properties by
-                                    creating posts. Click to see more ...</p>
+                                {{ truncateText(`After subscribed a package successfully, you can sell or rent your
+                                properties by creating posts. Creating process are simple.`, 150) }}
 
                             </div>
                         </div>
@@ -72,8 +73,8 @@
                             </div>
                             <div class="content">
 
-                                <p>If you interested a post you can request owner to get more info of post or you can
-                                    contact directly to make discussion. see more ...</p>
+                                {{ truncateText(`If you interested a post you can request owner to get more info of post
+                                or you can contact directly to make discussion. `, 150) }}
 
                             </div>
                         </div>
@@ -97,7 +98,7 @@ export default {
     methods: {
         truncateText(text, charLimit) {
             if (text.length > charLimit) {
-                return text.slice(0, charLimit) + '...';
+                return text.slice(0, charLimit) + ' read more ...';
             }
             return text;
         },

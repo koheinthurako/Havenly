@@ -13,6 +13,7 @@
       <!-- style one end -->
 
       <!-- style two start -->
+
       <div v-click-outside="onClickOutside">
         <button class="navbar-toggler" type="button" @click="toggleSidebar">
           <span v-if="!isSidebarActive" class="navbar-toggler-icon"></span>
@@ -88,6 +89,7 @@
                   <v-icon color="white">mdi-bell</v-icon>
                 </v-badge>
               </div>
+
               <!-- noti start -->
 
               <div v-if="filteredOjbs && filteredOjbs.length > 0" class="notification-panel">
@@ -146,8 +148,7 @@
         <!-- navbar for mobile view end -->
 
       </div>
-
-      <!-- style two end -->
+      <!-- style two end (for mobile view) -->
 
       <!-- style one start -->
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -228,27 +229,48 @@
           <li class="nav-item">
             <div v-if="getUser2">
 
-              <!-- profile start -->
+              <!-- new profile start -->
+              <div v-click-outside="onClickOutside2">
 
+                <div v-if="isActive('/userdashboard')">
+                  <v-btn rounded class="profile-btn">
+                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-1"></v-icon>welcome</p>
+                  </v-btn>
+                </div>
+                <div v-else>
+                  <v-btn rounded class="profile-btn" v-if="!profileMenu" @click="profileMenu = !profileMenu">
+                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-2"></v-icon>{{ getUser2.name }}</p>
+                  </v-btn>
 
-              <!-- profile end -->
+                  <v-btn rounded v-else color="warning" @click="profileMenu = !profileMenu" class="profile-close-btn">
+                    <p class="m-auto"><v-icon icon="mdi-close-circle" class="me-1"></v-icon>close</p>
+                  </v-btn>
+                </div>
 
-              <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
-              </button>
-              <ul class="dropdown-menu p-0">
-                <li>
-                  <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                      class="me-1">mdi-account-circle</v-icon>User
-                    Profile</router-link>
-                </li>
-
-                <li>
-
-                  <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
+                <v-card elevation="8" class="profile-card-on-nav" :class="[{ 'card-display': profileMenu }]">
+                  <div class="top-profile mb-2">
+                    <div class="img-container mx-auto">
+                      <v-img :src="profilePic" class="w-100" />
+                    </div>
                   </div>
-                </li>
-              </ul>
+                  <div class="header mb-3">
+                    <h4 class="m-0 p-0">{{ getUser2.name }}</h4>
+                    <p class="m-0 p-0">Normal user</p>
+                  </div>
+                  <div class="action-btns">
+                    <v-btn @click="gotoDashboard" rounded elevation="10" class="dash-btn">
+                      <v-icon icon="mdi-view-dashboard" class="me-2"></v-icon>Dashboard
+                    </v-btn>
+
+                    <v-btn @click="logout" icon elevation="12" class="out-btn">
+                      <v-icon icon="mdi-logout"></v-icon>
+                    </v-btn>
+                  </div>
+                </v-card>
+              </div>
+
+
+              <!-- new profile end -->
 
             </div>
 
@@ -598,11 +620,15 @@ export default {
   },
 
   data: () => ({
+
+    profilePic: require("@/assets/img/ava1.jpg"),
+
+    profileMenu: false,
     isSidebarActive: false,
     getUser: [],
     getUser2: [],
     activeDataLink: '',
-    user: {
+    newuser: {
       initials: 'JD',
       fullName: 'John Doe',
       email: 'john.doe@doe.com',
@@ -624,7 +650,14 @@ export default {
 
 
   methods: {
-    goTo(get) {
+    gotoDashboard() {
+      // first hide the profile card
+      this.profileMenu = false;
+
+      this.$router.push({ name: 'User_dashboard' });
+    },
+
+    goToExplain(get) {
       // this.$router.push({ name: 'About' });
       this.$router.push({ name: 'About', params: { href: `${get} explain` } });
     },
@@ -634,10 +667,32 @@ export default {
 
     },
 
+    // onClickOutside(event) {
+    //   // Check if the click is outside the sidebar
+    //   const sidebarElement = this.$refs.navSidebar;
+    //   if (this.isSidebarActive && sidebarElement && !sidebarElement.contains(event.target)) {
+    //     this.isSidebarActive = false;
+    //   }
+
+    //   // Check if the click is outside the profile menu
+    //   const profileMenuElement = this.$refs.profileMenu;
+    //   if (this.profileMenu && profileMenuElement && !profileMenuElement.contains(event.target)) {
+    //     this.profileMenu = false;
+    //   }
+    // },
+
     onClickOutside(event) {
       if (this.isSidebarActive && !this.$el.contains(event.target)) {
         this.isSidebarActive = false;
       }
+
+    },
+
+    onClickOutside2(event) {
+      if (this.profileMenu && !this.$el.contains(event.target)) {
+        this.profileMenu = false;
+      }
+
     },
 
     isActive(route) {
@@ -652,6 +707,10 @@ export default {
     // },
 
     logout() {
+      // first hide the profile card
+      this.profileMenu = false;
+
+
       Swal.fire({
         title: 'Are you sure?',
         text: 'You will be logged out!',
@@ -671,9 +730,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .active {
   background-color: #e86f52 !important;
   color: #fff !important;
+}
+
+.v-menu__content {
+  z-index: 2000 !important;
+  /* Adjust as needed */
 }
 </style>
