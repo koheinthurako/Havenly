@@ -11,6 +11,7 @@ import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
+import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.SellPost;
@@ -149,50 +150,79 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 
 	@Override
 	public String deleteByEmail(String email) {
-	
-//		SellPost sellpost=new SellPost();
-//		RentPost rentPost=new RentPost();
-		
-		Reg_user user1 = regRepo.findByEmail(email);
-		
-		if(user1.getSub()!=null) {
-			
-		int user_id=user1.getRegister_id();
-		
-		interestRepo.DeleteByregisterId(user_id);
-		
-		int sub_id=subRepo.getsubId(user_id);
-		
-		String sell_id=postsRepo.getSellId(sub_id);
-		String rent_id=postsRepo.getRentId(sub_id);
-		
-		postsRepo.deleteFromposts(sub_id);
-		
-		
-		
-		System.out.println(sell_id+"ayesay");
-		System.out.println(rent_id+"ayesay");
-		
-		sellPosetRepo.deleteFromSell_post(sell_id);
-		
-		
-		
-		
-		rentRepo.deleteFromRentpost(rent_id);
-		 
-		System.out.println(sell_id+"khasfghgskdgfgsdgfkghsdhkggk");
-		
-		packrepo.deleteFrompackages(sub_id);
-		
-		subRepo.deleteFromSub(sub_id);
-		}
-        		
-		
-		if(user1!=null ) {
-			regRepo.deleteByEmail(email);
-			return "Deleted!";
-		}
-		return "error";
+	    // Find the user by email
+	    Reg_user user1 = regRepo.findByEmail(email);
+
+	    // If the user is not found, return an error
+	    if (user1 == null) {
+	        return "error: user not found";
+	    }
+
+	    // Get the user ID
+	    int user_id = user1.getRegister_id();
+
+	    // Delete interests associated with the user
+	    interestRepo.DeleteByregisterId2(user_id);
+	    System.out.println("Deleted interests for user");
+
+	    // Check if the user has a subscription
+	    if (user1.getSub() != null) {
+	        // Get the subscription ID
+	        Integer sub_id = subRepo.getsubId(user_id);
+	        if (sub_id != null) {
+	            Posts post;
+
+	            // Get post ID and delete associated interests if sell post exists
+	            Integer post_id = postsRepo.getSPostId(sub_id);
+	            if (post_id != null) {
+	                post = postsRepo.findById(post_id).orElse(null);
+	                if (post != null && post.getSellpost() != null) {
+	                    interestRepo.DeleteByregisterId(post_id, user_id);
+	                }
+	            }
+
+	            // Get post ID and delete associated interests if rent post exists
+	            Integer post_id1 = postsRepo.getRPostId(sub_id);
+	            if (post_id1 != null) {
+	                post = postsRepo.findById(post_id1).orElse(null);
+	                if (post != null && post.getRentpost() != null) {
+	                    interestRepo.DeleteByregisterId(post_id1, user_id);
+	                }
+	            }
+
+	            // Delete posts associated with the subscription ID
+	            postsRepo.deleteFromposts(sub_id);
+	            System.out.println("Deleted posts for subscription");
+
+	            // Get sell and rent post IDs
+	            String sell_id = postsRepo.getSellId(sub_id);
+	            String rent_id = postsRepo.getRentId(sub_id);
+
+	            // Delete the sell post if it exists
+	            if (sell_id != null) {
+	                sellPosetRepo.deleteFromSell_post(sell_id);
+	                System.out.println("Deleted sell post");
+	            }
+
+	            // Delete the rent post if it exists
+	            if (rent_id != null) {
+	                rentRepo.deleteFromRentpost(rent_id);
+	                System.out.println("Deleted rent post");
+	            }
+
+	            // Delete packages associated with the subscription ID
+	            packrepo.deleteFrompackages(sub_id);
+	            System.out.println("Deleted packages for subscription");
+
+	            // Delete the subscription
+	            subRepo.deleteFromSub(sub_id);
+	            System.out.println("Deleted subscription");
+	        }
+	    }
+
+	    // Finally, delete the user
+	    regRepo.deleteByEmail(email);
+	    return "Deleted!";
 	}
 
 	@Override

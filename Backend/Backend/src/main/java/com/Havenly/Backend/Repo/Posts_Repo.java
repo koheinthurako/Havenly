@@ -146,9 +146,15 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 	    @Query(value = "DELETE FROM posts WHERE sub_user_id = ?", nativeQuery = true)
 	    void deleteFromposts(int id);
 	    
-	    @Query(value = "SELECT sell_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
+	    @Query(value = "SELECT sell_post_id FROM posts WHERE sub_user_id = ? and post_type='Sell Post'", nativeQuery = true)
 	    String getSellId(int id);
 	    
-	    @Query(value = "SELECT rent_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
+	    @Query(value = "SELECT rent_post_id FROM posts WHERE sub_user_id = ? and post_type='Rent Post'", nativeQuery = true)
 	    String getRentId(int id);
+	    
+	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Sell Post'", nativeQuery = true)
+	    Integer getSPostId(int id);
+	    
+	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Rent Post'", nativeQuery = true)
+	    Integer getRPostId(int id);
 }
