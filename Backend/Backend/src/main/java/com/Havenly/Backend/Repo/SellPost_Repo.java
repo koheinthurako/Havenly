@@ -3,7 +3,9 @@ package com.Havenly.Backend.Repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Havenly.Backend.Entity.SellPost;
 
@@ -15,6 +17,12 @@ public interface SellPost_Repo extends JpaRepository<SellPost, String>{
 	
 	@Query(value = "select p.post_id, p.post_type, p.sub_user_id, p.status, sp.* from  sell_post sp, posts p where sp.sell_post_id = p.sell_post_id and p.sub_user_id = ? and p.status = 'complete';", nativeQuery = true)
 	List<SellPost> getAllSubuserSellPosts(int subUserId);
+	
+	 @Transactional
+	    @Modifying
+	    @Query(value = "DELETE FROM sell_post WHERE sell_post_id = ?1", nativeQuery = true)
+	    void deleteFromSell_post(String id);
+	
 	
 
 }

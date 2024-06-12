@@ -3,8 +3,10 @@ package com.Havenly.Backend.Repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.Subscription;
@@ -25,5 +27,13 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 	           "WHERE reg.register_id = :registerId")
 //    List<Subscription_DTO> getSubUserInfo();
 	Subscription_DTO getSubUserInfo(@Param("registerId") int registerId);
+	
+	@Query(value = "select sub_user_id from subscription where reg_user_id=?",nativeQuery = true)
+	int getsubId(int id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from subscription where sub_user_id=?",nativeQuery = true)
+	void deleteFromSub(int id);
 
 }
