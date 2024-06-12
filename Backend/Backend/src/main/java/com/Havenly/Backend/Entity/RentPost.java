@@ -50,10 +50,6 @@ public class RentPost {
 	private String deposit;
 	private String least_contract;
 	
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
-//	Locations locations;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Locations locations;
