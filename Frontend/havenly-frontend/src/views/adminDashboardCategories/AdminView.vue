@@ -110,7 +110,7 @@
               <td class="td">{{ item.phone }}</td>
               <td class="td">{{ item.date }}</td>
               <td class="td">
-                <!-- <v-btn @click="deleteUser(item.id)" color="#e86f52" class="me-2">Delete</v-btn> -->
+                 <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn> 
                 <v-btn @click="banUser(item)" color="#e86f52">Ban</v-btn>
               </td>
               <td class="td">{{ item.banned ? 'Yes' : 'No' }}</td>
@@ -340,18 +340,18 @@ export default {
     //   console.log("this users : ", this.users);
     // },
 
-    // deleteUser(email) {
-    //   axios.delete(`http://localhost:8083/delete/${email}`)
-    //     .then(() => {
+    deleteUser(email) {
+      axios.delete(`http://localhost:8083/delete/${email}`)
+        .then(() => {
 
-    //       this.users = this.users.filter((u) => u.email !== email);
-    //       alert('User deleted successfully.');
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error deleting user:', error);
-    //       alert('Failed to delete user. Please try again.');
-    //     });
-    // },
+          this.users = this.users.filter((u) => u.email !== email);
+          alert('User deleted successfully.');
+        })
+        .catch((error) => {
+          console.error('Error deleting user:', error);
+          alert('Failed to delete user. Please try again.');
+        });
+    },
 
     async banUser(user) {
       console.log("inside Banuser : ", user);
