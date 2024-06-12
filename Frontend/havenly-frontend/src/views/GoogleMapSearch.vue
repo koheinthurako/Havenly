@@ -119,24 +119,24 @@
             methods: {
 
                 async fetchLocations() {
-                try {
-                    const response = await fetch('http://localhost:8083/locations/getall');
-                    const data = await response.json();
-                    const mappedData = data.map(location => ({
-                    location_id: location.location_id,
-                    country_name: location.country_name,
-                    province: location.province,
-                    amphoe: location.amphoe,
-                    region: location.region,
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                    this.mapLocations = mappedData;
-                } catch (error) {
-                    console.error('Error fetching locations:', error);
-                }
+                    try {
+                        const response = await fetch('http://localhost:8083/locations/getall');
+                        const data = await response.json();
+                        const mappedData = data.map(location => ({
+                        location_id: location.location_id,
+                        country_name: location.country_name,
+                        province: location.province,
+                        amphoe: location.amphoe,
+                        region: location.region,
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                        }));
+                        sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                        this.locations = mappedData;
+                        this.mapLocations = mappedData;
+                    } catch (error) {
+                        console.error('Error fetching locations:', error);
+                    }
                 },
 
                 getLocationsFromSessionStorage() {

@@ -49,7 +49,7 @@
                                                         :class="getStatusClass(post.status)">{{ post.status }}</span>
                                                 </div>
                                             </div>
-                                            <h5 class="card-title mb-3">{{ post.title }}</h5>
+                                            <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
                                             <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
                                             <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
                                                 <v-icon>mdi-map-marker-radius</v-icon>
@@ -93,7 +93,7 @@
                                                         <div class="col-md-9 col-sm-12">
                                                             <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                                clearable class="w-100" v-model="title"
+                                                                clearable class="w-100" v-model="fullTitle"
                                                                 :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
                                                                 placeholder="Title"></v-text-field>
                                                         </div>
@@ -286,6 +286,8 @@ export default {
         clickedPhotoType: '',
         location_id: '',
         title: '',
+        shortTitle: '',
+        fullTitle: '',
         shortDescription: '',
         fullDescription: '',
         property_type: '',
@@ -516,7 +518,7 @@ export default {
         },
 
         validateBeforeSubmit() {
-            if (!this.title || !this.fullDescription || !this.property_type || !this.price || !this.area || !this.selectedCountry || !this.selectedProvince || !this.selectedAmphoe || !this.selectedRegion) {
+            if (!this.fullTitle || !this.fullDescription || !this.property_type || !this.price || !this.area || !this.selectedCountry || !this.selectedProvince || !this.selectedAmphoe || !this.selectedRegion) {
                 Swal.fire({
                     title: "Incomplete Form!",
                     text: "Please fill in all required fields.",
@@ -544,7 +546,7 @@ export default {
 
             const formData = new FormData();
             formData.append('postId', currentPost.post_id);
-            formData.append('title', this.title);
+            formData.append('title', this.fullTitle);
             formData.append('description', this.fullDescription);
             formData.append('property_type', this.property_type);
             formData.append('price', this.price);
@@ -742,6 +744,8 @@ export default {
                 response.data.forEach(post => {
                     console.log(post);
                     if (post.rentpost) {
+                        let tt = post.rentpost.title;
+                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
                         let des = post.rentpost.description;
                         let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
@@ -757,7 +761,9 @@ export default {
                             amphoe: post.rentpost.locations.amphoe,
                             location_id: post.rentpost.locations.location_id,
                             country: post.rentpost.locations.countries.country_name,
-                            title: post.rentpost.title,
+                            // title: post.rentpost.title,
+                            shortTitle: shortTt,
+                            fullTitle: post.rentpost.title,
                             shortDescription: shortDescription,
                             fullDescription: post.rentpost.description,
                             property_type: post.rentpost.property_type,
@@ -771,6 +777,8 @@ export default {
                         });
                     } else if (post.sellpost) {
                         console.log(post);
+                        let tt = post.sellpost.title;
+                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
                         let des = post.sellpost.description;
                         let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
@@ -786,7 +794,9 @@ export default {
                             amphoe: post.sellpost.locations.amphoe,
                             location_id: post.sellpost.locations.location_id,
                             country: post.sellpost.locations.countries.country_name,
-                            title: post.sellpost.title,
+                            // title: post.sellpost.title,
+                            shortTitle: shortTt,
+                            fullTitle: post.sellpost.title,
                             shortDescription: shortDescription,
                             fullDescription: post.sellpost.description,
                             property_type: post.sellpost.property_type,
@@ -817,7 +827,7 @@ export default {
             }
 
             this.currentPost = toRaw(post);
-            this.title = this.currentPost.title;
+            this.fullTitle = this.currentPost.fullTitle;
             this.fullDescription = this.currentPost.fullDescription;
             this.property_type = this.currentPost.property_type;
             this.price = this.currentPost.price;
