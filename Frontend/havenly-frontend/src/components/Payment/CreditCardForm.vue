@@ -145,6 +145,8 @@
         });
           return;
       }
+
+      console.log(this.user);
         function httpErrorHandler(error) {
           if (axios.isAxiosError(error)) {
               const response = error?.response
