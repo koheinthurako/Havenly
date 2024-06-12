@@ -253,7 +253,7 @@
                       <v-img :src="profilePic" class="w-100" />
                     </div>
                   </div>
-                  <div class="header mb-3">
+                  <div class="header mb-4">
                     <h4 class="m-0 p-0">{{ getUser2.name }}</h4>
                     <p class="m-0 p-0">Normal user</p>
                   </div>
