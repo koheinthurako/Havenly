@@ -45,10 +45,6 @@ public class SellPost {
 	@Column(columnDefinition = "MEDIUMBLOB")
 	private String[] image;
 	
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
-//	Locations locations;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Locations locations;
