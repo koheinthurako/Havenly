@@ -3169,7 +3169,7 @@ body {
 
         .profile-card-on-nav {
           width: 250px;
-          height: 270px;
+          height: 255px;
           background-color: #fff;
           border-radius: 10px;
           position: absolute;
@@ -3238,15 +3238,15 @@ body {
 
             .dash-btn {
               text-transform: capitalize;
-              border: 1px solid red;
               width: 100%;
               height: 50px;
               background-color: #e86f52;
               color: #fff;
               transition: all 0.2s ease-in-out;
+              box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4);
 
               .v-icon {
-                margin-left: -30px;
+                margin-left: -40px;
                 font-size: 20px;
               }
 
@@ -3259,13 +3259,24 @@ body {
               }
             }
 
+            /* test start */
+
             .out-btn {
               text-transform: capitalize;
               position: absolute;
               z-index: 1;
               top: 0;
               right: 0;
+              color: #fff;
               margin-right: -1px;
+              margin-top: -3px;
+              background: radial-gradient(
+                circle at 50% 120%,
+                #525252,
+                #525252 10%,
+                #525252 80%,
+                #525252 100%
+              );
 
               .v-icon {
                 font-size: 20px;
@@ -3273,10 +3284,41 @@ body {
               }
 
               &:hover {
-                color: #fff;
-                background-color: #525252;
+                color: #000;
+                // background: radial-gradient(
+                //   circle at 50% 120%,
+                //   #81e8f6,
+                //   #76deef 10%,
+                //   #055194 80%,
+                //   #062745 100%
+                // );
+                background: radial-gradient(
+                  circle at 50% 120%,
+                  #e86f52,
+                  #e86f52 10%,
+                  #e86f52 80%,
+                  #e86f52 100%
+                );
               }
             }
+            .out-btn:before {
+              content: "";
+              position: absolute;
+              top: 1%;
+              left: 5%;
+              width: 90%;
+              height: 90%;
+              border-radius: 50%;
+              background: radial-gradient(
+                circle at 50% 0px,
+                #ffffff,
+                rgba(255, 255, 255, 0) 58%
+              );
+              filter: blur(5px);
+              z-index: 2;
+            }
+
+            /* test end */
           }
         }
 

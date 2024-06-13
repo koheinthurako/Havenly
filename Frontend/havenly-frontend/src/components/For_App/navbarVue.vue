@@ -243,17 +243,17 @@
                   </v-btn>
 
                   <v-btn rounded v-else color="warning" @click="profileMenu = !profileMenu" class="profile-close-btn">
-                    <p class="m-auto"><v-icon icon="mdi-close-circle" class="me-1"></v-icon>close</p>
+                    <p class="m-auto"><v-icon icon="mdi-close-circle" class="me-3"></v-icon>close</p>
                   </v-btn>
                 </div>
 
                 <v-card elevation="8" class="profile-card-on-nav" :class="[{ 'card-display': profileMenu }]">
-                  <div class="top-profile mb-2">
+                  <div class="top-profile mb-1">
                     <div class="img-container mx-auto">
                       <v-img :src="profilePic" class="w-100" />
                     </div>
                   </div>
-                  <div class="header mb-4">
+                  <div class="header mb-3">
                     <h4 class="m-0 p-0">{{ getUser2.name }}</h4>
                     <p class="m-0 p-0">Normal user</p>
                   </div>
@@ -262,7 +262,7 @@
                       <v-icon icon="mdi-view-dashboard" class="me-2"></v-icon>Dashboard
                     </v-btn>
 
-                    <v-btn @click="logout" icon elevation="12" class="out-btn">
+                    <v-btn @click="logout" icon size="large" elevation="12" class="out-btn">
                       <v-icon icon="mdi-logout"></v-icon>
                     </v-btn>
                   </div>
@@ -375,7 +375,7 @@
                   <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
                 </div>
                 <div class="col-md-8">
-                  <span>{{ obj.name }}{{ obj.id }}</span> make interested your post.
+                  <span>{{ obj.name }}</span> make interested your post.
                 </div>
               </div>
             </v-expansion-panel-title>

@@ -3,7 +3,7 @@
 
 
   <div class="container">
-    <h2 class="mb-3">All user list</h2>
+    <h2 class="mb-3" style="color: #e86f52;">All user list</h2>
     <!-- <div class="box1">
       <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
         <div class="d-flex">
@@ -84,6 +84,7 @@
           </template>
 </v-data-table>
 </v-card> -->
+
       <v-card flat class="w-100">
         <!-- Search and Radio buttons -->
         <div class="d-flex mb-1 justify-content-end">
@@ -110,7 +111,7 @@
               <td class="td">{{ item.phone }}</td>
               <td class="td">{{ item.date }}</td>
               <td class="td">
-                 <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn> 
+                <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn>
                 <v-btn @click="banUser(item)" color="#e86f52">Ban</v-btn>
               </td>
               <td class="td">{{ item.banned ? 'Yes' : 'No' }}</td>
@@ -254,13 +255,10 @@ export default {
 
   methods: {
 
-
     async fetchSubscribedUsers() {
 
       try {
         const response = await axios.get("http://localhost:8083/subscribe/getAll");
-
-
         if (response.status === 204) {
           console.log('No data available for this post.');
         } else {
@@ -321,37 +319,46 @@ export default {
         this.loading = false; // Stop loading
       }
     },
-    // fetchUsers() {
-    //   fetch('http://localhost:8083/getAll')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       const mappedData = data.map(users => ({
-    //         id: users.register_id,
-    //         name: users.name,
-    //         email: users.email,
-    //         phone: users.phone,
-    //         date: users.date,
-    //       }))
-    //       sessionStorage.setItem('users', JSON.stringify(mappedData));
-    //       this.users = mappedData;
-    //     }
-    //     )
-
-    //   console.log("this users : ", this.users);
-    // },
 
     deleteUser(email) {
-      axios.delete(`http://localhost:8083/delete/${email}`)
-        .then(() => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This account will Delete!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`http://localhost:8083/delete/${email}`)
+            .then(() => {
 
-          this.users = this.users.filter((u) => u.email !== email);
-          alert('User deleted successfully.');
-        })
-        .catch((error) => {
-          console.error('Error deleting user:', error);
-          alert('Failed to delete user. Please try again.');
-        });
+              this.users = this.users.filter((u) => u.email !== email);
+              alert('User deleted successfully.');
+            })
+            .catch((error) => {
+              console.error('Error deleting user:', error);
+              alert('Failed to delete user. Please try again.');
+            });
+        }
+      });
+
     },
+
+
+    // deleteUser(email) {
+    //   axios.delete(`http://localhost:8083/delete/${email}`)
+    //     .then(() => {
+
+    //       this.users = this.users.filter((u) => u.email !== email);
+    //       alert('User deleted successfully.');
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error deleting user:', error);
+    //       alert('Failed to delete user. Please try again.');
+    //     });
+    // },
 
     async banUser(user) {
       console.log("inside Banuser : ", user);

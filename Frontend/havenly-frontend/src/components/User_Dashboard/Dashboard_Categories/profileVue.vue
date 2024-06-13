@@ -45,7 +45,7 @@
                                     <h5>Account info status</h5>
                                     <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Ediable<i class="fa-solid fa-check ms-1"></i>
+                                        Editable<i class="fa-solid fa-check ms-1"></i>
                                     </p>
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
@@ -135,7 +135,7 @@
                                     <h5>Account progress status</h5>
                                     <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Ediable<i class="fa-solid fa-check ms-1"></i></p>
+                                        Editable<i class="fa-solid fa-check ms-1"></i></p>
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
                                 <div class="d-flex justify-space-between">
@@ -185,7 +185,7 @@
                                     <h5>Account function status</h5>
                                     <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
-                                        Ediable<i class="fa-solid fa-check ms-1"></i></p>
+                                        Editable<i class="fa-solid fa-check ms-1"></i></p>
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
                                 <div class="d-flex justify-space-between">
@@ -388,8 +388,8 @@ export default {
                     }
                 })
                 .catch(httpErrorHandler)
-           
-                this.change_pw.username = '',
+
+            this.change_pw.username = '',
                 this.change_pw.password = '',
                 this.change_pw.new_password = ''
         }

@@ -5,22 +5,22 @@
             <div v-if="loading">
                 <v-row class="g-1 mb-3">
                     <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
+                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                             style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
+                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                             style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
+                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                             style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
+                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                             style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 

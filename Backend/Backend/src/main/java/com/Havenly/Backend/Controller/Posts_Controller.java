@@ -2,6 +2,7 @@ package com.Havenly.Backend.Controller;
 
 import java.util.List;
 
+import com.Havenly.Backend.Entity.Interest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class Posts_Controller {
 	public ResponseEntity<List<Posts>> getAllPendingPosts(){
 		return new ResponseEntity<List<Posts>>(postService.getAllPendingPosts(),HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/allComplete")
 	public ResponseEntity<List<Posts>> getAllCompletePosts(){
 		return new ResponseEntity<List<Posts>>(postService.getAllCompletePosts(),HttpStatus.OK);

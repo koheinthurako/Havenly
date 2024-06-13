@@ -97,58 +97,16 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 			nativeQuery = true)
 	List<Posts> getInterestedPostsByRegId(@Param("r_id") int r_id);
 
-//	@Query(value = "SELECT " +
-//			"    p.post_id AS postId, " +
-//			"    p.post_type AS postType, " +
-//			"    p.status AS status, " +
-//			"    p.sub_user_id AS subUserId, " +
-//			"    tp.sell_post_id AS sellPostId, " +
-//			"    rp.rent_post_id AS rentPostId, " +
-//			"    COALESCE(tp.title, rp.title) AS title, " +
-//			"    COALESCE(tp.description, rp.description) AS description, " +
-//			"    COALESCE(tp.area, rp.area) AS area, " +
-//			"    COALESCE(tp.price, rp.price) AS price, " +
-//			"    COALESCE(tp.date, rp.date) AS date, " +
-//			"    COALESCE(tp.time, rp.time) AS time, " +
-//			"    COALESCE(tp.image, rp.image) AS image, " +
-//			"    COALESCE(tp.property_type, rp.property_type) AS propertyType, " +
-//			"    COALESCE(tp.location_id, rp.location_id) AS locationId, " +
-//			"    rp.deposit AS deposit, " +
-//			"    rp.lease_contract AS leaseContract, " +
-//			"    l.province AS province, " +
-//			"    l.region AS region, " +
-//			"    c.country AS country " +
-//			"FROM " +
-//			"    posts p " +
-//			"LEFT JOIN " +
-//			"    subscription sub ON p.sub_user_id = sub.sub_user_id " +
-//			"LEFT JOIN " +
-//			"    rentpost rp ON p.rent_post_id = rp.rent_post_id " +
-//			"LEFT JOIN " +
-//			"    sell_post tp ON p.sell_post_id = tp.sell_post_id " +
-//			"LEFT JOIN " +
-//			"    locations l ON tp.location_id = l.location_id " +
-//			"LEFT JOIN " +
-//			"    countries c ON l.country_id = c.country_id " +
-//			"INNER JOIN " +
-//			"    interest i ON p.post_id = i.post_id " +
-//			"INNER JOIN " +
-//			"    reg_user r ON i.register_id = r.register_id " +
-//			"WHERE " +
-//			"    r.register_id = :r_id " +
-//			"    AND p.status = 'complete'", nativeQuery = true)
-//	List<Posts> getInterestedPostsByRegId(@Param("r_id") int r_id);
-
 	List<Posts> findBySubUserSubUserId(int subUserId);
 	
 	 @Transactional
 	    @Modifying
 	    @Query(value = "DELETE FROM posts WHERE sub_user_id = ?", nativeQuery = true)
 	    void deleteFromposts(int id);
-	    
+
 	    @Query(value = "SELECT sell_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
 	    String getSellId(int id);
-	    
+
 	    @Query(value = "SELECT rent_post_id FROM posts WHERE sub_user_id = ?", nativeQuery = true)
 	    String getRentId(int id);
 }

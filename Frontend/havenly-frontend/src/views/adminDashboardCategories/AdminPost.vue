@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <h1>Users' pending posts!</h1>
+        <h1 style="color: #e86f52;">Users' pending posts!</h1>
         <!-- <div class="box1">
             <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
                 <div class="d-flex">
@@ -73,8 +73,7 @@
         </div>
         <div v-else>
             <div class="row mt-3 mb-5 box2">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-
+                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post.post_id)">
 
                     <div class="card-container">
                         <!-- TZH card styles -->
@@ -133,6 +132,7 @@ import axios from 'axios';
 import router from '@/router';
 import Swal from 'sweetalert2';
 
+import AES from 'crypto-js/aes';
 export default {
 
     data: () => ({
@@ -146,6 +146,19 @@ export default {
     },
 
     methods: {
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Admin_View` } });
+        },
+
         truncateText(text, charLimit) {
             if (text.length > charLimit) {
                 return text.slice(0, charLimit) + '...';

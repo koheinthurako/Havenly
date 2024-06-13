@@ -13,7 +13,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
 
-                    <a class="sideTextLink" :class="{ active: openTab === 'profile' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'profile' }"
                         @click="changeTab('profile'); toggleSidebar2()">
                         <v-icon>mdi-account</v-icon>
                         <span>Profile</span>
@@ -21,7 +21,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-interest-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'all-interest-post' }"
                         @click="changeTab('all-interest-post'); toggleSidebar2()">
                         <v-icon>mdi-star-box-multiple</v-icon>
                         <span>Interested post</span>
@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'all-post' }"
                         @click="changeTabForSub('all-post'); toggleSidebar2()">
                         <v-icon>mdi-post</v-icon>
                         <span>All post</span>
@@ -39,21 +39,21 @@
 
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-sell-post' }"
                         @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
                         <v-icon>mdi-note-plus</v-icon>
                         <span>Create Sell Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-rent-post' }"
                         @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
                         <v-icon>mdi-note-plus-outline</v-icon>
                         <span>Create Rent Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-ads' }"
                         @click="changeTabForSub('create-ads'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
@@ -245,6 +245,14 @@ export default {
 </script>
 
 <style scoped>
+.userActive {
+    background-color: #e86f52;
+
+    .v-icon {
+        color: #525252;
+    }
+}
+
 .create-pop-up {
     width: 100%;
     height: auto;

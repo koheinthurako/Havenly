@@ -24,9 +24,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="search-bar mt-2">
 
-                                            <!-- search bar start -->
+                                        <!-- search bar start -->
+                                        <div class="search-bar mt-2" v-if="getData === 'Success'">
                                             <v-row>
                                                 <v-col cols="12">
                                                     <v-menu v-model="menu" :close-on-content-click="false" offset-y
@@ -69,14 +69,29 @@
                                                     </v-menu>
                                                 </v-col>
                                             </v-row>
-                                            <!-- search bar end -->
-
-                                            <!-- search bar 2 start -->
-
-
-                                            <!-- search bar 2 end -->
-
                                         </div>
+
+                                        <div v-if="getData === 'Admin_View'">
+                                            <div v-if="post.status === 'pending'">
+                                                <h4 class="mb-3" style="color:#e86f52;">Choose your desire</h4>
+                                                <div class="admin-action-btn d-flex justify-space-between">
+                                                    <v-btn elevation="0" variant="outlined" @click="approve(post)"
+                                                        style="text-transform:capitalize;">Approve
+                                                        post</v-btn>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn elevation="0" variant="outlined" @click="cancel(post)"
+                                                        style="text-transform:capitalize;">Decline
+                                                        post</v-btn>
+                                                </div>
+                                            </div>
+                                            <div v-else-if="post.status === 'complete'">
+                                                <v-alert text="You approved this post." type="success"></v-alert>
+                                                <!-- <h4 class="mt-3" style="color:#e86f52;"></h4> -->
+                                            </div>
+                                        </div>
+                                        <!-- search bar end -->
+
+
                                     </div>
                                 </div>
 
@@ -334,6 +349,211 @@
                                     </div>
                                 </v-card>
                             </div>
+                            <div v-else-if="getData === 'Admin_View'" class="col-md-4">
+                                <v-card class="interst-posts mb-3">
+                                    <h5 class="header">
+                                        <!-- <v-icon>mdi-star</v-icon> -->
+                                        Uploaded user info
+                                    </h5>
+                                    <br><br>
+
+                                    <div class="p-2 mt-2">
+
+                                        <!-- uploaded user card start -->
+                                        <div
+                                            class="uploaded-user-container d-flex justify-space-between align-items-center">
+
+                                            <!-- left card start -->
+                                            <v-card :elevation="showCard ? 20 : 0" class="me-auto uploaded-user-card"
+                                                :class="[{ 'uploaded-user-card-transform': showCard, 'uploaded-user-card-transform2': showCard2 }]">
+
+                                                <v-card-actions class="m-0 py-0 uploaded-card-action">
+
+                                                    <v-avatar class="ava-img-base" :class="[{ 'ava-img': showCard }]">
+                                                        <v-img alt="John"
+                                                            src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"></v-img>
+                                                    </v-avatar>
+                                                    <p class="mt-2 ms-3 fw-bold ava-data-base"
+                                                        :class="[{ 'ava-data': showCard }]">
+                                                        {{ postOwner.name }}</p>
+                                                    <v-spacer></v-spacer>
+
+                                                    <v-btn icon class="action-close" @click="showCard = !showCard">
+                                                        <v-icon
+                                                            :icon="showCard ? 'mdi-close' : 'mdi-chevron-down'"></v-icon>
+                                                    </v-btn>
+                                                </v-card-actions>
+
+                                                <v-expand-transition>
+                                                    <div v-show="showCard">
+                                                        <v-card-text class="text-center mt-4">
+                                                            <p class="m-0 mt-2 p-0">{{ postOwner.email }}</p>
+                                                            <p class="m-0 mt-2 p-0">{{ postOwner.phone }}</p>
+                                                            <div class="action-group-p mt-3">
+
+                                                                <!-- menu btn 1 start -->
+                                                                <v-menu min-width="200px" rounded>
+                                                                    <template v-slot:activator="{ props }">
+                                                                        <v-btn rounded v-bind="props">
+                                                                            <v-badge color="red" content="9">
+                                                                            </v-badge>
+                                                                            Sell
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <v-card>
+                                                                        <v-card-text>
+                                                                            <div class="mx-auto text-center">
+                                                                                <h4>Uploaded Sell Posts</h4>
+                                                                                wai yan
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hein
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hello
+                                                                            </div>
+                                                                        </v-card-text>
+                                                                    </v-card>
+                                                                </v-menu>
+                                                                <!-- menu btn 1 end -->
+
+                                                                <!-- menu btn 2 start -->
+                                                                <v-menu min-width="200px" rounded>
+                                                                    <template v-slot:activator="{ props }">
+                                                                        <v-btn rounded v-bind="props" class="mx-3">
+                                                                            <v-badge color="red" content="9">
+                                                                            </v-badge>
+                                                                            Rent
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <v-card>
+                                                                        <v-card-text>
+                                                                            <div class="mx-auto text-center">
+                                                                                <h4>Uploaded rent posts</h4>
+                                                                                wai yan
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hein
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hello
+                                                                            </div>
+                                                                        </v-card-text>
+                                                                    </v-card>
+                                                                </v-menu>
+                                                                <!-- menu btn 2 start -->
+
+                                                                <!-- menu btn 3 start -->
+                                                                <v-menu min-width="200px" rounded>
+                                                                    <template v-slot:activator="{ props }">
+                                                                        <v-btn rounded v-bind="props">
+                                                                            <v-badge color="red" content="9">
+                                                                            </v-badge>
+                                                                            Interest
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <v-card>
+                                                                        <v-card-text>
+                                                                            <div class="mx-auto text-center">
+                                                                                <h4>Interested users</h4>
+                                                                                wai yan
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hein
+                                                                                <v-divider class="my-3"></v-divider>
+                                                                                hello
+                                                                            </div>
+                                                                        </v-card-text>
+                                                                    </v-card>
+                                                                </v-menu>
+                                                                <!-- menu btn 3 end -->
+                                                            </div>
+                                                        </v-card-text>
+                                                    </div>
+                                                </v-expand-transition>
+                                            </v-card>
+                                            <!-- left card end -->
+
+                                            <!-- right card start  -->
+                                            <!-- <v-btn :icon="!showCard2" @click="showCard2 = !showCard2"
+                                                class="sideCorner-icon"
+                                                :class="[{ 'sideCorner-icon-transform': showCard, 'sideCorner-icon-transform2': showCard2 }]">
+                                                <h5 class="m-auto">{{ truncateText2(`4`, 2) }}</h5>
+                                            </v-btn> -->
+                                            <v-card :elevation="showCard2 ? 20 : 0" class="ms-auto pending-card"
+                                                :class="[{ 'pending-card-transform2': showCard, 'pending-card-transform': showCard2 }]">
+
+                                                <v-card-actions class="m-0 p-0 h-0" min-height="0">
+                                                    <v-btn icon @click="showCard2 = !showCard2" class="sideCorner-icon"
+                                                        :class="[{ 'sideCorner-icon-transform2': showCard2 }]">
+                                                        <h5 :hidden="showCard2" class="m-auto">
+                                                            {{ truncateText2(filteredPosts.length, 2) }}
+                                                        </h5>
+                                                        <h5 :hidden="!showCard2" class="m-auto" style="color: #000;">
+                                                            x
+                                                        </h5>
+                                                    </v-btn>
+
+                                                    <!-- <v-btn :icon="!showCard2" @click="showCard2 = !showCard2"
+                                                        class="sideCorner-icon"
+                                                        :class="[{ 'sideCorner-icon-transform': showCard, 'sideCorner-icon-transform2': showCard2 }]">
+                                                        <h5 class="m-auto">{{ truncateText2(`4`, 2) }}</h5>
+                                                    </v-btn> -->
+                                                </v-card-actions>
+
+                                                <v-expand-transition>
+                                                    <div v-show="showCard2">
+
+                                                        <v-card-text class="m-0 p-2">
+                                                            <div class="mb-4 text-header">
+                                                                <h5>Left Pending posts</h5>
+                                                            </div>
+
+                                                            <div v-if="filteredPosts.length === 0">
+
+                                                                <v-alert text="Currently, there is only one pending post from this
+                                                                    user. No additional pending
+                                                                    posts are available at this time."
+                                                                    type="info"></v-alert>
+
+                                                            </div>
+
+                                                            <div v-else>
+                                                                <!-- <p>{{ data.id }}</p>
+                                                                    <p>{{ data.title }}</p>
+                                                                    <p>{{ data.type }}</p>
+                                                                    <v-img :src="data.image[0]"></v-img> -->
+                                                                <div class="post-row mb-3 row"
+                                                                    v-for="data in filteredPosts" :key="data.id"
+                                                                    @click="clickPost(data.id)">
+                                                                    <div class="pi-overlay"></div>
+                                                                    <div class="col-3 p-0">
+                                                                        <v-img :src="data.image[0]" class="w-100 h-100"
+                                                                            cover></v-img>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <p class="p-0 m-0 mt-1">
+                                                                            <span>{{ truncateText(data.title, 30)
+                                                                                }}</span>
+
+                                                                        </p>
+                                                                        <p><span>{{ data.type }} post</span>,
+                                                                            uploaded <span>{{ calculateDate(data.date)
+                                                                                }}</span>
+                                                                        </p>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </v-card-text>
+
+                                                    </div>
+                                                </v-expand-transition>
+                                            </v-card>
+                                            <!-- right card end -->
+                                        </div>
+
+                                        <!-- uploaded user card end -->
+
+                                    </div>
+                                </v-card>
+                            </div>
 
                         </div>
 
@@ -575,6 +795,15 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+        // for uploaded user in admin view
+        showCard: false,
+        showCard2: false,
+
+        user: {
+            initials: 'JD',
+            fullName: 'John Doe',
+            email: 'john.doe@doe.com',
+        },
 
         // search bar staff start
         searchDialog: false,
@@ -587,6 +816,8 @@ export default {
             { id: 4, title: 'Beautiful Life' },
         ],
         tempPostTitles: [],
+
+        tempAllPendingPosts: [],
         activator: null,
         alert: {
             show: false,
@@ -610,12 +841,12 @@ export default {
 
         imageDialog: false,
         sheet: false,
-        Sells: [
-            { id: 1, title: 'Hello world', img: require('@/assets/img/h1.jpg'), post_type: 'Condo', type: 'sell' },
-            { id: 2, title: 'Hello Again', img: require('@/assets/img/h3.jpg'), post_type: 'Apartment', type: 'sell' },
-            { id: 3, title: 'Hello Elephant', img: require('@/assets/img/h5.jpg'), post_type: 'Industrial', type: 'sell' },
+        // Sells: [
+        //     { id: 1, title: 'Hello world', img: require('@/assets/img/h1.jpg'), post_type: 'Condo', type: 'sell' },
+        //     { id: 2, title: 'Hello Again', img: require('@/assets/img/h3.jpg'), post_type: 'Apartment', type: 'sell' },
+        //     { id: 3, title: 'Hello Elephant', img: require('@/assets/img/h5.jpg'), post_type: 'Industrial', type: 'sell' },
 
-        ],
+        // ],
 
         avatar: require('@/assets/img/ava5.jpg'),
         savedPosts: [],
@@ -650,6 +881,12 @@ export default {
             least_contract: ''
         },
 
+        postOwner: {
+            name: '',
+            email: '',
+            phone: '',
+        },
+
         reqDialog: false,
         phoneNumber: '',
         selectedCountry: {
@@ -668,15 +905,27 @@ export default {
         // remove item
         localStorage.removeItem('openTab');
 
-
-        this.fetchPost(this.splitData(this.$route.params.id)[0]);
         this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
 
-        // search bar staff
-        this.activator = this.$refs.activator;
-        this.fetchAllPosts();
+        const check_link = this.splitData(this.$route.params.id)[1];
+        if (check_link === "Success" || check_link === "details") {
+            this.fetchPost(this.splitData(this.$route.params.id)[0]);
+
+            // search bar staff
+            this.activator = this.$refs.activator;
+            this.fetchAllPosts();
+        } else {
+            this.fetchPost(this.splitData(this.$route.params.id)[0]);
+            this.fetchAllPendingPosts();
+        }
+
+
     },
+
+
     computed: {
+
+
         phonePrefix() {
             if (this.post.country === 'Thailand') {
                 return this.selectedCountry.code2;
@@ -695,9 +944,51 @@ export default {
             );
         },
 
+        filteredPosts() {
+            return this.tempAllPendingPosts.filter(temp => temp.id !== this.post.post_id);
+        },
+
     },
 
     methods: {
+
+
+        clickPost(data) {
+            this.showCard = false;
+            this.showCard2 = false;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // Wait for the scroll to complete before navigating
+            setTimeout(() => {
+                const afterEncrypt = this.encryptId(data);
+                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Admin_View` } });
+            }, 400); // Adjust the timeout duration as needed
+
+        },
+
+        calculateDate(data) {
+            const currentDate = new Date(); // Get current date
+            // Convert the interest date string to a Date object
+            const interestDate = new Date(data);
+            // Calculate the difference in milliseconds
+            const difference = currentDate - interestDate;
+            // Convert milliseconds to days
+            const daysAgo = Math.floor(difference / (1000 * 60 * 60 * 24));
+            // Format the output based on the number of days
+            let output;
+            if (daysAgo === 0) {
+                output = 'today';
+            } else if (daysAgo === 1) {
+                output = 'yesterday';
+            } else {
+                output = daysAgo + ' days ago';
+            }
+            return output;
+        },
+
         showSearchBar() {
             this.searchActive = true;
             this.$nextTick(() => {
@@ -796,6 +1087,216 @@ export default {
                 console.error('Error fetching posts:', error);
             }
         },
+
+        approve(post) {
+
+            function httpErrorHandler(error) {
+                if (axios.isAxiosError(error)) {
+                    const response = error?.response
+                    if (response) {
+                        const statusCode = response?.status
+                        if (statusCode === 500 || statusCode === 400) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Please try again!!!',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'myCustomErrorButton'
+                                },
+                                buttonsStyling: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            });
+                        }
+                    }
+                }
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to approve this post?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, approve it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while the post is being approved.',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    axios.put("http://localhost:8083/posts/update", post)
+                        .then(function (response) {
+                            const status = response.status; // No need to parse status
+                            if (status === 200) {
+                                Swal.fire({
+                                    title: 'Successfully Approved!',
+                                    icon: 'success',
+                                    customClass: {
+                                        confirmButton: 'myCustomSuccessButton'
+                                    },
+                                    buttonsStyling: false,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                        })
+                        .catch(httpErrorHandler);
+                }
+            });
+        },
+
+        cancel(post) {
+
+            function httpErrorHandler(error) {
+                if (axios.isAxiosError(error)) {
+                    const response = error?.response;
+                    if (response) {
+                        const statusCode = response?.status;
+                        if (statusCode === 500 || statusCode === 400) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Please try again!!!',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'myCustomErrorButton'
+                                },
+                                buttonsStyling: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            });
+                        }
+                    }
+                }
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to decline this post?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, decline it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while the post is being declined.',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    axios.put("http://localhost:8083/posts/decline", post)
+                        .then(function (response) {
+                            const status = response.status; // No need to parse status
+                            if (status === 200) {
+                                Swal.fire({
+                                    title: 'Successfully Canceled!',
+                                    icon: 'success',
+                                    customClass: {
+                                        confirmButton: 'myCustomButton'
+                                    },
+                                    buttonsStyling: false,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                        })
+                        .catch(httpErrorHandler);
+                }
+            });
+        },
+
+        // approve(post) {
+
+        //     function httpErrorHandler(error) {
+        //         if (axios.isAxiosError(error)) {
+        //             const response = error?.response
+        //             if (response) {
+        //                 const statusCode = response?.status
+        //                 if (statusCode === 500) { alert("Please try again!!!") }
+        //                 else if (statusCode === 400) { alert("Please try again!!!") }
+
+        //             }
+        //         }
+        //     }
+
+        //     axios.put("http://localhost:8083/posts/update", post)
+        //         .then(function (response) {
+        //             const status = JSON.parse(response.status);
+        //             if (status == '200') {
+        //                 Swal.fire({
+        //                     title: 'Successfully Approved!',
+        //                     icon: 'success',
+        //                     customClass: {
+        //                         confirmButton: 'myCustomSuccessButton'
+        //                     },
+        //                     buttonsStyling: false,
+        //                     allowOutsideClick: false,
+        //                     allowEscapeKey: false
+        //                 }).then(() => {
+        //                     window.location.reload();
+        //                 });
+        //             }
+        //         })
+        //         .catch(httpErrorHandler)
+        // },
+
+        // cancel(post) {
+
+        //     function httpErrorHandler(error) {
+        //         if (axios.isAxiosError(error)) {
+        //             const response = error?.response
+        //             if (response) {
+        //                 const statusCode = response?.status
+        //                 if (statusCode === 500) { alert("Please try again!!!") }
+        //                 else if (statusCode === 400) { alert("Please try again!!!") }
+
+        //             }
+        //         }
+        //     }
+
+        //     axios.put("http://localhost:8083/posts/decline", post)
+        //         .then(function (response) {
+        //             const status = JSON.parse(response.status);
+        //             if (status == '200') {
+        //                 Swal.fire({
+        //                     title: 'Successfully Canceled!',
+        //                     icon: 'success',
+        //                     customClass: {
+        //                         confirmButton: 'myCustomButton'
+        //                     },
+        //                     buttonsStyling: false,
+        //                     allowOutsideClick: false,
+        //                     allowEscapeKey: false
+        //                 }).then(() => {
+        //                     window.location.reload();
+        //                 });
+        //                 alert("Canceled  Successfully")
+
+        //             }
+        //         })
+        //         .catch(httpErrorHandler)
+        // },
 
         async interest() {
             const requestData = {
@@ -944,6 +1445,13 @@ export default {
             return text;
         },
 
+        truncateText2(text, charLimit) {
+            if (text.length > charLimit) {
+                return '99+';
+            }
+            return text;
+        },
+
 
         openImageDialog() {
             this.imageDialog = true;
@@ -1006,6 +1514,54 @@ export default {
             this.reqDialog = false;
         },
 
+        // get all pending posts 
+        async fetchAllPendingPosts() {
+            try {
+                const response = await fetch('http://localhost:8083/posts/allPending');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parse the response as JSON
+                const data = await response.json();
+
+                // Initialize an empty array to store post data
+                const tempPosts = [];
+                let tempImages = [];
+                let tempDate = '';
+
+                // Iterate over each post in the response data
+                data.forEach(postData => {
+                    // Extract relevant data for each post
+                    const temp_post_id = postData.post_id;
+                    const temp_post_title = postData.sellpost ? postData.sellpost.title : postData.rentpost ? postData.rentpost.title : '';
+                    const temp_post_type = postData.sellpost ? 'Sell' : postData.rentpost ? 'Rent' : '';
+                    if (postData.sellpost) {
+                        tempImages = postData.sellpost.image;
+                        tempDate = postData.sellpost.date;
+                    } else if (postData.rentpost) {
+                        tempImages = postData.rentpost.image;
+                        tempDate = postData.rentpost.date;
+                    }
+
+                    const temp_images = Array.isArray(tempImages) ? tempImages : [tempImages];
+                    // Push the extracted data into the tempPostTitles array
+                    tempPosts.push({
+                        id: temp_post_id,
+                        title: temp_post_title,
+                        type: temp_post_type,
+                        image: temp_images,
+                        date: tempDate,
+                    });
+                });
+
+                // Update the component's tempPostTitles property
+                this.tempAllPendingPosts = tempPosts;
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        },
+
         // for search staff 
         async fetchAllPosts() {
             try {
@@ -1020,6 +1576,7 @@ export default {
                 // Initialize an empty array to store post data
                 const tempPostTitles = [];
 
+
                 // Iterate over each post in the response data
                 data.forEach(postData => {
                     // Extract relevant data for each post
@@ -1031,7 +1588,7 @@ export default {
                     tempPostTitles.push({
                         id: temp_post_id,
                         title: temp_post_title,
-                        type: temp_post_type
+                        type: temp_post_type,
                     });
                 });
 
@@ -1047,8 +1604,6 @@ export default {
 
             // then decrypt 
             const decryptId = this.decryptId(postId);
-
-            console.log("Get id from : ", decryptId);
 
             try {
                 const response = await fetch(`http://localhost:8083/posts/getPostById/${decryptId}`);
@@ -1090,16 +1645,23 @@ export default {
                 country: postData.locations.countries.country_name,
                 latitude: postData.locations.latitude,
                 longitude: postData.locations.longitude,
-                post_id: postData.sell_post_id,
+                post_id: upperData.post_id,
                 title: postData.title,
                 description: postData.description,
                 property_type: postData.property_type,
+                status: upperData.status,
                 area: postData.area,
                 price: postData.price,
                 photo_url: imageUrls,
                 deposit: postData.deposit || '',
                 least_contract: postData.least_contract || ''
             };
+
+            this.postOwner = {
+                name: upperData.subUser.reg_user.name,
+                email: upperData.subUser.reg_user.email,
+                phone: upperData.subUser.reg_user.phone,
+            }
 
         },
 
@@ -1144,5 +1706,282 @@ export default {
             border-radius: 10px;
         }
     }
+}
+
+.uploaded-user-container {
+
+    .uploaded-user-card {
+        width: 80%;
+        height: 56px;
+        border: 3px solid #e86f52;
+        transition: all 0.2s ease-in-out;
+        border-radius: 28px;
+        background-color: #eee;
+
+        .uploaded-card-action {
+            position: relative;
+
+            .ava-img {
+                width: 120px;
+                height: 120px;
+                overflow: hidden;
+                border-radius: 50%;
+                border-width: 5px;
+                border-style: solid;
+                transition: all 0.3s ease-in-out;
+                transform: translateY(10px) translateX(106px);
+                //border-color: #e86f52 #e86f52 #e86f52 #525252;
+                border-color: #e86f52;
+                //transform: rotate(-45deg);
+                //box-shadow: 0px 6px 26px 1px rgba(0, 0, 0, 0.3);
+
+                .v-img {
+                    //transform: rotate(-45deg);
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    border: 4px solid #fff;
+                }
+            }
+
+            .ava-data {
+                transition: all 0.3s ease-in-out;
+                transform: translateY(84px);
+                margin: 0 auto;
+                font-weight: bold;
+                color: #e86f52;
+                font-size: 24px;
+            }
+
+            .action-close {
+                position: absolute;
+                top: 0;
+                right: 0;
+
+                .v-icon {
+                    color: #000;
+                }
+            }
+        }
+
+        .action-group-p {
+            .v-btn {
+                text-transform: capitalize;
+                position: relative;
+                color: #000;
+                background: radial-gradient(circle at 50% 120%,
+                        #e86f52,
+                        #e86f52 10%,
+                        #e86f52 80%,
+                        #e86f52 100%);
+
+                .v-badge {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    margin-top: -10px;
+                    margin-right: -10px;
+                    z-index: 1;
+                }
+            }
+
+            .v-btn:before {
+                content: "";
+                position: absolute;
+                top: 1%;
+                left: 5%;
+                width: 90%;
+                height: 90%;
+                border-radius: 50%;
+                background: radial-gradient(circle at 50% 0px,
+                        #ffffff,
+                        rgba(255, 255, 255, 0) 58%);
+                filter: blur(6px);
+                z-index: 2;
+            }
+
+
+        }
+
+    }
+
+    .uploaded-user-card.uploaded-user-card-transform {
+        border: none;
+        width: 100%;
+        height: 285px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        background-color: #fff;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .uploaded-user-card.uploaded-user-card-transform::before,
+    .uploaded-user-card.uploaded-user-card-transform::after {
+        content: '';
+        position: absolute;
+    }
+
+    .uploaded-user-card.uploaded-user-card-transform::before {
+        width: 100%;
+        height: 36%;
+        background-color: #e86f52;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .uploaded-user-card.uploaded-user-card-transform2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 4px;
+        opacity: 0;
+        width: 0px;
+        height: 0px;
+        border: none;
+
+        .uploaded-card-action {
+            display: none;
+        }
+
+    }
+
+    // pending card start
+    .pending-card {
+        width: 60px;
+        height: 60px;
+        transition: all 0.2s ease-in-out;
+
+        .sideCorner-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 4px;
+            text-transform: capitalize;
+            color: #000;
+            background: radial-gradient(circle at 50% 120%, #e86f52, #e86f52 10%, #e86f52 80%, #e86f52 100%);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sideCorner-icon::before {
+            content: "";
+            position: absolute;
+            top: 1%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
+            filter: blur(6px);
+            z-index: 2;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sideCorner-icon.sideCorner-icon-transform2 {
+            background: transparent;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: -3px;
+        }
+
+        .sideCorner-icon::before.sideCorner-icon-transform2 {
+            background: transparent !important;
+            filter: none !important;
+        }
+
+        .text-header {
+            text-align: center;
+            margin-top: -52px;
+            color: #fff;
+
+            span {
+                color: #525252;
+            }
+        }
+
+
+        .post-row {
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+            margin: auto;
+            border: 1px solid #525252;
+            cursor: pointer;
+            position: relative;
+            height: 60px;
+
+            .pi-overlay {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                z-index: 1;
+                background-color: rgba(0, 0, 0, 0.2);
+                display: none;
+                transition: all 0.4s ease-in-out;
+            }
+
+            p {
+                font-size: 14px;
+
+                span {
+                    color: #e86f52;
+                }
+            }
+
+            &:hover .pi-overlay {
+                display: block;
+            }
+        }
+
+    }
+
+    // expand
+    .pending-card.pending-card-transform {
+        width: 100%;
+        height: 285px;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        /* Firefox */
+        transition: all 0.2s ease-in-out;
+        z-index: 2;
+        border-radius: 12px;
+        border: 3px solid red;
+        position: relative;
+    }
+
+    .pending-card.pending-card-transform::before,
+    .pending-card.pending-card-transform::after {
+        content: '';
+        position: absolute;
+    }
+
+    .pending-card.pending-card-transform::before {
+        width: 100%;
+        height: 45px;
+        background-color: #e86f52;
+        transition: all 0.2s ease-in-out;
+    }
+
+
+    // disappear
+    .pending-card.pending-card-transform2 {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 4px;
+    }
+
+
+
 }
 </style>

@@ -73,9 +73,5 @@ public class Posts_Service_Impl implements Posts_Service {
 		return postsRepo.getInterestedPostsByRegId(id);
 	}
 
-	
-
-	
-
 
 }
