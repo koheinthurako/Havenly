@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import firstIndex from './For_MainIndex/firstIndexContent.vue'
 import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
@@ -159,10 +160,37 @@ export default {
   mounted() {
     localStorage.removeItem('openTab');
     localStorage.removeItem('adminTab');
+    this.checkBanStatus();
   },
 
 
   methods: {
+
+    async checkBanStatus() {
+      const user = JSON.parse(sessionStorage.getItem('login_user'));
+      console.log(user.email)
+      if (user) {
+        const response = await fetch(`http://localhost:8083/isBanned?email=${user.email}`);
+        const isBanned = await response.json();
+        if (isBanned) {
+          Swal.fire({
+                            title: 'Banned!',
+                            text: 'Your account is banned by admin team for 7 days.',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                          sessionStorage.removeItem('login_user');
+          window.location.href = '/login'; // Redirect to login page
+                        });
+          
+        }
+      }
+    },
 
     // async fetchRegisterUser() {
     //   try {
