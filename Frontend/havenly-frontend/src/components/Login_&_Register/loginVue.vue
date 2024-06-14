@@ -88,6 +88,10 @@ export default {
         };
     },
 
+    mounted() {
+        localStorage.removeItem('openTab');
+    },
+
 }
 </script>
 

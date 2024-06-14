@@ -12,7 +12,6 @@ public interface SubscriptionService {
 
 	boolean cancel(Subscription_DTO dto);
 	Subscription_DTO subscribe(Subscription_DTO dto);
-
 	List<Subscription> getAllSubUserInfo();
 
 }

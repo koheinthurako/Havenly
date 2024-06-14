@@ -1,11 +1,17 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.DTO.Reg_user_DD;
@@ -73,11 +79,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Autowired
 	Ban_user_Repo banRepo;
 	
-//	@Autowired
-//	TokenRepository tokenRepository;
-	
 	Reg_user_DTO user_dto= new Reg_user_DTO();
 	Reg_user_DD user3= new Reg_user_DD();
+	
 	@Override
 	public List<Reg_user_DTO> findAll() {
 		List<Reg_user> users = regRepo.findAll();
@@ -88,6 +92,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		return reg_user_list;
 	}
+	
 	@Override
 	public Reg_user_DTO register(Reg_user_DTO dto) {
 		Reg_user user=user_dto.covertToEntity(dto);
@@ -99,21 +104,16 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 			return user2;
 
 				}
-		
-		
-		
-		return null;
+	return null;
 	}
-	@Override
+	
 	public Reg_user_DD Login(String gmail, String password) {
 		Reg_user user = regRepo.findByEmail(gmail);
 		
 		if (user == null || !pwencoder.matches(password,user.getPassword()) ) {
 			return null;
 		}
-//		if (!pwencoder.matches(password, user.getPassword())) {
-//			return null;
-//		}
+
 		Ban_user ban=ban_Repo.findByEmail(gmail);
 		
 		if(ban !=null ) return null;
@@ -121,8 +121,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}
+	
 	@Override
-	public Reg_user_DD update(String name,String phone,String gmail) {
+	public Reg_user_DD update(String name,String phone,String gmail, MultipartFile img) {
 		
 		Reg_user updateUser=regRepo.findByEmail(gmail);
 		if (updateUser == null) {
@@ -130,12 +131,31 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		updateUser.setName(name);
 		updateUser.setPhone(phone);
+		if(img != null && !img.isEmpty()) {
+		
+			 String fileName = LocalDate.now().getYear() + "_" + StringUtils.cleanPath(img.getOriginalFilename());
+		        if(fileName.contains("..")) {
+		            System.out.println("Invalid file format!");
+		        }
+		        System.out.println("----------------------------------------------------------------");
+		        System.out.println("File Name when upload from frontend : " + fileName);
+		        System.out.println("----------------------------------------------------------------");
+		        try {
+		            byte[] imageBytes  = img.getBytes();
+		            String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+		            String imageUrl = "data:image/jpeg;base64,"+base64Encoded;
+		        	updateUser.setProfileImg(imageUrl);		        
+		        	} catch (IOException e) {
+		            e.printStackTrace();
+		        } 
+		}
+	
 		Reg_user user2=regRepo.save(updateUser);
 		Reg_user_DD user4=user3.covertToObject(user2);
 		
-
 		return user4;
 	}
+	
 	@Override
 	public Reg_user_DTO pwdUpdate(String username, String password , String new_password) {
 		Reg_user user = regRepo.findByEmail(username);
@@ -252,8 +272,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 				
 				return "Please check your email to set new password to your account";
 			}
-	return "failed to send msg";
-	
+	return "failed to send msg";	
 	}
 
 	
@@ -265,6 +284,13 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		user.setPassword(encodedNewPassword);
 		regRepo.save(user);
 		return "New password is set succeessfully.";
+	}
+	
+	@Override
+	public Reg_user_DD getById(int id) {
+		Reg_user user = regRepo.findById(id);
+		Reg_user_DD dto = user3.covertToObject(user);
+		return dto;
 	}
 	
 	

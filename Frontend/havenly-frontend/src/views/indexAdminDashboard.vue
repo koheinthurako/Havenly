@@ -31,6 +31,14 @@
                 </li>
 
                 <li class="sidebar-item">
+                    <a class="sideTextLink" :class="{ adminActive: adminTab === 'pending-ad' }"
+                        @click="changeAdminTab('pending-ad'); toggleAdminSidebar2()">
+                        <v-icon>mdi-database-sync-outline</v-icon>
+                        <span>Pending Ads</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ adminActive: adminTab === 'register-user' }"
                         @click="changeAdminTab('register-user'); toggleAdminSidebar2()">
                         <v-icon>mdi-account-group</v-icon>
@@ -76,6 +84,11 @@
                         <!-- <interestedPosts /> -->
                         <AdminPost />
                     </div>
+
+                    <div v-else-if="adminTab === 'pending-ad'">
+                        <AdminAd />
+                    </div>
+
                     <div v-else-if="adminTab === 'register-user'">
                         <!-- <uploadedAllPosts /> -->
                         <AdminView />
@@ -105,6 +118,7 @@ import AdminView from '@/views/adminDashboardCategories/AdminView.vue'
 import AdminPost from '@/views/adminDashboardCategories/AdminPost.vue'
 import AdminBanList from '@/views/adminDashboardCategories/AdminBanList.vue'
 import AdminProfile from '@/views/adminDashboardCategories/adminProfile.vue'
+import AdminAd from './adminDashboardCategories/AdminAd.vue';
 // import router from '@/router';
 
 
@@ -114,6 +128,7 @@ export default {
     components: {
         AdminView,
         AdminPost,
+        AdminAd,
         AdminBanList,
         AdminProfile
     },

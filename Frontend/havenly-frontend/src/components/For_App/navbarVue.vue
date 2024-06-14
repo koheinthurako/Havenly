@@ -173,7 +173,7 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('/about') }">About</router-link>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" v-if="getUser2">
             <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
@@ -624,6 +624,7 @@ export default {
 
 
   methods: {
+
     toggleSidebar() {
       this.isSidebarActive = !this.isSidebarActive;
 
@@ -639,21 +640,15 @@ export default {
       return this.$route.path === route;
     },
 
-    // isLoggedIn() {
-    //   // Check if user information is stored in session storage
-    //   console.log("User is included in session storage");
-    //   const user = sessionStorage.getItem('login_user');
-    //   return !!user; // Return true if user is logged in, false otherwise
-    // },
-
     logout() {
       Swal.fire({
         title: 'Are you sure?',
         text: 'You will be logged out!',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        reverseButtons: true,
         confirmButtonText: 'Yes, log me out!'
       }).then((result) => {
         if (result.isConfirmed) {

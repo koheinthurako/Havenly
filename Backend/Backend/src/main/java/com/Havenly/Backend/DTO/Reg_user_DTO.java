@@ -2,7 +2,6 @@ package com.Havenly.Backend.DTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import com.Havenly.Backend.Entity.Reg_user;
 
 import jakarta.validation.constraints.NotBlank;
@@ -30,9 +29,9 @@ private int register_id;
 	
 	@NotBlank
 	private String password;
+	
 	private LocalDate date;
 	private LocalTime time;
-	
 	
 	public Reg_user covertToEntity(Reg_user_DTO dto) {
 		Reg_user user=new Reg_user();

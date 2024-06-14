@@ -1,6 +1,6 @@
 <template>
 
-  <div class="container">
+  <div class="">
     <!-- <div class="box1">
       <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
         <div class="d-flex">
@@ -196,8 +196,9 @@ export default {
           text: 'You won\'t be able to revert this!',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          reverseButtons: true,
           confirmButtonText: 'Yes, delete it!'
         });
 

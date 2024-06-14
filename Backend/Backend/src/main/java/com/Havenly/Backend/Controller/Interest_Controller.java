@@ -1,7 +1,6 @@
 package com.Havenly.Backend.Controller;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ import com.Havenly.Backend.Entity.Interest;
 import com.Havenly.Backend.Service.Interest_Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/interest")
@@ -57,7 +56,7 @@ public class Interest_Controller {
 		}
 
 		// Find Register user and post is Exist
-		Optional<Reg_user> optionalRegUser = reg_repo.findById(user_id);
+		Optional<Reg_user> optionalRegUser = Optional.of(reg_repo.findById(user_id));
 		Optional<Posts> optionalPost = posts_repo.findById(post_id);
 
 		if (optionalRegUser.isPresent() && optionalPost.isPresent()) {

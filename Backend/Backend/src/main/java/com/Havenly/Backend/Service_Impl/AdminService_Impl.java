@@ -16,8 +16,6 @@ public class AdminService_Impl implements AdminService{
 	@Override
 	public Admin save(Admin admin) {
 		
-		
-		
 		return adminRepo.save(admin);
 	}
 

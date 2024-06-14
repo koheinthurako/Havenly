@@ -167,9 +167,8 @@ export default {
   methods: {
 
     async checkBanStatus() {
-      const user = JSON.parse(sessionStorage.getItem('login_user'));
-      console.log(user.email)
-      if (user) {
+      if (JSON.parse(sessionStorage.getItem('login_user'))) {
+        const user = JSON.parse(sessionStorage.getItem('login_user'));
         const response = await fetch(`http://localhost:8083/isBanned?email=${user.email}`);
         const isBanned = await response.json();
         if (isBanned) {
@@ -356,13 +355,17 @@ export default {
     };
 
     const fetchNotifications = () => {
-      const user = JSON.parse(sessionStorage.getItem('sub_user'));
-
       // Make API call to fetch posts from backend
-      if (user) {
+      if (JSON.parse(sessionStorage.getItem('sub_user'))) {
+        const user = JSON.parse(sessionStorage.getItem('sub_user'));
         const UserId = user.subUserId;
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
-          .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
           .then((data) => {
 
             data.forEach((obj) => {
@@ -387,8 +390,8 @@ export default {
             // Initialize notification count with the length of fetched notifications
             filteredOjbs.value = filterData(objs.value);
           })
-          .catch(() => {
-            console.error('Error fetching photos: error');
+          .catch((error) => {
+            console.error('Error fetching photos:', error);
           });
       } else {
         console.log("No Recently a user Registered!");

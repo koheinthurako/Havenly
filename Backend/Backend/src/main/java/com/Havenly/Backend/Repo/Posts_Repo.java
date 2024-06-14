@@ -48,6 +48,9 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
             "WHERE p.status = 'complete'", nativeQuery = true)
 	public List<Posts> getAllCompletePosts();
 	
+	@Query(value = "SELECT * FROM posts as p WHERE p.ads_post_id = ?1", nativeQuery = true)
+	public Posts getPostsByAdsPostId(String ads_post_id);
+
 	@Query(value = "SELECT p.*, " +
             "COALESCE(sp.title, rp.title) AS title, " +
             "COALESCE(sp.description, rp.description) AS description, " +

@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.Havenly.Backend.Service.Ban_user_Service;
 import com.Havenly.Backend.Entity.Ban_user;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 
 @Configuration

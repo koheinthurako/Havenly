@@ -1728,7 +1728,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 90px;
+        width: 20%;
         height: 30px;
         background-color: #525252;
         color: #fff;
@@ -3536,7 +3536,7 @@ body {
   color: #fff;
   padding: 12px 15px;
   border-radius: 6px;
-  background-color: #e86f52;
+  background-color: #e86f52 !important;
   transition: 0.3s;
   margin-bottom: 15px;
 }
@@ -3556,7 +3556,7 @@ body {
 }
 
 .myCustomSuccessButton:hover {
-  background-color: #048f1d;
+  background-color: #048f1d !important;
 }
 
 .swal2-container {

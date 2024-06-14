@@ -7,8 +7,12 @@
           <v-form ref="form" fast-fail @submit.prevent="signup">
               <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>
               <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
-              <v-text-field variant="underlined"  v-model="user.email"    label="Email" required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.password"  label="password" required ></v-text-field>
+              <v-text-field variant="underlined"  v-model="user.email"    label="Email" required  :rules="[value => !!value || 'Required']" ></v-text-field>
+              <v-text-field variant="underlined" v-model="user.password"  label="password" required  
+              :type="showPassword ? 'text' : 'Password'"
+              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner=togglePasswordVisibility()
+            :rules="[value => !!value || 'Required']"></v-text-field>
               <v-row justify="space-around">
       <v-col cols="auto">
         <div class="text-center">
@@ -17,7 +21,7 @@
           </v-form>
           <div class="mt-2">
               <p class="text-body-2">
-                  Already have an account? <a href="/login">Sign in</a>
+                  Already have an account? <a href="/loginakm">Sign in</a>
               </p>
           </div>
       </v-sheet>
@@ -37,7 +41,8 @@
             phone:'',
             email: '',
             password: ''
-          }
+          },
+          showPassword: false
         };
     },
 
@@ -46,6 +51,10 @@
     },
 
     methods: {
+
+      togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
 
       signup() {
       
@@ -85,30 +94,33 @@
         
         axios.post("http://localhost:8083/register",this.user)
 
-        .then(function(response){
-                const status=JSON.parse(response.status);
-                if(status=='200'){
-                  Swal.fire({
-                    title: 'Register Success',
-                    text: 'Welcome! Thankyou for register.',
-                    icon: 'success',
-                    customClass: {
-                        confirmButton: 'myCustomSuccessButton'
-                    },
-                    buttonsStyling: false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                    }).then(() => {
-                      router.push('/login'); 
-                    });
-                }
-            })
-            .catch(httpErrorHandler)
-            this.user.name='',
-            this.user.phone='',
-            this.user.email='',
-            this.user.password=''
-      },
+          .then(function(response){
+                  const status=JSON.parse(response.status);
+                  if(status=='200'){
+                    Swal.fire({
+                      title: 'Register Success',
+                      text: 'Welcome! Thank you for registering.',
+                      icon: 'success',
+                      customClass: {
+                          confirmButton: 'myCustomSuccessButton'
+                      },
+                      buttonsStyling: false,
+                      allowOutsideClick: false,
+                      allowEscapeKey: false
+                      }).then(() => {
+                        router.push('/login'); 
+                      });
+                  }
+              })
+              .catch(httpErrorHandler)
+              this.user.name='',
+              this.user.phone='',
+              this.user.email='',
+              this.user.password=''
+                  
+    
+            //
+        },
     },
   };
 </script>

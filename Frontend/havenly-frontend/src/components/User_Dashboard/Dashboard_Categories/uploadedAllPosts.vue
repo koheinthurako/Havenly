@@ -864,12 +864,7 @@ export default {
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-                        .catch(error => {
-                            console.error("There was an error deleting the post!", error);
-                        });
-                }
-                Swal.fire({
+                    Swal.fire({
                     title: "Deleted!",
                     text: "Your file has been deleted.",
                     icon: "success",
@@ -877,9 +872,15 @@ export default {
                         confirmButton: 'myCustomSuccessButton'
                     },
                 }).then (() => {
+                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                    .catch(error => {
+                        console.error("There was an error deleting the post!", error);
+                    });
                     window.location.reload();
                     this.fetchPosts();
                 });
+                }
+                
             });
         },
 

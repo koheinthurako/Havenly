@@ -2,8 +2,8 @@
 
 
 
-  <div class="container">
-    <h2 class="mb-3">All user list</h2>
+  <div class="">
+    <h2 class="mb-0 mx-3" style="color: #e86f52;">All user list</h2>
     <!-- <div class="box1">
       <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
         <div class="d-flex">
@@ -343,9 +343,15 @@ export default {
     deleteUser(email) {
       axios.delete(`http://localhost:8083/delete/${email}`)
         .then(() => {
-
           this.users = this.users.filter((u) => u.email !== email);
-          alert('User deleted successfully.');
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'User deleted successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'myCustomSuccessButton'
+            }});
         })
         .catch((error) => {
           console.error('Error deleting user:', error);
@@ -364,7 +370,10 @@ export default {
             title: 'User Already Banned',
             text: 'This user is already banned.',
             icon: 'info',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
           });
           return; // Exit the method early if the user is already banned
         }
@@ -375,9 +384,10 @@ export default {
           text: 'Do you really want to ban this user?',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
           confirmButtonText: 'Yes, ban!',
+          reverseButtons: true,
           cancelButtonText: 'Cancel'
         });
 
