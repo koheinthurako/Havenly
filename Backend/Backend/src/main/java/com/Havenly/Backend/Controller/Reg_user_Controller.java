@@ -25,11 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
+import com.Havenly.Backend.Entity.Ban_user;
 import com.Havenly.Backend.Entity.Change_password;
 import com.Havenly.Backend.Entity.Login;
 import com.Havenly.Backend.Entity.Reg_user;
+import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 import com.Havenly.Backend.Repo.TokenRepo;
+import com.Havenly.Backend.Service.Ban_user_Service;
 import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.util.EmailUtil;
 
@@ -45,6 +48,9 @@ public class Reg_user_Controller {
 	
 //	@Autowired
 //	Reg_user_Repo regRepo;
+	
+	@Autowired
+	Ban_user_Service banService;
 	
 	@Autowired
 	TokenRepo tokenRepo;
@@ -95,6 +101,12 @@ public class Reg_user_Controller {
 	public ResponseEntity<Reg_user_DTO> getById() {
 		return null;
 	}
+	
+	@GetMapping("/isBanned")
+    public ResponseEntity<Boolean> isBanned(@RequestParam String email) {
+        boolean isBanned = banService.isEmailBanned(email);
+        return ResponseEntity.ok(isBanned);
+    }
 	
 //	@GetMapping("/getSubUserInfo")
 //	public ResponseEntity<Reg_user_DD> getSubUserInfo() {
