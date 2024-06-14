@@ -1,8 +1,9 @@
 <template>
     <div class="fourth-package">
-        <div class="mx-5 px-5">
+        <div class="container">
             <div class="fourth-package-data">
                 <div class="row">
+                    <h3 style="color:#e86f52;" class="ms-4 mb-3 d-block d-sm-none">User Thoughts ..</h3>
                     <div class="col-md-6 col-12">
                         <div class="row">
                             <div class="col-md-7 p-1 col-12">
@@ -11,7 +12,7 @@
                                     <v-img :src="img" class="idea-img my-2"></v-img>
                                     <div>
                                         <blockquote>
-                                            <span class="ms-4 f-sm">
+                                            <span class="ms-5 f-sm">
                                                 Your website packages are top-notch! They strike the perfect balance
                                                 between style and functionality, catering to a variety of needs. It's
                                                 impressive. Great job!
@@ -82,15 +83,16 @@
 
 
                             </div>
-                            <div class="col-md-7 col-12">
+                            <div class="col-md-7 p-1 col-12">
 
                                 <div class="idea-box">
                                     <v-img :src="img3" class="idea-img my-2"></v-img>
                                     <div>
                                         <blockquote>
                                             <span class="ms-5">
-                                                Package features are very simple and useful.
-                                            </span>
+                                                The unique features offered by the package are highly valuable and
+                                                exceptionally practical, all at reasonable prices, which poses no issue
+                                                for me. </span>
                                             <footer>
                                                 <cite>
                                                     U Maung
@@ -108,10 +110,14 @@
                         <div class="package-check">
                             <div class="package-data my-auto">
                                 <h1>Some valuable feedback from our Subscribers</h1>
-                                <p class="my-3"><span class="ms-5"></span>Unlock the potential of your real estate business with our packages. 
-                                    We offer everything you need to stand out in the real estate world. 
-                                    Become a subscriber and build your home with us. Get Started with a FREE TRIAL.</p>
-                                <v-btn :elevation="20" to="/subscribe" class="custom-btn">Subscribe now<v-icon class="custom-icon mt-1 ms-1">mdi-chevron-double-right</v-icon> </v-btn>
+                                <p class="my-3"><span class="ms-5"></span>Unlock the potential of your real estate
+                                    business with our packages.
+                                    We offer everything you need to stand out in the real estate world.
+                                    Become a subscriber and build your home with us. If you subscribe you will get 5
+                                    posts as <span>FREE
+                                        TRIAL</span>. So what are you waiting for. Let't Join with us today.</p>
+                                <v-btn :elevation="10" to="/subscribe" class="custom-btn">Subscribe now<v-icon
+                                        class="custom-icon mt-1">mdi-chevron-double-right</v-icon> </v-btn>
                             </div>
                         </div>
 

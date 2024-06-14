@@ -1,4 +1,8 @@
 <template>
+
+  <!-- overlay test start -->
+  <div v-if="isOverlayVisible" class="overOverlay" :class="animateOverlayClass"></div>
+  <!-- overlay test end -->
   <nav class="navbar navbar-expand-lg p-0 fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -238,11 +242,11 @@
                   </v-btn>
                 </div>
                 <div v-else>
-                  <v-btn rounded class="profile-btn" v-if="!profileMenu" @click="profileMenu = !profileMenu">
+                  <v-btn rounded class="profile-btn" v-if="!profileMenu" @click="handleProfileMenu">
                     <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-2"></v-icon>{{ getUser2.name }}</p>
                   </v-btn>
 
-                  <v-btn rounded v-else color="warning" @click="profileMenu = !profileMenu" class="profile-close-btn">
+                  <v-btn rounded v-else color="warning" @click="handleProfileMenuClose" class="profile-close-btn">
                     <p class="m-auto"><v-icon icon="mdi-close-circle" class="me-3"></v-icon>close</p>
                   </v-btn>
                 </div>
@@ -621,6 +625,10 @@ export default {
 
   data: () => ({
 
+    isOverlayVisible: false,
+    animateOverlayClass: '',
+
+
     profilePic: require("@/assets/img/ava1.jpg"),
 
     profileMenu: false,
@@ -650,11 +658,49 @@ export default {
 
 
   methods: {
+
+    handleProfileMenu() {
+      this.profileMenu = true;
+
+      setTimeout(() => {
+
+        this.isOverlayVisible = true;
+        this.animateOverlayClass = 'overlay-animate';
+      }, 170);
+    },
+
+    handleProfileMenuClose() {
+      this.animateOverlayClass = 'overlay-animate-reverse';
+
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 220);
+    },
+
     gotoDashboard() {
       // first hide the profile card
-      this.profileMenu = false;
+      this.animateOverlayClass = 'overlay-animate-reverse';
 
-      this.$router.push({ name: 'User_dashboard' });
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 220);
+
+      setTimeout(() => {
+        this.$router.push({ name: 'User_dashboard' });
+      }, 250);
+
     },
 
     goToExplain(get) {
@@ -690,7 +736,17 @@ export default {
 
     onClickOutside2(event) {
       if (this.profileMenu && !this.$el.contains(event.target)) {
-        this.profileMenu = false;
+        this.animateOverlayClass = 'overlay-animate-reverse';
+
+        setTimeout(() => {
+          this.isOverlayVisible = false;
+          this.isCardVisible = false;
+          this.animateOverlayClass = '';
+        }, 200);
+
+        setTimeout(() => {
+          this.profileMenu = false;
+        }, 220);
       }
 
     },
@@ -708,23 +764,36 @@ export default {
 
     logout() {
       // first hide the profile card
-      this.profileMenu = false;
+      this.animateOverlayClass = 'overlay-animate-reverse';
+
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 220);
+
+      setTimeout(() => {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'You will be logged out!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, log me out!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            sessionStorage.removeItem('login_user');
+            window.location.reload();
+          }
+        });
+      }, 270);
 
 
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will be logged out!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, log me out!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          sessionStorage.removeItem('login_user');
-          window.location.reload();
-        }
-      });
     },
   }
 };
@@ -739,5 +808,58 @@ export default {
 .v-menu__content {
   z-index: 2000 !important;
   /* Adjust as needed */
+}
+
+.overOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 107%;
+  bottom: -1.6%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  border-radius: 0 0 10px 10px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+
+  pointer-events: all;
+}
+
+.overlay-animate {
+  animation: expandOverlay 0.3s both;
+}
+
+.overlay-animate-reverse {
+  animation: shrinkOverlay 0.4s both;
+}
+
+@keyframes expandOverlay {
+  from {
+    width: 250px;
+    height: 255px;
+
+  }
+
+  to {
+    width: 220vw;
+    height: 400vh;
+
+  }
+}
+
+@keyframes shrinkOverlay {
+  from {
+    width: 220vw;
+    height: 400vh;
+
+  }
+
+  to {
+    width: 250px;
+    height: 255px;
+
+  }
 }
 </style>

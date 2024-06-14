@@ -1,14 +1,24 @@
 <template>
     <dir class="about-in-main">
         <div class="container">
+            <h3 style="color:#e86f52;" class="ms-4 p-0 d-block d-sm-none">Some user guides ...</h3>
             <div class="row">
                 <div class="col-md-3 col-12">
                     <div class="card-box">
-                        <div class="overlay-circle"></div>
+
+
+
+                        <div class="overlay-circle">
+                        </div>
+
                         <div @click="goTo('createAcc')" class="inner-box">
-                            <div class="top-circle">
-                                <v-icon>mdi-account</v-icon>
+                            <div class="top-cricle-container">
+                                <div class="top-circle">
+                                    <v-icon>mdi-account</v-icon>
+                                </div>
+                                <div class="bg-drop"></div>
                             </div>
+
                             <div class="header">
                                 <h4>Create Account</h4>
                             </div>
@@ -24,10 +34,15 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card-box">
-                        <div class="overlay-circle"></div>
+                        <div class="overlay-circle">
+                        </div>
+
                         <div @click="goTo" class="inner-box">
-                            <div class="top-circle">
-                                <v-icon>mdi-cart</v-icon>
+                            <div class="top-cricle-container">
+                                <div class="top-circle">
+                                    <v-icon>mdi-cart</v-icon>
+                                </div>
+                                <div class="bg-drop"></div>
                             </div>
                             <div class="header">
                                 <h4>Buying Package</h4>
@@ -44,10 +59,16 @@
 
                 <div class="col-md-3 col-12">
                     <div class="card-box">
-                        <div class="overlay-circle"></div>
+                        <div class="overlay-circle">
+                        </div>
+
+
                         <div @click="goTo" class="inner-box">
-                            <div class="top-circle">
-                                <v-icon>mdi-upload</v-icon>
+                            <div class="top-cricle-container">
+                                <div class="top-circle">
+                                    <v-icon>mdi-upload</v-icon>
+                                </div>
+                                <div class="bg-drop"></div>
                             </div>
                             <div class="header">
                                 <h4>Uploading posts</h4>
@@ -63,10 +84,15 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card-box">
-                        <div class="overlay-circle"></div>
+                        <div class="overlay-circle">
+                        </div>
+
                         <div @click="goTo" class="inner-box">
-                            <div class="top-circle">
-                                <v-icon>mdi-bookmark-outline</v-icon>
+                            <div class="top-cricle-container">
+                                <div class="top-circle">
+                                    <v-icon>mdi-bookmark-outline</v-icon>
+                                </div>
+                                <div class="bg-drop"></div>
                             </div>
                             <div class="header">
                                 <h4>Making interest</h4>
