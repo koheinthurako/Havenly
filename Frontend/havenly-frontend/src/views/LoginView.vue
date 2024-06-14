@@ -86,7 +86,7 @@ export default {
           sessionStorage.setItem('login_user', JSON.stringify(response.data))
 
           const status = response.status
-          console.log(status)
+          console.log(status);
           if (status == '200') {
             const user = JSON.parse(sessionStorage.getItem('login_user'));
             const registerId = user.register_id;
