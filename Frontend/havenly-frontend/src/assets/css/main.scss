@@ -2215,6 +2215,50 @@ body {
             }
           }
         }
+
+        //edited
+        .swiper-button-next,
+        .swiper-button-prev {
+          width: 28px !important;
+          height: 28px !important;
+          border-radius: 50% !important;
+          background-image: linear-gradient(
+            to bottom,
+            #f6f6f6 50%,
+            #e86f52 50%
+          );
+          background-color: transparent;
+          color: #fff;
+          right: 10px;
+          padding: 28px;
+          color: #000 !important;
+          fill: black !important;
+          stroke: black !important;
+          font-size: 18px;
+          font-weight: bold;
+          box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.4);
+          transform: translateY(-30px);
+        }
+
+        .swiper-button-next {
+          transform: translateX(200px);
+        }
+        &:hover .swiper-button-next {
+          transform: translateX(-100px) translateY(-29px);
+        }
+        .swiper-button-prev {
+          transform: translateX(-200px);
+        }
+        &:hover .swiper-button-prev {
+          transform: translateX(100px) translateY(-29px);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+          font-size: 18px; /* adjust the font size to your liking */
+          font-weight: bold;
+        }
+        //edited
       }
     }
   }

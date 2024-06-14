@@ -157,7 +157,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
-import { EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 import router from '@/router';
 // import axios from 'axios';
@@ -172,7 +172,7 @@ export default {
     setup() {
 
         return {
-            modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+            modules: [Navigation, EffectCoverflow, Pagination, Mousewheel, Keyboard],
             items1: { name: 'Normal', price: '25' },
             items2: { name: 'Premium', price: '50' },
         };
