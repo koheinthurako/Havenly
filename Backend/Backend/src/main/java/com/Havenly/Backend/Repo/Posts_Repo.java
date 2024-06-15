@@ -155,9 +155,9 @@ public interface Posts_Repo extends JpaRepository<Posts, Integer>{
 	    @Query(value = "SELECT rent_post_id FROM posts WHERE sub_user_id = ? and post_type='Rent Post'", nativeQuery = true)
 	    String getRentId(int id);
 	    
-	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Sell Post'", nativeQuery = true)
+	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Sell Post' and status='complete' ", nativeQuery = true)
 	    Integer getSPostId(int id);
 	    
-	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Rent Post'", nativeQuery = true)
+	    @Query(value = "SELECT post_id FROM posts WHERE sub_user_id = ? and post_type='Rent Post' and status='complete' ", nativeQuery = true)
 	    Integer getRPostId(int id);
 }

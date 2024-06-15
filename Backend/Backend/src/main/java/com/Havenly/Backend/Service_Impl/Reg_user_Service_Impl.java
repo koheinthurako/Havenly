@@ -21,6 +21,7 @@ import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.SellPost;
+import com.Havenly.Backend.Repo.AdsPost_Repo;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Interest_Repo;
 import com.Havenly.Backend.Repo.PackagesRepo;
@@ -66,6 +67,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	
 	@Autowired
 	PackagesRepo packrepo;
+	
+	@Autowired
+	AdsPost_Repo adsRepo;
 	
 	@Autowired
 	Posts_Repo postsRepo;
@@ -200,7 +204,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	            Posts post;
 
 	            // Get post ID and delete associated interests if sell post exists
+	           
 	            Integer post_id = postsRepo.getSPostId(sub_id);
+	           
 	            if (post_id != null) {
 	                post = postsRepo.findById(post_id).orElse(null);
 	                if (post != null && post.getSellpost() != null) {
@@ -241,6 +247,10 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	            packrepo.deleteFrompackages(sub_id);
 	            System.out.println("Deleted packages for subscription");
 
+	            adsRepo.deleteFromAds(sub_id);
+	            System.out.println("Deleted ads ");
+
+	            
 	            // Delete the subscription
 	            subRepo.deleteFromSub(sub_id);
 	            System.out.println("Deleted subscription");
