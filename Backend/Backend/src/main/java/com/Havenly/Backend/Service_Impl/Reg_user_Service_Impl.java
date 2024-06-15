@@ -205,22 +205,26 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 
 	            // Get post ID and delete associated interests if sell post exists
 	           
-	            Integer post_id = postsRepo.getSPostId(sub_id);
+	            List<Integer> post_id = postsRepo.getSPostId(sub_id);
 	           
 	            if (post_id != null) {
-	                post = postsRepo.findById(post_id).orElse(null);
+	            	 for (Integer postId : post_id) {
+	                post = postsRepo.findById(postId).orElse(null);
 	                if (post != null && post.getSellpost() != null) {
-	                    interestRepo.DeleteByregisterId(post_id, user_id);
+	                    interestRepo.DeleteByregisterId(postId, user_id);
 	                }
+	            	 }
 	            }
 
 	            // Get post ID and delete associated interests if rent post exists
-	            Integer post_id1 = postsRepo.getRPostId(sub_id);
+	            List<Integer> post_id1 = postsRepo.getRPostId(sub_id);
 	            if (post_id1 != null) {
-	                post = postsRepo.findById(post_id1).orElse(null);
+	            	for (Integer postIdd : post_id1) {
+	                post = postsRepo.findById(postIdd).orElse(null);
 	                if (post != null && post.getRentpost() != null) {
-	                    interestRepo.DeleteByregisterId(post_id1, user_id);
+	                    interestRepo.DeleteByregisterId(postIdd, user_id);
 	                }
+	            	}
 	            }
 
 	            // Delete posts associated with the subscription ID
