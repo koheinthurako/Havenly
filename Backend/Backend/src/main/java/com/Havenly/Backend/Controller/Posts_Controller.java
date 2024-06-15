@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Repo.PackagesRepo;
-import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Service.Posts_Service;
 
 @RestController

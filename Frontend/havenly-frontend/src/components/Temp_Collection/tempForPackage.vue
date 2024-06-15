@@ -309,6 +309,7 @@ export default {
       
     },
     fetchSubUserInfo() {
+        if(JSON.parse(sessionStorage.getItem('login_user'))){
                 const user = JSON.parse(sessionStorage.getItem('login_user'));
                 if(user.register_id!==null){
                   const registerId = user.register_id;
@@ -330,6 +331,7 @@ export default {
                     console.log("User is not subscribed.");
 
                 }
+            }
                   
             },
 

@@ -19,8 +19,6 @@ import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
 import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Reg_user;
-import com.Havenly.Backend.Entity.RentPost;
-import com.Havenly.Backend.Entity.SellPost;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Interest_Repo;
 import com.Havenly.Backend.Repo.PackagesRepo;
