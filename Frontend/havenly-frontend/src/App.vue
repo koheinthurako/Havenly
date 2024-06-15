@@ -21,7 +21,8 @@ export default {
 
   computed: {
     showNavbar() {
-      return !this.$route.path.startsWith('/admin/dashboard');
+      const currentPath = this.$route.path;
+      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/login';
     }
   },
 
