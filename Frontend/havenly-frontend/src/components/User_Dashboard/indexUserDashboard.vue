@@ -71,9 +71,6 @@
         </div>
 
 
-
-
-
         <div class="main-data">
 
 
@@ -322,6 +319,27 @@ export default {
         }
     },
     methods: {
+        openMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slidePrev();
+                this.isCross = true;
+            }
+        },
+        closeMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slideNext();
+                this.isCross = false;
+            }
+        },
+        toggleMenu() {
+            if (this.swiperInstance) {
+                if (this.swiperInstance.activeIndex === 1) {
+                    this.openMenu();
+                } else {
+                    this.closeMenu();
+                }
+            }
+        },
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
             if (this.isExpanded) {
