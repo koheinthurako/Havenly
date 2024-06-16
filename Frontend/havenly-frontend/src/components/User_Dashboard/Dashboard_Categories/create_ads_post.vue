@@ -119,25 +119,28 @@ export default {
 ],
     }
   },
+
+  mounted(){
+    this.fetchSubUserInfo();
+  },
+
   methods: {
     openAdsDialog() {
-            const user = JSON.parse(sessionStorage.getItem('sub_user'));
-            const availAds = user.availAds;
-            if(availAds <= 0) {
-              this.adsDialog = false;
-              Swal.fire({
-                  title: 'No Ads for your package!',
-                  text: 'Your available ads is 0.',
-                  icon: 'error',
-                  customClass: {
-                  confirmButton: 'myCustomButton'
-                  },
-                  buttonsStyling: false
-              })
-              return;
-            }
-            this.adsDialog = true;
-        },
+      console.log(this.availAds);
+      if(!(this.availAds <= 0)) {
+        this.adsDialog = true;
+        return;
+      }
+      Swal.fire({
+          title: 'No Ads for your package!',
+          text: 'Your available ads is 0.',
+          icon: 'error',
+          customClass: {
+          confirmButton: 'myCustomButton'
+          },
+          buttonsStyling: false
+       });
+    },
     closeAdsDialog() {
             this.adsDialog = false;
         },
@@ -153,16 +156,25 @@ export default {
                 .then(response => {
                     console.log(response.data.availAds);
                     this.availAds = response.data.availAds;
-                   
-                })
+                    if(this.availAds <= 0) {
+                      this.adsDialog = false;
+                      Swal.fire({
+                          title: 'No Ads for your package!',
+                          text: 'Your available ads is 0.',
+                          icon: 'error',
+                          customClass: {
+                          confirmButton: 'myCustomButton'
+                          },
+                          buttonsStyling: false
+                      })
+                    }
+                  })
                 .catch(error => {
                 console.error('Error fetching data:', error); // Handle the error
                 });
+                return true;
         },
 
-  },
-  mounted(){
-    this.fetchSubUserInfo();
   },
 
   setup() {
@@ -347,7 +359,6 @@ export default {
     };
     
     onMounted(() => {
-      // fetchSubUserInfo();
       fetchAds();
     });
     return {

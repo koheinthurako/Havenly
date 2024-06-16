@@ -36,10 +36,10 @@ public class RentPost_Controller {
 		return new ResponseEntity<List<RentPost>>(rentRepo.getAllRentPosts(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/allSubuserRentPosts")
-	public ResponseEntity<List<RentPost>> getAllSubuserRentPosts(@RequestParam int subUserId) {
-		return new ResponseEntity<List<RentPost>>(rentService.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
-	}
+//	@GetMapping("/allSubuserRentPosts")
+//	public ResponseEntity<List<RentPost>> getAllSubuserRentPosts(@RequestParam int subUserId) {
+//		return new ResponseEntity<List<RentPost>>(rentService.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
+//	}
 	
 	@PostMapping("/saverentpost")
 	public ResponseEntity<SellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,
