@@ -31,7 +31,7 @@
               <v-col cols="auto">
 
               <div class="text-center mt-4">
-                    <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
+                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Register</button>
               </div>
 
 
@@ -207,6 +207,14 @@ export default {
     position: relative;
     z-index: 3;
     user-select: none;
+  }
+
+  #login .loginForm button {
+    transition: 0.3s;
+  }
+
+  #login .loginForm button:hover {
+    transform: translateY(-5px);
   }
 
   /* Responsive For Login Page */
