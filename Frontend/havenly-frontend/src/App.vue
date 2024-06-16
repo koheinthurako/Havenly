@@ -22,7 +22,7 @@ export default {
   computed: {
     showNavbar() {
       const currentPath = this.$route.path;
-      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/login';
+      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/login' && currentPath !== '/register';
     }
   },
 

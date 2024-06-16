@@ -1,6 +1,51 @@
 <template>
 
-  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
+  <section id="login" class="container my-5" style="height: 82vh; display: flex; justify-content: center; align-items: center;">
+    <div class="row d-flex justify-content-center align-items-center flex-column flex-md-row w-100">
+      <div class="col-lg-7 col-12">
+        <div class="coverImgBox" style="height: 500px;">
+          <div class="contentBox d-flex justify-content-center align-items-center flex-column h-100">
+            <p class="m-0 p-0 fs-4 text-white">Welcome to</p>
+            <h1 class="text-white">Havenly</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 col-12">
+          <div class="loginForm">
+            <v-form fast-fail @submit.prevent="login">
+              <h2 class="my-4 text-center"><span style="color: #e86f52;">Login</span> Your Account</h2>
+              <v-text-field v-model="user.email" label="Email" :rules="[value => !!value || 'Required']"></v-text-field>
+
+              <v-text-field v-model="user.password" :type="showPassword ? 'text' : 'Password'"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner=togglePasswordVisibility()
+                label="password" :rules="[value => !!value || 'Required']">
+
+              </v-text-field>
+
+
+              <div class="mt-2 d-flex justify-content-between flex-wrap align-items-center">
+                <p class="text-body-2 m-0">Don't have an account? <a href="/register">Register Now</a></p>
+                <a href="/forgot" class="text-body-2 font-weight-regular">Forgot Password?</a>
+              </div>
+                <v-row justify="space-around">
+              <v-col cols="auto">
+
+              <div class="text-center mt-4">
+                    <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
+              </div>
+
+
+              </v-col> </v-row>
+
+            </v-form>
+            
+          </div>
+        </div>
+    </div>
+  </section>
+
+
+  <!-- <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
     <v-sheet width="400" class="mx-auto">
       <v-form fast-fail @submit.prevent="login">
 
@@ -19,7 +64,7 @@
         
         <div class="text-center mr-2">
               <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
-      </div>
+        </div>
   
 
       </v-col> </v-row>
@@ -29,7 +74,7 @@
         <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
       </div>
     </v-sheet>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -127,3 +172,59 @@ export default {
 }
 
 </script>
+
+<style>
+
+  .coverImgBox {
+    background-image: url('../assets/img/loginCover.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+  }
+
+  .coverImgBox .contentBox::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(255, 137, 108, 0.7));
+    z-index: 1;
+  }
+
+  .coverImgBox .contentBox {
+    position: relative;
+    z-index: 2;
+    background: none; /* Remove any background from contentBox */
+    /* background: linear-gradient(0deg, #e86f52 20%, transparent) */
+  }
+
+  .coverImgBox .contentBox p,
+  .coverImgBox .contentBox h1 {
+    position: relative;
+    z-index: 3;
+    user-select: none;
+  }
+
+  /* Responsive For Login Page */
+  @media screen and (max-width: 990px) {
+    #login {
+      height: 140vh !important;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    #login {
+      height: 100vh !important;
+    }
+
+    #login .coverImgBox {
+      height: 340px !important;
+    }
+
+  }
+
+</style>

@@ -121,6 +121,21 @@ export default {
   },
   methods: {
     openAdsDialog() {
+            const user = JSON.parse(sessionStorage.getItem('sub_user'));
+            const availAds = user.availAds;
+            if(availAds <= 0) {
+              this.adsDialog = false;
+              Swal.fire({
+                  title: 'No Ads for your package!',
+                  text: 'Your available ads is 0.',
+                  icon: 'error',
+                  customClass: {
+                  confirmButton: 'myCustomButton'
+                  },
+                  buttonsStyling: false
+              })
+              return;
+            }
             this.adsDialog = true;
         },
     closeAdsDialog() {
@@ -330,34 +345,6 @@ export default {
           console.error('Error fetching data:', error);
         });
     };
-    // const fetchSubUserInfo = () => {
-    //   const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    //   // subUserId.value = subUserData.subUserId;
-    //   // availAds.value = subUserData.availAds;
-    //   const registerId = loginUserData.registerId;
-    //    console.log(registerId)
-    //   axios.get('http://localhost:8083/getSubUserInfo', {
-    //     params: {
-    //       registerId: registerId
-    //     }
-    //   })
-    //     .then(response => {
-    //       if (response.data !== null) {
-    //         availAds.value = response.data.availAds;
-    //         console.log("Available Ads :", availAds.value);
-    //         subUserId.value = response.data.subUserId;
-    //       }
-    //       else {
-    //         console.log("no avail ads");
-    //                      router.push('/package');
-                      
-    //                 }
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching data:', error);
-    //     });
-    // };
-
     
     onMounted(() => {
       // fetchSubUserInfo();
