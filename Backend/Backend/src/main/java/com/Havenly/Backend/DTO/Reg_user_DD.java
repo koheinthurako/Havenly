@@ -19,15 +19,18 @@ import lombok.Setter;
 public class Reg_user_DD {
 	
 	private int register_id;
-		
-		private String name;
-		private String phone;
-		private String email;
-		private String password;
-		private LocalDate date;
-		private LocalTime time;
-		private String nrc;
-		private int packageType;
+	private String name;
+	private String nrc;
+	private String phone;
+	private String email;
+	private String password;
+	private LocalDate date;
+	private LocalTime time;
+	private int packageTypeId;
+	private String packageName;
+	private int subUserId;
+	private String profileImg;
+
 	
 	public Reg_user covertToEntity(Reg_user_DD dto) {
 		Reg_user user=new Reg_user();
@@ -38,6 +41,7 @@ public class Reg_user_DD {
 		user.setPassword(dto.getPassword());
 		user.setDate(dto.getDate());
 		user.setTime(dto.getTime());
+		user.setProfileImg(dto.getProfileImg());	
 		return user;
 	}
 	
@@ -50,16 +54,18 @@ public class Reg_user_DD {
 		dto.setName(user.getName());
 		dto.setPhone(user.getPhone());
 		dto.setEmail(user.getEmail());
-		
 		dto.setDate(user.getDate());
 		dto.setTime(user.getTime());
-	
-		if(sub!=null) {
-		dto.setNrc(sub.getNrc().toString());
-		dto.setPackageType(sub.getPackages().getPackType().getPackageTypeId());	
-		}
+		dto.setProfileImg(user.getProfileImg());
 		
-		return dto;
+		if(sub!=null) {
+			dto.setNrc(sub.getNrc());			
+			dto.setSubUserId(sub.getSubUserId());		
+			dto.setPackageTypeId(sub.getPackages().getPackType().getPackageTypeId());
+			dto.setPackageName(sub.getPackages().getPackType().getPackName());	
+			}
+			
+			return dto;
 		
 	}
 }

@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import firstIndex from './For_MainIndex/firstIndexContent.vue'
 import secondTabContent from './For_MainIndex/secondTabContentVue.vue'
 import thirdCarousel from './For_MainIndex/thirdItemCarousel.vue'
@@ -159,10 +160,36 @@ export default {
   mounted() {
     localStorage.removeItem('openTab');
     localStorage.removeItem('adminTab');
+    this.checkBanStatus();
   },
 
 
   methods: {
+
+    async checkBanStatus() {
+      if (JSON.parse(sessionStorage.getItem('login_user'))) {
+        const user = JSON.parse(sessionStorage.getItem('login_user'));
+        const response = await fetch(`http://localhost:8083/isBanned?email=${user.email}`);
+        const isBanned = await response.json();
+        if (isBanned) {
+          Swal.fire({
+                            title: 'Banned!',
+                            text: 'Your account is banned by admin team for 7 days.',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                          sessionStorage.removeItem('login_user');
+          window.location.href = '/login'; // Redirect to login page
+                        });
+          
+        }
+      }
+    },
 
     // async fetchRegisterUser() {
     //   try {
@@ -328,13 +355,17 @@ export default {
     };
 
     const fetchNotifications = () => {
-      const user = JSON.parse(sessionStorage.getItem('sub_user'));
-
       // Make API call to fetch posts from backend
-      if (user) {
+      if (JSON.parse(sessionStorage.getItem('sub_user'))) {
+        const user = JSON.parse(sessionStorage.getItem('sub_user'));
         const UserId = user.subUserId;
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
-          .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
           .then((data) => {
 
             data.forEach((obj) => {

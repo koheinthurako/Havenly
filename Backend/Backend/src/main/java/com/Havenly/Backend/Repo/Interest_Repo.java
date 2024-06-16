@@ -2,7 +2,6 @@ package com.Havenly.Backend.Repo;
 
 import java.util.List;
 
-import com.Havenly.Backend.Entity.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -62,7 +61,12 @@ public interface Interest_Repo extends JpaRepository<Interest, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM Interest WHERE register_id =?", nativeQuery = true)
-	void DeleteByregisterId(int user_id);
+	@Query(value = "DELETE FROM Interest WHERE post_id =?1 or register_id =?2", nativeQuery = true)
+	void DeleteByregisterId(int post_id,int reg_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM Interest WHERE  register_id =?", nativeQuery = true)
+	void DeleteByregisterId2(int reg_id);
 
 }

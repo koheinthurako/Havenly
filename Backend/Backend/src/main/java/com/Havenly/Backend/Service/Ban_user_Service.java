@@ -12,5 +12,6 @@ public interface Ban_user_Service {
 	public Ban_user save(Ban_user user);
 	public String deleteByEmail(String email);
 	public List<Ban_user> findAll();
+	public boolean isEmailBanned(String email);
 	
 }

@@ -51,8 +51,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-ads' }"
-                        @click="changeTabForSub('create-ads'); toggleSidebar2()">
+                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads-post' }"
+                        @click="changeTabForSub('create-ads-post'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
                     </a>
@@ -100,9 +100,10 @@
                     <div v-else-if="openTab === 'create-rent-post'">
                         <create_rent_post_page />
                     </div>
-                    <div v-else-if="openTab === 'create-ads'">
-                        <h3>Add Ads Content</h3>
-                        <p>This is where the add ads content will be displayed.</p>
+                    <div v-else-if="openTab === 'create-ads-post'">
+                        <create_ads_post />
+                        <!-- <h3>Add Ads Content</h3>
+                        <p>This is where the add ads content will be displayed.</p> -->
                     </div>
                 </div>
 
@@ -216,6 +217,7 @@ import profile_page from './Dashboard_Categories/profileVue.vue'
 import create_sell_post_page from './Dashboard_Categories/create_sell_post.vue'
 import uploadedAllPosts from './Dashboard_Categories/uploadedAllPosts.vue'
 import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
+import create_ads_post from './Dashboard_Categories/create_ads_post.vue';
 import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
 import router from '@/router';
 
@@ -297,6 +299,7 @@ export default {
         uploadedAllPosts,
         create_sell_post_page,
         create_rent_post_page,
+        create_ads_post,
         interestedPosts
     },
 
@@ -319,31 +322,6 @@ export default {
         }
     },
     methods: {
-        openMenu() {
-            if (this.swiperInstance) {
-                this.swiperInstance.slidePrev();
-                this.isCross = true;
-            }
-        },
-        closeMenu() {
-            if (this.swiperInstance) {
-                this.swiperInstance.slideNext();
-                this.isCross = false;
-            }
-        },
-        toggleMenu() {
-            if (this.swiperInstance) {
-                if (this.swiperInstance.activeIndex === 1) {
-                    this.openMenu();
-                } else {
-                    this.closeMenu();
-                }
-            }
-        },
-        onClickOutsideMobile() {
-            this.toggleMenu();
-        },
-
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
             if (this.isExpanded) {

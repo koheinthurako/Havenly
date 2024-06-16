@@ -53,6 +53,11 @@ export default {
         c4: require('@/assets/img/c8.jpg'),
 
     }),
+
+    mounted() {
+      localStorage.removeItem('openTab');
+    },
+
 }
 
 </script>

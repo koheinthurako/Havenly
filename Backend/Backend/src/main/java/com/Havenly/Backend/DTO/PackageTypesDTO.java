@@ -23,7 +23,7 @@ private int packageTypeId;
 	
 	public PackageTypes convertToEntity(PackageTypesDTO packDTO) {
 		PackageTypes pack = new PackageTypes();
-		pack.setPackageTypeId(packDTO.packageTypeId);
+		pack.setPackageTypeId(packDTO.getPackageTypeId());
 		pack.setPackName(packDTO.getPackName());
 		pack.setPrice(packDTO.getPrice());
 		pack.setTotal_ads(packDTO.getTotal_ads());

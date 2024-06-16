@@ -24,7 +24,7 @@ public class NRC_DTO {
 	
 	public NRC convertToEntity (NRC_DTO dto) {
 		NRC nrc = new NRC();
-		nrc.setId(dto.id);
+		nrc.setId(dto.getId());
 		nrc.setName_en(dto.getName_en());
 		nrc.setName_mm(dto.getName_mm());
 		nrc.setNrc_code(dto.getNrc_code());

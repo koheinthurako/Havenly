@@ -1,37 +1,94 @@
 <template>
+
     <div class="user-profile">
-        <div class="row p-0 m-0">
+        <div class="row p-2 m-2">
             <div class="col-md-6 col-sm-12 p-2">
                 <div class="profile-box h-auto">
-                    <div class="profile-box-data pb-5">
-                        <v-img :src="acc_img" class="profile-img" />
-                        <form ref="form" fast-fail @submit.prevent="update">
-                            <div class="mt-3 p-3 mx-auto">
+                    <div class="profile-box-data pt-2 pb-5">
+                        <div class="profile-img-container">
+                            <v-img :src="profileImage || profilePicture" class="profile-img" alt="Profile Picture"
+                                padding=5px max-height="150" max-width="150" contain />
 
-                                <!-- <input type="text" :value="user_data?.name || ''" label="User name">
-                                    <input type="email" :value="user_data?.gmail || ''" label="E-mail">
-                                    <input type="phone" :value="user_data?.phone || ''" label="phone"> -->
+                        </div>
+                        <div class="mt-3 p-3 mx-auto">
+                            <div :v-if="user_data !== null">
+                                <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
+                                    variant="plain" v-model="items.name" label="Name" placeholder="User Name"
+                                    readonly="true"></v-text-field>
 
-                                <v-text-field variant="solo" density="comfortable" clear-icon="mdi-close-circle"
-                                    clearable rounded="lg" v-model="user.name" :rules="[validateName]"
-                                    label="Username"></v-text-field>
+                                <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
+                                    variant="plain" v-model="items.email" label="Email" placeholder="Email"
+                                    readonly="true"></v-text-field>
 
-                                <v-text-field class="mt-2" variant="solo" density="comfortable"
-                                    clear-icon="mdi-close-circle" clearable rounded="lg" v-model="user.phone"
-                                    :rules="[validatePhone]" label="Phone no."></v-text-field>
+                                <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
+                                    variant="plain" v-model="items.phone" label="Phone" placeholder="Contact No"
+                                    readonly="true"></v-text-field>
 
-                                <v-text-field class="mt-2" variant="solo" density="comfortable"
-                                    clear-icon="mdi-close-circle" clearable rounded="lg" v-model="user.email"
-                                    label="Email of this account" :rules="[validateGmail]"></v-text-field>
-
-                                <v-row class="w-100 mt-3">
-                                    <v-btn elevation="10" class="submit mx-auto mt-2" type="submit"
-                                        style="text-transform:capitalize;">
-                                        Update
-                                    </v-btn>
-                                </v-row>
+                                <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
+                                    variant="plain" v-model="items.nrc" label="NRC" placeholder="NRC"
+                                    readonly="true"></v-text-field>
                             </div>
-                        </form>
+                        </div>
+
+
+                        <!-- Edit or logout -->
+                        <div class="d-flex justify-center mt-2">
+                            <p style="width: 90px; height:40px" class="mr-2 me-3">
+                                <span class="custom-button d-flex align-center" @click="openEditDialog"
+                                    style="width: 100%; justify-content: center;">
+                                    <v-icon>mdi-pencil</v-icon>&nbsp;Edit
+                                </span>
+                            </p>
+                            <!-- <p
+            style="width: 90px; height:40px"
+            class="ml-2">
+            <span class="custom-button d-flex align-center" @click="logout" style="width: 100%; justify-content: center;">
+              Logout
+            </span>
+          </p> -->
+
+                            <!-- Edit Dialog Start -->
+                            <v-dialog v-model="editDialog" class="create-pop-up" persistent>
+                                <form @submit.prevent="update" class="form-edit2">
+                                    <v-row cols="12" class="mx-auto mb-3">
+                                        <h3>Edit Profile</h3>
+                                    </v-row>
+                                    <button type="button" class="close-btn" @click="closeEditDialog">
+                                        <v-icon>mdi-close-circle</v-icon>
+                                    </button>
+                                    <div class="profile-pic">
+
+                                        <div class="profile-img-container1 align-center" @click="triggerFileInput">
+                                            <v-img :src="profileImage || profilePicture" class="profile-img1 mb-2"
+                                                alt="Profile Picture" max-height="150" max-width="150" contain />
+                                            <v-icon class="edit-icon">mdi-pencil</v-icon>
+                                            <input type="file" accept="image/png, image/jpeg, image/bmp" ref="fileInput"
+                                                style="display: none;" prepend-icon="mdi-camera"
+                                                @change="handleFileUpload" />
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 150px;">
+                                        <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                            v-model="user.name" :error-messages="nameErrorMessages" label="Name"
+                                            placeholder="Enter your name"></v-text-field>
+
+                                        <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                            v-model="user.phone" :error-messages="phoneErrorMessages"
+                                            label="Phone Number" placeholder="Enter your phone number"></v-text-field>
+                                    </div>
+
+                                    <p>
+                                        <v-row cols="12" class="w-100 mt-4">
+                                            <v-btn class="submit ms-auto me-3" type="update"
+                                                style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                                                Update
+                                            </v-btn>
+                                        </v-row>
+                                    </p>
+                                </form>
+                            </v-dialog>
+                            <!-- Edit Dialog End -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,15 +103,16 @@
                                     <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
                                         Editable<i class="fa-solid fa-check ms-1"></i>
+                                        Editable<i class="fa-solid fa-check ms-1"></i>
                                     </p>
                                 </div>
                                 <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
                                 <div class="d-flex justify-space-between">
-                                    <p class="fw-bold">Subscribed package</p>
+                                    <p class="fw-bold">Purchased package</p>
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span class="d-flex align-center">
+                                        <span @click="packageDialogOpen" class="d-flex align-center">
                                             <v-icon>mdi-store</v-icon>&nbsp;Check
                                         </span>
                                     </p>
@@ -64,13 +122,28 @@
                                     <p
                                         style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span @click="openDialog" class="d-flex align-center">
+                                        <span class="d-flex align-center" @click="openDialog">
                                             <v-icon>mdi-lock</v-icon>&nbsp;Reset
                                         </span>
                                     </p>
 
+                                    <!-- package dialog start -->
+                                    <v-dialog v-model="packageDialog" class="create-pop-up">
+                                        <div class="pop-up-subscribe">
+                                            <div class="d-flex justify-space-between">
+                                                <p>Subscribed Package</p>
+                                                <p><span :v-if="user_data !== null">
+                                                        {{ items.packageName || '' }}
+                                                    </span></p>
+                                            </div>
+                                            <button class="close-btn1"
+                                                @click="packageDialogClose"><v-icon>mdi-close-circle</v-icon>
+                                            </button>
+                                        </div>
+                                    </v-dialog>
+                                    <!-- package dialog end -->
 
-                                    <!--Reset Password Dialog start -->
+                                    <!-- Dialog start -->
                                     <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
                                         <form @submit.prevent="submit" class="form-edit2">
                                             <v-row cols="12" class="mx-auto mb-3">
@@ -78,50 +151,44 @@
                                             </v-row>
                                             <button class="close-btn"
                                                 @click="closeDialog"><v-icon>mdi-close-circle</v-icon></button>
+                                            <div :v-if="user_data !== null">
 
-                                            <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable
-                                                rounded="lg" variant="solo" v-model="change_pw.username"
-                                                :rules="[validateGmail]" label="G-mail"></v-text-field>
+                                                <v-text-field density="comfortable" clear-icon="mdi-close-circle"
+                                                    clearable rounded="lg" variant="solo" v-model="items.email"
+                                                    :rules="[validateGmail]" label="G-mail"></v-text-field>
 
-                                            <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                v-model="change_pw.password"
-                                                :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
-                                                :rules="[validateResetPassword]" :type="visible ? 'text' : 'password'"
-                                                class="input-group--focused" hint="At least 8 characters"
-                                                label="Password" name="input-10-2"
-                                                @click:append="visible = !visible"></v-text-field>
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="change_pw.password"
+                                                    :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[validateResetPassword]"
+                                                    :type="visible ? 'text' : 'password'" class="input-group--focused"
+                                                    hint="At least 8 characters" label="Password" name="input-10-2"
+                                                    @click:append="visible = !visible"></v-text-field>
 
-                                            <v-text-field density="comfortable" rounded="lg" variant="solo"
-                                                v-model="change_pw.new_password"
-                                                :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                                :rules="[validateResetConfirmPassword]"
-                                                :type="visible1 ? 'text' : 'password'" class="input-group--focused"
-                                                hint="At least 8 characters" label="New Password" name="input-10-2"
-                                                @click:append="visible1 = !visible1"></v-text-field>
-
-                                            <v-row cols="12" class="w-100 mt-4">
-
-                                                <v-btn elevation="10" @click="handleSubmit" class="submit ms-auto me-3"
-                                                    type="submit">
-                                                    submit
-                                                </v-btn>
-                                            </v-row>
+                                                <v-text-field density="comfortable" rounded="lg" variant="solo"
+                                                    v-model="change_pw.new_password"
+                                                    :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :rules="[validateResetConfirmPassword]"
+                                                    :type="visible1 ? 'text' : 'password'" class="input-group--focused"
+                                                    hint="At least 8 characters" label="New Password" name="input-10-2"
+                                                    @click:append="visible1 = !visible1"></v-text-field>
+                                            </div>
+                                            <p>
+                                                <v-row cols="12" class="w-100 mt-4">
+                                                    <v-btn @click="resetPassword" class="submit ms-auto me-3"
+                                                        type="submit"
+                                                        style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                                                        Reset
+                                                    </v-btn>
+                                                </v-row>
+                                            </p>
                                         </form>
                                     </v-dialog>
-                                    <!--Reset Password Dialog end -->
+                                    <!-- Dialog end -->
 
 
                                 </div>
-                                <div class="d-flex justify-space-between">
-                                    <p class="fw-bold">Change location</p>
-                                    <p
-                                        style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
 
-                                        <span class="d-flex align-center">
-                                            <v-icon>mdi-map-marker-radius</v-icon>&nbsp;Change
-                                        </span>
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,7 +200,7 @@
                             <div class="p-3">
                                 <div class="d-flex w-100 p-0 justify-space-between">
                                     <h5>Account progress status</h5>
-                                    <p
+                                    <!-- <p
                                         style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
                                         Editable<i class="fa-solid fa-check ms-1"></i></p>
                                 </div>
@@ -194,11 +261,11 @@
 
                                         <span class="d-flex align-center">
                                             <!-- <v-icon>mdi-calendar-edit</v-icon>&nbsp;Create -->
-                                            <label class="switch">
-                                                <input type="checkbox" checked>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    </span>
                                     </p>
                                 </div>
                                 <div class="d-flex justify-space-between">
@@ -241,36 +308,41 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+// import router from '@/router';
+import Swal from 'sweetalert2';
 
 export default {
     name: 'profileVue',
 
-
     data: () => ({
 
-        // Main Error Point Rendering without data, Initialize with empty string
-        get_username: '',
-        gmail: '',
-        phone: '',
+        // img: require('@/assets/img/9.jpg'),
+        // acc_img: require('@/assets/img/img_avatar.png'),
+        resetdialog: false,
+        packageDialog: false,
+        editDialog: false,
+        visible: false,
+        visible1: false,
+        nameErrorMessages: [],
+        phoneErrorMessages: [],
+
+        items: [],
+
         user: {
             name: '',
+            gmail: '',
             phone: '',
-            email: ''
+            profilePicture: null
         },
-
-        // for Password reset dialog (optional)
+        profilePicture: require('@/assets/img/img_avatar.png'), // Placeholder image
+        selectedFile: null,
+        profileImage: null,
         change_pw: {
             username: '',
             password: '',
-            new_password: '',
+            new_password: ''
         },
-
-        img: require('@/assets/img/9.jpg'),
-        acc_img: require('@/assets/img/img_avatar.png'),
-        resetdialog: false,
-        visible: false,
-        visible1: false,
 
         rules: {
             required: value => !!value || 'Required.',
@@ -279,96 +351,189 @@ export default {
         },
     }),
 
-    computed: {
+    // created(){
+    // const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
+    // if (loginUserData !==null ) { 
 
-    },
+    //     this.user.name = loginUserData.name;
+    //     this.user.phone = loginUserData.phone;
+    //     this.user.profilePicture = loginUserData.profileImg
+    // }
+    // },
 
     mounted() {
-        this.user = JSON.parse(sessionStorage.getItem('login_user'));
+        this.fetchData();
+    },
+    computed: {
+        user_data() {
+            if (sessionStorage.getItem('login_user') !== null) {
+                return JSON.parse(sessionStorage.getItem('login_user'));
+            } else {
+                return null;
+            }
+        },
+
     },
 
     methods: {
 
-        closeDialog() {
-            this.resetdialog = false;
+        packageDialogOpen() {
+            this.packageDialog = true;
+        },
+
+        packageDialogClose() {
+            this.packageDialog = false;
         },
 
         openDialog() {
             this.resetdialog = true;
         },
 
-        // User name validation
-        validateName(value) {
-            if (!value) {
-                return 'Required';
-            }
-            return true;
+        closeDialog() {
+            this.resetdialog = false;
         },
-        // Phone Validation
-        validatePhone(value) {
-            if (!value) {
-                return 'Required';
-            }
-            return true;
+        openEditDialog() {
+            this.editDialog = true;
         },
-        // Gmail validation
-        validateGmail(value) {
-            const gmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-            if (!value) {
-                return 'Required';
-            } else if (!gmailRegex.test(value)) {
-                return 'Please enter a valid Gmail address';
-            }
-            return true;
-        },
-        // Password Validation
-        validateResetPassword(value) {
-            if (!value) {
-                return 'Required';
-            } else if (value.length < 5) {
-                return 'Password is weak!';
-            }
-            return true;
-        },
-        // Confirm Password Validation 
-        validateResetConfirmPassword(value) {
-            if (!value) {
-                return 'Required';
-            } else if (value.length < 5) {
-                return 'Password is weak!'
-            } else if (value != this.change_pw.password) {
-                return 'Passwords do not match';
-            }
-            return true;
+        closeEditDialog() {
+            this.editDialog = false;
         },
 
-        update() {
+        fetchData() {
+            const user = JSON.parse(sessionStorage.getItem('login_user'));
+            const registerId = user.register_id;
+            axios.get('http://localhost:8083/getLoginUser', {
+                params: {
+                    registerId: registerId
+                }
+            })
+                .then(response => {
+                    this.items = response.data;
+                    console.log("Login name", response.data.name);
+                    const profilepic = response.data.profileImg;
+                    if (profilepic !== null) {
+                        this.profileImage = profilepic;
+                        console.log("Profile image exists!");
+                    }
+                    this.user.name = response.data.name;
+                    this.user.phone = response.data.phone;
+                    this.user.gmail = response.data.gmail;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        },
+
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.selectedFile = file;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.profileImage = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+            }
+        },
+        triggerFileInput() {
+            this.$refs.fileInput.click();
+        },
+
+        validateForm() {
+            this.nameErrorMessages = [];
+            this.phoneErrorMessages = [];
+
+            if (!this.user.name) {
+                this.nameErrorMessages.push('Name is required');
+            }
+
+            if (!this.user.phone) {
+                this.phoneErrorMessages.push('Phone number is required');
+            } else if (this.user.phone.length < 9) {
+                this.phoneErrorMessages.push('Phone number must be at least 9 digits');
+            }
+
+            return this.nameErrorMessages.length === 0 && this.phoneErrorMessages.length === 0;
+        },
+
+        async update() {
+            if (!this.validateForm()) {
+                return;
+            }
+            this.user.email = this.user_data.email;
 
             function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {
                     const response = error?.response
                     if (response) {
                         const statusCode = response?.status
-                        if (statusCode === 404) { alert("Upadte Information failed!!!   Please check your E-mail and fill again!!") }
-                        if (statusCode === 500) { alert("Upadte Information failed!!!   Please check your Phone number and fill again!!") }
+                        if (statusCode === 404) { console.log("Email missing") }
+                        if (statusCode === 500) { console.log("Phone number missing") }
+                        console.log("error : ", response);
                     }
                 }
             }
 
+            const formData = new FormData();
+            formData.append('name', this.user.name);
+            formData.append('phone', this.user.phone);
+            formData.append('email', this.user.email);
+            if (this.selectedFile !== null) {
+                formData.append('profileImg', this.selectedFile);
+            } else if (this.profileImage !== null) {
+                // Convert base64 string to Blob
+                const byteString = atob(this.profileImage.split(',')[1]);
+                const mimeString = this.profileImage.split(',')[0].split(':')[1].split(';')[0];
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                const blob = new Blob([ab], { type: mimeString });
+                formData.append('profileImg', blob, 'profile.jpg');
+            } else {
+                formData.append('profileImg', new Blob([]), 'profile.jpg'); // Ensure profileImg is always set
+            }
 
-
-            axios.put("http://localhost:8083/profile/update", this.user)
-                .then(function (response) {
-                    const status = JSON.parse(response.status);
-                    if (status == '200') {
-                        alert("updated Successfully")
+            try {
+                const response = await axios.put("http://localhost:8083/profile/update", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
-                })
-                .catch(httpErrorHandler)
+                });
 
+                const status = response.status;
+                if (status === 200) {
+
+                    let userData = JSON.parse(sessionStorage.getItem('login_user')) || {};
+                    userData.name = this.user.name;
+                    userData.phone = this.user.phone;
+                    userData.profilePicture = this.profileImage;
+                    sessionStorage.setItem('login_user', JSON.stringify(userData));
+                    Swal.fire({
+                        title: 'Profile Change Success',
+                        text: 'Your profile is successfully updated',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                        buttonsStyling: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            } catch (error) {
+                httpErrorHandler(error);
+            }
         },
 
-        handleSubmit() {
+        resetPassword() {
+
+            this.change_pw.username = this.items.email;
+
             function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {
                     const response = error?.response
@@ -378,7 +543,6 @@ export default {
                     }
                 }
             }
-
 
             axios.put("http://localhost:8083/pwdUpdate", this.change_pw)
                 .then(function (response) {
@@ -399,8 +563,133 @@ export default {
 
 </script>
 
+<!-- <script setup>
+
+import { useField, useForm } from 'vee-validate'
+// import Swal from 'sweetalert2';
+
+// let show = true
+
+const { handleSubmit } = useForm({
+    validationSchema: {
+
+        password(value) {
+            if (value?.length >= 6) {
+
+                return true;
+            } else {
+                return 'Cannot be empty!'
+            }
+        },
+
+        confirm_password(value) {
+            if (value?.length >= 6) {
+                return true;
+            } else {
+                return 'Cannot be empty!'
+            }
+        },
+        email(value) {
+            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+            return 'Must be a valid e-mail.'
+        },
+
+    },
+})
+
+const profile_password = useField('password')
+const profile_confirm_password = useField('confirm_password')
+const email = useField('email')
+
+const submit = handleSubmit(values => {
+    if (values.profile_password == values.profile_confirm_password) {
+        console.log("Reached");
+    }
+});
+</script> -->
 
 <style>
+.custom-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #E86F52;
+    color: #fff;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    /* Custom shadow */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.custom-button:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    /* Slightly larger shadow on hover */
+}
+
+.create-pop-up {
+    width: 100%;
+    height: auto;
+    z-index: 100;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .main-close {
+        position: absolute;
+        top: -50px;
+        right: 0;
+        padding: 0;
+        z-index: 300;
+        width: 30px !important;
+        height: 62px;
+        border-radius: 50%;
+        background-color: #e86f52;
+        color: #fff;
+        box-shadow: 0px 6px 20px -2px rgba(0, 0, 0, 0.3);
+
+        .v-icon {
+            font-size: 24px;
+        }
+    }
+
+}
+
+.profile-pic {
+    padding: 8px;
+    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    .profile-img1 {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        margin: left;
+    }
+
+    .edit-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 5px;
+        background-color: #E86F52;
+        color: #fff;
+        border-radius: 50%;
+        padding: 5px;
+        font-size: 24px;
+    }
+
+    .profile-img-container1 {
+        position: absolute;
+        display: inline-block;
+        cursor: pointer;
+    }
+}
+
 .pop-up-subscribe {
 
     width: 500px;
@@ -409,6 +698,15 @@ export default {
     border-radius: 10px;
     background-color: #fff;
     margin: auto;
+
+    f .close-btn1 {
+
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+
+    }
 }
 
 .form-edit2 {
@@ -420,7 +718,7 @@ export default {
     border-radius: 10px;
     background-color: #fff;
     position: relative;
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); */
 
     .close-btn {
 
@@ -438,8 +736,8 @@ export default {
 }
 
 .user-profile {
-    width: 70%;
-    height: 100%;
+    width: 60%;
+    height: 90%;
     margin: auto;
 
     .profile-box {
@@ -465,8 +763,14 @@ export default {
                 border-radius: 50%;
                 margin: left;
                 margin-left: 10px;
+                object-fit: cover;
             }
 
+            .profile-img-container {
+                padding-top: 10px;
+                position: relative;
+                display: inline-block;
+            }
 
 
             .form-control {
@@ -474,9 +778,6 @@ export default {
                 height: auto;
                 background-color: transparent;
                 border: none;
-
-
-
 
             }
 
@@ -486,16 +787,9 @@ export default {
                 color: #fff;
             }
 
-
-
-
-
         }
 
-
-
     }
-
 
 
     .switch {
@@ -557,5 +851,6 @@ export default {
     .slider.round:before {
         border-radius: 50%;
     }
+
 }
 </style>

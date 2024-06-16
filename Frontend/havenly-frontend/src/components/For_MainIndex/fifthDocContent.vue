@@ -65,6 +65,11 @@ export default {
     img4: require('@/assets/img/2.jpg'),
 
   }),
+
+  mounted() {
+    localStorage.removeItem('openTab');
+  },
+
 }
 
 </script>

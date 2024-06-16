@@ -1,6 +1,6 @@
 <template>
 
-  <div class="container">
+  <div class="">
     <!-- <div class="box1">
       <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
         <div class="d-flex">

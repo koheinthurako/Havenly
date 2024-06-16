@@ -80,7 +80,8 @@
 
                                             </div>
                                             <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
-                                                <button class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                                <button v-if="post.status != 'rejected'"
+                                                    class="btn btn-outline-danger w-100" @click="editPost(post)"
                                                     data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                                                 <button class="btn btn-danger w-100" @click="deletePost(post)">Delete
                                                 </button>
@@ -926,22 +927,23 @@ export default {
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-                        .then(response => {
-                            console.log(response.data);
-                            this.fetchPosts();
-                            window.location.reload();
-                        })
-                        .catch(error => {
-                            console.error("There was an error deleting the post!", error);
-                        });
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your file has been deleted.",
                         icon: "success",
-                        showConfirmButton: false,
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                    }).then(() => {
+                        axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                            .catch(error => {
+                                console.error("There was an error deleting the post!", error);
+                            });
+                        window.location.reload();
+                        this.fetchPosts();
                     });
                 }
+
             });
         },
 

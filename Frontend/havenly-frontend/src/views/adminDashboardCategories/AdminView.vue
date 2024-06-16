@@ -371,7 +371,10 @@ export default {
             title: 'User Already Banned',
             text: 'This user is already banned.',
             icon: 'info',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
           });
           return; // Exit the method early if the user is already banned
         }
@@ -382,9 +385,10 @@ export default {
           text: 'Do you really want to ban this user?',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
           confirmButtonText: 'Yes, ban!',
+          reverseButtons: true,
           cancelButtonText: 'Cancel'
         });
 

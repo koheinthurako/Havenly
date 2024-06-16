@@ -30,14 +30,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	Reg_user_Repo regRepo;
 	@Autowired
 	PackageTypesRepo packTypesRepo;
-
-//	@Override
-//	public Subscription_DTO getById(Subscription_DTO dto) {
-//		Subscription sub = subUser.convertToEntity(dto);
-//		Subscription user = subscribeRepo.findById(sub.getSubUserId()).orElse(null);
-//		Subscription_DTO user2 = subUser.convertToObject(user);
-//		return user2;
-//	}
+	
 
 	@Override
 	public boolean cancel(Subscription_DTO dto) {
@@ -47,7 +40,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		} else {
 			subscribeRepo.delete(sub);
 			packRepo.delete(sub.getPackages());
-			;
+			
 			return true;
 		}
 
@@ -59,24 +52,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription sub = subUser.convertToEntity(dto);
 		String email = dto.getEmail();
 		String packName = dto.getPackageType();
-		System.out.println("PackName : " + packName);
 		Reg_user reg_user = regRepo.findByEmail(email);
-
-//		if(regRepo.findByEmail(dto.getEmail())==null){
-//		return null;
-//		}else {		
+		
 		sub.setNrc(sub.getNrc());
 		sub.setReg_user(reg_user);
 		Packages packUser = new Packages();
 		PackageTypes packTypes = packTypesRepo.findByPackName(packName);
-		packUser.setSub1(sub);
-		packUser.setPackType(packTypes);
-		packUser.setAvailPosts(packTypes.getTotal_posts());
-		packUser.setAvailAds(packTypes.getTotal_ads());
-		packUser.setPackDate(LocalDate.now());
-		packUser.setPackTime(LocalDateTime.now());
+				
+			packUser.setSub1(sub);
+			packUser.setPackType(packTypes);
+			packUser.setPackDate(LocalDate.now());
+			packUser.setPackTime(LocalDateTime.now());	
+			packUser.setAvailPosts(packTypes.getTotal_posts());
+			packUser.setAvailAds(packTypes.getTotal_ads());
+				
+			Packages packUser2 = packRepo.save(packUser);
 
-		Packages packUser2 = packRepo.save(packUser);
 
 		sub.setPackages(packUser2);
 
@@ -84,11 +75,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Subscription_DTO user2 = subUser.convertToObject(user);
 
 		return user2;
-		// }
 
 	}
 
-	@Override
+
 	public List<Subscription> getAllSubUserInfo() {
 		return subscribeRepo.findAll();
 	}

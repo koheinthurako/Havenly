@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.SellPost;

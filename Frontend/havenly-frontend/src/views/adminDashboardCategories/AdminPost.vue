@@ -110,8 +110,8 @@
                                 <v-btn elevation="0" variant="outlined" @click="approve(post)"
                                     style="text-transform:capitalize;">Approve</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn elevation="0" variant="outlined" @click="cancel(post)"
-                                    style="text-transform:capitalize;">Cancel</v-btn>
+                                <v-btn elevation="0" variant="outlined" @click="reject(post)"
+                                    style="text-transform:capitalize;">Reject</v-btn>
                             </v-card-actions>
                         </div>
 
@@ -174,7 +174,7 @@ export default {
 
                 data.forEach(post => {
                     let processedPost;
-
+                    console.log(post);
                     if (post.rentpost) {
                         processedPost = this.processPostData(post, 'rentpost');
                     } else if (post.sellpost) {
@@ -196,6 +196,7 @@ export default {
             const imgUrls = Array.isArray(postDetails.image) ? postDetails.image : [postDetails.image];
 
             return {
+                subUserId: post.subUser.subUserId,
                 post_id: post.post_id,
                 status: post.status,
                 province: postDetails.locations.province,
@@ -304,7 +305,10 @@ export default {
                 })
                 .catch(httpErrorHandler)
         },
-        cancel(post) {
+
+        reject(post) {
+
+            console.log(post);
 
             function httpErrorHandler(error) {
                 if (axios.isAxiosError(error)) {
@@ -318,27 +322,28 @@ export default {
                 }
             }
 
-            axios.put("http://localhost:8083/posts/decline", post)
-                .then(function (response) {
-                    const status = JSON.parse(response.status);
-                    if (status == '200') {
-                        Swal.fire({
-                            title: 'Successfully Canceled!',
-                            icon: 'success',
-                            customClass: {
-                                confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                        alert("Canceled  Successfully")
-
-                    }
-                })
-                .catch(httpErrorHandler)
+            axios.delete("http://localhost:8083/posts/decliePost", {
+             params: {
+                 subUserId: post.subUserId, postId: post.post_id}
+             })
+            .then(function (response) {
+                const status = JSON.parse(response.status);
+                if (status == '200') {
+                    Swal.fire({
+                        title: 'Successfully Canceled!',
+                        icon: 'success',
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                        buttonsStyling: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            })
+            .catch(httpErrorHandler)
         },
         pushy() {
             router.push('/admin')

@@ -90,6 +90,7 @@ export default {
 
         window.addEventListener('beforeunload', this.saveScrollPosition);
         this.restoreScrollPosition();
+        
     },
 
 

@@ -2,12 +2,15 @@
     <div class="temp-package">
 
         <div class="temp-package-data">
-            <div class="temp-header-row">
+            <div class="temp-header-row ">
+                <br>
                 <div>
-                    <!-- <p>join us</p> -->
+                    <p>Join us, {{ user.name }} !</p>
                     <h3 class="my-2 mx-auto">Choose a package according to your needs!</h3>
                 </div>
-
+                <div v-if="message !== ''">
+                    {{ message }}
+                </div>
             </div>
             <div class="temp-package-row">
 
@@ -20,29 +23,29 @@
                         modifier: 1.5,
                         slideShadows: true,
                     }" :modules="modules" @slideChange="handleSlideChange" class="mySwiper">
-                    <swiper-slide>
-                        <!-- package three start -->
+                    <!-- <swiper-slide>
+                       // package one start
                         <div class="temp-package">
+                            <div v-if=package1>
                             <div style="line-height: 0px;">
                                 <h3 class="d-flex">
-                                    <div>{{ items2.name }}</div>&nbsp;&nbsp;package
+                                    <div>{{package1.packName}}</div>&nbsp;&nbsp;
                                 </h3>
                                 <h5>For real-estate agents</h5>
                             </div>
                             <div>
-                                <h1 class="mt-4 mb-5">
-                                    $ {{ items2.price }}
-                                </h1>
+                                <h1 class="mt-4 mb-5">$ {{package1.price}}</h1>
                             </div>
 
                             <div class="w-100 px-4">
 
-                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p class="p1">Up to 30
+                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p1">Up to {{package1.total_posts}}
                                         posts a month.</p>
                                 </div>
-                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
-                                    <p class="p2">Up to 20 ads a month.
+                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
+                                        class="p2">Up to {{package1.total_ads}}
+                                        ads a month.
                                     </p>
                                 </div>
                                 <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
@@ -55,65 +58,122 @@
                                         words per
                                         post.</p>
                                 </div>
-
                             </div>
                             <div class="w-100 mt-5 d-flex justify-center temp-btn">
                                 <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items2)">
                                     <div class="toggle-v-l">
-                                        <span class="visible">Buy Premium</span>
-                                        <span class="later-visible">Buy now</span>
+                                        <span class="visible">Try Free Trial</span>
+                                        <span class="later-visible">Subscribe now</span>
                                     </div>
                                 </v-btn>
                             </div>
                         </div>
+                        <div v-else>No items found.</div>
+                        </div>
+                        package one end
+                    </swiper-slide> -->
+
+                    <swiper-slide>
+                        <!-- package three start -->
+                        <div class="temp-package">
+                            <div v-if=package3>
+                                <div style="line-height: 0px;">
+                                    <h3 class="d-flex">
+                                        <div>{{ package3.packName }}</div>&nbsp;&nbsp;package
+                                    </h3>
+                                    <h5>For real-estate agents</h5>
+                                </div>
+                                <div>
+                                    <h1 class="mt-4 mb-5">
+                                        $ {{ package3.price }}
+                                    </h1>
+                                </div>
+
+                                <div class="w-100 px-4">
+
+                                    <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p1">Up to {{ package3.total_posts }}
+                                            posts a month.</p>
+                                    </div>
+                                    <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p2">Up to {{ package3.total_ads }} ads a month.
+                                        </p>
+                                    </div>
+                                    <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p3">Up to 5
+                                            images per
+                                            post.</p>
+                                    </div>
+                                    <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p4">1000+
+                                            words per
+                                            post.</p>
+                                    </div>
+
+                                </div>
+                                <div class="w-100 mt-5 d-flex justify-center temp-btn">
+                                    <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(package3)">
+                                        <div class="toggle-v-l">
+                                            <span class="visible">Buy Premium</span>
+                                            <span class="later-visible">Buy now</span>
+                                        </div>
+                                    </v-btn>
+                                </div>
+                            </div>
+                            <div v-else>No items found.</div>
+                        </div>
                         <!-- package three end -->
                     </swiper-slide>
+
                     <swiper-slide>
                         <!-- package two start -->
                         <div class="temp-package">
-                            <div style="line-height: 0px;">
-                                <h3 class="d-flex">
-                                    <div>{{ items1.name }}</div>&nbsp;&nbsp;package
-                                </h3>
-                                <h5>For average users</h5>
-                            </div>
-                            <div>
-                                <h1 class="mt-4 mb-5">
-                                    $ {{ items1.price }}
-                                </h1>
-                            </div>
-
-                            <div class="w-100 px-4">
-
-                                <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p1">Up to 20
-                                        posts a month.</p>
+                            <div v-if=package2>
+                                <div style="line-height: 0px;">
+                                    <h3 class="d-flex">
+                                        <div>{{ package2.packName }}</div>&nbsp;&nbsp;package
+                                    </h3>
+                                    <h5>For average users</h5>
                                 </div>
-                                <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p2">Up to 10
-                                        ads a month.
-                                    </p>
-                                </div>
-                                <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p3">Up to 3
-                                        images per
-                                        post.</p>
-                                </div>
-                                <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;<p
-                                        class="p4">500+
-                                        words per
-                                        post.</p>
+                                <div>
+                                    <h1 class="mt-4 mb-5">
+                                        $ {{ package2.price }}
+                                    </h1>
                                 </div>
 
-                            </div>
-                            <div class="w-100 mt-5 d-flex justify-center temp-btn">
-                                <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(items1)">
-                                    <div class="toggle-v-l">
-                                        <span class="visible">Buy Normal</span>
-                                        <span class="later-visible">Buy now</span>
+                                <div class="w-100 px-4">
+
+                                    <div class="d-flex"><v-icon class="icon-1">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p1">Up to {{ package2.total_posts }}
+                                            posts a month.</p>
                                     </div>
-                                </v-btn>
+                                    <div class="d-flex"><v-icon class="icon-2">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p2">Up to {{ package2.total_ads }}
+                                            ads a month.
+                                        </p>
+                                    </div>
+                                    <div class="d-flex"><v-icon class="icon-3">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p3">Up to 3
+                                            images per
+                                            post.</p>
+                                    </div>
+                                    <div class="d-flex"><v-icon class="icon-4">mdi-checkbox-marked-circle</v-icon>&nbsp;
+                                        <p class="p4">500+
+                                            words per
+                                            post.</p>
+                                    </div>
+
+                                </div>
+                                <div class="w-100 mt-5 d-flex justify-center temp-btn">
+                                    <v-btn elevation="20" class="sub-btn" @click="parseAndGoNext(package2)">
+                                        <div class="toggle-v-l">
+                                            <span class="visible">Buy Normal</span>
+                                            <span class="later-visible">Buy now</span>
+                                        </div>
+                                    </v-btn>
+                                </div>
                             </div>
+                            <div v-else>No items found.</div>
                         </div>
                         <!-- package two end -->
                     </swiper-slide>
@@ -123,27 +183,8 @@
 
             </div>
         </div>
-
-        <!-- <div class="sponsor-ship">
-            <div class="row d-flex justify-center">
-                <div class="col-md-2 col-sm-6">
-                    <v-img :src="img1"></v-img>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <v-img :src="img2"></v-img>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <v-img :src="img3"></v-img>
-                </div>
-                <div class="col-md-2 col-sm-6 ">
-                    <v-img :src="img4"></v-img>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <v-img :src="img5"></v-img>
-                </div>
-            </div>
-        </div> -->
-
+        <br>
+        <br>
     </div>
 
 </template>
@@ -159,8 +200,8 @@ import 'swiper/css/pagination';
 
 import { Navigation, EffectCoverflow, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
+import axios from 'axios';
 import router from '@/router';
-// import axios from 'axios';
 
 export default {
     name: 'tempForPackage',
@@ -188,10 +229,32 @@ export default {
     }),
 
     mounted() {
+        this.fetchData();
+        this.fetchSubUserInfo();
         localStorage.removeItem('openTab');
     },
-
+    computed: {
+        package1() {
+            return this.items.find(item => item.packageTypeId === 1);
+        },
+        package2() {
+            return this.items.find(item => item.packageTypeId === 2);
+        },
+        package3() {
+            return this.items.find(item => item.packageTypeId === 3);
+        }
+    },
     methods: {
+        fetchData() {
+            axios.get('http://localhost:8083/package-types/getall')
+                .then(response => {
+                    this.items = response.data;
+                    console.log("Package Types", this.items);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        },
         startCountAnimation(price) {
             this.hovering = true;
             this.animatedPrice = 0;
@@ -205,29 +268,51 @@ export default {
             }, 20);
         },
         parseAndGoNext(item) {
+            // if(this.availPosts>0 && this.availAds>0 && this.purchasedPackage!=="Free Trial"){
+            //     Swal.fire({
+            //                 title: 'Cannot Buy Package!',
+            //                 text: 'You still have available posts in your package!',
+            //                 icon: 'error',
+            //                 customClass: {
+            //                 confirmButton: 'myCustomButton'
+            //                 },
+            //                 buttonsStyling: false,
+            //                 allowOutsideClick: false,
+            //                 allowEscapeKey: false
+            //                 });
+            // }else{
             // Parse data and store in session storage
-            sessionStorage.setItem('packageName', JSON.stringify(item));
-
+            sessionStorage.setItem('packageData', JSON.stringify(item));
             // Go to the next page
-            router.push('/packages/payment'); // Assuming you're using Vue Router
-        }
+            router.push('/payment');
+            //   }
 
-    },
+        },
+        fetchSubUserInfo() {
+            if (JSON.parse(sessionStorage.getItem('login_user'))) {
+                const user = sessionStorage.getItem('login_user');
+                const registerId = user.register_id;
+                console.log("registerId to send backend to show subUser informations : " + registerId)
+                axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                    params: {
+                        registerId: registerId
+                    }
+                })
+                    .then(response => {
+                        console.log(response.data);
+                        this.availPosts = response.data.availPosts;
+                        this.availAds = response.data.availAds;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error); // Handle the error
+                    });
+            } else {
+                console.log("User is not subscribed.");
 
-    // setup() {
+            }
 
-    //     return {
-    //         modules: [EffectCoverflow, Pagination, Mousewheel, Keyboard],
+        },
 
-    //     };
-
-    // },
-
-
-    computed: {
-        user_info() {
-            return this.$store.getters.Take_Userinfo
-        }
     },
 
 }

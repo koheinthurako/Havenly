@@ -1,19 +1,27 @@
 package com.Havenly.Backend.Service_Impl;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Service.Reg_user_Service;
 import com.Havenly.Backend.DTO.Reg_user_DD;
 import com.Havenly.Backend.DTO.Reg_user_DTO;
 import com.Havenly.Backend.Entity.Ban_user;
+import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.SellPost;
+import com.Havenly.Backend.Repo.AdsPost_Repo;
 import com.Havenly.Backend.Repo.Ban_user_Repo;
 import com.Havenly.Backend.Repo.Interest_Repo;
 import com.Havenly.Backend.Repo.PackagesRepo;
@@ -40,6 +48,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	Reg_user_Repo regRepo;
 	
 	@Autowired
+	Ban_user_Repo ban_Repo;
+	
+	@Autowired
 	PasswordEncoder pwencoder;
 	
 	@Autowired
@@ -58,6 +69,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	PackagesRepo packrepo;
 	
 	@Autowired
+	AdsPost_Repo adsRepo;
+	
+	@Autowired
 	Posts_Repo postsRepo;
 	
 	@Autowired
@@ -69,11 +83,9 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 	@Autowired
 	Ban_user_Repo banRepo;
 	
-//	@Autowired
-//	TokenRepository tokenRepository;
-	
 	Reg_user_DTO user_dto= new Reg_user_DTO();
 	Reg_user_DD user3= new Reg_user_DD();
+	
 	@Override
 	public List<Reg_user_DTO> findAll() {
 		List<Reg_user> users = regRepo.findAll();
@@ -84,6 +96,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		return reg_user_list;
 	}
+	
 	@Override
 	public Reg_user_DTO register(Reg_user_DTO dto) {
 		Reg_user user=user_dto.covertToEntity(dto);
@@ -95,26 +108,26 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 			return user2;
 
 				}
-		
-		
-		
-		return null;
+	return null;
 	}
-	@Override
+	
 	public Reg_user_DD Login(String gmail, String password) {
 		Reg_user user = regRepo.findByEmail(gmail);
 		
-		if (user == null || !pwencoder.matches(password,user.getPassword())) {
+		if (user == null || !pwencoder.matches(password,user.getPassword()) ) {
 			return null;
 		}
-//		if (!pwencoder.matches(password, user.getPassword())) {
-//			return null;
-//		}
+
+		Ban_user ban=ban_Repo.findByEmail(gmail);
+		
+		if(ban !=null ) return null;
+		
 		Reg_user_DD user1=user3.covertToObject(user);
 		return user1;
 	}
+	
 	@Override
-	public Reg_user_DD update(String name,String phone,String gmail) {
+	public Reg_user_DD update(String name,String phone,String gmail, MultipartFile img) {
 		
 		Reg_user updateUser=regRepo.findByEmail(gmail);
 		if (updateUser == null) {
@@ -122,12 +135,31 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		}
 		updateUser.setName(name);
 		updateUser.setPhone(phone);
+		if(img != null && !img.isEmpty()) {
+		
+			 String fileName = LocalDate.now().getYear() + "_" + StringUtils.cleanPath(img.getOriginalFilename());
+		        if(fileName.contains("..")) {
+		            System.out.println("Invalid file format!");
+		        }
+		        System.out.println("----------------------------------------------------------------");
+		        System.out.println("File Name when upload from frontend : " + fileName);
+		        System.out.println("----------------------------------------------------------------");
+		        try {
+		            byte[] imageBytes  = img.getBytes();
+		            String base64Encoded = Base64.getEncoder().encodeToString(imageBytes);
+		            String imageUrl = "data:image/jpeg;base64,"+base64Encoded;
+		        	updateUser.setProfileImg(imageUrl);		        
+		        	} catch (IOException e) {
+		            e.printStackTrace();
+		        } 
+		}
+	
 		Reg_user user2=regRepo.save(updateUser);
 		Reg_user_DD user4=user3.covertToObject(user2);
 		
-
 		return user4;
 	}
+	
 	@Override
 	public Reg_user_DTO pwdUpdate(String username, String password , String new_password) {
 		Reg_user user = regRepo.findByEmail(username);
@@ -149,50 +181,89 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 
 	@Override
 	public String deleteByEmail(String email) {
-	
-//		SellPost sellpost=new SellPost();
-//		RentPost rentPost=new RentPost();
-		
-		Reg_user user1 = regRepo.findByEmail(email);
-		
-		if(user1.getSub()!=null) {
-			
-		int user_id=user1.getRegister_id();
-		
-		interestRepo.DeleteByregisterId(user_id);
-		
-		int sub_id=subRepo.getsubId(user_id);
-		
-		String sell_id=postsRepo.getSellId(sub_id);
-		String rent_id=postsRepo.getRentId(sub_id);
-		
-		postsRepo.deleteFromposts(sub_id);
-		
-		
-		
-		System.out.println(sell_id+"ayesay");
-		System.out.println(rent_id+"ayesay");
-		
-		sellPosetRepo.deleteFromSell_post(sell_id);
-		
-		
-		
-		
-		rentRepo.deleteFromRentpost(rent_id);
-		 
-		System.out.println(sell_id+"khasfghgskdgfgsdgfkghsdhkggk");
-		
-		packrepo.deleteFrompackages(sub_id);
-		
-		subRepo.deleteFromSub(sub_id);
-		}
-        		
-		
-		if(user1!=null ) {
-			regRepo.deleteByEmail(email);
-			return "Deleted!";
-		}
-		return "error";
+	    // Find the user by email
+	    Reg_user user1 = regRepo.findByEmail(email);
+
+	    // If the user is not found, return an error
+	    if (user1 == null) {
+	        return "error: user not found";
+	    }
+
+	    // Get the user ID
+	    int user_id = user1.getRegister_id();
+
+	    // Delete interests associated with the user
+	    interestRepo.DeleteByregisterId2(user_id);
+	    System.out.println("Deleted interests for user");
+
+	    // Check if the user has a subscription
+	    if (user1.getSub() != null) {
+	        // Get the subscription ID
+	        Integer sub_id = subRepo.getsubId(user_id);
+	        if (sub_id != null) {
+	            Posts post;
+
+	            // Get post ID and delete associated interests if sell post exists
+	           
+	            List<Integer> post_id = postsRepo.getSPostId(sub_id);
+	           
+	            if (post_id != null) {
+	            	 for (Integer postId : post_id) {
+	                post = postsRepo.findById(postId).orElse(null);
+	                if (post != null && post.getSellpost() != null) {
+	                    interestRepo.DeleteByregisterId(postId, user_id);
+	                }
+	            	 }
+	            }
+
+	            // Get post ID and delete associated interests if rent post exists
+	            List<Integer> post_id1 = postsRepo.getRPostId(sub_id);
+	            if (post_id1 != null) {
+	            	for (Integer postIdd : post_id1) {
+	                post = postsRepo.findById(postIdd).orElse(null);
+	                if (post != null && post.getRentpost() != null) {
+	                    interestRepo.DeleteByregisterId(postIdd, user_id);
+	                }
+	            	}
+	            }
+
+	            // Delete posts associated with the subscription ID
+	            postsRepo.deleteFromposts(sub_id);
+	            System.out.println("Deleted posts for subscription");
+
+	            // Get sell and rent post IDs
+	            String sell_id = postsRepo.getSellId(sub_id);
+	            String rent_id = postsRepo.getRentId(sub_id);
+
+	            // Delete the sell post if it exists
+	            if (sell_id != null) {
+	                sellPosetRepo.deleteFromSell_post(sell_id);
+	                System.out.println("Deleted sell post");
+	            }
+
+	            // Delete the rent post if it exists
+	            if (rent_id != null) {
+	                rentRepo.deleteFromRentpost(rent_id);
+	                System.out.println("Deleted rent post");
+	            }
+
+	            // Delete packages associated with the subscription ID
+	            packrepo.deleteFrompackages(sub_id);
+	            System.out.println("Deleted packages for subscription");
+
+	            adsRepo.deleteFromAds(sub_id);
+	            System.out.println("Deleted ads ");
+
+	            
+	            // Delete the subscription
+	            subRepo.deleteFromSub(sub_id);
+	            System.out.println("Deleted subscription");
+	        }
+	    }
+
+	    // Finally, delete the user
+	    regRepo.deleteByEmail(email);
+	    return "Deleted!";
 	}
 
 	@Override
@@ -215,8 +286,7 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 				
 				return "Please check your email to set new password to your account";
 			}
-	return "failed to send msg";
-	
+	return "failed to send msg";	
 	}
 
 	
@@ -228,6 +298,13 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		user.setPassword(encodedNewPassword);
 		regRepo.save(user);
 		return "New password is set succeessfully.";
+	}
+	
+	@Override
+	public Reg_user_DD getById(int id) {
+		Reg_user user = regRepo.findById(id);
+		Reg_user_DD dto = user3.covertToObject(user);
+		return dto;
 	}
 	
 	

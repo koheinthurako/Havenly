@@ -16,5 +16,7 @@ public interface Ban_user_Repo extends JpaRepository<Ban_user, Integer>{
 	
 	@Transactional
 	public String deleteByEmail(String email);
+	
+	 boolean existsByEmail(String email);
 
 }

@@ -5,16 +5,14 @@ import tempPackage from '../components/Temp_Collection/tempForPackage.vue'
 
 // Documentation ?
 // import tempDoc from '../components/Temp_Collection/tempForDoc.vue'
-import register from '../components/Login_&_Register/registerVue.vue'
+// import register from '../components/Login_&_Register/registerVue.vue'
 import userDashboard from '../components/User_Dashboard/indexUserDashboard.vue'
 
 import login from '../views/LoginView.vue'
-import registerakm from '../views/RegisterView.vue'
-// import AdminView from '../views/adminDashboardCategories/AdminView.vue'
+import register from '../views/RegisterView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
-// import AdminBanList from '../views/adminDashboardCategories/AdminBanList.vue'
 import SubscribeVue from '@/views/SubscribeVue.vue'
-import CreditCard from '@/views/CreditCard.vue'
+import Payment from '@/views/Payment.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import ResetPassword from '@/views/ResetPassword.vue'
 
@@ -22,7 +20,6 @@ import ResetPassword from '@/views/ResetPassword.vue'
 import postDetailView from '@/views/PostDetailView.vue'
 import AllPostView from '@/views/AllPostView.vue'
 import uploadedAllPosts from '@/components/User_Dashboard/Dashboard_Categories/uploadedAllPosts.vue'
-// import AdminPost from '@/views/AdminPost.vue'
 import About from '../views/AboutVue.vue'
 import Swal from 'sweetalert2'
 import PostsByLocation from '@/views/PostsByLocation.vue'
@@ -62,11 +59,6 @@ const routes = [
     component: register
   },
   {
-    path: '/registerakm',
-    name: 'registerakm',
-    component: registerakm
-  },
-  {
     path: '/login',
     name: 'login',
     component: login
@@ -82,16 +74,10 @@ const routes = [
     component: userDashboard,
     meta: { requiresAuth: true }
   },
-
-  // {
-  //   path: '/tempDoc',
-  //   name: 'tempDoc',
-  //   component: tempDoc
-  // },
   {
-    path: '/packages/payment',
-    name: 'CreditCard',
-    component: CreditCard
+    path: '/payment',
+    name: 'Payment',
+    component: Payment
   },
   {
     path: '/post/alluserposts',
@@ -114,29 +100,11 @@ const routes = [
     component: AdminLoginView,
     // meta: { requiresAdmin: true }
   },
-  // {
-  //   path: '/admin',
-  //   name: 'Admin',
-  //   component: AdminView,
-  //   meta: { requiresAdmin: true }
-  // },
-  // {
-  //   path: '/admin/ban',
-  //   name: 'AdminBanList',
-  //   component: AdminBanList,
-  //   meta: { requiresAdmin: true }
-  // },
-  // {
-  //   path: '/admin/post',
-  //   name: 'AdminPost',
-  //   component: AdminPost,
-  //   meta: { requiresAdmin: true },
-  // },
   {
     path: '/admin/dashboard',
-    name: 'indexAdminDashboard',
+    name: 'AdminDashboard',
     component: indexAdminDashboard,
-    meta: { requiresAdmin: true },
+    meta: { requiresAdmin: true }
   },
   {
     path: '/all/posts/of/:postType',
@@ -211,7 +179,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/packages/payment') {
+  } else if (to.path === '/payment') {
     if (!user) {
       Swal.fire({
         title: 'Login Required',

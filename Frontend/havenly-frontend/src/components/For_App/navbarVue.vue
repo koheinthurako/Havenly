@@ -178,7 +178,7 @@
               :class="{ 'nav-link': true, active: isNavLinkActive('/about') }">About</router-link>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" v-if="getUser2">
             <router-link to="/userdashboard" class="nav-link"
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
@@ -799,13 +799,6 @@ export default {
     isActive(route) {
       return this.$route.path === route;
     },
-
-    // isLoggedIn() {
-    //   // Check if user information is stored in session storage
-    //   console.log("User is included in session storage");
-    //   const user = sessionStorage.getItem('login_user');
-    //   return !!user; // Return true if user is logged in, false otherwise
-    // },
 
     logout() {
       // first hide the profile card

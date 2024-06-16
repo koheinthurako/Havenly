@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
@@ -51,6 +52,10 @@ public class Reg_user {
 	
 	private LocalDate date;
 	private LocalTime time;
+	
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String profileImg;
 	
 	@Column(name = "reset_token")
     private String resetToken;
