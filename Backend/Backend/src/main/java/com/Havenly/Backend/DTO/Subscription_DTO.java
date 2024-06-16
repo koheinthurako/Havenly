@@ -20,6 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Subscription_DTO {
+
 	private int subUserId;
 	private String nrc;
 	private String email;

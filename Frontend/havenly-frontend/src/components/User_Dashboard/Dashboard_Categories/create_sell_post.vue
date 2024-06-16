@@ -1,23 +1,30 @@
 <template>
-    <div class="create-sell-post-section px-4">
+    <div class="create-sell-post-section">
+
+        <!-- for desktop start -->
         <div class="row">
-            <div class="col-md-7 p-0">
+            <div class="col-md-7 col-sm-12" v-if="displayCreateView">
 
                 <!-- TZH Form -->
                 <div class="create-post">
-                    <div class="header mb-3 d-flex justify-content-between px-5">
-                        <div class="d-flex align-items-center">
-                            <v-icon>mdi-information</v-icon>
-                            <p class="mt-3 ms-2">Create Sell Post</p>
+                    <div class="header mb-3 row">
+                        <div class=" left-edit  col-sm-12 col-md-6">
+                            <div class="specific-edit d-flex align-items-center">
+                                <v-icon class="me-2">mdi-information</v-icon>
+                                <p class="mt-3">Create Sell Post</p>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <span>Available Posts : </span>
-                            <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                        <div class=" right-edit col-sm-12 col-md-6">
+                            <div class="specific-edit d-flex align-items-center">
+                                <span>Available Posts : </span>
+                                <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                            </div>
+                            <v-btn rounded class="toggle-btn" @click="toggleDisplay">show posts</v-btn>
                         </div>
                     </div>
 
                     <div class="body">
-                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
+                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-2 py-3">
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
                                     <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
@@ -37,22 +44,26 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
+                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
+                                        clearable variant="solo" rounded="lg" density="compact"
+                                        v-model="Description.value.value"
                                         :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
                                         :counter="10000" placeholder="Description"></v-textarea>
                                 </div>
                             </div>
                             <hr>
-                            <div class="p-0 row-1 d-flex">
-                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries"
-                                    label="Select country" required></v-select>
-                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces"
-                                    :disabled="!selectedCountry" label="Select province" required></v-select>
-                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes"
-                                    :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
-                                    :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                            <div class="p-0 row">
+                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedCountry"
+                                    :items="uniqueCountries" label="Select country" required></v-select>
+                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedProvince"
+                                    :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province"
+                                    required></v-select>
+                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedAmphoe"
+                                    :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe"
+                                    required></v-select>
+                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedRegion"
+                                    :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region"
+                                    required></v-select>
                             </div>
 
                             <div class="row justify-content-between">
@@ -60,17 +71,16 @@
                                     <span class="float-left mt-2 small"> Property Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact"
-                                        v-model="propertyTypes.value.value"
-                                        :items="PropertyTypes" placeholder="Select property type"></v-select>
+                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
+                                        clearable variant="solo" rounded="lg" density="compact"
+                                        v-model="propertyTypes.value.value" :items="PropertyTypes"
+                                        placeholder="Select property type"></v-select>
                                 </div>
                             </div>
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price<span
-                                            class="text-red">*</span></span>
+                                    <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
@@ -99,10 +109,11 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input required class="disableClearBtn" counter multiple color="deep-purple-accent-4"
-                                        chips truncate-length="15" v-model="combinedImages"
-                                        :rules="rules" accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
-                                        prepend-icon="mdi-camera" show-input="false"></v-file-input>
+                                    <v-file-input required class="disableClearBtn" counter multiple
+                                        color="deep-purple-accent-4" chips truncate-length="15" v-model="combinedImages"
+                                        :rules="rules" accept="image/png, image/jpeg, image/bmp"
+                                        @change="showUploadPhoto" prepend-icon="mdi-camera"
+                                        show-input="false"></v-file-input>
                                 </div>
                             </div>
 
@@ -116,8 +127,10 @@
                                     </v-card>
                                 </div>
                                 <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
-                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
-                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos" style="display: none;">
+                                    <button @click.prevent="triggerFileInput"
+                                        class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos"
+                                        style="display: none;">
                                 </div>
                             </div>
 
@@ -138,16 +151,19 @@
 
             </div>
 
-            <div class="col-md-5 p-0">
+            <div class="col-md-5 col-sm-12" v-if="displayApproveView">
                 <!-- Display post section start -->
 
                 <div class="display-post">
 
-                    <div class="header mb-3">
+                    <div class="header">
                         <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Recently approved sell posts by admin team.</p>
+                        <p class="mt-3 ms-2">Approved posts</p>
                     </div>
+                    <div class="w-100 d-flex justify-content-right">
+                        <v-btn rounded class="toggle-btn ms-auto me-3" @click="toggleDisplay2">Create posts</v-btn>
 
+                    </div>
                     <div class="body">
 
                         <!-- post card start -->
@@ -179,9 +195,38 @@
                                     </p>
                                 </div>
                             </div>
-
                         </div>
                         <!-- post card end -->
+
+                        <!-- post card for mobile start -->
+                        <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
+
+                            <div class="header-image">
+                                <v-img :src="post.photo_url[0]" cover></v-img>
+                            </div>
+                            <div class="body-content py-3 px-3">
+                                <h4 class="mb-2 color-birck">{{ post.title }}</h4>
+                                <p class="small col-10">{{ post.description }}</p>
+                                <p class="text-danger small mb-3 opacity-75 ">
+                                    <v-icon>mdi-map-marker-radius</v-icon>
+                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                </p>
+                                <div class="d-flex justify-space-between align-items-center">
+                                    <p class="color-brick">Post status :</p>
+                                    <v-btn rounded variant="text" class="mb-3 status">
+                                        <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                        {{ post.status }}
+
+                                    </v-btn>
+                                </div>
+                                <div class="action-btns d-flex justify-space-between align-items-center">
+                                    <v-btn variant="outlined" @click="clickPost(post.id)">View</v-btn>
+                                    <v-btn>Edit</v-btn>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- post card for mobile end -->
 
                     </div>
                 </div>
@@ -190,6 +235,7 @@
 
             </div>
         </div>
+        <!-- for Desktop end -->
     </div>
 
 </template>
@@ -198,6 +244,13 @@
 export default {
     name: 'create_post',
     data: () => ({
+
+        //specific view 
+        displayCreateView: true,
+        displayApproveView: window.innerWidth >= 768,
+        progressCircular: false,
+
+
         location_id: '',
         title: '',
         description: '',
@@ -328,14 +381,16 @@ export default {
 
     watch: {
         selectedRegion(newRegion) {
-        if (newRegion) {
-            const selectedLocation = this.locations.find(location => location.region === newRegion);
-            if(selectedLocation) {
-                this.selectedLocation = selectedLocation.location_id;
-                console.log(this.selectedLocation);
+            if (newRegion) {
+                const selectedLocation = this.locations.find(location => location.region === newRegion);
+                if (selectedLocation) {
+                    this.selectedLocation = selectedLocation.location_id;
+                    console.log(this.selectedLocation);
+                }
             }
         }
-        }
+
+
     },
 
     mounted() {
@@ -348,9 +403,42 @@ export default {
 
         this.fetchSubUserInfo();
         this.fetchAllSellPosts();
+
+        window.addEventListener('resize', this.updateView);
+
+    },
+
+    beforeUnmount() {
+        window.removeEventListener('resize', this.updateView);
     },
 
     methods: {
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        clickPost(data) {
+            const afterEncrypt = this.encryptId(data);
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
+
+        },
+
+        toggleDisplay() {
+            this.displayCreateView = false;
+            this.displayApproveView = true;
+        },
+
+        toggleDisplay2() {
+            this.displayCreateView = true;
+            this.displayApproveView = false;
+        },
+
+        updateView() {
+            this.displayCreateView = true;
+            this.displayApproveView = window.innerWidth >= 768;
+        },
 
         handleReset() {
             Swal.fire({
@@ -387,14 +475,14 @@ export default {
                 const response = await fetch('http://localhost:8083/locations/getall');
                 const data = await response.json();
                 const mappedData = data.map(location => ({
-                location_id: location.location_id,
-                country_name: location.country_name,
-                province: location.province,
-                amphoe: location.amphoe,
-                region: location.region,
-                latitude: location.latitude,
-                longitude: location.longitude
-            }));
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                }));
                 sessionStorage.setItem('locations', JSON.stringify(mappedData));
                 this.locations = mappedData;
                 this.mapLocations = mappedData;
@@ -453,9 +541,10 @@ export default {
                 }
             })
                 .then(response => {
+                    console.log("show response : ", response);
                     response.data.forEach(post => {
 
-                        if(post.title.length > 20) {
+                        if (post.title.length > 20) {
                             let tt = post.title;
                             post.title = tt.substring(0, 20) + "...";
                         }
@@ -467,7 +556,7 @@ export default {
 
                         let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
                         console.log(imageUrls)
-                        console.log(post);
+                        console.log("show posts : ", post);
                         this.sellPosts.unshift({
                             post_id: post.post_id,
                             province: post.locations.province,
@@ -501,6 +590,8 @@ import { useField } from 'vee-validate'
 import axios from 'axios';
 import router from '@/router';
 import Swal from 'sweetalert2';
+
+import AES from 'crypto-js/aes'
 
 /* Field collection */
 const title = useField('title')
@@ -552,27 +643,27 @@ function showUploadPhoto() {
 }
 
 function addMorePhotos(event) {
-  const files = Object.values(event.target.files);
-  const fileReadPromises = files.map((file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        resolve({ file, url: e.target.result });
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+    const files = Object.values(event.target.files);
+    const fileReadPromises = files.map((file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resolve({ file, url: e.target.result });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
     });
-  });
 
-  Promise.all(fileReadPromises).then((results) => {
-    // Append new photos to the existing photo list
-    photoList.value = photoList.value.concat(results);
-    allFiles.value = allFiles.value.concat(files);
-    combinedImages.value = allFiles.value;
-    console.log('Updated photo list:', allFiles.value);
-  }).catch((error) => {
-    console.error('Error reading files:', error);
-  });
+    Promise.all(fileReadPromises).then((results) => {
+        // Append new photos to the existing photo list
+        photoList.value = photoList.value.concat(results);
+        allFiles.value = allFiles.value.concat(files);
+        combinedImages.value = allFiles.value;
+        console.log('Updated photo list:', allFiles.value);
+    }).catch((error) => {
+        console.error('Error reading files:', error);
+    });
 }
 
 function removeImage(index) {
@@ -584,28 +675,28 @@ function removeImage(index) {
 
 const submit = async () => {
 
-const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-console.log(subUser.subUserId);
-const subUserId = subUser.subUserId;
+    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+    console.log(subUser.subUserId);
+    const subUserId = subUser.subUserId;
 
-const formData = new FormData();
-formData.append('subUserId', subUserId);
-formData.append('title', title.value.value);
-formData.append('description', Description.value.value);
-formData.append('property_type', propertyTypes.value.value);
-formData.append('price', price.value.value);
-formData.append('area', area.value.value);
-formData.append('location_id', proxy.selectedLocation);
+    const formData = new FormData();
+    formData.append('subUserId', subUserId);
+    formData.append('title', title.value.value);
+    formData.append('description', Description.value.value);
+    formData.append('property_type', propertyTypes.value.value);
+    formData.append('price', price.value.value);
+    formData.append('area', area.value.value);
+    formData.append('location_id', proxy.selectedLocation);
 
-allFiles.value.forEach((file) => {
-    formData.append('files', file);
-});
+    allFiles.value.forEach((file) => {
+        formData.append('files', file);
+    });
 
-formData.forEach((value, key) => {
-    console.log(`${key}:`, value);
-});
+    formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+    });
 
-console.log("------------------- auto submit when add additional photo ---------------------")
+    console.log("------------------- auto submit when add additional photo ---------------------")
 
     Swal.fire({
         title: 'Posting...',

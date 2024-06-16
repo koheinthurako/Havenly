@@ -1,7 +1,7 @@
 <template>
     <div class="create-sell-post-section px-4">
         <div class="row">
-            <div class="col-md-7 p-0">
+            <div class="col-md-7 p-0 col-sm-12">
 
                 <!-- TZH Form -->
                 <div class="create-post">
@@ -37,8 +37,9 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact" v-model="Description.value.value"
+                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
+                                        clearable variant="solo" rounded="lg" density="compact"
+                                        v-model="Description.value.value"
                                         :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
                                         :counter="10000" placeholder="Description"></v-textarea>
                                 </div>
@@ -60,17 +61,16 @@
                                     <span class="float-left mt-2 small"> Property Type </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
-                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle" clearable
-                                        variant="solo" rounded="lg" density="compact"
-                                        v-model="propertyTypes.value.value"
-                                        :items="PropertyTypes" placeholder="Select property type"></v-select>
+                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
+                                        clearable variant="solo" rounded="lg" density="compact"
+                                        v-model="propertyTypes.value.value" :items="PropertyTypes"
+                                        placeholder="Select property type"></v-select>
                                 </div>
                             </div>
 
                             <div class="row justify-content-between">
                                 <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price<span
-                                            class="text-red">*</span></span>
+                                    <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
                                 </div>
                                 <div class="col-md-9 col-sm-12">
                                     <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
@@ -111,7 +111,8 @@
                                     <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
                                         rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
                                         :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
-                                        v-model="least_contract.value.value" placeholder="Least Contract"></v-text-field>
+                                        v-model="least_contract.value.value"
+                                        placeholder="Least Contract"></v-text-field>
                                 </div>
                             </div>
 
@@ -121,10 +122,11 @@
                                     </span>
                                 </div>
                                 <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input required class="disableClearBtn" counter multiple color="deep-purple-accent-4"
-                                        chips truncate-length="15" v-model="combinedImages"
-                                        :rules="rules" accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
-                                        prepend-icon="mdi-camera" show-input="false"></v-file-input>
+                                    <v-file-input required class="disableClearBtn" counter multiple
+                                        color="deep-purple-accent-4" chips truncate-length="15" v-model="combinedImages"
+                                        :rules="rules" accept="image/png, image/jpeg, image/bmp"
+                                        @change="showUploadPhoto" prepend-icon="mdi-camera"
+                                        show-input="false"></v-file-input>
                                 </div>
                             </div>
 
@@ -138,8 +140,10 @@
                                     </v-card>
                                 </div>
                                 <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
-                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
-                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos" style="display: none;">
+                                    <button @click.prevent="triggerFileInput"
+                                        class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos"
+                                        style="display: none;">
                                 </div>
                             </div>
 
@@ -160,7 +164,7 @@
 
             </div>
 
-            <div class="col-md-5 p-0">
+            <div class="col-md-5 p-0 col-sm-12">
                 <!-- Display post section start -->
 
                 <div class="display-post">
@@ -183,10 +187,11 @@
 
                                     </div>
 
-                                    <v-img :src="post.photo_url[0]"></v-img>
-                                    
+                                    <v-img :src="post.photo_url[0]" cover></v-img>
+
                                     <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
+                                        <button class="w-50 btn btn-sm btn-outline-danger"
+                                            to="/detailview">View</button>
                                         <button class="w-50 btn btn-sm btn-danger">Edit</button>
                                     </div>
 
@@ -195,7 +200,7 @@
                                     <h6 class="my-3">{{ post.title }}</h6>
                                     <p class="small col-10">{{ post.description }}</p>
                                     <p class="card-text text-danger small mb-3 opacity-75 ">
-                                        <v-icon >mdi-map-marker-radius</v-icon>
+                                        <v-icon>mdi-map-marker-radius</v-icon>
                                         {{ post.region }} , {{ post.province }} , {{ post.country }}
                                     </p>
                                 </div>
@@ -316,13 +321,13 @@ export default {
 
     watch: {
         selectedRegion(newRegion) {
-        if (newRegion) {
-            const selectedLocation = this.locations.find(location => location.region === newRegion);
-            if(selectedLocation) {
-                this.selectedLocation = selectedLocation.location_id;
-                console.log(this.selectedLocation);
+            if (newRegion) {
+                const selectedLocation = this.locations.find(location => location.region === newRegion);
+                if (selectedLocation) {
+                    this.selectedLocation = selectedLocation.location_id;
+                    console.log(this.selectedLocation);
+                }
             }
-        }
         }
     },
 
@@ -374,14 +379,14 @@ export default {
                 const response = await fetch('http://localhost:8083/locations/getall');
                 const data = await response.json();
                 const mappedData = data.map(location => ({
-                location_id: location.location_id,
-                country_name: location.country_name,
-                province: location.province,
-                amphoe: location.amphoe,
-                region: location.region,
-                latitude: location.latitude,
-                longitude: location.longitude
-            }));
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                }));
                 sessionStorage.setItem('locations', JSON.stringify(mappedData));
                 this.locations = mappedData;
                 this.mapLocations = mappedData;
@@ -397,18 +402,18 @@ export default {
         },
 
         fetchSubUserInfo() {
-                const user = JSON.parse(sessionStorage.getItem('login_user'));
-                const registerId = user.register_id;
-                console.log("registerId to send backend to show subUser informations from rent post : " + registerId)
-                axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-                    params: {
-                        registerId: registerId
-                    }
-                })
+            const user = JSON.parse(sessionStorage.getItem('login_user'));
+            const registerId = user.register_id;
+            console.log("registerId to send backend to show subUser informations from rent post : " + registerId)
+            axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+                params: {
+                    registerId: registerId
+                }
+            })
                 .then(response => {
                     console.log(response.data.availPosts);
                     this.availPosts = response.data.availPosts;
-                    if(this.availPosts === 0) {
+                    if (this.availPosts === 0) {
                         Swal.fire({
                             title: 'Buy More Packages!',
                             text: 'Your available post is 0.',
@@ -419,13 +424,13 @@ export default {
                             buttonsStyling: false,
                             allowOutsideClick: false,
                             allowEscapeKey: false
-                            }).then(() => {
-                                router.push('/package');
+                        }).then(() => {
+                            router.push('/package');
                         });
                     }
                 })
                 .catch(error => {
-                console.error('Error fetching data:', error); // Handle the error
+                    console.error('Error fetching data:', error); // Handle the error
                 });
         },
 
@@ -439,19 +444,19 @@ export default {
                     subUserId: subUserId
                 }
             })
-            .then(response => {
+                .then(response => {
                     response.data.forEach(post => {
-                        
-                        if(post.title.length > 20) {
+
+                        if (post.title.length > 20) {
                             let tt = post.title;
                             post.title = tt.substring(0, 20) + "...";
                         }
 
-                        if(post.description.length > 50) {
+                        if (post.description.length > 50) {
                             let des = post.description;
                             post.description = des.substring(0, 50) + "...";
                         }
-                        
+
                         let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
                         console.log(imageUrls)
                         console.log(post);
@@ -470,8 +475,8 @@ export default {
                             photo_url: imageUrls,
                             status: 'Complete',
                         });
-                        console.log(typeof(imageUrls))
-                        
+                        console.log(typeof (imageUrls))
+
                     });
                 })
         }
@@ -483,185 +488,184 @@ export default {
 
 
 <script setup>
-    import { ref } from 'vue'
-    import { getCurrentInstance } from 'vue';
-    import { useField } from 'vee-validate'
-    import axios from 'axios';
-    import router from '@/router';
-    import Swal from 'sweetalert2';
+import { ref } from 'vue'
+import { getCurrentInstance } from 'vue';
+import { useField } from 'vee-validate'
+import axios from 'axios';
+import router from '@/router';
+import Swal from 'sweetalert2';
 
-    
-    /* Field collection */
-    const title = useField('title')
-    const Description = useField('Description')
-    const propertyTypes = useField('propertyTypes')
-    const price = useField('price')
-    const area = useField('area')
-    const deposit = useField('deposit');
-    const least_contract = useField('least_contract');
-    const photoList = ref([]);
 
-    const PropertyTypes = ref([
-        'Condo',
-        'Apartment',
-        'House'
-    ])
+/* Field collection */
+const title = useField('title')
+const Description = useField('Description')
+const propertyTypes = useField('propertyTypes')
+const price = useField('price')
+const area = useField('area')
+const deposit = useField('deposit');
+const least_contract = useField('least_contract');
+const photoList = ref([]);
 
-    const fileInput = ref(null);
-    const allFiles = ref([]);
-    const combinedImages = ref([]);
+const PropertyTypes = ref([
+    'Condo',
+    'Apartment',
+    'House'
+])
 
-    
-    const { proxy } = getCurrentInstance();
+const fileInput = ref(null);
+const allFiles = ref([]);
+const combinedImages = ref([]);
 
-    function triggerFileInput() {
-        fileInput.value.click();
-    }
 
-    function showUploadPhoto() {
-        const files = Object.values(combinedImages.value);
-        const fileReadPromises = files.map((file) => {
-            return new Promise((resolve, reject) => {
+const { proxy } = getCurrentInstance();
+
+function triggerFileInput() {
+    fileInput.value.click();
+}
+
+function showUploadPhoto() {
+    const files = Object.values(combinedImages.value);
+    const fileReadPromises = files.map((file) => {
+        return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 resolve({ file, url: e.target.result });
             };
             reader.onerror = reject;
             reader.readAsDataURL(file);
-            });
         });
+    });
 
-        Promise.all(fileReadPromises).then((results) => {
-            photoList.value = results;
-            allFiles.value = files;
-            combinedImages.value = allFiles.value;
-            console.log('Photo list:', photoList.value);
-        }).catch((error) => {
-            console.error('Error reading files:', error);
-        });
-    }
+    Promise.all(fileReadPromises).then((results) => {
+        photoList.value = results;
+        allFiles.value = files;
+        combinedImages.value = allFiles.value;
+        console.log('Photo list:', photoList.value);
+    }).catch((error) => {
+        console.error('Error reading files:', error);
+    });
+}
 
-    function addMorePhotos(event) {
-        const files = Object.values(event.target.files);
-        const fileReadPromises = files.map((file) => {
-            return new Promise((resolve, reject) => {
+function addMorePhotos(event) {
+    const files = Object.values(event.target.files);
+    const fileReadPromises = files.map((file) => {
+        return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 resolve({ file, url: e.target.result });
             };
             reader.onerror = reject;
             reader.readAsDataURL(file);
-            });
         });
+    });
 
-        Promise.all(fileReadPromises).then((results) => {
-            photoList.value = photoList.value.concat(results);
-            allFiles.value = allFiles.value.concat(files);
-            combinedImages.value = allFiles.value;
-            console.log('Updated photo list:', allFiles.value);
-        }).catch((error) => {
-            console.error('Error reading files:', error);
-        });
+    Promise.all(fileReadPromises).then((results) => {
+        photoList.value = photoList.value.concat(results);
+        allFiles.value = allFiles.value.concat(files);
+        combinedImages.value = allFiles.value;
+        console.log('Updated photo list:', allFiles.value);
+    }).catch((error) => {
+        console.error('Error reading files:', error);
+    });
+}
+
+
+function removeImage(index) {
+    photoList.value.splice(index, 1);
+    combinedImages.value = allFiles.value;
+    allFiles.value.splice(index, 1);
+}
+
+const submit = async () => {
+
+    const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
+    const subUserId = subUser.subUserId;
+    const formData = new FormData();
+    formData.append('subUserId', subUserId);
+    formData.append('title', title.value.value);
+    formData.append('description', Description.value.value);
+    formData.append('property_type', propertyTypes.value.value);
+    formData.append('price', price.value.value);
+    formData.append('area', area.value.value);
+    formData.append('deposit', deposit.value.value);
+    formData.append('least_contract', least_contract.value.value);
+    formData.append('location_id', proxy.selectedLocation);
+
+    allFiles.value.forEach((file) => {
+        formData.append('files', file);
+    });
+
+    formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+    });
+
+    console.log("------------------- auto submit when add additional photo ---------------------")
+
+    Swal.fire({
+        title: 'Posting...',
+        text: 'Your post is being submitted. Please wait...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading(); // Show loading spinner
         }
+    });
 
-
-        function removeImage(index) {
-            photoList.value.splice(index, 1);
-            combinedImages.value = allFiles.value;
-            allFiles.value.splice(index, 1);
-        }
-
-        const submit = async () => {
-
-            const subUser = JSON.parse(sessionStorage.getItem('sub_user'));
-            const subUserId = subUser.subUserId;
-            const formData = new FormData();
-            formData.append('subUserId', subUserId);
-            formData.append('title', title.value.value);
-            formData.append('description', Description.value.value);
-            formData.append('property_type', propertyTypes.value.value);
-            formData.append('price', price.value.value);
-            formData.append('area', area.value.value);
-            formData.append('deposit', deposit.value.value);
-            formData.append('least_contract', least_contract.value.value);
-            formData.append('location_id', proxy.selectedLocation);
-
-            allFiles.value.forEach((file) => {
-                formData.append('files', file);
-            });
-
-            formData.forEach((value, key) => {
-                console.log(`${key}:`, value);
-            });
-
-            console.log("------------------- auto submit when add additional photo ---------------------")
-
-            Swal.fire({
-                title: 'Posting...',
-                text: 'Your post is being submitted. Please wait...',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                Swal.showLoading(); // Show loading spinner
+    try {
+        if (proxy.availPosts > 0) {
+            const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
             });
-
-            try {
-                if(proxy.availPosts > 0) {
-                    const response = await axios.post('http://localhost:8083/rentpost/saverentpost', formData, {
-                        headers: {
-                        'Content-Type': 'multipart/form-data'
-                        }
-                    });
-                    if(response.status === 200) {
-                        Swal.fire({
-                            title: 'Successfully Posted',
-                            text: 'Your post is requested to admin now!',
-                            icon: 'success',
-                            customClass: {
-                                confirmButton: 'myCustomSuccessButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    }
-                } else {
-                    Swal.fire({
-                        title: 'Buy Package',
-                        text: 'Your package is gone! Please buy another package!',
-                        icon: 'error',
-                        customClass: {
-                            confirmButton: 'myCustomButton'
-                        },
-                        buttonsStyling: false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                        }).then(() => {
-                        router.push('/package');
-                    });
-                }
-            } catch (error) {
+            if (response.status === 200) {
                 Swal.fire({
-                    title: 'Error',
-                    text: 'There was an error submitting your post. Please try again.',
-                    icon: 'error',
+                    title: 'Successfully Posted',
+                    text: 'Your post is requested to admin now!',
+                    icon: 'success',
                     customClass: {
-                        confirmButton: 'myCustomErrorButton'
+                        confirmButton: 'myCustomSuccessButton'
                     },
                     buttonsStyling: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false
+                }).then(() => {
+                    window.location.reload();
                 });
             }
-        };
+        } else {
+            Swal.fire({
+                title: 'Buy Package',
+                text: 'Your package is gone! Please buy another package!',
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                router.push('/package');
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            title: 'Error',
+            text: 'There was an error submitting your post. Please try again.',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'myCustomErrorButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+    }
+};
 
 </script>
 
 <style>
-
 .create-post-section {
     width: 100%;
     height: auto;
@@ -813,27 +817,26 @@ export default {
     }
 }
 
-    .customImgBox {
+.customImgBox {
 
 
-        .v-card-actions {
-            color: red;
-            position: absolute;
-            z-index: 1000;
-            background-color: #fff;
-            opacity: 0.95;
-            right: 0;
-            border-radius: 0 0 0 10px;
-        }
-
-        .customImg>img {
-            object-fit: cover !important;
-        }
-
+    .v-card-actions {
+        color: red;
+        position: absolute;
+        z-index: 1000;
+        background-color: #fff;
+        opacity: 0.95;
+        right: 0;
+        border-radius: 0 0 0 10px;
     }
 
-    .disableClearBtn .v-field__clearable {
-        display: none !important;
+    .customImg>img {
+        object-fit: cover !important;
     }
 
+}
+
+.disableClearBtn .v-field__clearable {
+    display: none !important;
+}
 </style>

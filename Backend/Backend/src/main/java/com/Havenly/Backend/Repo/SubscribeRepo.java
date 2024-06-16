@@ -20,6 +20,7 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 //			, nativeQuery = true)
 //	public List<Subscription_DTO> getSubUserInfo();
 
+
 	@Query("SELECT new com.Havenly.Backend.DTO.Subscription_DTO(sub.subUserId, sub.nrc, reg.email, reg.name, reg.phone, sub.subStartDate, sub.subStartTime, pack.packType.packName, pack.packType.price, pack.availPosts, pack.availAds ) " +
 	           "FROM Subscription sub " +
 	           "LEFT JOIN sub.reg_user reg " +
@@ -27,7 +28,7 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 	           "WHERE reg.register_id = :registerId")
 //    List<Subscription_DTO> getSubUserInfo();
 	Subscription_DTO getSubUserInfo(@Param("registerId") int registerId);
-	
+
 	@Query(value = "select sub_user_id from subscription where reg_user_id=?",nativeQuery = true)
 	int getsubId(int id);
 	

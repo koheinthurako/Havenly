@@ -1,5 +1,5 @@
 <template>
-    <div class="user-dashboard">
+    <div class="user-dashboard d-none d-sm-block">
         <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
             <div class="d-flex">
                 <button class="toggle-btn" type="button" @click="toggleSidebar" :title="dynamicTitle">
@@ -35,8 +35,6 @@
                         <span>All post</span>
                     </a>
                 </li>
-
-
 
                 <li class="sidebar-item">
                     <a class="sideTextLink" :class="{ userActive: openTab === 'create-sell-post' }"
@@ -114,6 +112,99 @@
 
     </div>
 
+
+    <div class="swiper-container-mobile d-block d-sm-none">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide menu">
+                    <!-- <v-btn class="link" @click="Home('home')">Home</v-btn> -->
+
+                    <!-- profile btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'profile' }"
+                        @click="changeTab('profile'); toggleSidebar2()">
+                        <v-icon>mdi-account</v-icon>
+                        <span>Profile</span>
+                    </div>
+
+                    <!-- interest btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'all-interest-post' }"
+                        @click="changeTab('all-interest-post'); toggleSidebar2()">
+                        <v-icon>mdi-star-box-multiple</v-icon>
+                        <span>Interested post</span>
+                    </div>
+
+                    <!-- created posts btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'all-post' }"
+                        @click="changeTabForSub('all-post'); toggleSidebar2()">
+                        <v-icon>mdi-post</v-icon>
+                        <span>All post</span>
+                    </div>
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-sell-post' }"
+                        @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
+                        <v-icon>mdi-note-plus</v-icon>
+                        <span>Create Sell Post</span>
+                    </div>
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-rent-post' }"
+                        @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
+                        <v-icon>mdi-note-plus-outline</v-icon>
+                        <span>Create Rent Post</span>
+                    </div>
+
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-ads' }"
+                        @click="changeTabForSub('create-ads'); toggleSidebar2()">
+                        <v-icon>mdi-google-ads</v-icon>
+                        <span>Create Ads</span>
+                    </div>
+                    <v-spacer></v-spacer>
+                    <div class="sideTextLink sideTextLinkUnder" @click="logout">
+                        <v-icon>mdi-logout</v-icon>
+                        <span>logout</span>
+                    </div>
+                </div>
+                <div class="swiper-slide content">
+                    <div :class="['menu-button', { cross: isCross }]" @click="toggleMenu">
+                        <div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                    <!-- content start -->
+                    <div class="content-datas">
+                        <div v-if="openTab === 'profile'">
+                            <profile_page />
+                        </div>
+                        <div v-else-if="openTab === 'all-interest-post'">
+                            <!-- <h3>All Post Content</h3>
+                            <p>This is where the add post content will be displayed.</p> -->
+                            <interestedPosts />
+                        </div>
+                        <div v-else-if="openTab === 'all-post'">
+                            <uploadedAllPosts />
+                        </div>
+
+                        <div v-else-if="openTab === 'create-sell-post'">
+                            <create_sell_post_page />
+                        </div>
+
+                        <div v-else-if="openTab === 'create-rent-post'">
+                            <create_rent_post_page />
+                        </div>
+                        <div v-else-if="openTab === 'create-ads'">
+                            <h3>Add Ads Content</h3>
+                            <p>This is where the add ads content will be displayed.</p>
+                        </div>
+                    </div>
+                    <!-- content end -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </template>
 
 <script>
@@ -128,9 +219,78 @@ import create_rent_post_page from './Dashboard_Categories/create_rent_post.vue'
 import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
 import router from '@/router';
 
+import Swiper from 'swiper/bundle';
+import 'swiper/css/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default {
     name: 'indexUserDashboard',
+
+    // setup() {
+    //     const isCross = ref(false);
+    //     const swiperInstance = ref(null);
+    //     const display = ref('hello');
+
+    //     const openMenu = () => {
+    //         if (swiperInstance.value) {
+    //             swiperInstance.value.slidePrev();
+    //             isCross.value = true;
+    //         }
+    //     };
+
+    //     const Home = (data) => {
+    //         display.value = data;
+    //         closeMenu();
+    //     };
+
+    //     const closeMenu = () => {
+    //         if (swiperInstance.value) {
+    //             swiperInstance.value.slideNext();
+    //             isCross.value = false;
+    //         }
+    //     };
+
+    //     const toggleMenu = () => {
+    //         if (swiperInstance.value) {
+    //             if (swiperInstance.value.activeIndex === 1) {
+    //                 openMenu();
+    //             } else {
+    //                 closeMenu();
+    //             }
+    //         }
+    //     };
+
+    //     const onClickOutside = () => {
+    //         closeMenu();
+    //     }
+
+    //     onMounted(() => {
+    //         swiperInstance.value = new Swiper('.swiper', {
+    //             slidesPerView: 'auto',
+    //             initialSlide: 1,
+    //             resistanceRatio: 0,
+    //             slideToClickedSlide: false,
+    //             on: {
+    //                 slideChangeTransitionStart() {
+    //                     if (swiperInstance.value && swiperInstance.value.activeIndex === 0) {
+    //                         isCross.value = true;
+    //                     } else {
+    //                         isCross.value = false;
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
+
+    //     return {
+    //         isCross,
+    //         toggleMenu,
+    //         onClickOutside,
+    //         Home, display,
+    //     };
+    // },
 
     components: {
         profile_page,
@@ -142,6 +302,11 @@ export default {
 
     data() {
         return {
+            // mobile staff
+            isCross: false,
+            swiperInstance: null,
+
+
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
             openTab: localStorage.getItem('openTab') || 'profile',
@@ -154,7 +319,30 @@ export default {
         }
     },
     methods: {
-
+        openMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slidePrev();
+                this.isCross = true;
+            }
+        },
+        closeMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slideNext();
+                this.isCross = false;
+            }
+        },
+        toggleMenu() {
+            if (this.swiperInstance) {
+                if (this.swiperInstance.activeIndex === 1) {
+                    this.openMenu();
+                } else {
+                    this.closeMenu();
+                }
+            }
+        },
+        onClickOutsideMobile() {
+            this.toggleMenu();
+        },
 
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
@@ -167,6 +355,7 @@ export default {
 
         toggleSidebar2() {
             this.isExpanded = false;
+            this.closeMenu();
         },
 
         changeTab(tab) {
@@ -207,6 +396,7 @@ export default {
 
         // for Logout 
         logout() {
+            this.closeMenu();
             Swal.fire({
                 title: 'Be careful!',
                 text: "Are you sure, you want to logout!",
@@ -226,11 +416,23 @@ export default {
 
     },
     mounted() {
-        // console.log("Reached Mounted !");
-        // if (this.openTab === "profile") {
-        //     console.log("REached into!", this.openTab);
-        //     this.isExpanded = true;
-        // }
+        this.swiperInstance = new Swiper('.swiper', {
+            slidesPerView: 'auto',
+            initialSlide: 1,
+            resistanceRatio: 0,
+            slideToClickedSlide: false,
+            on: {
+                slideChangeTransitionStart: () => {
+                    if (this.swiperInstance && this.swiperInstance.activeIndex === 0) {
+                        this.isCross = true;
+                    } else {
+                        this.isCross = false;
+                    }
+                }
+            }
+        });
+
+
         const getData = localStorage.getItem("openTab");
         if (getData === "profile" || this.openTab === "profile") {
             this.isExpanded = true;
@@ -246,7 +448,8 @@ export default {
 
 <style scoped>
 .userActive {
-    background-color: #e86f52;
+    background-color: #e86f52 !important;
+    color: #525252;
 
     .v-icon {
         color: #525252;

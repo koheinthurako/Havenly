@@ -1,6 +1,12 @@
 <template>
 
-    <div class="post-detail-view-page">
+    <div class="post-detail-view-page no-select">
+
+        <v-overlay :model-value="overlay" class="align-center justify-center">
+            <v-progress-circular color="#e86f52" size="72" width="8" indeterminate></v-progress-circular>
+        </v-overlay>
+
+        <div class="overlay-for-mobile" v-if="showCard3"></div>
 
         <!-- bootstrap container is getting errro ;( -->
         <v-container>
@@ -13,34 +19,131 @@
                         <div class="col-md-12">
                             <div class="header me-3">
 
+
+
                                 <div class="row">
 
-                                    <div class="col-md-8 col-sm-8">
+                                    <!-- <div class="col-10 col-md-8 col-sm-10"></div> -->
+
+                                    <div
+                                        :class="getData === 'Admin_View' ? 'col-12 col-md-8 col-sm-12' : (getData === 'Success' ? 'col-10 col-md-8 col-sm-10' : '')">
                                         <h3 class="color-brick">{{ post.title }}</h3>
-                                        <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
+                                        <div class="d-flex"><v-icon class="s-icon">mdi-map-marker</v-icon>
                                             <p>{{ post.province }} / {{
                                                 post.region }} / {{
                                                     post.country }}</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
 
-                                        <!-- search bar start -->
-                                        <div class="search-bar mt-2" v-if="getData === 'Success'">
+                                    <!-- for mobile view search icon start -->
+                                    <div class="col-2 d-block d-sm-none" v-if="getData === 'Success'">
+                                        <v-card v-click-outside="onClickOutside" :elevation="showCard3 ? 20 : 0"
+                                            class="ms-auto search-card d-block d-sm-none"
+                                            :class="[{ 'search-card-transform': showCard3 }]">
+
+                                            <v-card-actions class="m-0 p-0 h-0" min-height="0">
+                                                <v-btn icon @click="searchToggle" class="sideCorner-icon"
+                                                    :class="[{ 'sideCorner-icon-searchForm': showCard3 }]">
+                                                    <h5 :hidden="showCard3">
+                                                        <v-icon class="mt-2">mdi-magnify</v-icon>
+                                                    </h5>
+                                                    <h5 :hidden="!showCard3" class="m-auto" style="color: #000;">
+                                                        <v-icon class="mx-auto">mdi-close</v-icon>
+                                                    </h5>
+                                                </v-btn>
+                                            </v-card-actions>
+
+                                            <v-expand-transition>
+                                                <div v-show="showCard3">
+
+                                                    <v-card-text class="m-0 p-2">
+                                                        <div v-show="showCard3" class="mb-4 text-header">
+                                                            <h5>Search posts</h5>
+                                                        </div>
+
+                                                        <v-row v-show="showCard3">
+                                                            <v-col cols="12">
+                                                                <v-menu v-model="menuSearch"
+                                                                    :close-on-content-click="false" offset-y
+                                                                    transition="scale-transition" max-height="auto">
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                        <v-text-field hide-details
+                                                                            class="edit-search-bar" variant="outlined"
+                                                                            ref="activator" v-model="search"
+                                                                            label="Search posts by name"
+                                                                            prepend-inner-icon="mdi-magnify" clearable
+                                                                            v-bind="attrs" v-on="on || {}"
+                                                                            @input="onSearchMobile"></v-text-field>
+
+                                                                        <v-list v-if="filteredTitles.length"
+                                                                            class="p-0 filter-list-edit">
+                                                                            <h4 class="ms-3 mt-2"
+                                                                                style="color: #e86f52;">
+                                                                                Available
+                                                                                posts</h4>
+                                                                            <v-list-item v-for="post in filteredTitles"
+                                                                                :key="post.id"
+                                                                                @click="handleItemClick(post)"
+                                                                                style="border-bottom: 1px solid #000;">
+                                                                                <v-list-item-title>
+                                                                                    <v-chip v-if="post.type === 'Sell'"
+                                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                                        size="small" rounded-pill
+                                                                                        color="red" variant="flat"
+                                                                                        class="me-1">
+                                                                                        {{ post.type }}
+                                                                                    </v-chip>
+                                                                                    <v-chip v-else
+                                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                                        size="small" rounded-pill
+                                                                                        color="green" variant="flat"
+                                                                                        class="me-1">
+                                                                                        {{ post.type }}
+                                                                                    </v-chip>
+                                                                                    {{ post.title }}
+                                                                                </v-list-item-title>
+                                                                            </v-list-item>
+                                                                        </v-list>
+
+                                                                        <v-alert v-else-if="search" type="warning"
+                                                                            class="ma-0 mt-2">
+                                                                            No post available
+                                                                        </v-alert>
+
+                                                                    </template>
+
+                                                                </v-menu>
+
+                                                            </v-col>
+                                                        </v-row>
+
+                                                    </v-card-text>
+
+                                                </div>
+                                            </v-expand-transition>
+                                        </v-card>
+                                    </div>
+                                    <!-- for mobile view search icon end -->
+
+                                    <!-- search bar start -->
+                                    <div class="col-4 col-md-4 col-sm-4 d-none d-sm-block" v-if="getData === 'Success'">
+                                        <div class="search-bar mt-2 ">
                                             <v-row>
                                                 <v-col cols="12">
                                                     <v-menu v-model="menu" :close-on-content-click="false" offset-y
                                                         :activator="activator" transition="scale-transition"
                                                         max-height="200">
                                                         <template v-slot:activator="{ on, attrs }">
-                                                            <v-text-field variant="outlined" ref="activator"
-                                                                v-model="search" label="Search posts by name"
+                                                            <v-text-field class="edit-search-bar" variant="outlined"
+                                                                ref="activator" v-model="search"
+                                                                label="Search posts by name"
                                                                 prepend-inner-icon="mdi-magnify" clearable
                                                                 v-bind="attrs" v-on="on || {}"
                                                                 @input="onSearch"></v-text-field>
                                                         </template>
                                                         <v-list v-if="filteredTitles.length" class="p-0">
-                                                            <h4 class="ms-3 mt-2" style="color: #e86f52;">Available
+                                                            <h4 class="ms-3 mt-2" style="color: #e86f52;">
+                                                                Available
                                                                 posts</h4>
                                                             <v-list-item v-for="post in filteredTitles" :key="post.id"
                                                                 @click="handleItemClick(post)"
@@ -70,17 +173,31 @@
                                                 </v-col>
                                             </v-row>
                                         </div>
+                                    </div>
+                                    <!-- search bar end -->
 
-                                        <div v-if="getData === 'Admin_View'">
+
+                                    <!-- for admin start -->
+                                    <div :class="getData === 'Admin_View' ? 'col-12 col-md-4 col-sm-12' : ''"
+                                        v-if="getData === 'Admin_View'">
+                                        <v-card :elevation="10" class="p-2">
                                             <div v-if="post.status === 'pending'">
-                                                <h4 class="mb-3" style="color:#e86f52;">Choose your desire</h4>
+                                                <div class="d-flex justify-space-between align-items-center mb-2">
+                                                    <h4 class="p-0 m-0" style="color:#e86f52;">Post status </h4>
+                                                    <v-chip rounded class="bg-warning"><v-icon
+                                                            class="me-1">mdi-clock-outline</v-icon>{{
+                                                                post.status }}
+                                                    </v-chip>
+                                                </div>
+                                                <hr class="mx-auto">
                                                 <div class="admin-action-btn d-flex justify-space-between">
-                                                    <v-btn elevation="0" variant="outlined" @click="approve(post)"
+                                                    <v-btn color="green" elevation="0" variant="outlined"
+                                                        @click="approve(post)"
                                                         style="text-transform:capitalize;">Approve
                                                         post</v-btn>
                                                     <v-spacer></v-spacer>
-                                                    <v-btn elevation="0" variant="outlined" @click="cancel(post)"
-                                                        style="text-transform:capitalize;">Decline
+                                                    <v-btn color="red" elevation="0" variant="outlined"
+                                                        @click="cancel(post)" style="text-transform:capitalize;">Decline
                                                         post</v-btn>
                                                 </div>
                                             </div>
@@ -88,12 +205,12 @@
                                                 <v-alert text="You approved this post." type="success"></v-alert>
                                                 <!-- <h4 class="mt-3" style="color:#e86f52;"></h4> -->
                                             </div>
-                                        </div>
-                                        <!-- search bar end -->
-
-
+                                        </v-card>
                                     </div>
+                                    <!-- for admin end -->
                                 </div>
+
+
 
                             </div>
                         </div>
@@ -116,7 +233,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-6 col-md-12 p-0  h-auto " @click="sheet = !sheet"
+                                    <div class="col-6 col-md-12 p-0  h-auto " @click="showMoreImages = !showMoreImages"
                                         style="cursor:pointer;">
 
                                         <div class="img-2">
@@ -169,16 +286,16 @@
 
                                     <div class="row p-0">
                                         <div class="col-6 ">
-                                            <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
+                                            <div class="d-flex"><v-icon class="s-icon">mdi-map-marker</v-icon>
                                                 <p>{{ post.province }} / {{
                                                     post.region }} / {{
                                                         post.country }}</p>
                                             </div>
-                                            <div class="d-flex"><v-icon>mdi-office-building</v-icon>
+                                            <div class="d-flex"><v-icon class="s-icon">mdi-office-building</v-icon>
                                                 <p>{{ post.property_type }}</p>
                                             </div>
 
-                                            <div class="d-flex"><v-icon>mdi-arrow-expand-all</v-icon>
+                                            <div class="d-flex"><v-icon class="s-icon">mdi-arrow-expand-all</v-icon>
                                                 <p>{{ post.area }} Square Ft </p>
                                             </div>
                                         </div>
@@ -189,7 +306,7 @@
 
 
 
-                                            <div class="d-flex"><v-icon>mdi-tag-multiple</v-icon>
+                                            <div class="d-flex"><v-icon class="s-icon">mdi-tag-multiple</v-icon>
                                                 <p>စျေးနှုန်း</p><br>
 
                                             </div>
@@ -216,8 +333,11 @@
                                             <hr class="mx-auto">
                                             <div class="d-flex">
 
-                                                <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
-                                                <v-btn class="half-btn w-50 bg-green">
+                                                <v-btn class="half-btn w-50" style="text-transform:capitalize;">{{
+                                                    post.property_type
+                                                }}</v-btn>
+                                                <v-btn class="half-btn w-50 bg-green"
+                                                    style="text-transform:capitalize;">
                                                     <!-- {{this.getPostType(post.post_id) }} -->
                                                     {{ post.post_type }}
                                                 </v-btn>
@@ -242,7 +362,9 @@
 
                                             <v-textarea v-model="getDescription" variant="outlined" label="Label"
                                                 auto-grow="false"></v-textarea>
-                                            <v-btn @click="interest" class="request-btn w-100 bg-danger text-light">
+                                            <v-btn @click="interest" class="request-btn w-100 "
+                                                style="text-transform:capitalize; background-color:#e86f52;">
+                                                <v-icon>mdi-bookmark-outline</v-icon>
                                                 Request Details
                                             </v-btn>
                                         </div>
@@ -250,7 +372,63 @@
 
                                 </v-dialog>
 
-                                <v-bottom-sheet v-model="sheet" inset class="v-btn-sheet">
+                                <!-- image edit start -->
+                                <div class="row more-image-container" v-show="showMoreImages">
+                                    <div class=" col-md-8 col-sm-12 p-0 m-0">
+                                        <!-- first show loading to wait image load -->
+
+                                        <div class="edit-size mx-auto no-select">
+
+
+                                            <div class="loading-card" v-show="overlayInEditLoading">
+                                                <v-progress-circular color="#e86f52" size="72" width="8"
+                                                    indeterminate></v-progress-circular>
+                                            </div>
+
+                                            <div class="d-flex justify-space-between align-items-center">
+                                                <h3 class="text-start edit-t p-0 mt-2 ms-2 mb-0">More images</h3>
+                                                <v-btn icon class="me-2 mb-0 custom-close"
+                                                    @click="handleShowMoreImages">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                            </div>
+                                            <swiper :style="{
+                                                '--swiper-navigation-color': '#fff',
+                                                '--swiper-pagination-color': '#fff',
+                                            }" :loop="post.photo_url.length > 1" :autoplay="{
+                                                delay: 2500,
+                                                disableOnInteraction: false,
+                                            }" :keyboard="{
+                                                enabled: true,
+                                            }" :mousewheel="true" :spaceBetween="10" :navigation="true"
+                                                :thumbs="{ swiper: thumbsSwiper }" :modules="modules" class="mySwiper2"
+                                                ref="mainSwiper">
+                                                <swiper-slide v-for="(photo, index) in post.photo_url" :key="index">
+                                                    <v-img :src="photo" class="upper-image card-img"
+                                                        style="cursor: pointer;"></v-img>
+                                                </swiper-slide>
+                                            </swiper>
+                                            <hr class="mx-auto my-1 py-1">
+                                            <swiper @swiper="setThumbsSwiper" :loop="post.photo_url.length > 1"
+                                                :spaceBetween="1" :slidesPerView="4" :freeMode="false"
+                                                :watchSlidesProgress="true" :modules="modules" class="mySwiper"
+                                                ref="thumbsSwiper">
+                                                <swiper-slide v-for="(photo, index) in post.photo_url" :key="index">
+                                                    <v-img :src="photo" class="under-image card-img"
+                                                        :class="{ 'is-active': activeIndex === index }"
+                                                        style="cursor: pointer;"></v-img>
+                                                </swiper-slide>
+                                            </swiper>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- image edit end -->
+
+
+                                <!-- <v-bottom-sheet v-model="sheet" inset class="v-btn-sheet">
+
                                     <v-card class="text-center v-btn-sheet-card">
                                         <v-card-text class="p-0 m-0">
                                             <div class="d-flex justify-space-between py-2 px-4">
@@ -284,33 +462,10 @@
                                             </v-card>
                                         </v-card-text>
                                     </v-card>
-                                </v-bottom-sheet>
+                                </v-bottom-sheet> -->
 
-                                <!-- <div class="function_btn">
-                            <div class=row>
-                                <div class="px-0 mb-3 col-md-6 col-12 d-flex justify-md-end justify-center">
-                                    <v-btn class="share-btn "><v-icon
-                                            class="me-1">mdi-thumb-up-outline</v-icon>Like</v-btn>
 
-                                    <v-btn class="fav-btn "><v-icon class="me-1">mdi-heart-outline</v-icon>Add to
-                                        favorite</v-btn>
-                                </div>
-                                <div class="px-0 col-md-6 col-12 d-flex justify-md-start justify-center mb-3">
-                                    <v-btn class="compare-btn"><v-icon class="me-1">mdi-phone</v-icon>Contact
-                                        Owner</v-btn>
-                                    <v-btn class="report-btn "><v-icon
-                                            class="me-1">mdi-flag-outline</v-icon>Report</v-btn>
-                                </div>
-                            </div>
-                        </div> -->
-
-                                <!-- :hidden="getUser.email == registerData.email" -->
-                                <!-- <div v-if="getUser">
-                            <v-btn :disabled="getUser.email == registerData.email" class="req-btn" @click="openDialog">
-                                Make interest
-                            </v-btn>
-                        </div> -->
-                                <v-btn class="req-btn" @click="openDialog">
+                                <v-btn v-if="getData === 'Success'" class="req-btn" @click="openDialog">
                                     Make interest
                                 </v-btn>
 
@@ -370,8 +525,7 @@
                                                 <v-card-actions class="m-0 py-0 uploaded-card-action">
 
                                                     <v-avatar class="ava-img-base" :class="[{ 'ava-img': showCard }]">
-                                                        <v-img alt="John"
-                                                            src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"></v-img>
+                                                        <v-img alt="John" :src="img"></v-img>
                                                     </v-avatar>
                                                     <p class="mt-2 ms-3 fw-bold ava-data-base"
                                                         :class="[{ 'ava-data': showCard }]">
@@ -506,8 +660,7 @@
 
                                                             <div v-if="filteredPosts.length === 0">
 
-                                                                <v-alert text="Currently, there is only one pending post from this
-                                                                    user. No additional pending
+                                                                <v-alert text="Currently, this only one post left. No additional pending
                                                                     posts are available at this time."
                                                                     type="info"></v-alert>
 
@@ -528,13 +681,15 @@
                                                                     </div>
                                                                     <div class="col-9">
                                                                         <p class="p-0 m-0 mt-1">
-                                                                            <span>{{ truncateText(data.title, 30)
+                                                                            <span>{{ truncateText(data.title,
+                                                                                30)
                                                                                 }}</span>
 
                                                                         </p>
                                                                         <p><span>{{ data.type }} post</span>,
-                                                                            uploaded <span>{{ calculateDate(data.date)
-                                                                                }}</span>
+                                                                            uploaded <span>{{
+                                                                                calculateDate(data.date)
+                                                                            }}</span>
                                                                         </p>
 
                                                                     </div>
@@ -565,219 +720,17 @@
                 </div>
 
 
-                <!-- <div class="col-md-4">
-                    <div class="right">
-                        <div class="search-bar ">
-                            <input type="text" id="fname" name="fname" placeholder="Search here">
-                            <v-btn class="px-4">Search</v-btn>
-                        </div>
-
-                        <v-card class="request-detail mb-3">
-                            <h5 class="header">Make enquiry</h5>
-                            <div class="p-2">
-
-                                <br><br>
-
-
-                                <div class="d-flex mt-2">
-
-                                    <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
-                                    <v-btn class="half-btn w-50 bg-green">{{ this.getPostType(post.post_id) }}</v-btn>
-
-                                </div>
-                                <hr class="mx-auto">
-                                <v-text-field density="compact" rounded="lg" variant="solo" v-model="name"
-                                    label="Name *" required class="m-0"></v-text-field>
-                                <v-text-field density="compact" rounded="lg" variant="solo" v-model="gmail"
-                                    label="Gmail *" required></v-text-field>
-                                <v-text-field density="compact" focused v-model="phoneNumber"
-                                    :prefix="selectedCountry.code" variant="solo" label="Phone Number">
-                                    <template v-slot:prepend-inner>
-                                        <img :src="selectedCountry.flag" alt="flag" class="me-2"
-                                            style="height: 24px;" />
-                                    </template>
-                                </v-text-field>
-                                <v-textarea variant="solo" label="Label"></v-textarea>
-                                <v-btn class="request-btn w-100">
-                                    <v-icon class="final-icon">mdi-email</v-icon>Request Details
-                                </v-btn>
-                            </div>
-                        </v-card>
-
-                        <v-card class="popular-posts mb-3">
-                            <h5 class="header">
-                                <v-icon>mdi-star</v-icon>
-                                popular {{ post.property_type }}
-                            </h5>
-                            <br><br>
-
-                            <div class="p-2 mt-2">
-
-                                <div class="post-icon mb-3 row" v-for="data in Sells" :key="data">
-                                    <div class="pi-overlay"></div>
-                                    <div class="col-3 p-0">
-                                        <v-img :src="data.img" class="w-auto h-100"></v-img>
-
-                                    </div>
-                                    <div class="col-9">
-
-                                        <p class="p-0">{{ truncateText(post.title, 29) }}</p>
-
-                                        <div class="d-flex py-0" style="margin-top: -10px;">
-                                            <v-icon>mdi-map-marker</v-icon>
-
-                                            <p class="m-0">{{ post.province }} / {{
-                                                post.country }}</p>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                        </v-card>
-                    </div>
-
-
-                </div> -->
-
-
             </div>
 
-            <!-- <div class="row px-5">
-                <hr class="mx-auto">
-
-                <div class="related_section">
-                    <div class="w-100">
-                        <h3 class="header-text">Related Sell posts</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12" v-for="data in Sells" :key="data.id">
-
-                            <div class="post">
-                                <div class="img">
-                                    <div class="type">
-                                        <div>
-                                            <div><v-icon>mdi-format-list-bulleted-type</v-icon>{{ data.post_type }}
-                                            </div>
-                                        </div>
-                                        <div>
-
-                                            <div @click="toggleSaved(data.id)">
-                                                <v-icon v-if="isSaved(data.id)">mdi-bookmark-check</v-icon>
-                                                <v-icon v-else>mdi-bookmark-outline</v-icon>
-                                                Save Post
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <v-img :src="data.img" />
-                                    <div class="info">
-                                        <div class="d-flex"><v-icon>mdi-eye</v-icon><span>441</span></div>
-                                        <div><v-icon>mdi-currency-usd</v-icon>
-                                            <span class="money">2300 Lakh</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="data">
-                                    <div class="header">
-                                        <h5>{{ data.title }}</h5>
-                                        <p>{{ truncateText(post.title, 30) }}</p>
-                                    </div>
-                                    <v-divider inset class="mx-auto py-0 mt-0"></v-divider>
-
-                                    <div class="information">
-                                        <div><v-icon>mdi-map-marker</v-icon> Insein Yangon</div>
-                                        <div><v-icon>mdi-post</v-icon><span>For {{ data.type }}</span></div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="footer_section">
-                        <v-btn class="footer-btn">See all
-                            posts<v-icon>mdi-chevron-double-right</v-icon></v-btn>
-                    </div>
-                </div>
-
-
-                <hr class="mx-auto">
-
-
-                <div class="related_section">
-                    <div class="w-100">
-                        <h3 class="header-text">Related posts in this area</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12" v-for="data in Sells" :key="data.id">
-
-                            <div class="post">
-                                <div class="img">
-                                    <div class="type">
-                                        <div>
-                                            <div><v-icon>mdi-format-list-bulleted-type</v-icon>{{ data.post_type }}
-                                            </div>
-                                        </div>
-                                        <div>
-
-                                            <div @click="toggleSaved(data.id)">
-                                                <v-icon v-if="isSaved(data.id)">mdi-bookmark-check</v-icon>
-                                                <v-icon v-else>mdi-bookmark-outline</v-icon>
-                                                Save Post
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <v-img :src="data.img" />
-                                    <div class="info">
-                                        <div class="d-flex"><v-icon>mdi-eye</v-icon><span>441</span></div>
-                                        <div><v-icon>mdi-currency-usd</v-icon>
-                                            <span class="money">2300 Lakh</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="data">
-                                    <div class="header">
-                                        <h5>{{ data.title }}</h5>
-                                        <p>{{ truncateText(post.description, 30) }}</p>
-                                    </div>
-                                    <v-divider inset class="mx-auto py-0 mt-0"></v-divider>
-
-                                    <div class="information">
-                                        <div><v-icon>mdi-map-marker</v-icon> Insein Yangon</div>
-                                        <div><v-icon>mdi-post</v-icon><span>For {{ data.type }}</span></div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="footer_section">
-                        <v-btn class="footer-btn">See all
-                            posts<v-icon>mdi-chevron-double-right</v-icon></v-btn>
-                    </div>
-                </div>
-            </div> -->
-
-            <v-snackbar elevation="24" v-model="alert.show" :timeout="alert.timeout" :color="alert.color"
-                :bottom="true">
+            <v-snackbar class="edit-snack" elevation="24" v-model="alert.show" :timeout="alert.timeout"
+                :color="alert.color" :bottom="true">
                 <v-icon>mdi-exclamation</v-icon>
                 {{ alert.message }}
 
                 <v-btn color="info" variant="text" @click="alert.show = false">
                     Close
                 </v-btn>
-                <!-- <v-icon @click="alert.show = false">mdi-close</v-icon> -->
-                <!-- <v-btn color="white" text >x</v-btn> -->
+
             </v-snackbar>
 
         </v-container>
@@ -790,14 +743,38 @@ import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+import { Keyboard, Mousewheel, Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
 export default {
 
     name: 'postDetailView',
 
+    components: {
+        Swiper,
+        SwiperSlide,
+    },
+
     data: () => ({
+
+        // for swiper js 
+        thumbsSwiper: null,
+        modules: [Keyboard, Mousewheel, Autoplay, FreeMode, Navigation, Thumbs],
+        activeIndex: 0,
+        showMoreImages: false,
+        overlayInEdit: false,
+        overlayInEditLoading: false,
+
+
         // for uploaded user in admin view
         showCard: false,
         showCard2: false,
+        showCard3: false,
+        overlay: false,
 
         user: {
             initials: 'JD',
@@ -809,6 +786,7 @@ export default {
         searchDialog: false,
         search: '',
         menu: false,
+        menuSearch: false,
         postTitles: [
             { id: 1, title: 'Welcome Home smatha js auto wind and search bar ' },
             { id: 2, title: 'Wonderful World' },
@@ -902,6 +880,8 @@ export default {
     }),
 
     mounted() {
+        // remove overlay
+        this.overlay = false;
         // remove item
         localStorage.removeItem('openTab');
 
@@ -951,7 +931,25 @@ export default {
     },
 
     methods: {
+        handleShowMoreImages() {
+            this.showMoreImages = !this.showMoreImages;
+        },
+        setThumbsSwiper(swiper) {
+            this.thumbsSwiper = swiper;
+            swiper.on('slideChange', () => {
+                this.activeIndex = swiper.realIndex;
+            });
+        },
 
+        searchToggle() {
+            this.search = '';
+            this.showCard3 = !this.showCard3;
+        },
+        onClickOutside() {
+            if (this.showCard3) {
+                this.showCard3 = false;
+            }
+        },
 
         clickPost(data) {
             this.showCard = false;
@@ -1000,20 +998,36 @@ export default {
             this.menu = !!this.search; // Show the menu only if there is a search query
         },
 
+        onSearchMobile() {
+            this.menuSearch = !!this.search;
+        },
+
         handleItemClick(post) {
+            this.overlay = true;
+            this.showCard3 = false;
+
             // Check if post ID matches the main post ID
             if (post.id === this.mainPostId) {
                 this.alert.message = "This post is already displayed!";
                 this.alert.color = '#e86f52';
                 this.alert.show = true;
 
+                this.overlay = false;
             } else {
+
                 const afterEncrypt = this.encryptId(post.id);
                 // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
                 this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+
+                setTimeout(() => {
+                    this.overlay = false;
+                }, 1800);
+
             }
             this.menu = false;
             this.search = '';
+
+
         },
 
 
@@ -1662,7 +1676,7 @@ export default {
                 email: upperData.subUser.reg_user.email,
                 phone: upperData.subUser.reg_user.phone,
             }
-
+            this.activeIndex = 0;
         },
 
         async fetchRegisterUser(id) {
@@ -1689,6 +1703,17 @@ export default {
                 this.fetchPost(this.splitData(this.$route.params.id)[0]);
             },
             immediate: true,
+        },
+        showMoreImages(newValue) {
+            if (newValue) {
+                this.overlayInEditLoading = true;
+                setTimeout(() => {
+                    this.overlayInEditLoading = false;
+                    if (!this.overlayInEditLoading) {
+                        this.activeIndex = 0;
+                    }
+                }, 1200);
+            }
         },
     },
 
@@ -1729,7 +1754,7 @@ export default {
                 border-width: 5px;
                 border-style: solid;
                 transition: all 0.3s ease-in-out;
-                transform: translateY(10px) translateX(106px);
+                transform: translateY(10%) translateX(90%);
                 //border-color: #e86f52 #e86f52 #e86f52 #525252;
                 border-color: #e86f52;
                 //transform: rotate(-45deg);
@@ -1747,6 +1772,7 @@ export default {
             .ava-data {
                 transition: all 0.3s ease-in-out;
                 transform: translateY(84px);
+                text-align: center;
                 margin: 0 auto;
                 font-weight: bold;
                 color: #e86f52;
@@ -1824,7 +1850,7 @@ export default {
 
     .uploaded-user-card.uploaded-user-card-transform::before {
         width: 100%;
-        height: 36%;
+        height: 38%;
         background-color: #e86f52;
         transition: all 0.3s ease-in-out;
     }
@@ -1899,6 +1925,10 @@ export default {
             margin-top: -52px;
             color: #fff;
 
+            .v-icon {
+                color: #525252 !important;
+            }
+
             span {
                 color: #525252;
             }
@@ -1952,8 +1982,8 @@ export default {
         transition: all 0.2s ease-in-out;
         z-index: 2;
         border-radius: 12px;
-        border: 3px solid red;
         position: relative;
+        box-shadow: 0px 6px 20px 1px rgba(0, 0, 0, 0.4);
     }
 
     .pending-card.pending-card-transform::before,

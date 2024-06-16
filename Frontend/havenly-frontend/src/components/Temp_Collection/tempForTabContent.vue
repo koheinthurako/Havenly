@@ -1,39 +1,59 @@
 <template>
     <div class="tempOf-tabContent">
-        <v-container>
+        <v-container class="py-0">
             <!-- Render real data from database-->
             <div v-if="loading">
-                <v-row class="g-1 mb-3">
-                    <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
+                <v-row class="g-1 py-0 my-0">
+                    <v-col cols="12" md="3" class=" d-block d-sm-none">
+                        <v-skeleton-loader class="mx-4" elevation="2" type="image, article, article"
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
+
+                        <!-- for mobile -->
+                        <v-skeleton-loader class="ms-auto me-3 mt-1" elevation="2" type="chip"
+                            style="box-shadow:none; background-color:transparent; overflow:hidden;border-radius:0px; padding: 0px; width:50%; margin-right: 10px; border-radius:10px;"></v-skeleton-loader>
+                    </v-col>
+
+
+
+                    <v-col cols="12" md="3" class="d-none d-sm-block">
+                        <v-skeleton-loader class="mx-auto " elevation="2" type="image, article, article"
                             style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
-                    <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
-                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
+                    <v-col cols="12" md="3" class="d-none d-sm-block">
+                        <v-skeleton-loader class="mx-auto d-none d-sm-block" elevation="2"
+                            type="image, article, article" style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
-                    <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
-                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
+                    <v-col cols="12" md="3" class="d-none d-sm-block">
+                        <v-skeleton-loader class="mx-auto d-none d-sm-block" elevation="2"
+                            type="image, article, article" style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
-                    <v-col cols="12" md="3">
-                        <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
-                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
+                    <v-col cols="12" md="3" class="d-none d-sm-block">
+                        <v-skeleton-loader class="mx-auto d-none d-sm-block" elevation="2"
+                            type="image, article, article" style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                 </v-row>
+
+                <v-row class=" p-0 m-0">
+                    <v-col cols="12" sm="6" md="3" class="ms-auto p-0 m-0 d-none d-sm-block">
+                        <v-skeleton-loader class="m-auto " elevation="2" type="table-heading"
+                            style="height: 60px; overflow:hidden;border-radius:30px;"></v-skeleton-loader>
+
+                    </v-col>
+                </v-row>
+
             </div>
             <div v-else>
 
                 <!-- All posts showing start -->
 
 
-                <div class="row mb-3 g-3" v-if="displayedPosts && displayedPosts.length !== 0">
+                <div class="row mb-2 g-3" v-if="displayedPosts && displayedPosts.length !== 0">
 
-                    <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3 col-sm-12"
+                    <div v-for="post in displayedPosts" :key="post.post_id" class="d-none d-sm-block col-md-3 col-sm-12"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <!-- TZH card styles -->
@@ -67,32 +87,73 @@
                                             </p>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="d-flex align-items-center justify-content-between">
-                                            <p class="m-0 small">{{ post.area }} sqft</p>
-                                        </div> -->
-
                                 </div>
                             </div>
 
                         </div>
-
                     </div>
+
+                    <!-- for mobile view start -->
+                    <swiper :loop="posts.length > 1" :breakpoints="{
+                        '640': {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        '768': {
+                            slidesPerView: 4,
+                            spaceBetween: 30,
+                        },
+                        '1024': {
+                            slidesPerView: 4,
+                            spaceBetween: 30,
+                        },
+                    }" :navigation="true" :modules="modules" class="mySwiper d-block d-sm-none" @swiper="onSwiperInit">
+                        <swiper-slide v-for="(post, index) in displayedPosts" :key="index"
+                            @click="clickPost(post.post_id)">
+                            <div class="card-container">
+                                <!-- TZH card styles -->
+                                <div class="card" style="height: 390px;">
+                                    <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
+                                            <img :src="url" class="w-100 h-100" alt="Card image cap">
+                                        </div> -->
+                                    <div class="cardImgBox" style="width: 100%; height: 160px;">
+                                        <img :src="post.photo_url[0]" class="h-100 w-100 m-auto py-0"
+                                            alt="Card image cap">
+                                    </div>
+                                    <div class="card-body p-3 d-flex flex-column">
+                                        <h5 class="card-title mb-2">{{ post.title }}</h5>
+                                        <p class="card-text small opacity-75 mb-1">{{ post.description }}</p>
+                                        <p class="card-text text-danger small opacity-75">
+                                            <v-icon>mdi-map-marker-radius</v-icon>
+                                            {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                        </p>
+                                        <div class="d-flex mb-3 justify-content-between mb-auto">
+                                            <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
+                                                }}</span>
+                                            <span v-if="post.least_contract" class="small opacity-75">Contract : {{
+                                                post.least_contract }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between ">
+                                            <span class="badge text-bg-danger rounded-pill">{{ post.property_type
+                                                }}</span>
+                                            <div class="d-flex text-danger">
+                                                <!-- <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon> -->
+                                                <p class="m-0 small fw-bold fs-3">
+                                                    {{ post.price }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </swiper-slide>
+                    </swiper>
+                    <!-- for mobile view end -->
                 </div>
                 <div v-else class="row" style="background-color: #fff;">
                     <noPostView />
-                    <!-- <div class="col-md-6 col-sm-6">
-                        <v-img :src="img1" class="w-100"></v-img>
-                    </div>
-                    <div class="col-md-6 col-sm-6 d-flex align-items-center">
-                        <div class="my-auto" style="text-indent: 60px;">
-                            <p>"We apologize, but there are no properties available at this time. Our team is constantly
-                                updating our listings, so please check back soon for new opportunities. In the meantime,
-                                feel free to get in touch with us for personalized assistance or to inquire about
-                                upcoming properties. We appreciate your understanding and look forward to helping you
-                                find the perfect home."</p>
-                        </div>
-                    </div> -->
+
                 </div>
 
 
@@ -103,15 +164,17 @@
 
 
 
-            <div v-if="displayedPosts && displayedPosts.length !== 0" class="content-data d-flex mt-1 mb-3">
+            <div v-if="displayedPosts && displayedPosts.length !== 0" class="content-data d-flex mt-1 mb-1">
 
-                <!-- for Desktop view -->
-
-                <v-btn @click="gotoAllView(get_title)" size="large" class="d-none d-md-block content-btn ms-auto mb-3"
+                <v-btn @click="gotoAllView(get_title)" size="large" class="content-btn ms-auto mb-3"
                     style="text-transform:capitalize;">See all post of
                     <span class="ms-1 red">{{ get_title }}</span> <v-icon style="margin-left: 8px;font-size: 24px;"
                         class="custom-icon">mdi-chevron-double-right</v-icon>
                 </v-btn>
+
+
+
+
 
             </div>
 
@@ -125,6 +188,10 @@ import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
 
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import noPostView from '@/components/For_MainIndex/noPostView.vue';
 export default {
@@ -133,6 +200,8 @@ export default {
 
     components: {
         noPostView,
+        Swiper,
+        SwiperSlide,
     },
 
     props: {
@@ -144,6 +213,9 @@ export default {
 
 
     data: () => ({
+        modules: [Autoplay, Pagination, Navigation],
+        swiperInstance: null, // Store Swiper instance reference
+
         img1: require('@/assets/img/p1.jpg'),
         loading: false,
         posts: [],
@@ -184,6 +256,26 @@ export default {
 
 
     methods: {
+
+        handleSlideClick(post) {
+            alert(post);
+            // Handle slide click action here
+        },
+        stopAutoScroll() {
+            if (this.swiperInstance && this.swiperInstance.autoplay) {
+                this.swiperInstance.autoplay.stop();
+            }
+        },
+        startAutoScroll() {
+            if (this.swiperInstance && this.swiperInstance.autoplay) {
+                this.swiperInstance.autoplay.start();
+            }
+        },
+        onSwiperInit(swiper) {
+            // Store swiper instance when initialized
+            this.swiperInstance = swiper;
+        },
+
 
         truncateText(text, charLimit) {
             if (text.length > charLimit) {

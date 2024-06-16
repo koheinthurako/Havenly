@@ -243,7 +243,7 @@
                 </div>
                 <div v-else>
                   <v-btn rounded class="profile-btn" v-if="!profileMenu" @click="handleProfileMenu">
-                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-2"></v-icon>{{ getUser2.name }}</p>
+                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-2"></v-icon>Profile</p>
                   </v-btn>
 
                   <v-btn rounded v-else color="warning" @click="handleProfileMenuClose" class="profile-close-btn">
@@ -258,8 +258,17 @@
                     </div>
                   </div>
                   <div class="header mb-3">
-                    <h4 class="m-0 p-0">{{ getUser2.name }}</h4>
-                    <p class="m-0 p-0">Normal user</p>
+                    <!-- <h4 class="m-0 p-0">{{ getUser2.name }}</h4> -->
+                    <div v-if="getUser2 != ''">
+                      <h4 class="m-0 p-0">{{ truncateText(getUser2.name, 17) }}</h4>
+                    </div>
+
+                    <div v-if="fetchPackage != null">
+                      <p class="m-0 p-0"><span>Subscribed</span> : {{ fetchPackage }}</p>
+                    </div>
+                    <div v-else>
+                      <p class="m-0 p-0">Normal user</p>
+                    </div>
                   </div>
                   <div class="action-btns">
                     <v-btn @click="gotoDashboard" rounded elevation="10" class="dash-btn">
@@ -434,6 +443,9 @@ import { useRouter } from 'vue-router';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { AES } from 'crypto-js';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import router from '@/router';
+
 
 export default {
   name: 'navbarVue',
@@ -451,6 +463,7 @@ export default {
     const getUser = ref([]);
     const objs = ref([]);
     const filteredOjbs = ref([]);
+    const packageType = ref('');
 
 
     const isNavLinkActive = (path) => {
@@ -600,6 +613,7 @@ export default {
     });
 
     return {
+      packageType,
       clickPost,
       cleanStorage,
       filteredOjbs,
@@ -628,6 +642,7 @@ export default {
     isOverlayVisible: false,
     animateOverlayClass: '',
 
+    fetchPackage: '',
 
     profilePic: require("@/assets/img/ava1.jpg"),
 
@@ -654,10 +669,40 @@ export default {
   mounted() {
     this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
     this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
+
+    if (this.getUser2) {
+      this.fetchSubUserInfo();
+    }
   },
 
 
   methods: {
+
+    truncateText(text, charLimit) {
+      if (text.length > charLimit) {
+        return text.slice(0, charLimit) + '.';
+      }
+      return text;
+    },
+
+    fetchSubUserInfo() {
+      const user = JSON.parse(sessionStorage.getItem('login_user'));
+      const registerId = user.register_id;
+      console.log("registerId to send backend to show subUser informations : " + registerId)
+      axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+        params: {
+          registerId: registerId
+        }
+      })
+        .then(response => {
+          console.log(response.data);
+          this.fetchPackage = response.data.packageType
+
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error); // Handle the error
+        });
+    },
 
     handleProfileMenu() {
       this.profileMenu = true;
@@ -680,7 +725,7 @@ export default {
 
       setTimeout(() => {
         this.profileMenu = false;
-      }, 220);
+      }, 230);
     },
 
     gotoDashboard() {
@@ -695,7 +740,7 @@ export default {
 
       setTimeout(() => {
         this.profileMenu = false;
-      }, 220);
+      }, 230);
 
       setTimeout(() => {
         this.$router.push({ name: 'User_dashboard' });
@@ -746,7 +791,7 @@ export default {
 
         setTimeout(() => {
           this.profileMenu = false;
-        }, 220);
+        }, 230);
       }
 
     },
@@ -774,7 +819,7 @@ export default {
 
       setTimeout(() => {
         this.profileMenu = false;
-      }, 220);
+      }, 230);
 
       setTimeout(() => {
         Swal.fire({
@@ -788,7 +833,9 @@ export default {
         }).then((result) => {
           if (result.isConfirmed) {
             sessionStorage.removeItem('login_user');
-            window.location.reload();
+            router.push('/').then(() => {
+              window.location.href = '/';
+            });
           }
         });
       }, 270);
@@ -821,10 +868,9 @@ export default {
   background: rgba(0, 0, 0, 0.3);
   z-index: 2000;
   border-radius: 0 0 10px 10px;
-  pointer-events: none;
+  pointer-events: all;
   transform: translate(-50%, -50%);
 
-  pointer-events: all;
 }
 
 .overlay-animate {

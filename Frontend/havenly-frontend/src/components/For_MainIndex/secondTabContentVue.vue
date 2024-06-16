@@ -20,16 +20,17 @@
                 </div>
 
 
-                <!-- <div class="d-block d-sm-none mb-5">
-                    <v-btn size="small"
-                        v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                        :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button me-2"
-                        @click="openTab(visibleStartIndex + index)"
-                        :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
-                        {{ button }}
-                    </v-btn>
-
-                </div> -->
+                <div class="d-block d-sm-none mb-2 w-100 button-bar">
+                    <div>
+                        <v-btn size="small"
+                            v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
+                            :elevation="8" :key="index" style="text-transform:capitalize;"
+                            class="tab-carousel-button mx-auto me-2" @click="openTab(visibleStartIndex + index)"
+                            :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
+                            {{ button }}
+                        </v-btn>
+                    </div>
+                </div>
 
 
             </div>

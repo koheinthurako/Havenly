@@ -1,280 +1,309 @@
 <template>
-    <v-container>
-        <main>
-            <div>
-                <h1 style="color:#e86f52;">Your uploaded posts!</h1>
-                <div v-if="loading">
-                    <v-row class="g-1 mt-4">
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+    <div class="uploaded-all-posts">
+        <v-container>
+            <main>
+                <div>
+                    <div class="row p-0 m-0 ">
+                        <div class="col-md-8 col-sm-12">
+                            <h1 class="header mb-3">Your uploaded posts.</h1>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <h4 class="text-start fw-none color-brick">Filter posts</h4>
+                            <v-radio-group v-model="radioFlip" inline>
+                                <v-radio label="All" value="allpost"></v-radio>
+                                <v-spacer></v-spacer>
+                                <v-radio label="Approve" value="Approve"></v-radio>
+                                <v-spacer></v-spacer>
+                                <v-radio label="Pending" value="pending"></v-radio>
+                            </v-radio-group>
+                        </div>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                    </div>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                    <div v-if="loading">
+                        <v-row class="g-1 mt-4 ">
+                            <v-col cols="12" md="3">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                            <v-col cols="12" md="3" class="d-none d-sm-block">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
 
-                    </v-row>
-                </div>
-                <div v-else-if="displayError">{{ displayError }}</div>
-                <div v-else>
-                    <div v-if="posts.length > 0">
-                        <!-- display posts start -->
-                        <div class="row mb-5 g-3">
-                            <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-                                <div class="card-container">
-                                    <!-- TZH card styles -->
-                                    <div class="card cursor-pointer" style="height: 460px;">
-                                        <div class="cardImgBox mb-2">
-                                            <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
-                                        </div>
-                                        <div class="card-body p-3 d-flex flex-column"
-                                            @click="clickPost(post.post_id, post.status)">
-                                            <div class="d-flex gap-1">
-                                                <div class="mb-2">
-                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                        :class="getStatusClass(post.post_type)">{{ post.post_type
-                                                        }}</span>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                        :class="getStatusClass(post.status)">{{ post.status }}</span>
-                                                </div>
+                            <v-col cols="12" md="3" class="d-none d-sm-block">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
+
+                            <v-col cols="12" md="3" class="d-none d-sm-block">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
+
+                        </v-row>
+                    </div>
+                    <div v-else-if="displayError">{{ displayError }}</div>
+                    <div v-else>
+                        <div v-if="posts.length > 0">
+                            <!-- display posts start -->
+                            <div class="row mb-5 g-3">
+                                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                                    <div class="card-container">
+                                        <!-- TZH card styles -->
+                                        <div class="card cursor-pointer" style="height: 460px;">
+                                            <div class="cardImgBox mb-2">
+                                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
                                             </div>
-                                            <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
-                                            <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
-                                            <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
-                                                <v-icon>mdi-map-marker-radius</v-icon>
-                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                            </p>
+                                            <div class="card-body p-3 " @click="clickPost(post.post_id, post.status)">
+                                                <div class="d-flex gap-1">
+                                                    <div class="mb-2">
+                                                        <span
+                                                            class="px-3 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.post_type)">{{ post.post_type
+                                                            }}</span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span
+                                                            class="px-3 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.status)">{{ post.status
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                                <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
+                                                <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
+                                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
+                                                    <v-icon>mdi-map-marker-radius</v-icon>
+                                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                                </p>
 
+                                            </div>
+                                            <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
+                                                <button class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                                <button class="btn btn-danger w-100" @click="deletePost(post)">Delete
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
-                                            <button class="btn btn-outline-danger w-100" @click="editPost(post)"
-                                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                            <button class="btn btn-danger w-100" @click="deletePost(post)">Delete
-                                            </button>
-                                        </div>
+
                                     </div>
 
                                 </div>
 
-                            </div>
-
-                            <!-- Edit Modal Box -->
-                            <div class="editModalBox">
-                                <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
-                                        <div class="modal-content" style="max-width: 2000px !important;">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
-                                                    currentPost.post_type }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close" @click="reloadWindow"></button>
-                                            </div>
-                                            <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
-                                                <form @submit.prevent="submit" enctype="multipart/form-data"
-                                                    class="w-100 px-4 py-3">
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small">Title <span
-                                                                    class="text-red">*</span></span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="fullTitle"
-                                                                :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
-                                                                placeholder="Title"></v-text-field>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12 py-0">
-                                                            <span class="float-left mt-2 small">Description<span
-                                                                    class="text-red">*</span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12 py-0">
-                                                            <v-textarea required bg-color="#EDEDED" class="w-100"
-                                                                clear-icon="mdi-close-circle" clearable variant="solo"
-                                                                rounded="lg" density="compact" v-model="fullDescription"
-                                                                :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
-                                                                :counter="10000" placeholder="Description"></v-textarea>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="p-0 row-1 d-flex">
-                                                        <v-select bg-color="white" v-model="selectedCountry"
-                                                            :items="uniqueCountries" label="Select country"
-                                                            required></v-select>
-                                                        <v-select bg-color="white" v-model="selectedProvince"
-                                                            :items="uniqueProvinces" :disabled="!selectedCountry"
-                                                            label="Select province" required></v-select>
-                                                        <v-select bg-color="white" v-model="selectedAmphoe"
-                                                            :items="uniqueAmphoes" :disabled="!selectedProvince"
-                                                            label="Select amphoe" required></v-select>
-                                                        <v-select bg-color="white" v-model="selectedRegion"
-                                                            :items="uniqueRegions" :disabled="!selectedAmphoe"
-                                                            label="Select region" required></v-select>
-                                                    </div>
-
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small"> Property Type </span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-select required bg-color="#EDEDED" class="w-100"
-                                                                clear-icon="mdi-close-circle" clearable variant="solo"
-                                                                rounded="lg" density="compact" v-model="property_type"
-                                                                :items="PropertyTypes"
-                                                                placeholder="Select property type"></v-select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small">Price($Dollar)<span
-                                                                    class="text-red">*</span></span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="price"
-                                                                :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
-                                                                placeholder="price"></v-text-field>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small">Area</span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="area"
-                                                                :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
-                                                                placeholder="Area"></v-text-field>
-                                                        </div>
-                                                    </div>
-                                                    <div v-if="currentPost.deposit" class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small">Deposit</span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="deposit"
-                                                                :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
-                                                                placeholder="Deposit"></v-text-field>
-                                                        </div>
-                                                    </div>
-                                                    <div v-if="currentPost.least_contract"
-                                                        class="row justify-content-between">
-                                                        <div class="col-md-2 col-sm-12">
-                                                            <span class="float-left mt-2 small">Least Contract</span>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-12">
-                                                            <v-text-field required bg-color="#EDEDED" filled
-                                                                variant="solo" density="compact" rounded="lg"
-                                                                clear-icon="mdi-close-circle" clearable class="w-100"
-                                                                v-model="least_contract"
-                                                                :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
-                                                                placeholder="Least Contract"></v-text-field>
-                                                        </div>
-                                                    </div>
-
-                                                    <div :key="forceRerender">
+                                <!-- Edit Modal Box -->
+                                <div class="editModalBox">
+                                    <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
+                                            <div class="modal-content" style="max-width: 2000px !important;">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
+                                                        currentPost.post_type }}</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close" @click="reloadWindow"></button>
+                                                </div>
+                                                <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
+                                                    <form @submit.prevent="submit" enctype="multipart/form-data"
+                                                        class="w-100 px-4 py-3">
                                                         <div class="row justify-content-between">
-                                                            <div class="col-md-3 col-sm-12 py-0">
-                                                                <span class="float-left mt-2 small">Replace Image<span
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small">Title <span
                                                                         class="text-red">*</span></span>
                                                             </div>
-                                                            <div
-                                                                class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-text-field required bg-color="#EDEDED" filled
+                                                                    variant="solo" density="compact" rounded="lg"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    class="w-100" v-model="fullTitle"
+                                                                    :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                                                    placeholder="Title"></v-text-field>
+                                                            </div>
+                                                        </div>
 
-                                                                <!-- Render original photos -->
-                                                                <div v-for="(photo, index) in currentPost.photo_url"
-                                                                    :key="'photo_' + index"
-                                                                    class="mb-2 col-12 col-md-4 position-relative">
-                                                                    <img :src="photo" class="img-thumbnail"
-                                                                        alt="Current Post Image">
-                                                                    <button v-if="canDeletePhoto"
-                                                                        @click="deletePhoto(index, 'original')"
-                                                                        class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
-                                                                        <v-icon class="text-danger">mdi-close</v-icon>
-                                                                    </button>
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12 py-0">
+                                                                <span class="float-left mt-2 small">Description<span
+                                                                        class="text-red">*</span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12 py-0">
+                                                                <v-textarea required bg-color="#EDEDED" class="w-100"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    variant="solo" rounded="lg" density="compact"
+                                                                    v-model="fullDescription"
+                                                                    :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                                                    :counter="10000"
+                                                                    placeholder="Description"></v-textarea>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="p-0 row-1 d-flex">
+                                                            <v-select bg-color="white" v-model="selectedCountry"
+                                                                :items="uniqueCountries" label="Select country"
+                                                                required></v-select>
+                                                            <v-select bg-color="white" v-model="selectedProvince"
+                                                                :items="uniqueProvinces" :disabled="!selectedCountry"
+                                                                label="Select province" required></v-select>
+                                                            <v-select bg-color="white" v-model="selectedAmphoe"
+                                                                :items="uniqueAmphoes" :disabled="!selectedProvince"
+                                                                label="Select amphoe" required></v-select>
+                                                            <v-select bg-color="white" v-model="selectedRegion"
+                                                                :items="uniqueRegions" :disabled="!selectedAmphoe"
+                                                                label="Select region" required></v-select>
+                                                        </div>
+
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small"> Property Type
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-select required bg-color="#EDEDED" class="w-100"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    variant="solo" rounded="lg" density="compact"
+                                                                    v-model="property_type" :items="PropertyTypes"
+                                                                    placeholder="Select property type"></v-select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small">Price($Dollar)<span
+                                                                        class="text-red">*</span></span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-text-field required bg-color="#EDEDED" filled
+                                                                    variant="solo" density="compact" rounded="lg"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    class="w-100" v-model="price"
+                                                                    :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                                                    placeholder="price"></v-text-field>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small">Area</span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-text-field required bg-color="#EDEDED" filled
+                                                                    variant="solo" density="compact" rounded="lg"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    class="w-100" v-model="area"
+                                                                    :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
+                                                                    placeholder="Area"></v-text-field>
+                                                            </div>
+                                                        </div>
+                                                        <div v-if="currentPost.deposit"
+                                                            class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small">Deposit</span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-text-field required bg-color="#EDEDED" filled
+                                                                    variant="solo" density="compact" rounded="lg"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    class="w-100" v-model="deposit"
+                                                                    :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
+                                                                    placeholder="Deposit"></v-text-field>
+                                                            </div>
+                                                        </div>
+                                                        <div v-if="currentPost.least_contract"
+                                                            class="row justify-content-between">
+                                                            <div class="col-md-2 col-sm-12">
+                                                                <span class="float-left mt-2 small">Least
+                                                                    Contract</span>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-12">
+                                                                <v-text-field required bg-color="#EDEDED" filled
+                                                                    variant="solo" density="compact" rounded="lg"
+                                                                    clear-icon="mdi-close-circle" clearable
+                                                                    class="w-100" v-model="least_contract"
+                                                                    :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
+                                                                    placeholder="Least Contract"></v-text-field>
+                                                            </div>
+                                                        </div>
+
+                                                        <div :key="forceRerender">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-md-3 col-sm-12 py-0">
+                                                                    <span class="float-left mt-2 small">Replace
+                                                                        Image<span class="text-red">*</span></span>
                                                                 </div>
+                                                                <div
+                                                                    class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
 
-                                                                <!-- Render additional photos -->
-                                                                <div v-for="(photo, index) in additionalPhotos"
-                                                                    :key="'extra_photo_' + index"
-                                                                    class="mb-2 col-12 col-md-4 position-relative">
-                                                                    <img :src="photo" class="img-thumbnail"
-                                                                        alt="Additional Photo">
-                                                                    <button v-if="canDeletePhoto"
-                                                                        @click="deletePhoto(index, 'additional')"
-                                                                        class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
-                                                                        <v-icon class="text-danger">mdi-close</v-icon>
-                                                                    </button>
-                                                                </div>
+                                                                    <!-- Render original photos -->
+                                                                    <div v-for="(photo, index) in currentPost.photo_url"
+                                                                        :key="'photo_' + index"
+                                                                        class="mb-2 col-12 col-md-4 position-relative">
+                                                                        <img :src="photo" class="img-thumbnail"
+                                                                            alt="Current Post Image">
+                                                                        <button v-if="canDeletePhoto"
+                                                                            @click="deletePhoto(index, 'original')"
+                                                                            class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                            <v-icon
+                                                                                class="text-danger">mdi-close</v-icon>
+                                                                        </button>
+                                                                    </div>
 
-                                                                <!-- Hidden file input -->
-                                                                <input type="file" ref="fileInput"
-                                                                    style="display: none;" @change="handleFileChange">
-                                                                <div class="mb-2 col-12 col-md-4">
-                                                                    <button @click.prevent="triggerFileInput"
-                                                                        class="btn btn-outline-danger w-100 h-100 fs-1">
-                                                                        + </button>
-                                                                    <input type="file" ref="fileExtraInput" multiple
-                                                                        @change="addMorePhotos" style="display: none;">
+                                                                    <!-- Render additional photos -->
+                                                                    <div v-for="(photo, index) in additionalPhotos"
+                                                                        :key="'extra_photo_' + index"
+                                                                        class="mb-2 col-12 col-md-4 position-relative">
+                                                                        <img :src="photo" class="img-thumbnail"
+                                                                            alt="Additional Photo">
+                                                                        <button v-if="canDeletePhoto"
+                                                                            @click="deletePhoto(index, 'additional')"
+                                                                            class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                            <v-icon
+                                                                                class="text-danger">mdi-close</v-icon>
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <!-- Hidden file input -->
+                                                                    <input type="file" ref="fileInput"
+                                                                        style="display: none;"
+                                                                        @change="handleFileChange">
+                                                                    <div class="mb-2 col-12 col-md-4">
+                                                                        <button @click.prevent="triggerFileInput"
+                                                                            class="btn btn-outline-danger w-100 h-100 fs-1">
+                                                                            + </button>
+                                                                        <input type="file" ref="fileExtraInput" multiple
+                                                                            @change="addMorePhotos"
+                                                                            style="display: none;">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-danger"
-                                                    data-bs-dismiss="modal" @click="reloadWindow">Close</button>
-                                                <button type="button" class="btn btn-danger"
-                                                    @click="submit(currentPost)">Save
-                                                    changes</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                        data-bs-dismiss="modal" @click="reloadWindow">Close</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        @click="submit(currentPost)">Save
+                                                        changes</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
-
                         </div>
+                        <div v-else>
+                            No post found
+                        </div>
+                        <!-- display posts end -->
                     </div>
-                    <div v-else>
-                        No post found
-                    </div>
-                    <!-- display posts end -->
-                </div>
 
-            </div>
-        </main>
-    </v-container>
+                </div>
+            </main>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -297,6 +326,9 @@ export default {
     name: 'uploadedAllPosts',
 
     data: () => ({
+        // filter 
+        radioFlip: 'allpost',
+
         loading: false,
         displayError: null,
         posts: [],
