@@ -127,7 +127,7 @@ export default {
   methods: {
     openAdsDialog() {
       console.log(this.availAds);
-      if(!(this.availAds <= 0)) {
+      if(!(this.availAds <= 0)) { 
         this.adsDialog = true;
         return;
       }
