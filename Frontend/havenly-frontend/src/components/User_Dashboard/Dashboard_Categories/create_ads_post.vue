@@ -198,7 +198,7 @@ export default {
       formData.append('subUserId', subUserId);
       formData.append('title', title.value);
 
-      if(availAds === 0) {
+      if(availAds === 0 || availAds<0) {
             console.log("no avail ads");
                         Swal.fire({
                             title: 'Buy More Packages!',
@@ -249,6 +249,7 @@ export default {
                       title.value = '';
                       image.value = null;
                       imagePreview.value = null;
+                      availAds.value--;
                       window.location.reload();
                       fetchAds();
                     });

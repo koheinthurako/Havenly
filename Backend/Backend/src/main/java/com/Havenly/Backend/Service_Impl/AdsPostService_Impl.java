@@ -33,6 +33,7 @@ public class AdsPostService_Impl implements AdsPostService{
 	SubscribeRepo subRepo;
 	
 	private int adsCount;
+	
 	@Override
 	public AdsPost createAdsPost(MultipartFile img, int subUserId, String title) {
 			AdsPost ad = new AdsPost();
@@ -71,9 +72,10 @@ public class AdsPostService_Impl implements AdsPostService{
 			        throw new RuntimeException("Package not found for user ID: " + subUserId);
 			    } else {
 			    	int adsCount = pack.getAvailAds()-1;
+			    	packageRepo.updateAds(adsCount, subUserId);
+			    	
 			    	System.out.println("call UpdateAds method");
 			    	System.out.println("adsCount value : " + adsCount);
-				    packageRepo.updateAds(adsCount, subUserId);
 				    System.out.println("Successfully updated avail_ads in database!");
 			    }
 			    AdsPost adPost = adsRepo.save(ad);
