@@ -34,8 +34,8 @@
       }" :autoplay="{ delay: 2500, disableOnInteraction: true }" :navigation="true" :modules="modules" class="mySwiper"
         @swiper="onSwiperInit">
         <swiper-slide v-for="(ad, index) in ads" :key="index" @click="handleSlideClick(ad.title)" >
-          <v-img :src="ad.photo_url" class="card-img" style="cursor:pointer;" @mouseenter="stopAutoScroll"
-            @mouseleave="startAutoScroll" height="250px" width="400px" contain></v-img>
+          <v-img :src="ad.photo_url" class="mt-3 mb-3 card-img" style="cursor:pointer; border-radius: 8px;" @mouseenter="stopAutoScroll"
+            @mouseleave="startAutoScroll" ></v-img>
         </swiper-slide>
       </swiper>
     </div>
@@ -90,7 +90,7 @@ export default {
       }
     },
     handleSlideClick(ad) {
-      alert(ad);
+      console.log(ad);
       // Handle slide click action here
     },
     stopAutoScroll() {

@@ -36,7 +36,7 @@
                <div v-for="ad in ads" :key="ad.ads_post_id" class="col-md-3">
                    <div class="card-container">
                        <!-- TZH card styles -->
-                       <div class="card d-flex" style="height: 350px; width:fit-content;">
+                       <div class="card d-flex" style="height: 400px; width:fit-content;">
                           
                            <div class="cardImgBox mb-2" >
                                <img :src="ad.imageUrl" class="w-100 h-100" alt="Card image cap">

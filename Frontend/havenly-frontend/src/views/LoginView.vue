@@ -23,7 +23,7 @@
               </v-text-field>
 
 
-              <div class="mt-2 d-flex justify-content-between flex-wrap align-items-center">
+              <div class="mt-2 mb-2 d-flex justify-content-between flex-wrap align-items-center">
                 <p class="text-body-2 m-0">Don't have an account? <a href="/register">Register Now</a></p>
                 <a href="/forgot" class="text-body-2 font-weight-regular">Forgot Password?</a>
               </div>
@@ -31,7 +31,7 @@
               <v-col cols="auto">
 
               <div class="text-center mt-4">
-                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Register</button>
+                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Login</button>
               </div>
 
 

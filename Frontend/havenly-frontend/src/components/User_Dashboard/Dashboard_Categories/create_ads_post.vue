@@ -295,7 +295,6 @@ export default {
                       title.value = '';
                       image.value = null;
                       imagePreview.value = null;
-                      availAds.value--;
                       window.location.reload();
                       fetchAds();
                     });
