@@ -397,7 +397,7 @@ export default {
             // router.push('/PostsView')
             const afterEncrypt = this.encryptId(post_id);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
         },
 
         async fetchLocations() {
