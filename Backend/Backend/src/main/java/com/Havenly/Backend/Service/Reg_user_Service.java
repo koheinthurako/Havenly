@@ -24,5 +24,6 @@ public interface Reg_user_Service {
 	public String setPassword(String email, String newPassword);
 	String deleteByEmail(String email);
 	Reg_user getDataBySubId(int id);
+	public boolean isEmailExist(String email);
 
 }
