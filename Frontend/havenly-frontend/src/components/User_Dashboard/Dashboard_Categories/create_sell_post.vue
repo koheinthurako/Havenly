@@ -1,61 +1,66 @@
 <template>
     <div class="create-sell-post-section">
 
-        <!-- for desktop start -->
-        <div class="row">
-            <div class="col-md-7 col-sm-12" v-if="displayCreateView">
+        <v-container>
+            <!-- for desktop start -->
+            <div class="row">
+                <div class="col-md-7 col-sm-12 p-0 m-0" v-if="displayCreateView">
 
-                <!-- TZH Form -->
-                <div class="create-post">
-                    <div class="header mb-3 row">
-                        <div class=" left-edit  col-sm-12 col-md-6">
-                            <div class="specific-edit d-flex align-items-center">
-                                <v-icon class="me-2">mdi-information</v-icon>
-                                <p class="mt-3">Create Sell Post</p>
+                    <!-- TZH Form -->
+                    <div class="create-post">
+
+                        <div class="header mb-3 row">
+                            <div class=" left-edit  col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <v-icon class="me-2">mdi-information</v-icon>
+                                    <p class="mt-3">Create Sell Post</p>
+                                </div>
+                            </div>
+                            <div class=" right-edit col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <span>Available Posts : </span>
+                                    <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                                </div>
+                                <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay">show posts</v-btn>
                             </div>
                         </div>
-                        <div class=" right-edit col-sm-12 col-md-6">
-                            <div class="specific-edit d-flex align-items-center">
-                                <span>Available Posts : </span>
-                                <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
-                            </div>
-                            <v-btn rounded class="toggle-btn" @click="toggleDisplay">show posts</v-btn>
-                        </div>
-                    </div>
 
-                    <div class="body">
-                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-2 py-3">
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
+                        <div class="body">
+                            <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-2 py-3">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100" v-model="title.value.value" :counter="50"
+                                            :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                            placeholder="Title"></v-text-field>
+                                    </div>
                                 </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="title.value.value" :counter="50"
-                                        :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
-                                        placeholder="Title"></v-text-field>
-                                </div>
-                            </div>
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span>
-                                    </span>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12 py-0">
+                                        <span class="float-left mt-2 small">Description<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 py-0">
+                                        <v-textarea required bg-color="#EDEDED" class="w-100"
+                                            clear-icon="mdi-close-circle" clearable variant="solo" rounded="lg"
+                                            density="compact" v-model="Description.value.value"
+                                            :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                            :counter="10000" placeholder="Description"></v-textarea>
+                                    </div>
                                 </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
-                                        clearable variant="solo" rounded="lg" density="compact"
-                                        v-model="Description.value.value"
-                                        :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
-                                        :counter="10000" placeholder="Description"></v-textarea>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="p-0 row">
-                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedCountry"
-                                    :items="uniqueCountries" label="Select country" required></v-select>
-                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedProvince"
+                                <hr>
+                                <div class="p-0 row">
+
+
+                                    <!-- <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedCountry"
+                                    :items="uniqueCountries" label="Select country" required></v-select> -->
+
+                                    <!-- <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedProvince"
                                     :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province"
                                     required></v-select>
                                 <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedAmphoe"
@@ -63,179 +68,272 @@
                                     required></v-select>
                                 <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedRegion"
                                     :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region"
-                                    required></v-select>
-                            </div>
+                                    required></v-select> -->
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small"> Property Type </span>
+                                    <h5 class="d-block d-sm-none test-start color-brick">Select location</h5>
+                                    <select class="col-6 col-md-3 mb-3" v-model="selectedCountry"
+                                        aria-label=".form-select-sm example" required>
+                                        <option value="">Select country</option>
+                                        <option v-for="country in uniqueCountries" :key="country" :value="country">{{
+                                            country }}</option>
+                                    </select>
+
+                                    <select class="col-6 col-md-3 mb-3" v-model="selectedProvince"
+                                        :disabled="!selectedCountry" aria-label=".form-select-lg example" required>
+                                        <option value="">Select province</option>
+                                        <option v-for="province in uniqueProvinces" :key="province" :value="province">{{
+                                            province }}</option>
+                                    </select>
+
+                                    <select class="col-6 col-md-3 mb-3" v-model="selectedAmphoe"
+                                        :disabled="!selectedProvince" aria-label=".form-select-lg example" required>
+                                        <option value="">Select amphoe</option>
+                                        <option v-for="amphoe in uniqueAmphoes" :key="amphoe" :value="amphoe">{{ amphoe
+                                            }}
+                                        </option>
+                                    </select>
+
+                                    <select class="col-6 col-md-3 mb-3" v-model="selectedRegion"
+                                        :disabled="!selectedAmphoe" aria-label=".form-select-lg example" required>
+                                        <option value="">Select region</option>
+                                        <option v-for="region in uniqueRegions" :key="region" :value="region">{{ region
+                                            }}
+                                        </option>
+                                    </select>
+
                                 </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
-                                        clearable variant="solo" rounded="lg" density="compact"
-                                        v-model="propertyTypes.value.value" :items="PropertyTypes"
-                                        placeholder="Select property type"></v-select>
-                                </div>
-                            </div>
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
-                                        v-model="price.value.value" placeholder="price"></v-text-field>
-                                </div>
-                            </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small"> Property Type </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <!-- <v-select required bg-color="#EDEDED" class="w-100"
+                                            clear-icon="mdi-close-circle" clearable variant="solo" rounded="lg"
+                                            density="compact" v-model="propertyTypes.value.value" :items="PropertyTypes"
+                                            placeholder="Select property type"></v-select> -->
 
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Area</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
-                                        v-model="area.value.value" placeholder="Area"></v-text-field>
-                                </div>
-                            </div>
+                                        <!-- <select class="w-100 mb-3" v-model="propertyTypes.value.value"
+                                            aria-label=".form-select-lg example" required>
+                                            <option disabled value="">Select property type</option>
+                                            <option v-for="type in PropertyTypes" :key="type" :value="type">{{ type
+                                                }}
+                                            </option>
+                                        </select> -->
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
-                                    </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input required class="disableClearBtn" counter multiple
-                                        color="deep-purple-accent-4" chips truncate-length="15" v-model="combinedImages"
-                                        :rules="rules" accept="image/png, image/jpeg, image/bmp"
-                                        @change="showUploadPhoto" prepend-icon="mdi-camera"
-                                        show-input="false"></v-file-input>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
-                                    <v-card class="customImgBox">
-                                        <v-card-actions>
-                                            <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
-                                        </v-card-actions>
-                                        <v-img :src="photo.url" class="customImg" height="160px"></v-img>
-                                    </v-card>
-                                </div>
-                                <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
-                                    <button @click.prevent="triggerFileInput"
-                                        class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
-                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos"
-                                        style="display: none;">
-                                </div>
-                            </div>
-
-                            <div class="w-100 d-flex justify-content-end mb-3">
-                                <v-btn class="me-2" type="submit" rounded="xl" color="#E86F52">
-                                    submit
-                                </v-btn>
-
-                                <v-btn @click="handleReset" rounded="xl" color="#525252">
-                                    clear
-                                </v-btn>
-                            </div>
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-5 col-sm-12" v-if="displayApproveView">
-                <!-- Display post section start -->
-
-                <div class="display-post">
-
-                    <div class="header">
-                        <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Approved posts</p>
-                    </div>
-                    <div class="w-100 d-flex justify-content-right">
-                        <v-btn rounded class="toggle-btn ms-auto me-3" @click="toggleDisplay2">Create posts</v-btn>
-
-                    </div>
-                    <div class="body">
-
-                        <!-- post card start -->
-                        <div class="post-card bg-white" v-for="post in limitedPosts" :key="post">
-                            <div class="row">
-                                <div class="col-6 p-0 m-0 left-edit">
-
-                                    <div class="top-section">
-                                        <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
-                                        {{ post.status }}
+                                        <select class="w-100 mb-3" v-model="propertyTypes.value.value"
+                                            aria-label=".form-select-lg example" required>
+                                            <option label="select" disabled value="">Select property type</option>
+                                            <option v-for="type in PropertyTypes" :key="type" :value="type">{{ type }}
+                                            </option>
+                                        </select>
 
                                     </div>
+                                </div>
 
-                                    <v-img :src="post.photo_url[0]"></v-img>
-
-                                    <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <button class="w-50 btn btn-sm btn-outline-danger"
-                                            to="/detailview">View</button>
-                                        <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
                                     </div>
-
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100"
+                                            :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                            v-model="price.value.value" placeholder="price"></v-text-field>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <h6 class="my-3">{{ post.title }}</h6>
-                                    <p class="small col-10">{{ post.description }}</p>
-                                    <p class="card-text text-danger small mb-3 opacity-75 ">
-                                        <v-icon>mdi-map-marker-radius</v-icon>
-                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                    </p>
+
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Area</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100"
+                                            :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
+                                            v-model="area.value.value" placeholder="Area"></v-text-field>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- post card end -->
 
-                        <!-- post card for mobile start -->
-                        <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-3 col-sm-12 py-0">
+                                        <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 py-0">
+                                        <v-file-input required class="disableClearBtn" counter multiple
+                                            color="deep-purple-accent-4" chips truncate-length="15"
+                                            v-model="combinedImages" :rules="rules"
+                                            accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
+                                            prepend-icon="mdi-camera" show-input="false"></v-file-input>
+                                    </div>
+                                </div>
 
-                            <div class="header-image">
-                                <v-img :src="post.photo_url[0]" cover></v-img>
-                            </div>
-                            <div class="body-content py-3 px-3">
-                                <h4 class="mb-2 color-birck">{{ post.title }}</h4>
-                                <p class="small col-10">{{ post.description }}</p>
-                                <p class="text-danger small mb-3 opacity-75 ">
-                                    <v-icon>mdi-map-marker-radius</v-icon>
-                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                </p>
-                                <div class="d-flex justify-space-between align-items-center">
-                                    <p class="color-brick">Post status :</p>
-                                    <v-btn rounded variant="text" class="mb-3 status">
-                                        <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
-                                        {{ post.status }}
+                                <div class="row mt-3">
+                                    <div v-for="(photo, index) in photoList" :key="index"
+                                        class="col-md-4 col-sm-6 mb-3">
+                                        <v-card class="customImgBox">
+                                            <v-card-actions>
+                                                <v-icon @click="removeImage(index)"
+                                                    class="imgDeleteIcon">mdi-close</v-icon>
+                                            </v-card-actions>
+                                            <v-img :src="photo.url" class="customImg" height="160px"></v-img>
+                                        </v-card>
+                                    </div>
+                                    <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
+                                        <button @click.prevent="triggerFileInput"
+                                            class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                        <input type="file" ref="fileInput" multiple @change="addMorePhotos"
+                                            style="display: none;">
+                                    </div>
+                                </div>
 
+                                <div class="w-100 d-flex justify-content-end mb-3">
+                                    <v-btn class="me-2" type="submit" rounded="xl" color="#E86F52">
+                                        submit
+                                    </v-btn>
+
+                                    <v-btn @click="handleReset" rounded="xl" color="#525252">
+                                        clear
                                     </v-btn>
                                 </div>
-                                <div class="action-btns d-flex justify-space-between align-items-center">
-                                    <v-btn variant="outlined" @click="clickPost(post.id)">View</v-btn>
-                                    <v-btn>Edit</v-btn>
-                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-5 col-sm-12 p-0 m-0" v-if="displayApproveView">
+                    <!-- Display post section start -->
+
+                    <div class="display-post">
+
+                        <!-- <div class="header mb-3">
+                            <div class="upper d-flex justify-content-center align-items-center">
+                                <v-icon>mdi-information</v-icon>
+                                <p class="mt-3 ms-2">Approved Sell posts</p>
                             </div>
 
                         </div>
-                        <!-- post card for mobile end -->
+
+                        <div class="w-100 d-flex justify-content-right">
+                            <v-btn rounded class="toggle-btn ms-auto me-3 mb-2" @click="toggleDisplay2">Create
+                                posts</v-btn>
+                        </div> -->
+
+                        <div class="header mb-3 row">
+                            <div class=" left-edit col-sm-12 col-md-12">
+                                <div class="specific-edit d-flex align-items-center justify-content-center">
+                                    <v-icon class="me-1">mdi-information</v-icon>
+                                    <p class="mt-3">Approved posts</p>
+                                </div>
+                            </div>
+                            <div class=" right-edit col-sm-12 only-767">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <p class="p-0 m-0 me-2">Approved By</p>
+                                    <h5 class="color-brick m-0">Admin</h5>
+                                </div>
+                                <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay2">show posts</v-btn>
+                            </div>
+                        </div>
+
+
+                        <!-- check if available first -->
+                        <div class="body">
+                            <div v-if="limitedPosts && limitedPosts.length > 0">
+                                <!-- post card start -->
+                                <div class="post-card bg-white row" v-for="post in limitedPosts" :key="post">
+                                    <div class="row">
+                                        <div class="col-6 p-0 m-0 left-edit">
+
+                                            <div class="top-section">
+                                                <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                                {{ post.status }}
+
+                                            </div>
+
+                                            <v-img :src="post.photo_url[0]" cover></v-img>
+
+                                            <div class="btn-section d-flex justify-content-center gap-3 px-4">
+                                                <button class="w-50 btn btn-sm btn-outline-danger"
+                                                    to="/detailview">View</button>
+                                                <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <h6 class="my-3">{{ post.title }}</h6>
+                                            <p class="small col-10">{{ post.description }}</p>
+                                            <p class="card-text text-danger small mb-3 opacity-75 ">
+                                                <v-icon>mdi-map-marker-radius</v-icon>
+                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- post card end -->
+
+                                <!-- post card for mobile start -->
+                                <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
+
+                                    <div class="header-image">
+                                        <v-img :src="post.photo_url[0]" cover></v-img>
+                                    </div>
+                                    <div class="body-content py-3 px-3">
+                                        <h4 class="mb-2 color-birck">{{ post.title }}</h4>
+                                        <p class="small col-10">{{ post.description }}</p>
+                                        <p class="text-danger small mb-3 opacity-75 ">
+                                            <v-icon>mdi-map-marker-radius</v-icon>
+                                            {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                        </p>
+                                        <div class="d-flex justify-space-between align-items-center">
+                                            <p class="color-brick">Post status :</p>
+                                            <v-btn rounded variant="text" class="mb-3 status">
+                                                <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                                {{ post.status }}
+
+                                            </v-btn>
+                                        </div>
+                                        <div class="action-btns d-flex justify-space-between align-items-center">
+                                            <v-btn variant="outlined" @click="clickPost(post.id)">View</v-btn>
+                                            <v-btn>Edit</v-btn>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- post card for mobile end -->
+                            </div>
+
+                            <div v-else class="d-flex justify-content-center align-items-center">
+
+
+
+                                <v-progress-circular v-if="showLoading" indeterminate :size="80" color="#e86f52"
+                                    :width="7"></v-progress-circular>
+                                <v-alert v-if="!showLoading" text="Currently, there is no post available yet!"
+                                    title="Post status" type="info"></v-alert>
+
+                            </div>
+
+
+
+                        </div>
+
 
                     </div>
+
+                    <!-- Display post section end -->
+
                 </div>
-
-                <!-- Display post section end -->
-
             </div>
-        </div>
-        <!-- for Desktop end -->
+            <!-- for Desktop end -->
+        </v-container>
     </div>
 
 </template>
@@ -244,6 +342,11 @@
 export default {
     name: 'create_post',
     data: () => ({
+        tempItems: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+
+
+        showLoading: false,
+
 
         //specific view 
         displayCreateView: true,
@@ -388,8 +491,15 @@ export default {
                     console.log(this.selectedLocation);
                 }
             }
-        }
+        },
 
+        showLoading(newVal) {
+            if (newVal) {
+                setTimeout(() => {
+                    this.showLoading = false;
+                }, 2000); // 3 seconds
+            }
+        },
 
     },
 
@@ -406,6 +516,9 @@ export default {
 
         window.addEventListener('resize', this.updateView);
 
+        // fake loader 
+        this.showLoading = true;
+
     },
 
     beforeUnmount() {
@@ -413,6 +526,9 @@ export default {
     },
 
     methods: {
+        startLoading() {
+            this.showProgress = true;
+        },
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
             const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
@@ -931,5 +1047,45 @@ const submit = async () => {
 
 .disableClearBtn .v-field__clearable {
     display: none !important;
+}
+
+@media (min-width: 490px) and (max-width: 767px) {
+    .create-sell-post-section {
+        .create-post {
+            padding: 0px 26px !important;
+        }
+
+        .display-post {
+            padding: 0px 26px !important;
+
+            .body {
+
+
+                .post-card-mobile {
+                    width: 70% !important;
+                    margin: auto !important;
+                    border: 4px solid red;
+                }
+            }
+        }
+    }
+}
+
+/* edit post-card between*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .create-sell-post-section {
+        .display-post {
+            .body {
+                .post-card {}
+            }
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    .only-767 {
+        display: none !important;
+    }
 }
 </style>

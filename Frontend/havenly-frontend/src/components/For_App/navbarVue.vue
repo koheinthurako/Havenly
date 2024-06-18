@@ -25,7 +25,7 @@
         </button>
 
         <!-- navbar for mobile view start -->
-        <div :class="['navSidebar', { 'activeOne': isSidebarActive }]" class="d-block d-sm-none">
+        <div :class="['navSidebar', { 'activeOne': isSidebarActive }]">
           <ul class="style-two navbar-nav mx-auto">
             <h4 class="mt-2 ms-2" style="color: #e86f52;">Links</h4>
             <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
@@ -899,6 +899,15 @@ export default {
     width: 250px;
     height: 255px;
 
+  }
+}
+
+/* CSS for content B at min-width 992px */
+
+@media (min-width: 992px) {
+  .exceed-991-hide {
+    display: none;
+    /* Hide content A from 992px onwards */
   }
 }
 </style>

@@ -20,11 +20,11 @@
       </div>
       <swiper v-else :loop="posts.length > 1" :breakpoints="{
         '640': {
-          slidesPerView: 1,
+          slidesPerView: 2,
           spaceBetween: 20,
         },
         '768': {
-          slidesPerView: 4,
+          slidesPerView: 3,
           spaceBetween: 30,
         },
         '1024': {

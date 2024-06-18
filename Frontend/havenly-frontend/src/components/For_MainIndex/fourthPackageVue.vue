@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="fourth-package">
         <div class="container">
             <div class="fourth-package-data">
@@ -127,10 +127,206 @@
         </div>
 
     </div>
+</template> -->
+
+
+
+<template>
+    <div class="fourth-package2">
+        <div class="container ">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-12 mb-3">
+                    <div class="row">
+                        <div class="col-md-7 col-12 mb-3 card-container">
+
+
+                            <div class="ag-format-container">
+                                <div class="ag-courses_box">
+
+                                    <div class="ag-courses_item">
+                                        <a href="#" class="ag-courses-item_link">
+                                            <div class="ag-courses-item_bg"></div>
+
+                                            <div class="bq-container">
+                                                <blockquote>
+                                                    <span class="ms-5 f-sm">
+                                                        {{ truncateText(`Your website packages are top-notch! They
+                                                        strike
+                                                        the perfect
+                                                        balance
+                                                        between style and functionality, catering to a variety of needs.
+                                                        It's
+                                                        impressive. Great job!`, 120) }}
+                                                    </span>
+                                                    <footer>
+                                                        <cite>
+                                                            U Mya
+                                                        </cite>
+                                                    </footer>
+                                                </blockquote>
+                                            </div>
+
+                                            <div class="ag-courses-item_date-box">
+                                                Date:
+                                                <span class="ag-courses-item_date">
+                                                    04.11.2022
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
+                            <div class="card card-two w-100 h-auto p-2">
+
+                                <div class="card-two-edit">
+                                    <div class="card-body-1">
+                                        <div class="d-flex">
+                                            <v-icon class="mt-1 me-2">mdi-shield-check</v-icon>
+                                            <h3>Security</h3>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="card-body-2">
+                                        <h5>hello world</h5>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
+                            <div class="card h-auto p-2">
+
+                                <div class="card-two-edit">
+                                    <div class="card-body-1 w-100">
+
+                                        <div style="text-align: center;">
+                                            <v-rating :model-value="4.8" color="#e86f52" density="compact" size="medium"
+                                                half-increments readonly class="mx-auto"></v-rating>
+
+                                            <div class="text-grey">
+                                                4.8 of (100+)
+                                            </div>
+                                            <h5>Over all Ranking</h5>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="card-body-2 w-100">
+
+                                        <div style="text-align: center;">
+                                            <v-rating v-model="rate_Value" color="#e86f52" density="compact"
+                                                size="medium" half-increments class="mx-auto"></v-rating>
+
+                                            <div class="d-flex">
+                                                <div class="color-brick m-auto">
+                                                    {{ rate_Value }}
+                                                </div>
+                                                <v-icon v-if="rate_Value > 0" class="edit-btn">mdi-check</v-icon>
+                                            </div>
+                                            <h5>Give a Rating!</h5>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-12 mb-3 card-container">
+                            <!-- <div class="card card-four">
+                      <div class="card-body h-100">
+                        <h5 class="card-title">Card 4</h5>
+                        <p class="card-text">This is some text within card 4.</p>
+                        <p class="card-text">Additional content for Card 4.</p>
+                      </div>
+                    </div> -->
+
+                            <div class="ag-format-container">
+                                <div class="ag-courses_box">
+
+                                    <div class="ag-courses_item">
+                                        <a href="#" class="ag-courses-item_link">
+                                            <div class="ag-courses-item_bg-2"></div>
+
+                                            <!-- <div class="ag-courses-item_title">
+                              UX/UI Web-Design&#160;+ Mobile Design
+                            </div> -->
+
+                                            <div class="bq-container">
+                                                <blockquote>
+                                                    <span class="ms-5 f-sm">
+
+                                                        {{ truncateText(`Your website packages are top-notch! They
+                                                        strike
+                                                        the perfect
+                                                        balance
+                                                        between style and functionality, catering to a variety of needs.
+                                                        It's
+                                                        impressive. Great job!`, 100) }}
+
+                                                    </span>
+                                                    <footer>
+                                                        <cite>
+                                                            Daw Hla
+                                                        </cite>
+                                                    </footer>
+                                                </blockquote>
+                                            </div>
+
+                                            <div class="ag-courses-item_date-box">
+                                                Date:
+                                                <span class="ag-courses-item_date">
+                                                    04.11.2022
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="card h-100 p-3 " style="border: none;">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <div>
+                                <h2 class="card-title color-brick">Some valuable feedback from our Subscribers</h2>
+                                <p class="card-text">
+
+
+                                    <span class="ms-5">
+                                        Unlock the potential of your real estate business with our packages. We offer
+                                        everything you need to
+                                        stand out in the real estate world. Become a subscriber and build your home with
+                                        us. If you subscribe
+                                        you will get 5 posts as FREE TRIAL. So what are you waiting for. Let't Join with
+                                        us today.
+                                    </span>
+
+                                </p>
+                                <div class="card-action">
+                                    <v-btn :elevation="10" to="/subscribe" class="custom-btn">Subscribe now<v-icon
+                                            class="custom-icon mt-1">mdi-chevron-double-right</v-icon> </v-btn>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
-
-
-
 
 
 <script>
@@ -139,9 +335,19 @@ export default {
     name: 'fourthPackage',
 
     data: () => ({
+        rate_Value: 0,
         img: require('@/assets/img/ava1.jpg'),
         img2: require('@/assets/img/ava2.jpg'),
         img3: require('@/assets/img/ava3.jpg'),
     }),
+
+    methods: {
+        truncateText(text, charLimit) {
+            if (text.length > charLimit) {
+                return text.slice(0, charLimit) + '...';
+            }
+            return text;
+        },
+    },
 }
 </script>

@@ -1,229 +1,327 @@
 <template>
-    <div class="create-sell-post-section px-4">
-        <div class="row">
-            <div class="col-md-7 p-0 col-sm-12">
+    <div class="create-sell-post-section">
+        <v-container>
+            <div class="row">
+                <div class="col-md-7 p-0 col-sm-12" v-if="displayCreateView">
 
-                <!-- TZH Form -->
-                <div class="create-post">
-                    <div class="header mb-3 d-flex justify-content-between px-5">
-                        <div class="d-flex align-items-center">
+                    <!-- TZH Form -->
+                    <div class="create-post">
+
+                        <!-- <div class="header mb-3 row">
+                            <div class=" left-edit  col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <v-icon class="me-2">mdi-information</v-icon>
+                                    <p class="mt-3">Create Rent Post</p>
+                                </div>
+                            </div>
+                            <div class=" right-edit col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <span>Available Posts : </span>
+                                    <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                                </div>
+                                <v-btn rounded class="toggle-btn" @click="toggleDisplay">show posts</v-btn>
+                            </div>
+                        </div> -->
+
+                        <div class="header mb-3 row">
+                            <div class=" left-edit  col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <v-icon class="me-2">mdi-information</v-icon>
+                                    <p class="mt-3">Create Rent Post</p>
+                                </div>
+                            </div>
+                            <div class=" right-edit col-sm-12 col-md-6">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <span>Available Posts : </span>
+                                    <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                                </div>
+                                <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay">show posts</v-btn>
+                            </div>
+                        </div>
+
+                        <div class="body">
+                            <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-2 py-3">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100" v-model="title.value.value" :counter="50"
+                                            :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                            placeholder="Title"></v-text-field>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12 py-0">
+                                        <span class="float-left mt-2 small">Description<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 py-0">
+                                        <v-textarea required bg-color="#EDEDED" class="w-100"
+                                            clear-icon="mdi-close-circle" clearable variant="solo" rounded="lg"
+                                            density="compact" v-model="Description.value.value"
+                                            :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                            :counter="10000" placeholder="Description"></v-textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="p-0 row-1 d-flex">
+                                    <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries"
+                                        label="Select country" required></v-select>
+                                    <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces"
+                                        :disabled="!selectedCountry" label="Select province" required></v-select>
+                                    <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes"
+                                        :disabled="!selectedProvince" label="Select amphoe" required></v-select>
+                                    <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
+                                        :disabled="!selectedAmphoe" label="Select region" required></v-select>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small"> Property Type </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-select required bg-color="#EDEDED" class="w-100"
+                                            clear-icon="mdi-close-circle" clearable variant="solo" rounded="lg"
+                                            density="compact" v-model="propertyTypes.value.value" :items="PropertyTypes"
+                                            placeholder="Select property type"></v-select>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100"
+                                            :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                            v-model="price.value.value" placeholder="price"></v-text-field>
+                                    </div>
+                                </div>
+
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Area</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100"
+                                            :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
+                                            v-model="area.value.value" placeholder="Area"></v-text-field>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Deposit</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                            density="compact" rounded="lg" clear-icon="mdi-close-circle" clearable
+                                            class="w-100"
+                                            :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
+                                            v-model="deposit.value.value" placeholder="Deposit"></v-text-field>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-2 col-sm-12">
+                                        <span class="float-left mt-2 small">Least Contract</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12">
+                                        <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                            rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
+                                            :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
+                                            v-model="least_contract.value.value"
+                                            placeholder="Least Contract"></v-text-field>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-md-3 col-sm-12 py-0">
+                                        <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 py-0">
+                                        <v-file-input required class="disableClearBtn" counter multiple
+                                            color="deep-purple-accent-4" chips truncate-length="15"
+                                            v-model="combinedImages" :rules="rules"
+                                            accept="image/png, image/jpeg, image/bmp" @change="showUploadPhoto"
+                                            prepend-icon="mdi-camera" show-input="false"></v-file-input>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div v-for="(photo, index) in photoList" :key="index"
+                                        class="col-md-4 col-sm-6 mb-3">
+                                        <v-card class="customImgBox">
+                                            <v-card-actions>
+                                                <v-icon @click="removeImage(index)"
+                                                    class="imgDeleteIcon">mdi-close</v-icon>
+                                            </v-card-actions>
+                                            <v-img :src="photo.url" class="customImg" height="160px"></v-img>
+                                        </v-card>
+                                    </div>
+                                    <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
+                                        <button @click.prevent="triggerFileInput"
+                                            class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                        <input type="file" ref="fileInput" multiple @change="addMorePhotos"
+                                            style="display: none;">
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-flex mt-3 justify-content-end">
+                                    <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
+                                        submit
+                                    </v-btn>
+
+                                    <v-btn @click="handleReset" rounded="xl" color="#525252">
+                                        clear
+                                    </v-btn>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-5 col-sm-12 p-0 col-sm-12" v-if="displayApproveView">
+                    <!-- Display post section start -->
+
+                    <div class="display-post">
+
+                        <!-- <div class="header mb-3">
                             <v-icon>mdi-information</v-icon>
-                            <p class="mt-3 ms-2">Create Rent Post</p>
+                            <p class="mt-3 ms-2">Approved Rent posts</p>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <span>Available Posts : </span>
-                            <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
+                        <div class="w-100 d-flex justify-content-right">
+                            <v-btn rounded class="toggle-btn ms-auto me-3" @click="toggleDisplay2">Create posts</v-btn>
+                        </div> -->
+
+                        <div class="header mb-3 row">
+                            <div class=" left-edit col-sm-12 col-md-12">
+                                <div class="specific-edit d-flex align-items-center justify-content-center">
+                                    <v-icon class="me-1">mdi-information</v-icon>
+                                    <p class="mt-3">Approved posts</p>
+                                </div>
+                            </div>
+                            <div class=" right-edit col-sm-12 only-767">
+                                <div class="specific-edit d-flex align-items-center">
+                                    <p class="p-0 m-0 me-2">Approved By</p>
+                                    <h5 class="color-brick m-0">Admin</h5>
+                                </div>
+                                <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay2">show posts</v-btn>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="body">
-                        <form @submit.prevent="submit" enctype="multipart/form-data" class="w-100 px-4 py-3">
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Title <span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        v-model="title.value.value" :counter="50"
-                                        :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
-                                        placeholder="Title"></v-text-field>
-                                </div>
-                            </div>
+                        <div class="body">
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Description<span class="text-red">*</span>
-                                    </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-textarea required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
-                                        clearable variant="solo" rounded="lg" density="compact"
-                                        v-model="Description.value.value"
-                                        :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
-                                        :counter="10000" placeholder="Description"></v-textarea>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="p-0 row-1 d-flex">
-                                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries"
-                                    label="Select country" required></v-select>
-                                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces"
-                                    :disabled="!selectedCountry" label="Select province" required></v-select>
-                                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes"
-                                    :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions"
-                                    :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                            </div>
+                            <div v-if="limitedPosts && limitedPosts.length > 0">
+                                <!-- post card start -->
+                                <div class="post-card bg-white" v-for="post in limitedPosts" :key="post">
+                                    <div class="row">
+                                        <div class="col-6 p-0 m-0 left-edit">
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small"> Property Type </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-select required bg-color="#EDEDED" class="w-100" clear-icon="mdi-close-circle"
-                                        clearable variant="solo" rounded="lg" density="compact"
-                                        v-model="propertyTypes.value.value" :items="PropertyTypes"
-                                        placeholder="Select property type"></v-select>
-                                </div>
-                            </div>
+                                            <div class="top-section">
+                                                <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                                {{ post.status }}
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Price<span class="text-red">*</span></span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
-                                        v-model="price.value.value" placeholder="price"></v-text-field>
-                                </div>
-                            </div>
+                                            </div>
 
+                                            <v-img :src="post.photo_url[0]" cover></v-img>
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Area</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
-                                        v-model="area.value.value" placeholder="Area"></v-text-field>
-                                </div>
-                            </div>
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Deposit</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
-                                        v-model="deposit.value.value" placeholder="Deposit"></v-text-field>
-                                </div>
-                            </div>
-                            <div class="row justify-content-between">
-                                <div class="col-md-2 col-sm-12">
-                                    <span class="float-left mt-2 small">Least Contract</span>
-                                </div>
-                                <div class="col-md-9 col-sm-12">
-                                    <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
-                                        rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
-                                        :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
-                                        v-model="least_contract.value.value"
-                                        placeholder="Least Contract"></v-text-field>
-                                </div>
-                            </div>
+                                            <div class="btn-section d-flex justify-content-center gap-3 px-4">
+                                                <button class="w-50 btn btn-sm btn-outline-danger"
+                                                    to="/detailview">View</button>
+                                                <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                            </div>
 
-                            <div class="row justify-content-between">
-                                <div class="col-md-3 col-sm-12 py-0">
-                                    <span class="float-left mt-2 small">Choose Image<span class="text-red">*</span>
-                                    </span>
-                                </div>
-                                <div class="col-md-9 col-sm-12 py-0">
-                                    <v-file-input required class="disableClearBtn" counter multiple
-                                        color="deep-purple-accent-4" chips truncate-length="15" v-model="combinedImages"
-                                        :rules="rules" accept="image/png, image/jpeg, image/bmp"
-                                        @change="showUploadPhoto" prepend-icon="mdi-camera"
-                                        show-input="false"></v-file-input>
-                                </div>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div v-for="(photo, index) in photoList" :key="index" class="col-md-4 col-sm-6 mb-3">
-                                    <v-card class="customImgBox">
-                                        <v-card-actions>
-                                            <v-icon @click="removeImage(index)" class="imgDeleteIcon">mdi-close</v-icon>
-                                        </v-card-actions>
-                                        <v-img :src="photo.url" class="customImg" height="160px"></v-img>
-                                    </v-card>
-                                </div>
-                                <div v-if="combinedImages.length > 0" class="col-md-4 col-sm-6 mb-3">
-                                    <button @click.prevent="triggerFileInput"
-                                        class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
-                                    <input type="file" ref="fileInput" multiple @change="addMorePhotos"
-                                        style="display: none;">
-                                </div>
-                            </div>
-
-                            <div class="w-100 d-flex mt-3 justify-content-end">
-                                <v-btn class="me-4" type="submit" rounded="xl" color="#E86F52">
-                                    submit
-                                </v-btn>
-
-                                <v-btn @click="handleReset" rounded="xl" color="#525252">
-                                    clear
-                                </v-btn>
-                            </div>
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-5 p-0 col-sm-12">
-                <!-- Display post section start -->
-
-                <div class="display-post">
-
-                    <div class="header mb-3">
-                        <v-icon>mdi-information</v-icon>
-                        <p class="mt-3 ms-2">Recently approved rent posts by admin team.</p>
-                    </div>
-
-                    <div class="body">
-
-                        <!-- post card start -->
-                        <div class="post-card bg-white" v-for="post in limitedPosts" :key="post">
-                            <div class="row">
-                                <div class="col-6 left-edit">
-
-                                    <div class="top-section">
-                                        <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
-                                        {{ post.status }}
-
-                                    </div>
-
-                                    <v-img :src="post.photo_url[0]" cover></v-img>
-
-                                    <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <button class="w-50 btn btn-sm btn-outline-danger"
-                                            to="/detailview">View</button>
-                                        <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <h6 class="my-3">{{ post.title }}</h6>
+                                            <p class="small col-10">{{ post.description }}</p>
+                                            <p class="card-text text-danger small mb-3 opacity-75 ">
+                                                <v-icon>mdi-map-marker-radius</v-icon>
+                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                            </p>
+                                        </div>
                                     </div>
 
                                 </div>
-                                <div class="col-6">
-                                    <h6 class="my-3">{{ post.title }}</h6>
-                                    <p class="small col-10">{{ post.description }}</p>
-                                    <p class="card-text text-danger small mb-3 opacity-75 ">
-                                        <v-icon>mdi-map-marker-radius</v-icon>
-                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                    </p>
+                                <!-- post card end -->
+                                <!-- post card for mobile start -->
+                                <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
+
+                                    <div class="header-image">
+                                        <v-img :src="post.photo_url[0]" cover></v-img>
+                                    </div>
+                                    <div class="body-content py-3 px-3">
+                                        <h4 class="mb-2 color-birck">{{ post.title }}</h4>
+                                        <p class="small col-10">{{ post.description }}</p>
+                                        <p class="text-danger small mb-3 opacity-75 ">
+                                            <v-icon>mdi-map-marker-radius</v-icon>
+                                            {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                        </p>
+                                        <div class="d-flex justify-space-between align-items-center">
+                                            <p class="color-brick">Post status :</p>
+                                            <v-btn rounded variant="text" class="mb-3 status">
+                                                <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                                {{ post.status }}
+
+                                            </v-btn>
+                                        </div>
+                                        <div class="action-btns d-flex justify-space-between align-items-center">
+                                            <v-btn variant="outlined" @click="clickPost(post.id)">View</v-btn>
+                                            <v-btn>Edit</v-btn>
+                                        </div>
+                                    </div>
+
                                 </div>
+                                <!-- post card for mobile end -->
+                            </div>
+                            <div v-else class="d-flex justify-content-center align-items-center">
+
+
+
+                                <v-progress-circular v-if="showLoading" indeterminate :size="80" color="#e86f52"
+                                    :width="7"></v-progress-circular>
+                                <v-alert v-if="!showLoading" text="Currently, there is no post available yet!"
+                                    title="Post status" type="info"></v-alert>
+
                             </div>
 
+
                         </div>
-                        <!-- post card end -->
-
                     </div>
+
+                    <!-- Display post section end -->
+
                 </div>
-
-                <!-- Display post section end -->
-
             </div>
-        </div>
+        </v-container>
     </div>
 
 </template>
 
 <script>
+import AES from 'crypto-js/aes'
 export default {
     name: 'create_post',
     data: () => ({
+        showLoading: false,
+
+        //specific view 
+        displayCreateView: true,
+        displayApproveView: window.innerWidth >= 768,
+        progressCircular: false,
+
         location_id: '',
         title: '',
         description: '',
@@ -328,7 +426,15 @@ export default {
                     console.log(this.selectedLocation);
                 }
             }
-        }
+        },
+
+        showLoading(newVal) {
+            if (newVal) {
+                setTimeout(() => {
+                    this.showLoading = false;
+                }, 2000); // 3 seconds
+            }
+        },
     },
 
     mounted() {
@@ -340,9 +446,42 @@ export default {
         }
         this.fetchSubUserInfo();
         this.fetchAllRentPosts();
+
+        //fake loader 
+        this.showLoading = true;
     },
 
     methods: {
+
+        startLoading() {
+            this.showProgress = true;
+        },
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        clickPost(data) {
+            const afterEncrypt = this.encryptId(data);
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
+
+        },
+
+        toggleDisplay() {
+            this.displayCreateView = false;
+            this.displayApproveView = true;
+        },
+
+        toggleDisplay2() {
+            this.displayCreateView = true;
+            this.displayApproveView = false;
+        },
+
+        updateView() {
+            this.displayCreateView = true;
+            this.displayApproveView = window.innerWidth >= 768;
+        },
 
         handleReset() {
             Swal.fire({
@@ -665,178 +804,11 @@ const submit = async () => {
 
 </script>
 
-<style>
-.create-post-section {
-    width: 100%;
-    height: auto;
 
-    /* Create post */
-    .create-post {
-        overflow: hidden;
-        width: 100%;
-        height: auto;
-        padding: 8px 12px !important;
-
-        background-color: #fff;
-
-        .form-header {
-            background-color: #D9EDF7;
-            padding: 1px 0px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .form-body {
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
-
-        }
+<style lang="scss" scoped>
+@media (min-width: 767px) {
+    .only-767 {
+        display: none !important;
     }
-
-    /* Display post */
-    .display-post-section {
-        /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
-        background-color: #d3d3d3;
-        width: 100%;
-        height: 100%;
-        padding: 6px 16px;
-        border-radius: 10px;
-
-        /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
-
-        .display-post {
-            width: 100%;
-            max-height: 220px !important;
-            overflow: hidden;
-            background-color: #D9EDF7;
-            box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
-            margin-bottom: 14px;
-            border-radius: 4px;
-            animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
-
-            .display-left {
-                position: relative;
-
-                .overlay {
-                    width: 100%;
-                    height: 24%;
-                    left: 0;
-                    bottom: 74px;
-                    position: absolute;
-                    background-color: rgba(255, 255, 255, 0.8);
-                    backdrop-filter: blur(40px);
-                    z-index: 1;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    opacity: 0;
-                    transform: translateY(200px);
-                    border-bottom-left-radius: 4px;
-                    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
-
-                    .v-btn {
-                        text-transform: capitalize;
-                    }
-                }
-            }
-
-            .display-right {
-                padding: 10px 20px;
-                background-color: rgba(255, 255, 255, 0.7);
-                backdrop-filter: blur(30px);
-                -webkit-backdrop-filter: blur(30px);
-                position: relative;
-
-                h5 {
-                    color: #E86F52;
-                }
-
-                p {
-                    text-indent: 30px;
-                }
-
-            }
-
-
-        }
-
-        .display-post:hover .overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-    }
-
-}
-
-@keyframes aniOne {
-    0% {
-        animation-timing-function: ease-in;
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    38% {
-        animation-timing-function: ease-out;
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    55% {
-        animation-timing-function: ease-in;
-        transform: scale(0.7);
-    }
-
-    72% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
-    }
-
-    81% {
-        animation-timing-function: ease-in;
-        transform: scale(0.84);
-    }
-
-    89% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
-    }
-
-    95% {
-        animation-timing-function: ease-in;
-        transform: scale(0.95);
-    }
-
-    100% {
-        animation-timing-function: ease-out;
-        transform: scale(1);
-    }
-}
-
-.customImgBox {
-
-
-    .v-card-actions {
-        color: red;
-        position: absolute;
-        z-index: 1000;
-        background-color: #fff;
-        opacity: 0.95;
-        right: 0;
-        border-radius: 0 0 0 10px;
-    }
-
-    .customImg>img {
-        object-fit: cover !important;
-    }
-
-}
-
-.disableClearBtn .v-field__clearable {
-    display: none !important;
 }
 </style>

@@ -3,77 +3,89 @@
         <v-container>
             <main>
                 <div>
-                    <div class="row p-0 m-0 ">
-                        <div class="col-md-8 col-sm-12">
-                            <h1 class="header mb-3">Your uploaded posts.</h1>
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <h4 class="text-start fw-none color-brick">Filter posts</h4>
-                            <v-radio-group v-model="radioFlip" inline>
-                                <v-radio label="All" value="allpost"></v-radio>
-                                <v-spacer></v-spacer>
-                                <v-radio label="Approve" value="Approve"></v-radio>
-                                <v-spacer></v-spacer>
-                                <v-radio label="Pending" value="pending"></v-radio>
-                            </v-radio-group>
-                        </div>
+                    <div class="header-edit ">
+                        <div class="row p-0 m-0 ">
+                            <div class="col-md-7 col-sm-12 d-flex align-items-center">
 
+
+                                <div class="header d-flex"><v-icon class="me-2">mdi-check-circle</v-icon>
+                                    <h4>Your uploaded posts.</h4>
+                                </div>
+
+                            </div>
+                            <div class="col-md-5 col-sm-12">
+                                <div class=" d-flex"><v-icon class="me-1 mt-1">mdi-filter</v-icon>
+                                    <h4>filter posts.</h4>
+                                </div>
+                                <v-radio-group hide-details v-model="radioFlip" inline>
+                                    <v-radio color="red" label="All" value="allpost"></v-radio>
+                                    <v-spacer></v-spacer>
+                                    <v-radio color="red" label="Approved" value="complete"></v-radio>
+                                    <v-spacer></v-spacer>
+                                    <v-radio color="red" label="Pending" value="pending"></v-radio>
+                                </v-radio-group>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div v-if="loading">
-                        <v-row class="g-1 mt-4 ">
-                            <v-col cols="12" md="3">
+                        <v-row class="g-1 mt-2">
+                            <v-col cols="12" md="4" sm="9" lg="3">
                                 <v-skeleton-loader class="mx-auto" elevation="2"
                                     type="card-avatar, article, actions"></v-skeleton-loader>
                             </v-col>
 
-                            <v-col cols="12" md="3" class="d-none d-sm-block">
+                            <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
                                 <v-skeleton-loader class="mx-auto" elevation="2"
                                     type="card-avatar, article, actions"></v-skeleton-loader>
                             </v-col>
 
-                            <v-col cols="12" md="3" class="d-none d-sm-block">
+                            <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
                                 <v-skeleton-loader class="mx-auto" elevation="2"
                                     type="card-avatar, article, actions"></v-skeleton-loader>
                             </v-col>
-
-                            <v-col cols="12" md="3" class="d-none d-sm-block">
-                                <v-skeleton-loader class="mx-auto" elevation="2"
-                                    type="card-avatar, article, actions"></v-skeleton-loader>
-                            </v-col>
-
                         </v-row>
                     </div>
                     <div v-else-if="displayError">{{ displayError }}</div>
                     <div v-else>
                         <div v-if="posts.length > 0">
                             <!-- display posts start -->
-                            <div class="row mb-5 g-3">
-                                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
+                            <div class="row mt-2 mb-5">
+                                <div v-for="post in filteredPosts" :key="post.post_id"
+                                    class="col-md-4 col-lg-3 col-sm-6 mb-4">
                                     <div class="card-container">
                                         <!-- TZH card styles -->
                                         <div class="card cursor-pointer" style="height: 460px;">
-                                            <div class="cardImgBox mb-2">
-                                                <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
+                                            <div class="cardImgBox mb-1">
+                                                <!-- <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap"> -->
+                                                <v-img :src="post.photo_url[0]" cover></v-img>
                                             </div>
                                             <div class="card-body p-3 " @click="clickPost(post.post_id, post.status)">
-                                                <div class="d-flex gap-1">
+                                                <div class="shape-edit d-flex gap-1">
                                                     <div class="mb-2">
                                                         <span
-                                                            class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                            :class="getStatusClass(post.post_type)">{{ post.post_type
+                                                            class="px-2 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.post_type)"
+                                                            style="font-size: 0.8rem; padding: 0.25em 0.5em;">{{
+                                                                post.post_type
                                                             }}</span>
                                                     </div>
                                                     <div class="mb-2">
                                                         <span
-                                                            class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                            :class="getStatusClass(post.status)">{{ post.status
+                                                            class="px-2 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.status)"
+                                                            style="font-size: 0.8rem; padding: 0.25em 0.5em;">{{
+                                                                post.status
                                                             }}</span>
                                                     </div>
                                                 </div>
-                                                <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
-                                                <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
-                                                <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
+                                                <h5 class="card-title text-start mb-2 color-brick">{{ post.shortTitle }}
+                                                </h5>
+                                                <p class="card-text text-start small opacity-75">{{
+                                                    post.shortDescription }}</p>
+                                                <p
+                                                    class="card-text text-start text-danger small mb-auto opacity-75 mb-auto">
                                                     <v-icon>mdi-map-marker-radius</v-icon>
                                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
                                                 </p>
@@ -362,6 +374,16 @@ export default {
     }),
 
     computed: {
+
+        filteredPosts() {
+            let filtered = this.posts;
+            if (this.radioFlip === 'complete') {
+                filtered = this.posts.filter(post => post.status === this.radioFlip);
+            } else if (this.radioFlip === 'pending') {
+                filtered = this.posts.filter(post => post.status === this.radioFlip);
+            }
+            return filtered;
+        },
 
         totalPhotos() {
             return (this.currentPost.photo_url ? this.currentPost.photo_url.length : 0) + this.additionalPhotos.length;
@@ -1014,5 +1036,27 @@ body.modal-open {
 .modal {
     display: flex;
     align-items: center;
+}
+
+@media only screen and (max-width: 575px) {
+    .uploaded-all-posts {
+        .card-container {
+            .card {
+                width: 70% !important;
+                margin: auto;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 431px) {
+    .uploaded-all-posts {
+        .card-container {
+            .card {
+                width: 100% !important;
+                margin: auto;
+            }
+        }
+    }
 }
 </style>

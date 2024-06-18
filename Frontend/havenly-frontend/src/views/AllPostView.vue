@@ -14,17 +14,17 @@
 
                         <div v-if="loading">
                             <v-row class="g-1 mb-3">
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
 
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
 
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
@@ -34,8 +34,8 @@
                         </div>
                         <div v-else>
                             <div class="row mb-3 g-3">
-                                <div v-for="post in paginatedItems" :key="post.post_id" class="display-post col-md-4"
-                                    @click="clickPost(post.post_id)">
+                                <div v-for="post in paginatedItems" :key="post.post_id"
+                                    class="display-post col-md-4 col-lg-3 col-sm-12" @click="clickPost(post.post_id)">
                                     <div>
                                         <!-- TZH card styles -->
                                         <div class="card-container" style="height: 400px;">
@@ -62,9 +62,9 @@
                                             <div class="card-body px-3 py-2 d-flex flex-column">
                                                 <h5 class="card-title mb-2">{{ truncateText(post.title, 30) }}</h5>
                                                 <p class="card-text small opacity-75" style="text-indent: 30px;">{{
-                                                    truncateText(post.description, 80) }}
+                                                    truncateText(post.description, 60) }}
                                                 </p>
-                                                <div class="d-flex mb-3 justify-content-between">
+                                                <div class="d-flex mb-2 justify-content-between">
                                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{
                                                         post.deposit
                                                     }}</span>

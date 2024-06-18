@@ -1,6 +1,6 @@
 <template>
     <div class="footer-vue">
-        <p class="text-center">&copy; Copyright 2024. All right reserved by <span>Havenly</span></p>
+        <p class="p-0 m-0">&copy; Copyright 2024. All right reserved by <span>Havenly</span></p>
     </div>
 </template>
 

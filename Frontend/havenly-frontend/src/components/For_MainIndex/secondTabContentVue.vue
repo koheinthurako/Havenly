@@ -7,12 +7,12 @@
                     <h3>Welcome to Havenly</h3>
                 </div> -->
 
-                <div class="d-none d-md-block button-bar mb-2 py-4">
+                <div class="in-smaller button-bar mb-2 py-4">
                     <div>
                         <v-btn size="large"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
-                            :elevation="10" :key="index" style="text-transform:capitalize;"
-                            class="tab-carousel-button w-25" @click="openTab(visibleStartIndex + index)"
+                            :elevation="10" :key="index" style="text-transform:capitalize;" class="tab-carousel-button "
+                            @click="openTab(visibleStartIndex + index)"
                             :class="{ 'tablinks': true, 'active-btn': activeTab === visibleStartIndex + index }">
                             {{ button }}
                         </v-btn>
@@ -20,7 +20,7 @@
                 </div>
 
 
-                <div class="d-block d-sm-none mb-2 w-100 button-bar">
+                <!-- <div class="in-smaller mb-2 w-100 button-bar">
                     <div>
                         <v-btn size="small"
                             v-for="(button, index) in buttons.slice(visibleStartIndex, visibleStartIndex + visibleButtons)"
@@ -30,7 +30,7 @@
                             {{ button }}
                         </v-btn>
                     </div>
-                </div>
+                </div> -->
 
 
             </div>
@@ -90,7 +90,7 @@ export default {
 
         window.addEventListener('beforeunload', this.saveScrollPosition);
         this.restoreScrollPosition();
-        
+
     },
 
 

@@ -53,7 +53,7 @@
 
                 <div class="row mb-2 g-3" v-if="displayedPosts && displayedPosts.length !== 0">
 
-                    <div v-for="post in displayedPosts" :key="post.post_id" class="d-none d-sm-block col-md-3 col-sm-12"
+                    <div v-for="post in displayedPosts" :key="post.post_id" class="only-768 col-md-4 col-lg-3 col-sm-12"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <!-- TZH card styles -->
@@ -94,20 +94,20 @@
                     </div>
 
                     <!-- for mobile view start -->
-                    <swiper :loop="posts.length > 1" :breakpoints="{
+                    <swiper :breakpoints="{
                         '640': {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                             spaceBetween: 20,
                         },
                         '768': {
-                            slidesPerView: 4,
+                            slidesPerView: 3,
                             spaceBetween: 30,
                         },
                         '1024': {
                             slidesPerView: 4,
                             spaceBetween: 30,
                         },
-                    }" :navigation="true" :modules="modules" class="mySwiper d-block d-sm-none" @swiper="onSwiperInit">
+                    }" :navigation="true" :modules="modules" class="mySwiper above-768" @swiper="onSwiperInit">
                         <swiper-slide v-for="(post, index) in displayedPosts" :key="index"
                             @click="clickPost(post.post_id)">
                             <div class="card-container">
@@ -231,12 +231,25 @@ export default {
         },
 
         displayedPosts() {
+            // Determine the number of posts to show based on screen size
+            const isMobileView = window.innerWidth <= 768; // Assuming 768px as the breakpoint for mobile view
+            const limit = isMobileView ? 6 : 8;
+
             // Filter posts based on the selected type
             const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
 
-            // Return only the first four filtered posts
-            return filteredPosts.slice(0, 8);
-        },
+            // Return the filtered posts based on the determined limit
+            return filteredPosts.slice(0, limit);
+        }
+
+
+        // displayedPosts() {
+        //     // Filter posts based on the selected type
+        //     const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.get_title.toLowerCase());
+
+        //     // Return only the first four filtered posts
+        //     return filteredPosts.slice(0, 8);
+        // },
 
     },
 
@@ -499,3 +512,17 @@ export default {
     },
 };
 </script>
+
+<style scoped lang="scss">
+@media only screen and (max-width:768px) {
+    .only-768 {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .above-768 {
+        display: none;
+    }
+}
+</style>

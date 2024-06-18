@@ -173,20 +173,20 @@ export default {
         const isBanned = await response.json();
         if (isBanned) {
           Swal.fire({
-                            title: 'Banned!',
-                            text: 'Your account is banned by admin team for 7 days.',
-                            icon: 'error',
-                            customClass: {
-                                confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                          sessionStorage.removeItem('login_user');
-          window.location.href = '/login'; // Redirect to login page
-                        });
-          
+            title: 'Banned!',
+            text: 'Your account is banned by admin team for 7 days.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then(() => {
+            sessionStorage.removeItem('login_user');
+            window.location.href = '/login'; // Redirect to login page
+          });
+
         }
       }
     },
@@ -360,7 +360,7 @@ export default {
         const user = JSON.parse(sessionStorage.getItem('sub_user'));
         const UserId = user.subUserId;
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
-        .then((response) => {
+          .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }

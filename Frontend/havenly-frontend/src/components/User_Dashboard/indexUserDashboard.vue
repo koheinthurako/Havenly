@@ -1,6 +1,6 @@
 <template>
-    <div class="user-dashboard d-none d-sm-block">
-        <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
+    <div class="user-dashboard content-b p-0 m-0">
+        <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }" class="inside-991">
             <div class="d-flex">
                 <button class="toggle-btn" type="button" @click="toggleSidebar" :title="dynamicTitle">
                     <v-icon :hidden="isExpanded">mdi-view-grid</v-icon>
@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-ads-post' }"
                         @click="changeTabForSub('create-ads-post'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
@@ -111,11 +111,16 @@
     </div>
 
 
-    <div class="swiper-container-mobile d-block d-sm-none">
+    <div class="swiper-container-mobile exceed-991">
         <div class="swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide menu">
                     <!-- <v-btn class="link" @click="Home('home')">Home</v-btn> -->
+
+                    <div class="sideTextLink mb-4" @click="toggleSidebar2()">
+                        <v-icon>mdi-view-grid</v-icon>
+                        <span>Dashboard</span>
+                    </div>
 
                     <!-- profile btn -->
                     <div class="sideTextLink" :class="{ userActive: openTab === 'profile' }"
@@ -151,7 +156,7 @@
                     </div>
 
 
-                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-ads' }"
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-ads-post' }"
                         @click="changeTabForSub('create-ads'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
@@ -191,9 +196,8 @@
                         <div v-else-if="openTab === 'create-rent-post'">
                             <create_rent_post_page />
                         </div>
-                        <div v-else-if="openTab === 'create-ads'">
-                            <h3>Add Ads Content</h3>
-                            <p>This is where the add ads content will be displayed.</p>
+                        <div v-else-if="openTab === 'create-ads-post'">
+                            <create_ads_post />
                         </div>
                     </div>
                     <!-- content end -->
@@ -482,47 +486,41 @@ export default {
 }
 
 
+
+
+
 .main-data {
-    margin-left: auto;
-    height: auto;
-    width: calc(100% - 70px);
-    padding: 6px 20px;
+    position: fixed;
+    width: 100%;
+    height: 86vh;
+    margin-top: 48px;
+    overflow-y: scroll;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /*width: calc(100% - 70px);*/
+    padding: 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
+    scrollbar-width: none !important;
 
-}
-
-@media only screen and (min-width: 768px) {
-
-    /* for Desktop */
-    .main-data {
-        margin-top: 7%;
-    }
-}
-
-
-@media only screen and (max-width: 767px) {
-
-    /* for mobile */
-    .main-data {
-        margin-top: 11%;
-    }
 }
 
 #sidebar {
-    overflow: hidden;
-    position: fixed;
-    top: 8%;
+    height: 86vh;
+    margin-top: 48px;
+    top: 0;
     left: 0;
     width: 70px;
     min-width: 70px;
-    height: 92vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     padding-top: 43px;
     background-color: #525252;
     display: flex;
     flex-direction: column;
+    border: 2px solid red;
 
     .toggle-btn {
         background-color: transparent;
@@ -544,8 +542,8 @@ export default {
 }
 
 #sidebar.expand {
-    width: 260px;
-    min-width: 260px;
+    width: 250px;
+    min-width: 250px;
 }
 
 
@@ -689,5 +687,20 @@ export default {
 
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
+}
+
+/* Styles for screens up to 991px */
+@media (max-width: 991px) {
+    .inside-991 {
+        display: none !important;
+    }
+}
+
+
+/* Styles for screens wider than 991px */
+@media (min-width: 992px) {
+    .exceed-991 {
+        display: none !important;
+    }
 }
 </style>
