@@ -1,5 +1,5 @@
 <template>
-    <dir class="about-in-main">
+    <div class="about-in-main">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-12">
@@ -83,7 +83,7 @@
             </div>
 
         </div>
-    </dir>
+    </div>
 </template>
 
 <script>
