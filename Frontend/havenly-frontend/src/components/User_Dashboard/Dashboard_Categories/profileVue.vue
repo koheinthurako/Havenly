@@ -37,7 +37,7 @@
                                 </div></div>
                        
                    
-        <!-- Edit or logout -->
+        <!-- Edit -->
         <div class="d-flex justify-center mt-2">
           <p
             style="width: 90px; height:40px"

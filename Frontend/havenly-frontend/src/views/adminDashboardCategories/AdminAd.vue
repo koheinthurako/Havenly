@@ -36,25 +36,41 @@
                <div v-for="ad in ads" :key="ad.ads_post_id" class="col-md-3">
                    <div class="card-container">
                        <!-- TZH card styles -->
-                       <div class="card d-flex" style="height: 400px; width:fit-content;">
+                       <div class="card" style="height: 400px; ">
                           
-                           <div class="cardImgBox mb-2" >
-                               <img :src="ad.imageUrl" class="w-100 h-100" alt="Card image cap">
+                           <div class="cardImgBox mb-1" @click="showDialog = true">
+                               <img :src="ad.imageUrl" class="w-100 h-100 m-auto" alt="Card image cap" style="cursor:pointer;">
                            </div>
-                           <div class="card-body p-2 d-flex flex-column">
+        <div>
+    <v-dialog v-model="showDialog" max-width="600px">
+      <v-card>
+        <v-card-title class="text-h5">
+          
+          <button icon @click="showDialog = false" class="close-button">
+            <v-icon>mdi-close-circle</v-icon>
+          </button>
+          <span>{{ ad.title }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-img :src="ad.imageUrl" aspect-ratio="16/9"></v-img>
+        </v-card-text>
+      </v-card>
+    </v-dialog>                              
+                           </div>
+
+                           <div class="card-body px-1 py-1 m-0 d-flex flex-column">
                                <h5 class="card-title mb-2 pl-2">{{ ad.title }}</h5>
-                               <p class="pl-2">{{ ad.status }}</p>
-                               <v-divider :thickness="2" class="border-opacity-25 d-block"/>
+                               <p class="pl-2" style="color: #d33;">{{ ad.status }}</p>
+                               <v-divider :thickness="2" class="mx-2 border-opacity-25 d-block"/>
                            </div>
-                           <div style="padding: 0px 20px 20px 20px;">
-                            <v-row>
-                               <v-col cols="6">
-                                   <v-btn @click="approve(ad)">Approve</v-btn>
-                               </v-col>
-                               <v-col @click="cancel(ad.ads_post_id)" cols="6">
-                                   <v-btn>Cancel</v-btn>
-                               </v-col>
-                            </v-row>
+                           <div>
+                            <v-card-actions class="py-0 m-2">
+                                   <v-btn class="green-outline" elevation="0" variant="outlined" @click="approve(ad)" 
+                                   style="text-transform:capitalize;">Approve</v-btn>
+                               <v-spacer></v-spacer>
+                                   <v-btn class="red-outline" elevation="0" variant="outlined" @click="cancel(ad.ads_post_id)"
+                                   style="text-transform:capitalize;">Reject</v-btn>
+                            </v-card-actions>
                             </div>
                 </div>
         </div>
@@ -75,6 +91,7 @@ export default {
    data: () => ({
        ads : [],
        loading: false,
+       showDialog: false
    }),
 
       mounted(){
@@ -194,18 +211,18 @@ axios.delete("http://localhost:8083/admin/decline",{
 <style>
 
 
-.container {
- /* display: flex;
- margin-top:20px; */
- /* border-top: solid #e86f52 1px ;
+/* .container {
+ display: flex;
+ margin-top:20px; 
+  border-top: solid #e86f52 1px ;
  border-bottom: solid #e86f52 1px ;
- border-right: solid #e86f52 1px ; */
+ border-right: solid #e86f52 1px ; 
 
 
  
-  /* Use flexbox layout */
 
-}
+
+} */
 
 /* .box1 {
  padding: 10px;
@@ -225,10 +242,35 @@ axios.delete("http://localhost:8083/admin/decline",{
  
 
  text-decoration: none;
- color: white;background-color:
-  #e86f52;
+ color: white;
+ background-color: #e86f52;
  
-
-
 }
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.red-outline {
+  border-color: #d33 !important;
+  color: #d33 !important;
+}
+
+.red-outline:hover {
+  background-color: #d33 !important;
+  color: white !important; /* Change text color to white on hover for better contrast */
+}
+
+.green-outline {
+  border-color: green !important;
+  color: green !important;
+}
+
+.green-outline:hover {
+  background-color: green !important;
+  color: white !important; /* Change text color to white on hover for better contrast */
+}
+
 </style>

@@ -375,11 +375,9 @@ export default {
 
 }
 
-.box2 {
-    /* Distribute available space equally */
+/* .box2 {
 
-
-}
+} */
 
 .sidebar-link {
 
