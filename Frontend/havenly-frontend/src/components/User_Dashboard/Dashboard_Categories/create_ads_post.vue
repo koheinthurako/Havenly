@@ -1,17 +1,17 @@
 <template>
-  <div class="d-flex justify-center" style="height: 100vh">
+  <div class="d-flex justify-center mb-5" style="height: 100vh">
     <v-container>
 
-      <h3 class="flex" style="height: 50px">Create Ads</h3>
+      <h3 class="">Create Ads</h3>
       <br>
       <!-- Form to create a new ad post -->
-      <div class="d-flex mb-5">
+      <div class="d-flex mb-3">
       <span class="d-flex align-center" @click="openAdsDialog" 
       style="width: 8%; justify-content: center; border: 1px dashed; border-radius: 10%; border-color:#ccc; padding:20px">
-              <v-icon class="edit-icon elevation-5">mdi-plus</v-icon>
+              <v-icon class="edit-icon">mdi-plus</v-icon>
             </span>
       <span class="d-flex align-center" style="width: 90%; justify-content: right;">
-        <h5>Available Ads : {{ availAds }}</h5></span>
+        <h5>Available Ads : <span class="brick-text">{{ availAds }}</span></h5></span>
         <!-- upload ads dialog start -->
         <v-dialog v-model="adsDialog" class="create-pop-up" persistent>
         <form @submit.prevent="submitAdPost" class="form-edit2">
@@ -136,7 +136,7 @@ export default {
           text: 'Your available ads is 0.',
           icon: 'error',
           customClass: {
-          confirmButton: 'myCustomButton'
+            confirmButton: 'myCustomButton'
           },
           buttonsStyling: false
        });
@@ -206,7 +206,15 @@ export default {
     const availAds = subUser.availAds;
     const submitAdPost = async () => {
       if (!title.value || !image.value) {
-        alert('Please provide both title and image.');
+        Swal.fire({
+          title: 'Missing Information!',
+          text: 'Please enter both title and image.',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'myCustomButton'
+          },
+          buttonsStyling: false
+       });
         return;
       }
       function httpErrorHandler(error) {
@@ -378,106 +386,115 @@ export default {
 </script>
 
 <style scoped>
-.create-pop-up {
-    width: 100%;
-    height: auto;
-    z-index: 100;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .create-pop-up {
+      width: 100%;
+      height: auto;
+      z-index: 100;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-    .main-close {
-        position: absolute;
-        top: -50px;
-        right: 0;
-        padding: 0;
-        z-index: 300;
-        width: 30px !important;
-        height: 62px;
-        border-radius: 50%;
-        background-color: #e86f52;
-        color: #fff;
-        box-shadow: 0px 6px 20px -2px rgba(0, 0, 0, 0.3);
+      .main-close {
+          position: absolute;
+          top: -50px;
+          right: 0;
+          padding: 0;
+          z-index: 300;
+          width: 30px !important;
+          height: 62px;
+          border-radius: 50%;
+          background-color: #e86f52;
+          color: #fff;
+          box-shadow: 0px 6px 20px -2px rgba(0, 0, 0, 0.3);
 
-        .v-icon {
-            font-size: 24px;
-        }
-    }
+          .v-icon {
+              font-size: 24px;
+          }
+      }
 
-}
-.form-edit2 {
-    margin: 0px auto;
-    overflow: hidden;
-    width: 800px;
-    height: auto;
-    padding: 40px 60px;
-    border-radius: 10px;
-    background-color: #fff;
+  }
+  .form-edit2 {
+      margin: 0px auto;
+      overflow: hidden;
+      width: 800px;
+      height: auto;
+      padding: 40px 60px;
+      border-radius: 10px;
+      background-color: #fff;
+      position: relative;
+      /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); */
+
+      .close-btn {
+          
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 20px;
+          
+      }
+
+      .submit{
+        color: #fff; 
+        padding: 4px 14px; 
+        background-color: #E97559; 
+        border-radius: 20px; 
+        cursor: pointer;
+        height:40px;
+        width: auto;
+      }
+      .clear {
+          border-radius: 20px;
+      }
+  }
+  .img-container1 {
     position: relative;
-    /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    border: 1px dashed #ccc;
+    cursor: pointer;
+  }
+  .edit-icon {
+    background-color: #E86F52;
+    color: #fff;
+    padding: 10px;
+    font-size: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .edit-icon:hover {
+    transform: translateY(-3px);
+    background-color: #bd5c44;
+  }
+  .img1 {
+    width: 100%;
+    height: 100%;
+  }
+  .delete-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #E86F52;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  .ad-status {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #E86F52;
+    color: white;
+    padding: 10px;
+    border-radius: 10%;
+  }
 
-    .close-btn {
-        
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
-        
-    }
-
-    .submit{
-      color: #fff; 
-      padding: 4px 14px; 
-      background-color: #E97559; 
-      border-radius: 20px; 
-      cursor: pointer;
-      height:40px;
-      width: auto;
-    }
-    .clear {
-        border-radius: 20px;
-    }
-}
-.img-container1 {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  border: 1px dashed #ccc;
-  cursor: pointer;
-}
-.edit-icon {
-  background-color: #E86F52;
-  color: #fff;
-  padding: 10px;
-  font-size: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.img1 {
-  width: 100%;
-  height: 100%;
-}
-.delete-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: #E86F52;
-  color: white;
-  padding: 10px;
-  border-radius: 50%;
-}
-.ad-status {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background-color: #E86F52;
-  color: white;
-  padding: 10px;
-  border-radius: 10%;
-}
+  .brick-text {
+    color: #E97559; 
+  }
 
 </style>
