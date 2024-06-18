@@ -16,6 +16,6 @@ public interface SellPost_Service {
 	public void updateSellPost(MultipartFile[] files, int postId, String sellPostId, String title, String description, String price,
 			String area, String property_type, Locations location_id);
 	
-	public List<SellPost> getAllSubuserSellPosts(int subUserId);
+//	public List<SellPost> getAllSubuserSellPosts(int subUserId);
 
 }

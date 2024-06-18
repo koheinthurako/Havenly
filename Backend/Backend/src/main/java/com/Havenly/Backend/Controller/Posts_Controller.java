@@ -58,6 +58,16 @@ public class Posts_Controller {
 		return new ResponseEntity<List<Posts>>(postService.getAllCompletePosts(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/allSellPost")
+	public ResponseEntity<List<Posts>> getAllUserSellPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<Posts>>(postService.getAllUserSellPosts(subUserId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/allRentPost")
+	public ResponseEntity<List<Posts>> getAllUserRentPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<Posts>>(postService.getAllUserRentPosts(subUserId), HttpStatus.OK);
+	}
+	
 	@GetMapping("/postsByLocation")
 	public ResponseEntity<List<Posts>> getAllPostsByLocation(@RequestParam int locationId) {
 		return new ResponseEntity<List<Posts>>(postService.getAllPostsByLocation(locationId), HttpStatus.OK);

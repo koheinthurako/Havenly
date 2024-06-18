@@ -157,9 +157,9 @@ public class RentPost_Service_Impl implements RentPost_Service{
 	    
 	}
 	
-	@Override
-	public List<RentPost> getAllSubuserRentPosts(int subUserId) {
-		return rentRepo.getAllSubuserRentPosts(subUserId);
-	}
+//	@Override
+//	public List<RentPost> getAllSubuserRentPosts(int subUserId) {
+//		return rentRepo.getAllSubuserRentPosts(subUserId);
+//	}
 
 }

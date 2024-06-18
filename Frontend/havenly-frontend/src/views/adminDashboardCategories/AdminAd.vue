@@ -195,8 +195,8 @@ axios.delete("http://localhost:8083/admin/decline",{
 
 
 .container {
- display: flex;
- margin-top:20px;
+ /* display: flex;
+ margin-top:20px; */
  /* border-top: solid #e86f52 1px ;
  border-bottom: solid #e86f52 1px ;
  border-right: solid #e86f52 1px ; */

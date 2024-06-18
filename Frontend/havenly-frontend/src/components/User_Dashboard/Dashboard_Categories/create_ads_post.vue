@@ -119,10 +119,28 @@ export default {
 ],
     }
   },
+
+  mounted(){
+    this.fetchSubUserInfo();
+  },
+
   methods: {
     openAdsDialog() {
-            this.adsDialog = true;
-        },
+      console.log(this.availAds);
+      if(!(this.availAds <= 0)) {
+        this.adsDialog = true;
+        return;
+      }
+      Swal.fire({
+          title: 'No Ads for your package!',
+          text: 'Your available ads is 0.',
+          icon: 'error',
+          customClass: {
+          confirmButton: 'myCustomButton'
+          },
+          buttonsStyling: false
+       });
+    },
     closeAdsDialog() {
             this.adsDialog = false;
         },
@@ -138,16 +156,25 @@ export default {
                 .then(response => {
                     console.log(response.data.availAds);
                     this.availAds = response.data.availAds;
-                   
-                })
+                    if(this.availAds <= 0) {
+                      this.adsDialog = false;
+                      Swal.fire({
+                          title: 'No Ads for your package!',
+                          text: 'Your available ads is 0.',
+                          icon: 'error',
+                          customClass: {
+                          confirmButton: 'myCustomButton'
+                          },
+                          buttonsStyling: false
+                      })
+                    }
+                  })
                 .catch(error => {
                 console.error('Error fetching data:', error); // Handle the error
                 });
+                return true;
         },
 
-  },
-  mounted(){
-    this.fetchSubUserInfo();
   },
 
   setup() {
@@ -331,37 +358,8 @@ export default {
           console.error('Error fetching data:', error);
         });
     };
-    // const fetchSubUserInfo = () => {
-    //   const loginUserData = JSON.parse(sessionStorage.getItem('login_user'));
-    //   // subUserId.value = subUserData.subUserId;
-    //   // availAds.value = subUserData.availAds;
-    //   const registerId = loginUserData.registerId;
-    //    console.log(registerId)
-    //   axios.get('http://localhost:8083/getSubUserInfo', {
-    //     params: {
-    //       registerId: registerId
-    //     }
-    //   })
-    //     .then(response => {
-    //       if (response.data !== null) {
-    //         availAds.value = response.data.availAds;
-    //         console.log("Available Ads :", availAds.value);
-    //         subUserId.value = response.data.subUserId;
-    //       }
-    //       else {
-    //         console.log("no avail ads");
-    //                      router.push('/package');
-                      
-    //                 }
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching data:', error);
-    //     });
-    // };
-
     
     onMounted(() => {
-      // fetchSubUserInfo();
       fetchAds();
     });
     return {

@@ -309,9 +309,8 @@ export default {
       
     },
     fetchSubUserInfo() {
-        if(JSON.parse(sessionStorage.getItem('login_user'))){
-                const user = JSON.parse(sessionStorage.getItem('login_user'));
-                if(user.register_id!==null){
+                if(JSON.parse(sessionStorage.getItem('login_user'))){
+                    const user = sessionStorage.getItem('login_user');
                   const registerId = user.register_id;
                   console.log("registerId to send backend to show subUser informations : " + registerId)
                   axios.get('http://localhost:8083/subscribe/getSubUserInfo', {

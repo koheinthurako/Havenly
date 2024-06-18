@@ -3,7 +3,7 @@
     <v-main>
       <navbar_vue v-if="showNavbar" />
       <router-view />
-      <footer_vue />
+      <footer_vue v-if="showFooter"/>
     </v-main>
   </v-app>
 </template>
@@ -21,7 +21,13 @@ export default {
 
   computed: {
     showNavbar() {
-      return !this.$route.path.startsWith('/admin/dashboard');
+      const currentPath = this.$route.path;
+      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/admin/login' && currentPath !== '/login' && currentPath !== '/register';
+    },
+
+    showFooter() {
+      const currentPath = this.$route.path;
+      return !currentPath.startsWith('/login') && currentPath !== '/admin/login' && currentPath !== '/register' && currentPath !== '/forgot';
     }
   },
 

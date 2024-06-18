@@ -1,7 +1,4 @@
 <template>
-  <div style=" height: 60px; color: white; background-color: #e86f52;">
-    <h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly (Admin)</em></h1>
-  </div>
   <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
     <v-sheet width="400" class="mx-auto">
       <v-form fast-fail @submit.prevent="login">

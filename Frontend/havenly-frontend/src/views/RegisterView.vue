@@ -1,30 +1,35 @@
 <template>
-    <div style=" height: 60px; color: white; background-color: #e86f52;"><h1><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Havenly</em></h1></div>
 
-  <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 80vh;">
-      <v-sheet width="400" class="mx-auto">
-        <h4 class="flex" style="height: 80px">Registeration Form</h4>
-          <v-form ref="form" fast-fail @submit.prevent="signup">
-              <v-text-field variant="underlined" v-model="user.name"  label="Name"  required ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
-              <v-text-field variant="underlined"  v-model="user.email"    label="Email" required  :rules="[value => !!value || 'Required']" ></v-text-field>
-              <v-text-field variant="underlined" v-model="user.password"  label="password" required  
-              :type="showPassword ? 'text' : 'Password'"
-              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append-inner=togglePasswordVisibility()
-            :rules="[value => !!value || 'Required']"></v-text-field>
-              <v-row justify="space-around">
-      <v-col cols="auto">
-        <div class="text-center">
-              <v-btn type="submit" block class="mt-2 bg-redbrick text-white m-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign up</v-btn>
-              </div></v-col></v-row>
-          </v-form>
-          <div class="mt-2">
-              <p class="text-body-2">
-                  Already have an account? <a href="/loginakm">Sign in</a>
-              </p>
-          </div>
-      </v-sheet>
+  <div id="register" class="d-flex" style="height: 100vh;">
+    <div class="col-12 col-lg-6 mt-lg-4 me-4">
+      <v-sheet class="m-5 ms-lg-5 ps-lg-5">
+      <h4 class="flex mb-1">Registeration Form</h4>
+      <h1 class="mb-3" style="color: #e86f52;"><strong>Create Your Account</strong></h1>
+        <v-form ref="form" v-model="valid" fast-fail @submit.prevent="signup">
+            <v-text-field required variant="underlined" v-model="user.name"  label="Name" ></v-text-field>
+            <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
+            <v-text-field variant="underlined"  v-model="user.email"    label="Email" required  :rules="[v => !!v || 'Email is required', v => !/^\s*$/.test(v) || 'Email cannot be just spaces', v => /.+@.+\..+/.test(v) || 'Email must be valid']" ></v-text-field>
+            <v-text-field variant="underlined" v-model="user.password"  label="password" required  
+            :type="showPassword ? 'text' : 'Password'"
+            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append-inner=togglePasswordVisibility()
+          :rules="[value => !!value || 'Required']"></v-text-field>
+        <div class="my-3">
+          <p class="text-body-2">
+              Already have an account? <a href="/login">Sign in</a>
+          </p>
+        </div>
+        <div>
+          <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Register</button>
+        </div>
+        </v-form>
+        
+    </v-sheet>
+    </div>
+    <div class="col-12 col-lg-6 imgBox">
+      <div class="realImg w-100 h-100">
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -42,7 +47,8 @@
             email: '',
             password: ''
           },
-          showPassword: false
+          showPassword: false,
+          valid: false,
         };
     },
 
@@ -56,71 +62,92 @@
       this.showPassword = !this.showPassword;
     },
 
-      signup() {
-      
-        function httpErrorHandler(error) {
-          if (axios.isAxiosError(error)) {
-            const response = error?.response
-            if(response){
-              const statusCode = response?.status
-              if(statusCode===500){
-                Swal.fire({
-                  title: 'Invalid Informations!',
-                  text: 'Something Worng! Please use another email or another phone number.',
-                  icon: 'error',
-                  customClass: {
-                    confirmButton: 'myCustomButton'
-                  },
-                  buttonsStyling: false,
-                  allowOutsideClick: false,
-                  allowEscapeKey: false
-                });
-              } else if(statusCode===400){
-                Swal.fire({
-                  title: 'Missing Informations!',
-                  text: 'Please fill the information!',
-                  icon: 'error',
-                  customClass: {
-                    confirmButton: 'myCustomButton'
-                  },
-                  buttonsStyling: false,
-                  allowOutsideClick: false,
-                  allowEscapeKey: false
-                });
-              }
-            }
-          }
-        }
-        
-        axios.post("http://localhost:8083/register",this.user)
-
-          .then(function(response){
-                  const status=JSON.parse(response.status);
-                  if(status=='200'){
-                    Swal.fire({
-                      title: 'Register Success',
-                      text: 'Welcome! Thank you for registering.',
-                      icon: 'success',
-                      customClass: {
-                          confirmButton: 'myCustomSuccessButton'
-                      },
-                      buttonsStyling: false,
-                      allowOutsideClick: false,
-                      allowEscapeKey: false
-                      }).then(() => {
-                        router.push('/login'); 
-                      });
-                  }
-              })
-              .catch(httpErrorHandler)
+      async signup() {
+        if(this.$refs.form.validate()) {
+          try {
+            const response = await axios.post("http://localhost:8083/register",this.user)
+            if(response.status === 200) {
+              Swal.fire({
+                title: 'Register Success',
+                text: 'Welcome! Thank you for registering.',
+                icon: 'success',
+                customClass: {
+                    confirmButton: 'myCustomSuccessButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+                }).then(() => {
+                  router.push('/login'); 
+              });
               this.user.name='',
               this.user.phone='',
               this.user.email='',
               this.user.password=''
-                  
-    
-            //
-        },
+            }
+          } catch(error) {
+            this.httpErrorHandler(error);
+          }
+        }
+      },
+      
+      httpErrorHandler(error) {
+        if (axios.isAxiosError(error)) {
+          const response = error.response;
+          if(response){
+            const statusCode = response.status;
+            if(statusCode===500){
+              Swal.fire({
+                title: 'Invalid Informations!',
+                text: 'Something Worng! Please use another email or another phone number.',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+              });
+            } else if(statusCode===400){
+              Swal.fire({
+                title: 'Missing Informations!',
+                text: 'Please fill the information!',
+                icon: 'error',
+                customClass: {
+                  confirmButton: 'myCustomButton'
+                },
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+              });
+            }
+          }
+        }
+      }        
     },
   };
 </script>
+
+<style>
+
+  #register .v-form button {
+    transition: 0.3s;
+  }
+
+  #register .v-form button:hover {
+    transform: translateY(-5px);
+  }
+
+  #register .imgBox {
+    background-image: url('../assets/img/h10.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: saturate(150%);
+  }
+
+  #register .imgBox .realImg {
+    background: linear-gradient(-270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+  }
+
+</style>

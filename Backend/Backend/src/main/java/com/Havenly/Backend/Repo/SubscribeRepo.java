@@ -18,7 +18,7 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 //			, nativeQuery = true)
 //	public List<Subscription_DTO> getSubUserInfo();
 
-	@Query("SELECT new com.Havenly.Backend.DTO.Subscription_DTO(sub.subUserId, sub.nrc, reg.email, reg.name, reg.phone, sub.subStartDate, sub.subStartTime, pack.packType.packName, pack.packType.price, pack.availPosts, pack.availAds ) " +
+	@Query("SELECT new com.Havenly.Backend.DTO.Subscription_DTO(sub.subUserId, sub.nrc, reg.email, reg.name, reg.phone, sub.subStartDate, sub.subStartTime, pack.packType.price, pack.packType.packName, pack.availPosts, pack.availAds ) " +
 	           "FROM Subscription sub " +
 	           "LEFT JOIN sub.reg_user reg " +
 	           "LEFT JOIN sub.packages pack " +
