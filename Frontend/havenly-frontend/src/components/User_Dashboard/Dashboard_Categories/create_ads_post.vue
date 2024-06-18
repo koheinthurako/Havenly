@@ -78,7 +78,7 @@
             <h4>{{ ad.title }}</h4>
           </v-container>
         </v-img>
-        <span class="ad-status">{{ad.status}}</span>
+        <span class="ad-status" :class="getStatusClass(ad.status)">{{ad.status}}</span>
         <v-btn 
           icon 
           class="delete-button" 
@@ -173,6 +173,17 @@ export default {
                 console.error('Error fetching data:', error); // Handle the error
                 });
                 return true;
+        },
+
+        getStatusClass(status) {
+          switch (status) {
+              case 'pending':
+                  return 'text-bg-danger';  // အနီရောင် background
+              case 'complete':
+                  return 'text-bg-success'; // အစိမ်းရောင် background
+              default:
+                  return 'text-bg-secondary'; // Default background
+          }
         },
 
   },
@@ -487,7 +498,6 @@ export default {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    background-color: #E86F52;
     color: white;
     padding: 10px;
     border-radius: 10%;

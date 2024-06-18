@@ -608,7 +608,7 @@ export default {
       fullName: 'John Doe',
       email: 'john.doe@doe.com',
     },
-
+    notiCount: null,
     items: [
       { title: 'Click Me' },
       { title: 'Click Me' },

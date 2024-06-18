@@ -196,10 +196,11 @@ export default {
           text: 'You won\'t be able to revert this!',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
+          customClass: {
+            confirmButton: 'myCustomButton'
+          },
           reverseButtons: true,
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: 'Delete'
         });
 
         if (result.isConfirmed) {
@@ -221,11 +222,14 @@ export default {
           Swal.close();
 
           // Show success message
-          Swal.fire(
-            'Deleted!',
-            'User has been deleted.',
-            'success'
-          );
+          Swal.fire({
+            title: 'Success!',
+            text: 'User has been deleted from ban list.',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'myCustomSuccessButton'
+            },
+          });
         }
       } catch (error) {
         // Close the loading indicator in case of error
