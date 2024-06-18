@@ -1,85 +1,19 @@
-<!-- <template>
-    <div class="first-index">
-      <div class="button-group d-flex flex-column">
-        <div class="filterBox">
-            <div class="form-header">
-          <h5 class="text-white">Choose your desire</h5>
-        </div>
-        <form @submit.prevent="submit" class="form-edit">
-          <div class="row">
-            <div class="p-0 row-1">
-              <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
-              <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
-              <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-              <v-select bg-color="white" v-model="selectedRegion" :items="uniqueDistricts" :disabled="!selectedAmphoe" label="Select region" required></v-select>
-              <div class="form-btn-group" :hidden="!selectedRegion">
-                <v-btn class="me-3 submit" type="submit">Search</v-btn>
-                <v-btn class="clear" @click="clearFields">Clear</v-btn>
-              </div>
-            </div>
-          </div>
-        </form>
-        </div>
-        <GMapMap>
-            <g-map-map
-                :center="center"
-                :zoom="zoom"
-                style="width: 100%; height: 400px"
-            >
-            </g-map-map>
-        </GMapMap>
-      </div>
-    </div>
-  </template> -->
-
-
   <template>
-    <!-- <div class="row flex-column mt-5 pt-3">
-      <div class="col-10 mt-5">
-        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
-              :center="center"
-              :zoom="zoom"
-              style="width: 100%; height: 400px; padding-bottom: 50px;">
-            <Marker v-for="(location, index) in mapLocations"
-            :key="index"
-            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
-        </GoogleMap>
-      </div>
-      <button class="btn btn-danger" @click="goToPostLocation">Search Posts by Location</button>
-    </div> -->
-
 
     <div class="first-index mt-5">
-      <div class="button-group d-flex flex-column mt-5 py-5">
-        <div class="filterBox">
-          <div class="form-header">
-            <h5 class="text-white">Choose your desire</h5>
-          </div>
-          <form @submit.prevent="submit" class="form-edit">
-            <div class="row">
-              <div class="p-0 row-1">
-                <v-select bg-color="white" v-model="selectedCountry" :items="uniqueCountries" label="Select country" required></v-select>
-                <v-select bg-color="white" v-model="selectedProvince" :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province" required></v-select>
-                <v-select bg-color="white" v-model="selectedAmphoe" :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe" required></v-select>
-                <v-select bg-color="white" v-model="selectedRegion" :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region" required></v-select>
-                <div class="form-btn-group" :hidden="!selectedRegion">
-                  <v-btn class="me-3 submit" type="submit" @click="searchPostByLocations(selectedLocation)">Search</v-btn>
-                  <v-btn class="clear" @click="clearFields">Clear</v-btn>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+      <div class="button-group d-flex flex-column mt-5 pt-3">
         <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
                 :center="center"
                 :zoom="zoom"
-                style="width: 100%; height: 400px; padding-bottom: 50px;">
+                style="width: 100%; height: 430px;">
             <Marker v-for="(location, index) in mapLocations"
             :key="index"
             :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
         </GoogleMap>
+        <div class="d-flex justify-content-end mt-5">
+          <button class="btn btn-lg btn-light text-danger rounded-pill px-5" @click="searchPostByLocations(selectedLocation)">Search posts by location >></button>
+        </div>
       </div>
-      
     </div>
   </template>
 
@@ -89,7 +23,6 @@ import json_data from '../../assets/json/thailand_location.json'
 import { GoogleMap, Marker } from '../../../node_modules/vue3-google-map'
 import axios from 'axios';
 import { AES } from 'crypto-js';
-// import router from '@/router';
 
 export default {
   name: 'firstIndexContent',
@@ -115,107 +48,17 @@ export default {
     }
   },
 
-  computed: {
-
-    uniqueCountries() {
-      return [...new Set(this.locations.map(location => location.country_name))];
-    },
-
-    uniqueProvinces() {
-      // return [...new Set(this.locations.map(location => location.province))];
-      return [...new Set(this.locations.filter(location => location.country_name === this.selectedCountry).map(location => location.province))];
-    },
-    
-    uniqueAmphoes() {
-      return [...new Set(this.locations.filter(location => location.province === this.selectedProvince).map(location => location.amphoe))];
-    },
-    
-    uniqueRegions() {
-      return [...new Set(this.locations.filter(location => location.amphoe === this.selectedAmphoe).map(location => location.region))];
-    },
-
-    uniqueLocations() {
-      return [...new Set(this.locations.filter(location => location.region === this.selectedRegion).map(location => location.location_id))];
-    },
-    
-    filteredLocations() {
-      return this.locations.filter(location =>
-        (!this.selectedCountry || location.country_name === this.selectedCountry) &&
-        (!this.selectedProvince || location.province === this.selectedProvince) &&
-        (!this.selectedAmphoe || location.amphoe === this.selectedAmphoe) &&
-        (!this.selectedRegion || location.region === this.selectedRegion)
-      );
-    },
-  },
-
-  watch: {
-    selectedRegion(newRegion) {
-      if (newRegion) {
-        const selectedLocation = this.locations.find(location => location.region === newRegion);
-        if (selectedLocation) {
-          this.selectedLocation = selectedLocation.location_id;
-          console.log(this.selectedLocation); // Log the location_id
-        }
-      }
-    }
-  },
-
   mounted() {
     localStorage.removeItem('openTab');
     const cachedData = this.getLocationsFromSessionStorage();
     if(cachedData) {
         this.locations = cachedData;
         this.mapLocations = cachedData;
-    } else {
-        this.fetchLocations();
     }
     this.fetchSubUser();
   },
 
   methods: {
-
-    async fetchLocations() {
-      try {
-        const response = await fetch('http://localhost:8083/locations/getall');
-        const data = await response.json();
-        const mappedData = data.map(location => ({
-          location_id: location.location_id,
-          country_name: location.country_name,
-          province: location.province,
-          amphoe: location.amphoe,
-          region: location.region,
-          latitude: location.latitude,
-          longitude: location.longitude
-        }));
-        sessionStorage.setItem('locations', JSON.stringify(mappedData));
-        this.locations = mappedData;
-        this.mapLocations = mappedData;
-      } catch (error) {
-        console.error('Error fetching locations:', error);
-      }
-    },
-
-    // fetchLocations() {
-    //   fetch('http://localhost:8083/locations/getall')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //         const mappedData = data.map(location => ({
-    //           location_id: location.location_id,
-    //           country_name: location.country_name,
-    //           province: location.province,
-    //           amphoe: location.amphoe,
-    //           region: location.region,
-    //           latitude: location.latitude,
-    //           longitude: location.longitude
-    //       }));
-    //       sessionStorage.setItem('locations', JSON.stringify(mappedData));
-    //       this.locations = mappedData;
-    //       this.mapLocations = mappedData;
-    //   })
-    //   .catch(error => {
-    //       console.error('Error fetching locations:', error);
-    //   });
-    // },
 
     getLocationsFromSessionStorage() {
         const data = sessionStorage.getItem('locations');
@@ -239,25 +82,6 @@ export default {
         }
       }
     },
-
-    // fetchSubUser() {
-    //   if(sessionStorage.getItem('login_user')) {
-    //     const user = JSON.parse(sessionStorage.getItem('login_user'));
-    //     const registerId = user.register_id;
-    //     console.log("registerId to send backend to show subUser informations : " + registerId)
-    //     axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
-    //         params: {
-    //             registerId: registerId
-    //         }
-    //     })
-    //     .then(response => {
-    //       sessionStorage.setItem('sub_user',JSON.stringify(response.data))
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching data:', error); // Handle the error
-    //     }); 
-    //   }
-    // },
 
     submit() {
       this.mapLocations = this.filteredLocations;
@@ -297,11 +121,6 @@ export default {
       const encryptedId = this.encryptId(location_id);
       this.$router.push({ name: 'MainLocationPosts', params: { locationId: `${encryptedId} Success` } });
     },
-
-    // goToPostLocation() {
-    //   router.push('/all/posts/mainLocationPosts')
-    //   // this.$router.push({ name: 'MainLocationPosts' });
-    // }
 
   },
 }

@@ -1,7 +1,6 @@
 package com.Havenly.Backend.Controller;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ import com.Havenly.Backend.Entity.Interest;
 import com.Havenly.Backend.Service.Interest_Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/interest")
@@ -57,7 +56,7 @@ public class Interest_Controller {
 		}
 
 		// Find Register user and post is Exist
-		Optional<Reg_user> optionalRegUser = reg_repo.findById(user_id);
+		Optional<Reg_user> optionalRegUser = Optional.of(reg_repo.findById(user_id));
 		Optional<Posts> optionalPost = posts_repo.findById(post_id);
 
 		if (optionalRegUser.isPresent() && optionalPost.isPresent()) {
@@ -70,7 +69,7 @@ public class Interest_Controller {
 			interest.setReg_user(Reg_all_data);
 			interest.setPosts(post_all_data);
 			interest.setInterest_date(LocalDate.now());
-			interest.setInterest_time(LocalDateTime.now());
+			interest.setInterest_time(LocalTime.now());
 			in_service.save(interest);
 		} else {
 			return new ResponseEntity<>("No post or User Exist", HttpStatus.NOT_ACCEPTABLE);
@@ -93,6 +92,21 @@ public class Interest_Controller {
 	
 	@GetMapping("/getAllNotiBySubId/{id}")
 	public ResponseEntity<List<Interest>> getAllNotiBySubId(@PathVariable int id){
-		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
+//		return new ResponseEntity<List<Interest>>(in_service.getAllInterestForNoti(id),HttpStatus.OK);
+		List<Interest> data = in_service.getAllInterestForNoti(id);
+		if (data == null || data.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
+
+	@GetMapping("/getDataByPostId/{id}")
+	public ResponseEntity<List<Interest>> getDataByPostId(@PathVariable int id) {
+		List<Interest> data = in_service.getDataByPostId(id);
+		if (data == null || data.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
 }

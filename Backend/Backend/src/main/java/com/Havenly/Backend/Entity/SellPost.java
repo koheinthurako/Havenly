@@ -3,8 +3,6 @@ package com.Havenly.Backend.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,7 +45,7 @@ public class SellPost {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
-	Locations locations;
+	private Locations locations;
 	
 	@JsonIgnore
 	@OneToOne(mappedBy = "sellpost", cascade = CascadeType.ALL, orphanRemoval = true)

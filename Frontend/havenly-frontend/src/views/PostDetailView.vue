@@ -9,10 +9,13 @@
 
                 <div class="col-md-12 ">
                     <div class="left">
+
                         <div class="col-md-12">
-                            <div class="header">
+                            <div class="header me-3">
+
                                 <div class="row">
-                                    <div class="col-md-12 col-sm-12">
+
+                                    <div class="col-md-8 col-sm-8">
                                         <h3 class="color-brick">{{ post.title }}</h3>
                                         <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
                                             <p>{{ post.province }} / {{
@@ -20,16 +23,57 @@
                                                     post.country }}</p>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-4 d-none d-sm-block">
-                                        <div class="d-flex"><v-icon>mdi-office-building</v-icon>
-                                            <p>{{ post.property_type }}</p>
+                                    <div class="col-md-4 d-none d-sm-block">
+                                        <div class="search-bar mt-2">
+
+                                            <!-- search bar start -->
+                                            <v-row>
+                                                <v-col cols="12">
+                                                    <v-menu v-model="menu" :close-on-content-click="false" offset-y
+                                                        :activator="activator" transition="scale-transition"
+                                                        max-height="160">
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-text-field variant="outlined" ref="activator"
+                                                                v-model="search" label="Search posts by name"
+                                                                append-inner-icon="mdi-magnify" clearable v-bind="attrs"
+                                                                v-on="on || {}" @input="onSearch"></v-text-field>
+                                                        </template>
+                                                        <v-list v-if="filteredTitles.length" class="p-0">
+                                                            <h4 class="ms-3 mt-2" style="color: #e86f52;">Available
+                                                                posts</h4>
+                                                            <v-list-item v-for="post in filteredTitles" :key="post.id"
+                                                                @click="handleItemClick(post)"
+                                                                style="border-bottom: 1px solid #000;">
+                                                                <v-list-item-title>
+                                                                    <v-chip v-if="post.type === 'Sell'"
+                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                        size="small" rounded-pill color="red"
+                                                                        variant="flat" class="me-1">
+                                                                        {{ post.type }}
+                                                                    </v-chip>
+                                                                    <v-chip v-else
+                                                                        prepend-icon="mdi-checkbox-marked-circle"
+                                                                        size="small" rounded-pill color="green"
+                                                                        variant="flat" class="me-1">
+                                                                        {{ post.type }}
+                                                                    </v-chip>
+                                                                    {{ post.title }}
+                                                                </v-list-item-title>
+                                                            </v-list-item>
+                                                        </v-list>
+
+                                                        <v-alert v-else-if="search" type="warning" class="ma-0">
+                                                            No post available
+                                                        </v-alert>
+                                                    </v-menu>
+                                                </v-col>
+                                            </v-row>
+                                            <!-- search bar end -->
+
                                         </div>
-                                        <div class="d-flex"><v-icon
-                                                class="me-1">mdi-format-list-bulleted-type</v-icon><span>For
-                                                {{ this.getPostType(post.post_id) }}</span>
-                                        </div>
-                                    </div> -->
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -78,139 +122,150 @@
                         <hr class="mx-auto">
 
 
-
                         <div class="row">
-                            <div class="description">
-                                <h5 class="color-brick">ပို့စ် အကြောင်းအရာများ</h5>
-
-                                <p class="detail-text" v-html="formatDesc(post.description)"></p>
-                            </div>
 
 
-                        </div>
+                            <div :class="['col-md-8', { 'col-md-12': getData === 'Success' }]">
 
+                                <!-- start here -->
+                                <div class="row">
+                                    <div class="description">
+                                        <h5 class="color-brick mb-4">ပို့စ် အကြောင်းအရာများ</h5>
 
-
-                        <hr class="mx-auto">
-
-
-                        <div class="row">
-                            <h5 class="color-brick mb-4">ပို့စ် အသေးစိတ်အချက်များ</h5>
-
-                            <div class="row p-0">
-                                <div class="col-6 ">
-                                    <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
-                                        <p>{{ post.province }} / {{
-                                            post.region }} / {{
-                                                post.country }}</p>
-                                    </div>
-                                    <div class="d-flex"><v-icon>mdi-office-building</v-icon>
-                                        <p>{{ post.property_type }}</p>
+                                        <p class="detail-text" v-html="formatDesc(post.description)"></p>
                                     </div>
 
-                                    <div class="d-flex"><v-icon>mdi-arrow-expand-all</v-icon>
-                                        <p>{{ post.area }} Square Ft </p>
-                                    </div>
+
                                 </div>
-                                <div class="col-6">
-                                    <!-- <div class="d-flex"><v-icon>mdi-checkbox-marked-circle</v-icon>
+
+
+
+                                <hr class="mx-auto">
+
+
+                                <div class="row">
+                                    <h5 class="color-brick mb-4">ပို့စ် အသေးစိတ်အချက်များ</h5>
+
+                                    <div class="row p-0">
+                                        <div class="col-6 ">
+                                            <div class="d-flex"><v-icon>mdi-map-marker</v-icon>
+                                                <p>{{ post.province }} / {{
+                                                    post.region }} / {{
+                                                        post.country }}</p>
+                                            </div>
+                                            <div class="d-flex"><v-icon>mdi-office-building</v-icon>
+                                                <p>{{ post.property_type }}</p>
+                                            </div>
+
+                                            <div class="d-flex"><v-icon>mdi-arrow-expand-all</v-icon>
+                                                <p>{{ post.area }} Square Ft </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- <div class="d-flex"><v-icon>mdi-checkbox-marked-circle</v-icon>
                                         <p>ဆောက်လုပ်ပြီး</p>
                                     </div> -->
 
 
 
-                                    <div class="d-flex"><v-icon>mdi-tag-multiple</v-icon>
-                                        <p>စျေးနှုန်း</p><br>
+                                            <div class="d-flex"><v-icon>mdi-tag-multiple</v-icon>
+                                                <p>စျေးနှုန်း</p><br>
 
+                                            </div>
+                                            <div class="d-flex">
+
+                                                <p class="price"> {{ post.price }}</p>
+                                                <span class="mt-1 ms-2">Kyats</span>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    <div class="d-flex">
-
-                                        <p class="price"> {{ post.price }}</p>
-                                        <!-- <span class="mt-1 ms-2">Kyats</span> -->
-                                    </div>
-
                                 </div>
-                            </div>
-                        </div>
 
 
-                        <hr class="mx-auto">
+                                <hr class="mx-auto">
 
 
 
-                        <v-dialog v-model="reqDialog" width="450" transition="dialog-top-transition">
+                                <v-dialog v-model="reqDialog" width="450" transition="dialog-top-transition">
 
-                            <v-card class="request-detail-dialog">
-                                <div class="p-2">
-                                    <h5 class="text-center">Make enquiry</h5>
-                                    <hr class="mx-auto">
-                                    <div class="d-flex">
+                                    <v-card class="request-detail-dialog">
+                                        <div class="p-2">
+                                            <h5 class="text-center">Make enquiry</h5>
+                                            <hr class="mx-auto">
+                                            <div class="d-flex">
 
-                                        <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
-                                        <v-btn class="half-btn w-50 bg-green">
-                                            <!-- {{this.getPostType(post.post_id) }} -->
-                                            {{ post.post_type }}
-                                        </v-btn>
+                                                <v-btn class="half-btn w-50">{{ post.property_type }}</v-btn>
+                                                <v-btn class="half-btn w-50 bg-green">
+                                                    <!-- {{this.getPostType(post.post_id) }} -->
+                                                    {{ post.post_type }}
+                                                </v-btn>
 
-                                    </div>
-                                    <hr class="mx-auto">
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="getUser.name"
-                                        label="Name *" required class="m-0" readonly></v-text-field>
-                                    <v-text-field density="compact" rounded="lg" variant="solo" v-model="getUser.email"
-                                        label="Gmail *" required readonly></v-text-field>
-                                    <v-text-field readonly density="compact" focused v-model="getUser.phone"
-                                        :prefix="selectedCountry.code" variant="solo" label="Phone Number">
-                                        <template v-slot:prepend-inner>
-                                            <img :src="selectedCountry.flag" alt="flag" class="me-2"
-                                                style="height: 24px;" />
-                                        </template>
-                                    </v-text-field>
-                                    <v-textarea v-model="getDescription" variant="solo" label="Label"></v-textarea>
-                                    <v-btn @click="interest" class="request-btn w-100 bg-danger text-light">
-                                        Request Details
-                                    </v-btn>
-                                </div>
-                            </v-card>
-
-                        </v-dialog>
-
-                        <v-bottom-sheet v-model="sheet" inset>
-                            <v-card class="text-center">
-                                <v-card-text class="p-0 m-0">
-                                    <div class="d-flex justify-space-between py-2 px-4">
-                                        <h4 style="color:#e86f52;">More images</h4>
-                                        <v-btn icon color="#e86f52" variant="elevated" @click="sheet = !sheet">
-                                            <v-icon>mdi-close-circle-outline</v-icon>
-                                        </v-btn>
-                                    </div>
-                                    <br>
-
-                                    <v-card style="background-color:transparent; box-shadow: none;">
-                                        <v-card-text>
-
-                                            <v-carousel hide-delimiters class="testing-edit">
-                                                <template v-slot:prev="{ props }">
-                                                    <v-btn icon color="#e86f52" variant="elevated"
-                                                        @click="props.onClick">
-                                                        <v-icon>mdi-chevron-left</v-icon>
-                                                    </v-btn>
+                                            </div>
+                                            <hr class="mx-auto">
+                                            <v-text-field focused density="compact" rounded="lg" variant="outlined"
+                                                v-model="getUser.name" label="Name *" required class="m-0"
+                                                readonly></v-text-field>
+                                            <v-text-field focused density="compact" rounded="lg" variant="outlined"
+                                                v-model="getUser.email" label="Gmail *" required
+                                                readonly></v-text-field>
+                                            <v-text-field readonly density="compact" focused v-model="getUser.phone"
+                                                :prefix="phonePrefix" variant="outlined" label="Phone Number">
+                                                <template v-slot:prepend-inner>
+                                                    <img v-if="post.country !== 'Thailand'" :src="selectedCountry.flag"
+                                                        alt="flag" class="me-2" style="height: 24px;" />
+                                                    <img v-if="post.country === 'Thailand'" :src="selectedCountry.flag2"
+                                                        alt="flag" class="me-2" style="height: 24px;" />
                                                 </template>
-                                                <template v-slot:next="{ props }">
-                                                    <v-btn icon color="#e86f52" variant="elevated"
-                                                        @click="props.onClick"><v-icon>mdi-chevron-right</v-icon></v-btn>
-                                                </template>
-                                                <v-carousel-item v-for="(image, index) in post.photo_url" :key="index"
-                                                    :src="image">
-                                                </v-carousel-item>
-                                            </v-carousel>
+                                            </v-text-field>
 
+                                            <v-textarea v-model="getDescription" variant="outlined" label="Label"
+                                                auto-grow="false"></v-textarea>
+                                            <v-btn @click="interest" class="request-btn w-100 bg-danger text-light">
+                                                Request Details
+                                            </v-btn>
+                                        </div>
+                                    </v-card>
+
+                                </v-dialog>
+
+                                <v-bottom-sheet v-model="sheet" inset>
+                                    <v-card class="text-center">
+                                        <v-card-text class="p-0 m-0">
+                                            <div class="d-flex justify-space-between py-2 px-4">
+                                                <h4 style="color:#e86f52;">More images</h4>
+                                                <v-btn icon color="#e86f52" variant="elevated" @click="sheet = !sheet">
+                                                    <v-icon>mdi-close-circle-outline</v-icon>
+                                                </v-btn>
+                                            </div>
+                                            <br>
+
+                                            <v-card style="background-color:transparent; box-shadow: none;">
+                                                <v-card-text>
+
+                                                    <v-carousel hide-delimiters class="testing-edit">
+                                                        <template v-slot:prev="{ props }">
+                                                            <v-btn icon color="#e86f52" variant="elevated"
+                                                                @click="props.onClick">
+                                                                <v-icon>mdi-chevron-left</v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <template v-slot:next="{ props }">
+                                                            <v-btn icon color="#e86f52" variant="elevated"
+                                                                @click="props.onClick"><v-icon>mdi-chevron-right</v-icon></v-btn>
+                                                        </template>
+                                                        <v-carousel-item v-for="(image, index) in post.photo_url"
+                                                            :key="index" :src="image">
+                                                        </v-carousel-item>
+                                                    </v-carousel>
+
+                                                </v-card-text>
+                                            </v-card>
                                         </v-card-text>
                                     </v-card>
-                                </v-card-text>
-                            </v-card>
-                        </v-bottom-sheet>
+                                </v-bottom-sheet>
 
-                        <!-- <div class="function_btn">
+                                <!-- <div class="function_btn">
                             <div class=row>
                                 <div class="px-0 mb-3 col-md-6 col-12 d-flex justify-md-end justify-center">
                                     <v-btn class="share-btn "><v-icon
@@ -228,21 +283,59 @@
                             </div>
                         </div> -->
 
-                        <!-- :hidden="getUser.email == registerData.email" -->
-                        <!-- <div v-if="getUser">
+                                <!-- :hidden="getUser.email == registerData.email" -->
+                                <!-- <div v-if="getUser">
                             <v-btn :disabled="getUser.email == registerData.email" class="req-btn" @click="openDialog">
                                 Make interest
                             </v-btn>
                         </div> -->
-                        <v-btn class="req-btn" @click="openDialog">
-                            Make interest
-                        </v-btn>
+                                <v-btn class="req-btn" @click="openDialog">
+                                    Make interest
+                                </v-btn>
 
+                                <!-- end here -->
 
-                        <hr class="mx-auto d-block d-sm-none mt-0">
+                            </div>
+                            <div v-if="getData === 'details'" class="col-md-4">
+                                <v-card class="interst-posts mb-3">
+                                    <h5 class="header">
+                                        <!-- <v-icon>mdi-star</v-icon> -->
+                                        interested users
+                                    </h5>
+                                    <br><br>
+
+                                    <div class="p-2 mt-2">
+
+                                        <template v-if="interestedUser.length > 0">
+                                            <div class="post-icon mb-3 row" v-for="data in interestedUser"
+                                                :key="data.postId">
+                                                <div class="pi-overlay"></div>
+                                                <div class="col-3 p-0">
+                                                    <v-img :src="avatar" class="w-100 h-100" cover></v-img>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p class="p-0 m-0 mt-1">
+                                                        <span>{{ data.name }}</span> maked interest <span>{{
+                                                            data.daysAgo }}</span>.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <p>No user interested</p>
+                                        </template>
+
+                                    </div>
+                                </v-card>
+                            </div>
+
+                        </div>
+
 
 
                     </div>
+
+                    <!-- left end -->
                 </div>
 
 
@@ -324,7 +417,6 @@
 
 
             </div>
-
 
             <!-- <div class="row px-5">
                 <hr class="mx-auto">
@@ -448,10 +540,19 @@
                             posts<v-icon>mdi-chevron-double-right</v-icon></v-btn>
                     </div>
                 </div>
-
-
-
             </div> -->
+
+            <v-snackbar elevation="24" v-model="alert.show" :timeout="alert.timeout" :color="alert.color"
+                :bottom="true">
+                <v-icon>mdi-exclamation</v-icon>
+                {{ alert.message }}
+
+                <v-btn color="info" variant="text" @click="alert.show = false">
+                    Close
+                </v-btn>
+                <!-- <v-icon @click="alert.show = false">mdi-close</v-icon> -->
+                <!-- <v-btn color="white" text >x</v-btn> -->
+            </v-snackbar>
 
         </v-container>
     </div>
@@ -468,6 +569,27 @@ export default {
     name: 'postDetailView',
 
     data: () => ({
+
+        // search bar staff start
+        search: '',
+        menu: false,
+        postTitles: [
+            { id: 1, title: 'Welcome Home smatha js auto wind and search bar ' },
+            { id: 2, title: 'Wonderful World' },
+            { id: 3, title: 'Amazing Grace' },
+            { id: 4, title: 'Beautiful Life' },
+        ],
+        tempPostTitles: [],
+        activator: null,
+        alert: {
+            show: false,
+            message: '',
+            timeout: 2000, // Duration in milliseconds
+            color: 'deep-purple-accent-4' // Change color as needed
+        },
+        // search bar staff end 
+
+
         drawer: false,
         showData: false,
         items: [
@@ -475,7 +597,7 @@ export default {
             { title: 'About' },
             { title: 'Contact' },
         ],
-
+        getData: '',
         getUser: [],
         postGetId: null,
 
@@ -487,6 +609,8 @@ export default {
             { id: 3, title: 'Hello Elephant', img: require('@/assets/img/h5.jpg'), post_type: 'Industrial', type: 'sell' },
 
         ],
+
+        avatar: require('@/assets/img/ava5.jpg'),
         savedPosts: [],
 
         // to keep all datas
@@ -496,6 +620,9 @@ export default {
 
         // get desc from input 
         getDescription: '',
+
+        // get Interested user
+        interestedUser: [],
 
 
         post: {
@@ -520,7 +647,9 @@ export default {
         phoneNumber: '',
         selectedCountry: {
             code: '+95',
-            flag: 'https://flagcdn.com/w320/mm.png' // Myanmar flag
+            code2: '+66',
+            flag: 'https://flagcdn.com/w320/mm.png', // Myanmar flag
+            flag2: 'https://flagcdn.com/w320/th.png' // Thailand
         },
 
         img: require("@/assets/img/1.jpg"),
@@ -529,11 +658,59 @@ export default {
     }),
 
     mounted() {
-        this.fetchPost(this.splitData(this.$route.params.id));
+        // remove item
+        localStorage.removeItem('openTab');
+
+
+        this.fetchPost(this.splitData(this.$route.params.id)[0]);
         this.getUser = JSON.parse(sessionStorage.getItem('login_user'));
+
+        // search bar staff
+        this.activator = this.$refs.activator;
+        this.fetchAllPosts();
+    },
+    computed: {
+        phonePrefix() {
+            if (this.post.country === 'Thailand') {
+                return this.selectedCountry.code2;
+            } else if (this.post.country === 'Myanmar') {
+                return this.selectedCountry.code;
+            } else {
+                return ''; // Or any default prefix you want
+            }
+        },
+
+        // search bar staff
+        filteredTitles() {
+            if (!this.search) return [];
+            return this.tempPostTitles.filter((post) =>
+                post.title.toLowerCase().startsWith(this.search.toLowerCase())
+            );
+        },
+
     },
 
     methods: {
+
+        onSearch() {
+            this.menu = !!this.search; // Show the menu only if there is a search query
+        },
+        handleItemClick(post) {
+            // Check if post ID matches the main post ID
+            if (post.id === this.mainPostId) {
+                this.alert.message = "This post is already displayed!";
+                this.alert.color = '#e86f52';
+                this.alert.show = true;
+
+            } else {
+                const afterEncrypt = this.encryptId(post.id);
+                // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            }
+            this.menu = false;
+            this.search = '';
+        },
+
 
         formatDesc(data) {
             return data.split('\n').join('<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -564,6 +741,47 @@ export default {
         //     }
         //     window.location.reload();
         // },
+
+        async fetchInterestedUsers(postId) {
+            // then decrypt 
+            const decryptId = this.decryptId(postId);
+            try {
+                const response = await axios.get(`http://localhost:8083/interest/getDataByPostId/${decryptId}`);
+
+
+                if (response.status === 204) {
+                    console.log('No data available for this post.');
+                } else {
+                    const currentDate = new Date(); // Get current date
+                    this.interestedUser = response.data.map(item => {
+                        // Convert the interest date string to a Date object
+                        const interestDate = new Date(item.interest_date);
+                        // Calculate the difference in milliseconds
+                        const difference = currentDate - interestDate;
+                        // Convert milliseconds to days
+                        const daysAgo = Math.floor(difference / (1000 * 60 * 60 * 24));
+                        // Format the output based on the number of days
+                        let output;
+                        if (daysAgo === 0) {
+                            output = 'today';
+                        } else if (daysAgo === 1) {
+                            output = 'yesterday';
+                        } else {
+                            output = daysAgo + ' days ago';
+                        }
+                        // Return the item with the formatted date
+                        return {
+                            postId: item.id,
+                            name: item.reg_user.name,
+                            daysAgo: output
+                        };
+                    });
+                    console.log("Interested Users:", this.interestedUser);
+                }
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        },
 
         async interest() {
             const requestData = {
@@ -606,10 +824,7 @@ export default {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
-                            text: 'You make interested in this post.',
-                            customClass: {
-                                confirmButton: 'myCustomSuccessButton'
-                            },
+                            text: 'You make interested in this post.'
                         });
                     } else {
                         Swal.close();
@@ -631,9 +846,6 @@ export default {
                                 icon: 'error',
                                 title: 'Relax bro!',
                                 text: 'You already made an interest in this post!',
-                                customClass: {
-                                    confirmButton: 'myCustomButton'
-                                },
                                 showCancelButton: false, // Hide the cancel button
                                 allowOutsideClick: true, // Allow clicking outside to close
                             }).then((result) => {
@@ -701,7 +913,14 @@ export default {
         },
 
         splitData(data) {
-            return data.split(' ')[0];
+            this.getData = data.split(' ')[1];
+
+            // call fetch interersted user
+            if (this.getData === 'details') {
+                this.fetchInterestedUsers(data.split(' ')[0]);
+            }
+
+            return data.split(' ');
         },
 
         truncateText(text, charLimit) {
@@ -773,6 +992,43 @@ export default {
             this.reqDialog = false;
         },
 
+        // for search staff 
+        async fetchAllPosts() {
+            try {
+                const response = await fetch('http://localhost:8083/posts/allComplete');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parse the response as JSON
+                const data = await response.json();
+
+                // Initialize an empty array to store post data
+                const tempPostTitles = [];
+
+                // Iterate over each post in the response data
+                data.forEach(postData => {
+                    // Extract relevant data for each post
+                    const temp_post_id = postData.post_id;
+                    const temp_post_title = postData.sellpost ? postData.sellpost.title : postData.rentpost ? postData.rentpost.title : '';
+                    const temp_post_type = postData.sellpost ? 'Sell' : postData.rentpost ? 'Rent' : '';
+
+                    // Push the extracted data into the tempPostTitles array
+                    tempPostTitles.push({
+                        id: temp_post_id,
+                        title: temp_post_title,
+                        type: temp_post_type
+                    });
+                });
+
+                // Update the component's tempPostTitles property
+                this.tempPostTitles = tempPostTitles;
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        },
+
+
         async fetchPost(postId) {
 
             // then decrypt 
@@ -789,8 +1045,6 @@ export default {
 
                 // Parse the response as JSON
                 const data = await response.json();
-
-                console.log("Show post detail : ", data);
 
                 // Taking Post Main id
                 this.mainPostId = data.post_id;
@@ -856,7 +1110,7 @@ export default {
     watch: {
         '$route.params.id': {
             handler() {
-                this.fetchPost(this.splitData(this.$route.params.id));
+                this.fetchPost(this.splitData(this.$route.params.id)[0]);
             },
             immediate: true,
         },

@@ -43,6 +43,7 @@ export default {
         this.setStep();
         this.resetTranslate();
         this.startAutoScroll();
+        localStorage.removeItem('openTab');
     },
 
     methods: {

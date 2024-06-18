@@ -49,7 +49,7 @@
                                                         :class="getStatusClass(post.status)">{{ post.status }}</span>
                                                 </div>
                                             </div>
-                                            <h5 class="card-title mb-3">{{ post.title }}</h5>
+                                            <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
                                             <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
                                             <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
                                                 <v-icon>mdi-map-marker-radius</v-icon>
@@ -58,7 +58,7 @@
 
                                         </div>
                                         <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
-                                            <button class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                            <button v-if="post.status != 'rejected'" class="btn btn-outline-danger w-100" @click="editPost(post)"
                                                 data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                                             <button class="btn btn-danger w-100"
                                                 @click="deletePost(post)">Delete
@@ -93,7 +93,7 @@
                                                         <div class="col-md-9 col-sm-12">
                                                             <v-text-field required bg-color="#EDEDED" filled variant="solo"
                                                                 density="compact" rounded="lg" clear-icon="mdi-close-circle"
-                                                                clearable class="w-100" v-model="title"
+                                                                clearable class="w-100" v-model="fullTitle"
                                                                 :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
                                                                 placeholder="Title"></v-text-field>
                                                         </div>
@@ -286,6 +286,8 @@ export default {
         clickedPhotoType: '',
         location_id: '',
         title: '',
+        shortTitle: '',
+        fullTitle: '',
         shortDescription: '',
         fullDescription: '',
         property_type: '',
@@ -358,13 +360,6 @@ export default {
     },
 
     mounted() {
-        const cachedData = this.getLocationsFromSessionStorage();
-        if (cachedData) {
-            this.locations = cachedData;
-        } else {
-            this.fetchLocations();
-        }
-
         this.fetchPosts();
 
         document.addEventListener('keydown', (event) => {
@@ -402,28 +397,42 @@ export default {
             // router.push('/PostsView')
             const afterEncrypt = this.encryptId(post_id);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
         },
 
-        fetchLocations() {
-            fetch('http://localhost:8083/locations/getall')
-                .then(response => response.json())
-                .then(data => {
-                    const mappedData = data.map(location => ({
-                        location_id: location.location_id,
-                        country_name: location.country_name,
-                        province: location.province,
-                        amphoe: location.amphoe,
-                        region: location.region,
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                })
-                .catch(error => {
-                    console.error('Error fetching locations:', error);
+        async fetchLocations() {
+            try {
+
+                Swal.fire({
+                    title: 'Loading Information',
+                    text: 'Please wait we are getting your information...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
                 });
+
+                const response = await fetch('http://localhost:8083/locations/getall');
+                const data = await response.json();
+                const mappedData = data.map(location => ({
+                location_id: location.location_id,
+                country_name: location.country_name,
+                province: location.province,
+                amphoe: location.amphoe,
+                region: location.region,
+                latitude: location.latitude,
+                longitude: location.longitude
+            }));
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+                this.mapLocations = mappedData;
+                Swal.close();
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+            }
         },
 
         getLocationsFromSessionStorage() {
@@ -509,7 +518,7 @@ export default {
         },
 
         validateBeforeSubmit() {
-            if (!this.title || !this.fullDescription || !this.property_type || !this.price || !this.area || !this.selectedCountry || !this.selectedProvince || !this.selectedAmphoe || !this.selectedRegion) {
+            if (!this.fullTitle || !this.fullDescription || !this.property_type || !this.price || !this.area || !this.selectedCountry || !this.selectedProvince || !this.selectedAmphoe || !this.selectedRegion) {
                 Swal.fire({
                     title: "Incomplete Form!",
                     text: "Please fill in all required fields.",
@@ -537,7 +546,7 @@ export default {
 
             const formData = new FormData();
             formData.append('postId', currentPost.post_id);
-            formData.append('title', this.title);
+            formData.append('title', this.fullTitle);
             formData.append('description', this.fullDescription);
             formData.append('property_type', this.property_type);
             formData.append('price', this.price);
@@ -735,6 +744,8 @@ export default {
                 response.data.forEach(post => {
                     console.log(post);
                     if (post.rentpost) {
+                        let tt = post.rentpost.title;
+                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
                         let des = post.rentpost.description;
                         let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
@@ -750,7 +761,9 @@ export default {
                             amphoe: post.rentpost.locations.amphoe,
                             location_id: post.rentpost.locations.location_id,
                             country: post.rentpost.locations.countries.country_name,
-                            title: post.rentpost.title,
+                            // title: post.rentpost.title,
+                            shortTitle: shortTt,
+                            fullTitle: post.rentpost.title,
                             shortDescription: shortDescription,
                             fullDescription: post.rentpost.description,
                             property_type: post.rentpost.property_type,
@@ -764,6 +777,8 @@ export default {
                         });
                     } else if (post.sellpost) {
                         console.log(post);
+                        let tt = post.sellpost.title;
+                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
                         let des = post.sellpost.description;
                         let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
@@ -779,7 +794,9 @@ export default {
                             amphoe: post.sellpost.locations.amphoe,
                             location_id: post.sellpost.locations.location_id,
                             country: post.sellpost.locations.countries.country_name,
-                            title: post.sellpost.title,
+                            // title: post.sellpost.title,
+                            shortTitle: shortTt,
+                            fullTitle: post.sellpost.title,
                             shortDescription: shortDescription,
                             fullDescription: post.sellpost.description,
                             property_type: post.sellpost.property_type,
@@ -802,8 +819,15 @@ export default {
         },
 
         editPost(post) {
+            const cachedData = this.getLocationsFromSessionStorage();
+            if (cachedData) {
+                this.locations = cachedData;
+            } else {
+                this.fetchLocations();
+            }
+
             this.currentPost = toRaw(post);
-            this.title = this.currentPost.title;
+            this.fullTitle = this.currentPost.fullTitle;
             this.fullDescription = this.currentPost.fullDescription;
             this.property_type = this.currentPost.property_type;
             this.price = this.currentPost.price;
@@ -840,35 +864,24 @@ export default {
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-                        .then(response => {
-                            console.log(response.data);
-                            this.fetchPosts();
-                            window.location.reload();
-                        })
-                        .catch(error => {
-                            console.error("There was an error deleting the post!", error);
-                        });
                     Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success",
-                        showConfirmButton: false,
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                    customClass: {
+                        confirmButton: 'myCustomSuccessButton'
+                    },
+                }).then (() => {
+                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                    .catch(error => {
+                        console.error("There was an error deleting the post!", error);
                     });
+                    window.location.reload();
+                    this.fetchPosts();
+                });
                 }
+                
             });
-            // const confirmed = window.confirm("Do you want to delete this post?");
-            // if(confirmed) {
-            //     axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-            //     .then(response => {
-            //         console.log(response.data);
-            //         this.fetchPosts();
-            //         window.location.reload();
-            //     })
-            //     .catch(error => {
-            //         console.error("There was an error deleting the post!", error);
-            //     });
-            // }
         },
 
         getStatusClass(status) {
@@ -914,29 +927,29 @@ function triggerFileInput() {
 </script>
 
 <style>
-.card-container .card {
-    transition: 0.2s
-}
+    .card-container .card {
+        transition: 0.2s
+    }
 
-.card-container .card:hover {
-    transform: scale(1.007);
-}
+    .card-container .card:hover {
+        transform: scale(1.007);
+    }
 
-.editOffcanvasBox {
-    z-index: 3000;
-}
+    .editOffcanvasBox {
+        z-index: 3000;
+    }
 
-.editModalBox {
-    position: absolute;
-    z-index: 2000;
-}
+    .editModalBox {
+        position: absolute;
+        z-index: 2000;
+    }
 
-body.modal-open {
-    overflow: hidden;
-}
+    body.modal-open {
+        overflow: hidden;
+    }
 
-.modal {
-    display: flex;
-    align-items: center;
-}
+    .modal {
+        display: flex;
+        align-items: center;
+    }
 </style>

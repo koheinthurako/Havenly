@@ -29,14 +29,16 @@ public class EmailUtil {
 	public void sendSetPasswordEmail(String email)throws MessagingException{
 //		MimeMessage mimeMessage=javaMailSender.createMimeMessage();
 //		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-		String token = TokenUtil.generateToken();
-		Instant expiryTime = TokenUtil.getExpiryTime(3);
 
-		repo.savePasswordResetToken(email, token, expiryTime);
+		 String token = TokenUtil.generateToken();
+		    Instant expiryTime = TokenUtil.getExpiryTime(3); 
+		    
+		    repo.savePasswordResetToken(email, token, expiryTime);
+		    
+		    String resetUrl = "http://localhost:8080/akmakmset?token=" + token;
+		    
+         
 
-		String resetUrl = "http://localhost:8080/akmakmset?token=" + token;
-
-		System.out.println("hahahahhah");
 		SimpleMailMessage msg=new SimpleMailMessage();
 		msg.setTo(email);
 		msg.setSubject("Set Password");

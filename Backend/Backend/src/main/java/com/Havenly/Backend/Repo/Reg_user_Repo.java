@@ -1,16 +1,11 @@
 package com.Havenly.Backend.Repo;
 
-import java.util.List;
-
-import com.Havenly.Backend.Entity.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.Havenly.Backend.DTO.Reg_user_DD;
-import com.Havenly.Backend.DTO.Subscription_DTO;
 import com.Havenly.Backend.Entity.Reg_user;
 
 import jakarta.transaction.Transactional;
@@ -20,7 +15,9 @@ import jakarta.transaction.Transactional;
 public interface Reg_user_Repo extends JpaRepository<Reg_user, Integer> {
 
 	public Reg_user findByEmail(String gmail);
-
+	public Reg_user findById(int id);
+	
+	
 	@Transactional
 	public String deleteByEmail(String email);
 

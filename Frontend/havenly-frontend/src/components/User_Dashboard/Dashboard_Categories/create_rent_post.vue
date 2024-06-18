@@ -186,8 +186,8 @@
                                     <v-img :src="post.photo_url[0]"></v-img>
                                     
                                     <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                        <button class="w-50 btn btn-sm btn-outline-danger" to="/detailview">View</button>
-                                        <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                        <button class="w-100 btn btn-sm btn-outline-danger"
+                                            @click="clickPost(post.post_id)">View</button>
                                     </div>
 
                                 </div>
@@ -339,25 +339,76 @@ export default {
 
     methods: {
 
-        fetchLocations() {
-            fetch('http://localhost:8083/locations/getall')
-                .then(response => response.json())
-                .then(data => {
-                    const mappedData = data.map(location => ({
-                        location_id: location.location_id,
-                        country_name: location.country_name,
-                        province: location.province,
-                        amphoe: location.amphoe,
-                        region: location.region,
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                })
-                .catch(error => {
-                    console.error('Error fetching locations:', error);
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        decryptId(encryptedId) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+            const decryptedId = decryptedBytes.toString(Utf8);
+            return parseInt(decryptedId, 10);
+        },
+
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+        },
+
+        handleReset() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "All rent post information will be lost!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#E86F52",
+                cancelButtonColor: "##525252",
+                confirmButtonText: "Yes delete all!",
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        },
+
+        async fetchLocations() {
+            try {
+
+                Swal.fire({
+                    title: 'Loading',
+                    text: 'Fetching locations...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    willOpen: () => {
+                        Swal.showLoading();
+                    }
                 });
+
+                const response = await fetch('http://localhost:8083/locations/getall');
+                const data = await response.json();
+                const mappedData = data.map(location => ({
+                location_id: location.location_id,
+                country_name: location.country_name,
+                province: location.province,
+                amphoe: location.amphoe,
+                region: location.region,
+                latitude: location.latitude,
+                longitude: location.longitude
+            }));
+                sessionStorage.setItem('locations', JSON.stringify(mappedData));
+                this.locations = mappedData;
+                this.mapLocations = mappedData;
+                Swal.close();
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+            }
         },
 
         getLocationsFromSessionStorage() {
@@ -377,7 +428,7 @@ export default {
                 .then(response => {
                     console.log(response.data.availPosts);
                     this.availPosts = response.data.availPosts;
-                    if(this.availPosts === 0) {
+                    if(this.availPosts <= 0) {
                         Swal.fire({
                             title: 'Buy More Packages!',
                             text: 'Your available post is 0.',
@@ -403,38 +454,45 @@ export default {
             const subUserId = user.subUserId;
             console.log(subUserId);
             // Make API call to fetch posts from backend
-            axios.get('http://localhost:8083/rentpost/allSubuserRentPosts', {
+            axios.get('http://localhost:8083/posts/allRentPost', {
                 params: {
                     subUserId: subUserId
                 }
             })
             .then(response => {
                     response.data.forEach(post => {
-                        if(post.description.length > 50) {
-                            let des = post.description;
-                            post.description = des.substring(0, 50) + "...";
+
+                        if(post.rentpost != null) {
+                            if(post.rentpost.title.length > 20) {
+                                let tt = post.rentpost.title;
+                                post.rentpost.title = tt.substring(0, 20) + "...";
+                            }
+
+                            if (post.rentpost.description.length > 50) {
+                                let des = post.rentpost.description;
+                                post.rentpost.description = des.substring(0, 50) + "...";
+                            }
+
+                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
+                            console.log(imageUrls)
+                            console.log(post);
+                            this.rentPosts.unshift({
+                                post_id: post.post_id,
+                                province: post.rentpost.locations.province,
+                                region: post.rentpost.locations.region,
+                                country: post.rentpost.locations.countries.country_name,
+                                title: post.rentpost.title,
+                                description: post.rentpost.description,
+                                property_type: post.rentpost.property_type,
+                                area: post.rentpost.area,
+                                price: post.rentpost.price,
+                                deposit: post.rentpost.deposit,
+                                least_contract: post.rentpost.least_contract,
+                                photo_url: imageUrls,
+                                status: 'Complete',
+                            });
+                                console.log(typeof (imageUrls));
                         }
-                        
-                        let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
-                        console.log(imageUrls)
-                        console.log(post);
-                        this.rentPosts.unshift({
-                            post_id: post.post_id,
-                            province: post.locations.province,
-                            region: post.locations.region,
-                            country: post.locations.countries.country_name,
-                            title: post.title,
-                            description: post.description,
-                            property_type: post.property_type,
-                            area: post.area,
-                            price: post.price,
-                            deposit: post.deposit,
-                            least_contract: post.least_contract,
-                            photo_url: imageUrls,
-                            status: 'Complete',
-                        });
-                        console.log(typeof(imageUrls))
-                        
                     });
                 })
         }
@@ -452,6 +510,8 @@ export default {
     import axios from 'axios';
     import router from '@/router';
     import Swal from 'sweetalert2';
+    import AES from 'crypto-js/aes';
+    import Utf8 from 'crypto-js/enc-utf8';
 
     
     /* Field collection */

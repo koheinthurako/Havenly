@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.Havenly.Backend.Entity.Locations;
 import com.Havenly.Backend.Entity.RentPost;
 import com.Havenly.Backend.Entity.SellPost;
@@ -35,10 +36,10 @@ public class RentPost_Controller {
 		return new ResponseEntity<List<RentPost>>(rentRepo.getAllRentPosts(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/allSubuserRentPosts")
-	public ResponseEntity<List<RentPost>> getAllSubuserRentPosts(@RequestParam int subUserId) {
-		return new ResponseEntity<List<RentPost>>(rentService.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
-	}
+//	@GetMapping("/allSubuserRentPosts")
+//	public ResponseEntity<List<RentPost>> getAllSubuserRentPosts(@RequestParam int subUserId) {
+//		return new ResponseEntity<List<RentPost>>(rentService.getAllSubuserRentPosts(subUserId), HttpStatus.OK);
+//	}
 	
 	@PostMapping("/saverentpost")
 	public ResponseEntity<SellPost> saveSellPost(@RequestParam("files") MultipartFile[] files,

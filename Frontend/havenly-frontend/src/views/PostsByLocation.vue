@@ -29,51 +29,14 @@
                 </div>
                 <div v-else-if="displayError">{{ displayError }}</div>
 
-            <!-- <div class="pt-5">
+            <div class="pt-5">
                 <div class="row mb-3 g-3">
-                    <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12"
+                    <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12 element-to-scroll-to"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <div class="card cursor-pointer" style="height: 390px;">
                                 <div class="cardImgBox" style="width: 100%; height: 160px;">
                                     <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
-                                </div>
-                                <div class="card-body p-3 d-flex flex-column">
-                                    <h5 class="card-title mb-2">{{ post.title }}</h5>
-                                    <p class="card-text small opacity-75 mb-1">{{ post.shortDescription }}</p>
-                                    <p class="card-text text-danger small opacity-75">
-                                        <v-icon>mdi-map-marker-radius</v-icon>
-                                        {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                    </p>
-                                    <div class="d-flex mb-3 justify-content-between mb-auto">
-                                        <span v-if="post.deposit" class="small opacity-75">Deposit : {{ post.deposit
-                                            }}</span>
-                                        <span v-if="post.least_contract" class="small opacity-75">Contract : {{
-                                            post.least_contract }}</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between ">
-                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
-                                        <div class="d-flex text-danger">
-                                            <p class="m-0 small fw-bold fs-3">
-                                                {{ post.price }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <div class="pt-5">
-                <div class="row my-4 g-3 justify-content-center">
-                    <div v-for="post in posts" :key="post.post_id" class="col-10"
-                        @click="clickPost(post.post_id)">
-                        <div class="card-container">
-                            <div class="card cursor-pointer flex-row" style="height: 100%;">
-                                <div class="cardImgBox col-6">
-                                    <img :src="post.photo_url[0]" class="h-100 w-100" alt="Card image cap">
                                 </div>
                                 <div class="card-body p-3 d-flex flex-column">
                                     <h5 class="card-title mb-2">{{ post.title }}</h5>
@@ -112,6 +75,7 @@
 import axios from 'axios';
 import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
+// import Swal from 'sweetalert2';
 
 
     export default {
@@ -162,7 +126,6 @@ import Utf8 from 'crypto-js/enc-utf8';
                 const decryptedId = decryptedBytes.toString(Utf8);
                 console.log(decryptedId + "decryptedId");
                 return parseInt(decryptedId, 10);
-                // return decryptedId;
             },
 
             clickPost(post_id) {
@@ -170,31 +133,46 @@ import Utf8 from 'crypto-js/enc-utf8';
                 this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
             },
 
-            async fetchLocations() {
-                try {
-                    const response = await fetch('http://localhost:8083/locations/getall');
-                    const data = await response.json();
-                    const mappedData = data.map(location => ({
-                    location_id: location.location_id,
-                    country_name: location.country_name,
-                    province: location.province,
-                    amphoe: location.amphoe,
-                    region: location.region,
-                    latitude: location.latitude,
-                    longitude: location.longitude
-                    }));
-                    sessionStorage.setItem('locations', JSON.stringify(mappedData));
-                    this.locations = mappedData;
-                    this.mapLocations = mappedData;
-                } catch (error) {
-                    console.error('Error fetching locations:', error);
-                }
-            },
+            // async fetchLocations() {
 
-            getLocationsFromSessionStorage() {
-                const data = sessionStorage.getItem('locations');
-                return data ? JSON.parse(data) : null;
-            },
+            //     try {
+
+            //         Swal.fire({
+            //             title: 'Loading',
+            //             text: 'Fetching locations...',
+            //             icon: 'info',
+            //             allowOutsideClick: false,
+            //             allowEscapeKey: false,
+            //             showConfirmButton: false,
+            //             willOpen: () => {
+            //                 Swal.showLoading();
+            //             }
+            //         });
+
+            //         const response = await fetch('http://localhost:8083/locations/getall');
+            //         const data = await response.json();
+            //         const mappedData = data.map(location => ({
+            //         location_id: location.location_id,
+            //         country_name: location.country_name,
+            //         province: location.province,
+            //         amphoe: location.amphoe,
+            //         region: location.region,
+            //         latitude: location.latitude,
+            //         longitude: location.longitude
+            //         }));
+            //         sessionStorage.setItem('locations', JSON.stringify(mappedData));
+            //         this.locations = mappedData;
+            //         this.mapLocations = mappedData;
+            //         Swal.close();
+            //     } catch (error) {
+            //         console.error('Error fetching locations:', error);
+            //     }
+            // },
+
+            // getLocationsFromSessionStorage() {
+            //     const data = sessionStorage.getItem('locations');
+            //     return data ? JSON.parse(data) : null;
+            // },
 
             async fetchPostsByLocation(encryptedLocationId) {
                 this.posts.splice(0, this.posts.length);
@@ -283,13 +261,13 @@ import Utf8 from 'crypto-js/enc-utf8';
 
         mounted() {
 
-            const cachedData = this.getLocationsFromSessionStorage();
-            if(cachedData) {
-                this.locations = cachedData;
-                this.mapLocations = cachedData;
-            } else {
-                this.fetchLocations();
-            }
+            // const cachedData = this.getLocationsFromSessionStorage();
+            // if(cachedData) {
+            //     this.locations = cachedData;
+            //     this.mapLocations = cachedData;
+            // } else {
+            //     this.fetchLocations();
+            // }
             
 
             if (this.encryptedLocationId) {

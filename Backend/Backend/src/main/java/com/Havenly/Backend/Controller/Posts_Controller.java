@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Havenly.Backend.Entity.Packages;
 import com.Havenly.Backend.Entity.Posts;
+import com.Havenly.Backend.Repo.PackagesRepo;
+import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Service.Posts_Service;
 
 @RestController
@@ -23,6 +26,9 @@ public class Posts_Controller {
 	
 	@Autowired
 	Posts_Service postService;
+	
+	@Autowired
+	PackagesRepo packageRepo;
 	
 	@GetMapping("/allSubuserPosts")
 	public ResponseEntity<List<Posts>> getAllPosts(@RequestParam int subUserId){
@@ -54,6 +60,16 @@ public class Posts_Controller {
 		return new ResponseEntity<List<Posts>>(postService.getAllCompletePosts(),HttpStatus.OK);
 	}
 	
+	@GetMapping("/allSellPost")
+	public ResponseEntity<List<Posts>> getAllUserSellPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<Posts>>(postService.getAllUserSellPosts(subUserId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/allRentPost")
+	public ResponseEntity<List<Posts>> getAllUserRentPosts(@RequestParam int subUserId) {
+		return new ResponseEntity<List<Posts>>(postService.getAllUserRentPosts(subUserId), HttpStatus.OK);
+	}
+	
 	@GetMapping("/postsByLocation")
 	public ResponseEntity<List<Posts>> getAllPostsByLocation(@RequestParam int locationId) {
 		return new ResponseEntity<List<Posts>>(postService.getAllPostsByLocation(locationId), HttpStatus.OK);
@@ -62,6 +78,16 @@ public class Posts_Controller {
 	@PutMapping("/update")
 	public ResponseEntity<Posts> update(@RequestBody Posts post){
 		return new ResponseEntity<Posts>(postService.update(post),HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/decliePost")
+	public ResponseEntity<String> decliePostFromAdmin(@RequestParam int subUserId, @RequestParam int postId){
+		try {
+            postService.decliePost(subUserId, postId);
+            return ResponseEntity.ok("Post deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error declining post: " + e.getMessage());
+        }
 	}
 	
 	@DeleteMapping("/deletepost/{postId}")

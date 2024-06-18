@@ -6,22 +6,22 @@
                 <v-row class="g-1 mb-3">
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                     <v-col cols="12" md="3">
                         <v-skeleton-loader class="mx-auto" elevation="2" max-width="300" type="image, article, article"
-                            style="height: 300px; overflow:hidden;"></v-skeleton-loader>
+                            style="height: 390px; overflow:hidden;"></v-skeleton-loader>
                     </v-col>
 
                 </v-row>
@@ -30,17 +30,19 @@
 
                 <!-- All posts showing start -->
 
-                <div class="row mb-3 g-3">
+
+                <div class="row mb-3 g-3" v-if="displayedPosts && displayedPosts.length !== 0">
+
                     <div v-for="post in displayedPosts" :key="post.post_id" class="col-md-3 col-sm-12"
                         @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <!-- TZH card styles -->
                             <div class="card" style="height: 390px;">
                                 <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
-                                    <img :src="url" class="w-100 h-100" alt="Card image cap">
-                                </div> -->
+                                        <img :src="url" class="w-100 h-100" alt="Card image cap">
+                                    </div> -->
                                 <div class="cardImgBox" style="width: 100%; height: 160px;">
-                                    <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
+                                    <img :src="post.photo_url[0]" class="h-100 w-100 m-auto py-0" alt="Card image cap">
                                 </div>
                                 <div class="card-body p-3 d-flex flex-column">
                                     <h5 class="card-title mb-2">{{ post.title }}</h5>
@@ -56,7 +58,8 @@
                                             post.least_contract }}</span>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between ">
-                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type }}</span>
+                                        <span class="badge text-bg-danger rounded-pill">{{ post.property_type
+                                            }}</span>
                                         <div class="d-flex text-danger">
                                             <!-- <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon> -->
                                             <p class="m-0 small fw-bold fs-3">
@@ -66,8 +69,8 @@
                                     </div>
 
                                     <!-- <div class="d-flex align-items-center justify-content-between">
-                                        <p class="m-0 small">{{ post.area }} sqft</p>
-                                    </div> -->
+                                            <p class="m-0 small">{{ post.area }} sqft</p>
+                                        </div> -->
 
                                 </div>
                             </div>
@@ -76,6 +79,23 @@
 
                     </div>
                 </div>
+                <div v-else class="row" style="background-color: #fff;">
+                    <CommercialVue />
+                    <!-- <div class="col-md-6 col-sm-6">
+                        <v-img :src="img1" class="w-100"></v-img>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex align-items-center">
+                        <div class="my-auto" style="text-indent: 60px;">
+                            <p>"We apologize, but there are no properties available at this time. Our team is constantly
+                                updating our listings, so please check back soon for new opportunities. In the meantime,
+                                feel free to get in touch with us for personalized assistance or to inquire about
+                                upcoming properties. We appreciate your understanding and look forward to helping you
+                                find the perfect home."</p>
+                        </div>
+                    </div> -->
+                </div>
+
+
 
                 <!-- All posts showing end -->
             </div>
@@ -83,7 +103,7 @@
 
 
 
-            <div class="content-data d-flex mt-1 mb-3">
+            <div v-if="displayedPosts && displayedPosts.length !== 0" class="content-data d-flex mt-1 mb-3">
 
                 <!-- for Desktop view -->
 
@@ -104,9 +124,16 @@
 import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
 import axios from 'axios';
+
+
+import CommercialVue from '@/components/For_MainIndex/CommercialVue.vue';
 export default {
 
     name: 'tempVue',
+
+    components: {
+        CommercialVue,
+    },
 
     props: {
         content: {
@@ -117,6 +144,7 @@ export default {
 
 
     data: () => ({
+        img1: require('@/assets/img/p1.jpg'),
         loading: false,
         posts: [],
         get_title: '',

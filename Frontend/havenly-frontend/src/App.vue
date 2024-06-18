@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <navbar_vue />
+      <navbar_vue v-if="showNavbar" />
       <router-view />
-      <footer_vue />
+      <footer_vue v-if="showFooter"/>
     </v-main>
   </v-app>
 </template>
@@ -17,6 +17,18 @@ export default {
   components: {
     navbar_vue,
     footer_vue
+  },
+
+  computed: {
+    showNavbar() {
+      const currentPath = this.$route.path;
+      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/admin/login' && currentPath !== '/login' && currentPath !== '/register';
+    },
+
+    showFooter() {
+      const currentPath = this.$route.path;
+      return !currentPath.startsWith('/login') && currentPath !== '/admin/login' && currentPath !== '/register' && currentPath !== '/forgot';
+    }
   },
 
   data: () => ({

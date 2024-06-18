@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 
 import com.Havenly.Backend.Service.PackagesService;
-import com.Havenly.Backend.DTO.Packages_DTO;
 import com.Havenly.Backend.DTO.Packages_DD;
 import com.Havenly.Backend.Entity.PackageTypes;
 import com.Havenly.Backend.Entity.Packages;
@@ -63,13 +62,14 @@ public class PackagesServiceImpl implements PackagesService{
 		Subscription subUser = subRepo.findByNrc(reg.getSub().getNrc());
 		PackageTypes packTypes = packTypesRepo.findByPackName(packType);
 		Packages packUser = subUser.getPackages();
+		
 		if(packUser==null) {
 			return null;
 		}
 		if(!(this.payment(packType, amount))) {
 			return null;
 		}		
-//		packUser.setSub1(subUser);
+
 		packUser.setPackType(packTypes);
 		packUser.setPackDate(LocalDate.now());
 		packUser.setPackTime(LocalDateTime.now());	

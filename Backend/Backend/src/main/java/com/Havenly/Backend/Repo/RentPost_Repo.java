@@ -6,11 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.Havenly.Backend.DTO.RentPost_DTO;
-import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.RentPost;
 
 import jakarta.transaction.Transactional;
@@ -36,5 +33,10 @@ public interface RentPost_Repo extends JpaRepository<RentPost, String>{
 //			"WHERE p.sub_user_id = :subUserId"
 //			)
 //	List<RentPost_DTO> getAllSubuserRentPosts(@Param("subUserId") int subUserId);
+	
+	 @Transactional
+	    @Modifying
+	    @Query(value = "DELETE FROM rentpost WHERE rent_post_id = ?1", nativeQuery = true)
+	    void deleteFromRentpost(String id);
 	
 }

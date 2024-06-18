@@ -1,20 +1,14 @@
 package com.Havenly.Backend.Service_Impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.Havenly.Backend.Entity.Interest;
-import com.Havenly.Backend.Entity.Posts;
-import com.Havenly.Backend.Entity.Reg_user;
 import com.Havenly.Backend.Repo.Interest_Repo;
 import com.Havenly.Backend.Repo.Posts_Repo;
 import com.Havenly.Backend.Repo.Reg_user_Repo;
 import com.Havenly.Backend.Service.Interest_Service;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Configuration
 public class Interest_Service_Impl implements Interest_Service{
@@ -56,6 +50,11 @@ public class Interest_Service_Impl implements Interest_Service{
 		}else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Interest> getDataByPostId(int id) {
+		return repo.findDataByPostId(id);
 	}
 
 }
