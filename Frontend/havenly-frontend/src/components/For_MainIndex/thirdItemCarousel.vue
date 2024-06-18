@@ -71,15 +71,16 @@ export default {
         const response = await axios.get('http://localhost:8083/ads/all/complete');
         const data = response.data;
 
-        const fetchedAds = data.map(ad => {
-          const adtitle = ad.title;
-          const imageUrl = ad.imageUrl;
-
-          return {
-            title: adtitle,
-            photo_url: imageUrl
-          };
-        });
+        const fetchedAds = data.map(ad => ({
+          title: ad.title,
+          photo_url: ad.imageUrl
+          // const adtitle = ad.title;
+          // const imageUrl = ad.imageUrl;
+          // return {
+          //   title: adtitle,
+          //   photo_url: imageUrl
+          // };
+        })).reverse();
 
         this.ads = fetchedAds;
       } catch (error) {

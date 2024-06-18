@@ -334,8 +334,6 @@ export default {
                   
             },
 
-    },
-
-}
-
+    }
+    
 </script>

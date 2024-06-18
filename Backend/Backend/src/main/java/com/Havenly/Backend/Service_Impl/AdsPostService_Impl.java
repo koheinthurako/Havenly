@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Entity.AdsPost;
 import com.Havenly.Backend.Entity.Packages;
-import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Subscription;
 import com.Havenly.Backend.Repo.AdsPost_Repo;
 import com.Havenly.Backend.Repo.PackagesRepo;
