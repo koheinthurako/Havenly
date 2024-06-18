@@ -102,6 +102,13 @@ public class Reg_user_Controller {
 		boolean isBanned = banService.isEmailBanned(email);
 		return ResponseEntity.ok(isBanned);
 	}
+	
+	@GetMapping("/isExist")
+	public ResponseEntity<Boolean> isExist(@RequestParam String email) {
+		boolean isExist = regService.isEmailExist(email);
+		return ResponseEntity.ok(isExist);
+	}
+
 
 	//@GetMapping("/getSubUserInfo")
 	//public ResponseEntity<Reg_user_DD> getSubUserInfo() {
