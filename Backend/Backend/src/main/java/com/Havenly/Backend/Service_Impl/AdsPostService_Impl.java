@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Havenly.Backend.Entity.AdsPost;
 import com.Havenly.Backend.Entity.Packages;
+import com.Havenly.Backend.Entity.Posts;
 import com.Havenly.Backend.Entity.Subscription;
 import com.Havenly.Backend.Repo.AdsPost_Repo;
 import com.Havenly.Backend.Repo.PackagesRepo;
@@ -126,20 +127,22 @@ public class AdsPostService_Impl implements AdsPostService{
 	@Transactional
 	@Override
 	public void deleteByAdmin(String adsId) {
+		
 		AdsPost adsPost = adsRepo.findById(adsId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adsId));
 		int subUserId = adsPost.getSubUser().getSubUserId();
-		 Packages pack = packageRepo.findByUserId(subUserId);
-		    if (pack == null) {
-		        throw new RuntimeException("Package not found for user ID: " + subUserId);
-		    } else {
-		    	int adsCount = pack.getAvailAds()+1;
-		    	System.out.println("call UpdateAds method");
-		    	System.out.println("adsCount value : " + adsCount);
-			    packageRepo.updateAds(adsCount, subUserId);
-			    System.out.println("Successfully updated avail_ads in database!");
-		    }
-		    
-		adsRepo.delete(adsPost);
+		System.out.println(subUserId + " -------------- Sub User Id from admin declie -----------");
+		if(adsPost != null) {
+			adsPost.setStatus("rejected");
+		}
+		Packages pack = packageRepo.findByUserId(subUserId);
+        if (pack == null) {
+	        throw new RuntimeException("Package not found for user ID: " + subUserId);
+	    } else {
+	    	int adsCount = pack.getAvailAds()+1;
+	    	
+		    packageRepo.updateAds(adsCount, subUserId);
+		    System.out.println("Successfully updated plus 1 avail_ads count in database!");
+	    }
 	}
 
 

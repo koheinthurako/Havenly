@@ -304,6 +304,15 @@ public class Reg_user_Service_Impl implements Reg_user_Service{
 		Reg_user_DD dto = user3.covertToObject(user);
 		return dto;
 	}
+
+	@Override
+	public boolean isEmailExist(String email) {
+		// TODO Auto-generated method stub
+		Reg_user user=regRepo.findByEmail(email);
+		if(user==null)return true;
+		return false;
+		
+	}
 	
 	
 	

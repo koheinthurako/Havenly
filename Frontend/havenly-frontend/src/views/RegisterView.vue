@@ -7,7 +7,7 @@
       <h1 class="mb-3" style="color: #e86f52;"><strong>Create Your Account</strong></h1>
         <v-form ref="form" v-model="valid" fast-fail @submit.prevent="signup">
             <v-text-field required variant="underlined" v-model="user.name"  label="Name" ></v-text-field>
-            <v-text-field variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
+            <v-text-field type="number" variant="underlined" v-model="user.phone"  :rules="[value => value.length<12 || 'Ph no. must be 11 numbers']" label="Phone" required ></v-text-field>
             <v-text-field variant="underlined"  v-model="user.email"    label="Email" required  :rules="[v => !!v || 'Email is required', v => !/^\s*$/.test(v) || 'Email cannot be just spaces', v => /.+@.+\..+/.test(v) || 'Email must be valid']" ></v-text-field>
             <v-text-field variant="underlined" v-model="user.password"  label="password" required  
             :type="showPassword ? 'text' : 'Password'"

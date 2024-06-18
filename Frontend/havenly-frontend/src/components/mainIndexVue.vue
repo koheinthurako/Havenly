@@ -161,6 +161,7 @@ export default {
     localStorage.removeItem('openTab');
     localStorage.removeItem('adminTab');
     this.checkBanStatus();
+    this.checkExistStatus();
   },
 
 
@@ -175,6 +176,30 @@ export default {
           Swal.fire({
                             title: 'Banned!',
                             text: 'Your account is banned by admin team for 7 days.',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'myCustomButton'
+                            },
+                            buttonsStyling: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                          sessionStorage.removeItem('login_user');
+          window.location.href = '/login'; // Redirect to login page
+                        });
+          
+        }
+      }
+    },
+    async checkExistStatus() {
+      if (JSON.parse(sessionStorage.getItem('login_user'))) {
+        const user = JSON.parse(sessionStorage.getItem('login_user'));
+        const response = await fetch(`http://localhost:8083/isExist?email=${user.email}`);
+        const isExist = await response.json();
+        if (isExist) {
+          Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Your account is deleted by admin team.',
                             icon: 'error',
                             customClass: {
                                 confirmButton: 'myCustomButton'

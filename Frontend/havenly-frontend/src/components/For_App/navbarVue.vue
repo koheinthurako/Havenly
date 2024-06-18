@@ -455,6 +455,7 @@ export default {
       localStorage.setItem('hiddenCards', JSON.stringify(hiddenCards));
 
       // Update the filteredOjbs based on the new hiddenCards list
+      console.log(objs);
       filteredOjbs.value = filterData(objs.value);
 
       // activeButton.value = null;
@@ -607,7 +608,7 @@ export default {
       fullName: 'John Doe',
       email: 'john.doe@doe.com',
     },
-
+    notiCount: null,
     items: [
       { title: 'Click Me' },
       { title: 'Click Me' },
