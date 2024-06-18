@@ -71,7 +71,7 @@
                                     required></v-select> -->
 
                                     <h5 class="d-block d-sm-none test-start color-brick">Select location</h5>
-                                    <select class="col-6 col-md-3 mb-3" v-model="selectedCountry"
+                                    <!-- <select class="col-6 col-md-3 mb-3" v-model="selectedCountry"
                                         aria-label=".form-select-sm example" required>
                                         <option value="">Select country</option>
                                         <option v-for="country in uniqueCountries" :key="country" :value="country">{{
@@ -99,10 +99,95 @@
                                         <option v-for="region in uniqueRegions" :key="region" :value="region">{{ region
                                             }}
                                         </option>
-                                    </select>
+                                    </select> -->
+
+                                    <!-- start -->
+                                    <div class="row ">
+
+
+                                        <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
+                                            <div class="card">
+                                                <div class="card-body p-0 m-0" style="border-radius: none;">
+
+                                                    <select style="border-radius: none;" v-model="selectedCountry"
+                                                        class="form-select form-select-sm"
+                                                        aria-label="Large select example" required>
+                                                        <option value="" style="border-radius: none;">Select country
+                                                        </option>
+                                                        <option v-for="country in uniqueCountries" :key="country"
+                                                            :value="country">
+                                                            {{
+                                                                country }}</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
+                                            <div class="card">
+                                                <div class="card-body p-0 m-0">
+
+                                                    <select v-model="selectedProvince" :disabled="!selectedCountry"
+                                                        class="form-select form-select-sm"
+                                                        aria-label="Large select example" required>
+                                                        <option value="">Select province</option>
+                                                        <option v-for="province in uniqueProvinces" :key="province"
+                                                            :value="province">{{
+                                                                province }}</option>
+                                                    </select>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
+                                            <div class="card">
+                                                <div class="card-body p-0 m-0">
+
+                                                    <select v-model="selectedAmphoe" :disabled="!selectedProvince"
+                                                        class="form-select form-select-sm"
+                                                        aria-label="Large select example" required>
+                                                        <option value="">Select amphoe</option>
+                                                        <option v-for="amphoe in uniqueAmphoes" :key="amphoe"
+                                                            :value="amphoe">{{
+                                                                amphoe
+                                                            }}
+                                                        </option>
+                                                    </select>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
+                                            <div class="card">
+                                                <div class="card-body p-0 m-0">
+
+                                                    <select v-model="selectedRegion" :disabled="!selectedAmphoe"
+                                                        class="form-select form-select-sm"
+                                                        aria-label="Large select example" required>
+                                                        <option value="">Select region</option>
+                                                        <option v-for="region in uniqueRegions" :key="region"
+                                                            :value="region">{{
+                                                                region
+                                                            }}
+                                                        </option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- end -->
 
                                 </div>
-
                                 <div class="row justify-content-between">
                                     <div class="col-md-2 col-sm-12">
                                         <span class="float-left mt-2 small"> Property Type </span>
@@ -122,12 +207,32 @@
                                             </option>
                                         </select> -->
 
-                                        <select class="w-100 mb-3" v-model="propertyTypes.value.value"
+                                        <!-- <select class="w-100 mb-3" v-model="propertyTypes.value.value"
                                             aria-label=".form-select-lg example" required>
-                                            <option label="select" disabled value="">Select property type</option>
+                                            <option label="select" value="">Select property type</option>
                                             <option v-for="type in PropertyTypes" :key="type" :value="type">{{ type }}
                                             </option>
-                                        </select>
+                                        </select> -->
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-lg-12">
+                                                <div class="card p-1">
+                                                    <div class="card-body ">
+                                                        <select v-model="propertyTypes.value.value"
+                                                            class="form-select form-select-sm"
+                                                            aria-label="Large select example" required>
+                                                            <option value="">Select property type</option>
+                                                            <option v-for="type in PropertyTypes" :key="type"
+                                                                :value="type">
+                                                                {{ type }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
 
                                     </div>
                                 </div>
@@ -336,6 +441,8 @@
         </v-container>
     </div>
 
+
+
 </template>
 
 <script>
@@ -383,57 +490,57 @@ export default {
         //     v => !!v || 'Description is required!',
         // ],
 
-        sell_data: [
+        // sell_data: [
 
-            {
-                id: 1, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
-            },
-            {
-                id: 2, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Sell'
-            },
-            {
-                id: 3, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
-            }, {
-                id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Sell'
-            },
-            {
-                id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-5.jpg'), type: 'Sell'
-            }, {
-                id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-6.jpg'), type: 'Sell'
-            },
-            {
-                id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-7.jpg'), type: 'Sell'
-            }, {
-                id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
-            }
+        //     {
+        //         id: 1, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+        //     },
+        //     {
+        //         id: 2, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Sell'
+        //     },
+        //     {
+        //         id: 3, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
+        //     }, {
+        //         id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Sell'
+        //     },
+        //     {
+        //         id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-5.jpg'), type: 'Sell'
+        //     }, {
+        //         id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-6.jpg'), type: 'Sell'
+        //     },
+        //     {
+        //         id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-7.jpg'), type: 'Sell'
+        //     }, {
+        //         id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+        //     }
 
-        ],
+        // ],
 
-        rent_data: [
+        // rent_data: [
 
-            {
-                id: 1, title: 'International Playground', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
-            },
-            {
-                id: 2, title: 'Swimming Pool', img: require('@/assets/img/house-6.jpg'), type: 'Rent'
-            },
-            {
-                id: 3, title: 'Shopping Mall', img: require('@/assets/img/house-5.jpg'), type: 'Rent'
-            }, {
-                id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Rent'
-            },
-            {
-                id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
-            }, {
-                id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Rent'
-            },
-            {
-                id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
-            }, {
-                id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
-            }
+        //     {
+        //         id: 1, title: 'International Playground', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
+        //     },
+        //     {
+        //         id: 2, title: 'Swimming Pool', img: require('@/assets/img/house-6.jpg'), type: 'Rent'
+        //     },
+        //     {
+        //         id: 3, title: 'Shopping Mall', img: require('@/assets/img/house-5.jpg'), type: 'Rent'
+        //     }, {
+        //         id: 4, title: 'Apartment Zone', img: require('@/assets/img/house-4.jpg'), type: 'Rent'
+        //     },
+        //     {
+        //         id: 5, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-3.jpg'), type: 'Sell'
+        //     }, {
+        //         id: 6, title: 'Apartment Zone', img: require('@/assets/img/house-2.jpg'), type: 'Rent'
+        //     },
+        //     {
+        //         id: 7, title: 'Area 51 Industrial zone', img: require('@/assets/img/house-1.jpg'), type: 'Sell'
+        //     }, {
+        //         id: 8, title: 'Apartment Zone', img: require('@/assets/img/house-7.jpg'), type: 'Rent'
+        //     }
 
-        ],
+        // ],
 
 
         rules: [

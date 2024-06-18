@@ -1,6 +1,5 @@
 <template>
   <div class="third-carousel-page">
-    <h3 class="ms-4 mb-3" style="color:#e86f52;">Ads slider</h3>
     <div class="custom-swiper-container">
       <div v-if="loading">
         <v-row class="g-3">
