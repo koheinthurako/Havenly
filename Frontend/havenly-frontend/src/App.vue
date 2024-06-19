@@ -22,12 +22,12 @@ export default {
   computed: {
     showNavbar() {
       const currentPath = this.$route.path;
-      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/login' && currentPath !== '/register';
+      return !currentPath.startsWith('/admin/dashboard') && currentPath !== '/admin/login' && currentPath !== '/login' && currentPath !== '/register';
     },
 
     showFooter() {
       const currentPath = this.$route.path;
-      return !currentPath.startsWith('/login') && currentPath !== '/register' && currentPath !== '/forgot';
+      return !currentPath.startsWith('/login') && currentPath !== '/admin/login' && currentPath !== '/register' && currentPath !== '/forgot';
     }
   },
 

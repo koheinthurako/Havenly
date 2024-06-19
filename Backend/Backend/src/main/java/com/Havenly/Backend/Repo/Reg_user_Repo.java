@@ -17,6 +17,7 @@ public interface Reg_user_Repo extends JpaRepository<Reg_user, Integer> {
 	public Reg_user findByEmail(String gmail);
 	public Reg_user findById(int id);
 	
+	
 	@Transactional
 	public String deleteByEmail(String email);
 

@@ -45,6 +45,16 @@ public class Posts_Service_Impl implements Posts_Service {
 	}
 
 	@Override
+	public List<Posts> getAllUserSellPosts(int subUserId) {
+		return postsRepo.getAllUserSellPosts(subUserId);
+	}
+
+	@Override
+	public List<Posts> getAllUserRentPosts(int subUserId) {
+		return postsRepo.getAllUserRentPosts(subUserId);
+	}
+
+	@Override
 	public Posts getPostById(int postId) {
 		return postsRepo.findById(postId).orElse(null);
 	}

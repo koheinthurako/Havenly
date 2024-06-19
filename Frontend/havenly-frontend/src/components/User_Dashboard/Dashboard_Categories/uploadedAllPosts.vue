@@ -469,21 +469,11 @@ export default {
             return parseInt(decryptedId, 10);
         },
 
-        clickPost(post_id, status) {
-            // Check the status of the post
-            if (status === 'pending') {
-                // Show an info alert if the post is in a pending state
-                Swal.fire({
-                    title: 'Post Pending',
-                    text: 'The post is currently in a pending state.',
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                });
-            } else if (status === 'complete') {
-                // Continue with the process if the post is complete
-                const afterEncrypt = this.encryptId(post_id);
-                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
-            }
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
         },
         async fetchLocations() {
             try {

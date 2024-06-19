@@ -365,9 +365,8 @@
                                             <v-img :src="post.photo_url[0]" cover></v-img>
 
                                             <div class="btn-section d-flex justify-content-center gap-3 px-4">
-                                                <button class="w-50 btn btn-sm btn-outline-danger"
-                                                    to="/detailview">View</button>
-                                                <button class="w-50 btn btn-sm btn-danger">Edit</button>
+                                                <button class="w-100 btn btn-sm btn-outline-danger"
+                                                    @click="clickPost(post.post_id)">View</button>
                                             </div>
 
                                         </div>
@@ -632,34 +631,25 @@ export default {
     },
 
     methods: {
-        startLoading() {
-            this.showProgress = true;
-        },
+
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
             const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
             return encryptedId
         },
 
-        clickPost(data) {
-            const afterEncrypt = this.encryptId(data);
-            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
-
+        decryptId(encryptedId) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+            const decryptedId = decryptedBytes.toString(Utf8);
+            return parseInt(decryptedId, 10);
         },
 
-        toggleDisplay() {
-            this.displayCreateView = false;
-            this.displayApproveView = true;
-        },
-
-        toggleDisplay2() {
-            this.displayCreateView = true;
-            this.displayApproveView = false;
-        },
-
-        updateView() {
-            this.displayCreateView = true;
-            this.displayApproveView = window.innerWidth >= 768;
+        clickPost(post_id) {
+            // router.push('/PostsView')
+            const afterEncrypt = this.encryptId(post_id);
+            // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
         },
 
         handleReset() {
@@ -731,7 +721,7 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.availPosts = response.data.availPosts
-                    if (this.availPosts === 0) {
+                    if (this.availPosts <= 0) {
                         Swal.fire({
                             title: 'Buy More Packages!',
                             text: 'Your available post is 0.',
@@ -756,8 +746,7 @@ export default {
             const user = JSON.parse(sessionStorage.getItem('sub_user'));
             const subUserId = user.subUserId;
             console.log(subUserId);
-            // Make API call to fetch posts from backend
-            axios.get('http://localhost:8083/sellpost/allSubuserSellPosts', {
+            axios.get('http://localhost:8083/posts/allSellPost', {
                 params: {
                     subUserId: subUserId
                 }
@@ -765,35 +754,35 @@ export default {
                 .then(response => {
                     console.log("show response : ", response);
                     response.data.forEach(post => {
+                        if (post.sellpost != null) {
+                            if (post.sellpost.title.length > 20) {
+                                let tt = post.sellpost.title;
+                                post.sellpost.title = tt.substring(0, 20) + "...";
+                            }
 
-                        if (post.title.length > 20) {
-                            let tt = post.title;
-                            post.title = tt.substring(0, 20) + "...";
+                            if (post.sellpost.description.length > 50) {
+                                let des = post.sellpost.description;
+                                post.sellpost.description = des.substring(0, 50) + "...";
+                            }
+
+                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
+                            console.log(imageUrls)
+                            console.log(post);
+                            this.sellPosts.unshift({
+                                post_id: post.post_id,
+                                province: post.sellpost.locations.province,
+                                region: post.sellpost.locations.region,
+                                country: post.sellpost.locations.countries.country_name,
+                                title: post.sellpost.title,
+                                description: post.sellpost.description,
+                                property_type: post.sellpost.property_type,
+                                area: post.sellpost.area,
+                                price: post.sellpost.price,
+                                photo_url: imageUrls,
+                                status: 'Complete',
+                            });
+                            console.log(typeof (imageUrls));
                         }
-
-                        if (post.description.length > 50) {
-                            let des = post.description;
-                            post.description = des.substring(0, 50) + "...";
-                        }
-
-                        let imageUrls = Array.isArray(post.image) ? post.image : [post.image];
-                        console.log(imageUrls)
-                        console.log("show posts : ", post);
-                        this.sellPosts.unshift({
-                            post_id: post.post_id,
-                            province: post.locations.province,
-                            region: post.locations.region,
-                            country: post.locations.countries.country_name,
-                            title: post.title,
-                            description: post.description,
-                            property_type: post.property_type,
-                            area: post.area,
-                            price: post.price,
-                            photo_url: imageUrls,
-                            status: 'Complete',
-                        });
-                        console.log(typeof (imageUrls))
-
                     });
                 })
         }
@@ -812,8 +801,8 @@ import { useField } from 'vee-validate'
 import axios from 'axios';
 import router from '@/router';
 import Swal from 'sweetalert2';
-
-import AES from 'crypto-js/aes'
+import AES from 'crypto-js/aes';
+import Utf8 from 'crypto-js/enc-utf8';
 
 /* Field collection */
 const title = useField('title')

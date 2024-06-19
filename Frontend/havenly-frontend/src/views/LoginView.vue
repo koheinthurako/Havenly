@@ -31,7 +31,7 @@
               <v-col cols="auto">
 
               <div class="text-center mt-4">
-                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Register</button>
+                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Login</button>
               </div>
 
 
