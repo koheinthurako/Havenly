@@ -83,31 +83,9 @@
                                 <div class="card">
                                     <div class="card-body p-0 m-0" style="border-radius: none;">
 
-                                        <select style="border-radius: none;" v-model="selectedCountry"
-                                            class="form-select form-select-lg" aria-label="Large select example"
-                                            required>
-                                            <option value="" style="border-radius: none;">Select country</option>
-                                            <option v-for="country in uniqueCountries" :key="country" :value="country">
-                                                {{
-                                                    country }}</option>
-                                        </select>
 
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
-                                <div class="card">
-                                    <div class="card-body p-0 m-0">
-
-                                        <select v-model="selectedProvince" :disabled="!selectedCountry"
-                                            class="form-select form-select-lg" aria-label="Large select example"
-                                            required>
-                                            <option value="">Select province</option>
-                                            <option v-for="province in uniqueProvinces" :key="province"
-                                                :value="province">{{
-                                                    province }}</option>
-                                        </select>
+                                        <v-select hide-details bg-color="white" v-model="selectedCountry"
+                                            :items="uniqueCountries" label="Select country" required></v-select>
 
 
 
@@ -119,15 +97,12 @@
                                 <div class="card">
                                     <div class="card-body p-0 m-0">
 
-                                        <select v-model="selectedAmphoe" :disabled="!selectedProvince"
-                                            class="form-select form-select-lg" aria-label="Large select example"
-                                            required>
-                                            <option value="">Select amphoe</option>
-                                            <option v-for="amphoe in uniqueAmphoes" :key="amphoe" :value="amphoe">{{
-                                                amphoe
-                                            }}
-                                            </option>
-                                        </select>
+                                        <v-select hide-details bg-color="white" v-model="selectedProvince"
+                                            :items="uniqueProvinces" :disabled="!selectedCountry"
+                                            label="Select province" required></v-select>
+
+
+
 
                                     </div>
                                 </div>
@@ -137,15 +112,22 @@
                                 <div class="card">
                                     <div class="card-body p-0 m-0">
 
-                                        <select v-model="selectedRegion" :disabled="!selectedAmphoe"
-                                            class="form-select form-select-lg" aria-label="Large select example"
-                                            required>
-                                            <option value="">Select region</option>
-                                            <option v-for="region in uniqueRegions" :key="region" :value="region">{{
-                                                region
-                                            }}
-                                            </option>
-                                        </select>
+                                        <v-select hide-details bg-color="white" v-model="selectedAmphoe"
+                                            :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe"
+                                            required></v-select>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
+                                <div class="card">
+                                    <div class="card-body p-0 m-0">
+
+                                        <v-select hide-details bg-color="white" v-model="selectedRegion"
+                                            :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region"
+                                            required></v-select>
 
                                     </div>
                                 </div>

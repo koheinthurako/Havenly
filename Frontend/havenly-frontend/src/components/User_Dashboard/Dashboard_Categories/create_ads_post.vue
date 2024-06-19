@@ -1,159 +1,67 @@
 <template>
-  <div class="create-ads-page-edit">
+  <div class="d-flex justify-center mb-5" style="height: 100vh">
     <v-container>
-      <!-- for desktop start -->
-      <div class="row">
-        <div class="col-md-7 col-sm-12 p-0 m-0" v-if="displayCreateView">
 
-          <!-- TZH Form -->
-          <div class="create-ads-post">
+      <h3 class="">Create Ads</h3>
+      <br>
+      <!-- Form to create a new ad post -->
+      <div class="d-flex mb-3">
+        <span class="d-flex align-center" @click="openAdsDialog"
+          style="width: 8%; justify-content: center; border: 1px dashed; border-radius: 10%; border-color:#ccc; padding:20px">
+          <v-icon class="edit-icon">mdi-plus</v-icon>
+        </span>
+        <span class="d-flex align-center" style="width: 90%; justify-content: right;">
+          <h5>Available Ads : <span class="brick-text">{{ availAds }}</span></h5>
+        </span>
+        <!-- upload ads dialog start -->
+        <v-dialog v-model="adsDialog" class="create-pop-up" persistent>
+          <form @submit.prevent="submitAdPost" class="form-edit2">
+            <v-row cols="12" class="mx-auto mb-3">
+              <h3>Create an Ad</h3>
+            </v-row>
+            <button class="close-btn" @click="closeAdsDialog">
+              <v-icon>mdi-close-circle</v-icon>
+            </button>
+            <v-text-field v-model="title" label="Title" required outlined></v-text-field>
 
-            <div class="header mb-3 row">
-              <div class=" left-edit  col-sm-12 col-md-6">
-                <div class="specific-edit d-flex align-items-center">
-                  <v-icon class="me-2">mdi-information</v-icon>
-                  <p class="mt-3">Create Ads</p>
-                </div>
-              </div>
-              <div class=" right-edit col-sm-12 col-md-6">
-                <div class="specific-edit d-flex align-items-center">
-                  <span>Available ads : </span>
-                  <h5 class="text-red m-0">&nbsp; {{ availAds }}</h5>
-                </div>
-                <v-btn rounded class="toggle-btn2 mb-2" @click="toggleDisplay">show posts</v-btn>
-              </div>
+            <div class="img-container1" @click="triggerFileInput">
+              <v-img v-if="imagePreview" :src="imagePreview" class="img1" alt="Ads Picture" max-height="300"
+                max-width="400" contain />
+              <v-icon v-else class="edit-icon">mdi-plus</v-icon>
+              <input type="file" accept="image/png, image/jpeg, image/bmp" ref="fileInput" style="display: none;"
+                :rules="rules" @change="handleFileUpload" />
             </div>
-
-            <div class="body">
-
-              <div>
-                <form @submit.prevent="submitAdPost" class="form-edit3 no-select">
-                  <v-row cols="12" class="mx-auto mb-3">
-                    <h4 class="color-brick">Create an advertisement</h4>
-                  </v-row>
-                  <!-- <button class="close-btn" @click="closeAdsDialog">
-                    <v-icon>mdi-close-circle</v-icon>
-                  </button> -->
-                  <v-text-field v-model="title" label="Create a title" clearable required
-                    variant="outlined"></v-text-field>
-
-                  <div class="img-container1" @click="triggerFileInput">
-                    <v-img rounded v-if="imagePreview" :src="imagePreview" class="img1" alt="Ads Picture"
-                      max-height="300" max-width="400" cover />
-                    <div v-else class="d-flex justify-content-center align-items-center">
-                      <v-icon class="edit-icon me-2">mdi-plus</v-icon>
-                      <h5 class="mt-1">choose an image</h5>
-
-                    </div>
-
-                    <input type="file" accept="image/png, image/jpeg, image/bmp" ref="fileInput" style="display: none;"
-                      :rules="rules" @change="handleFileUpload" />
-                  </div>
-                  <p>
-                    <v-row cols="12" class="w-100 mt-4 d-flex justify-end">
-                      <v-btn v-if="imagePreview" @click="clearImage" rounded class="submit2 bg-dark me-3">
-                        Clear
-                      </v-btn>
-                      <v-btn rounded class="submit2 me-3" type="submitAdPost">
-                        Submit
-                      </v-btn>
-
-                    </v-row>
-                  </p>
-                </form>
-              </div>
-
-              <!-- <span class="d-flex align-center" @click="openAdsDialog"
-                style="width: 8%; justify-content: center; border: 1px dashed; border-radius: 10%; border-color:#ccc; padding:20px">
-                <v-icon class="edit-icon elevation-5">mdi-plus</v-icon>
-              </span> -->
-
-              <!-- upload ads dialog start -->
-              <!-- <v-dialog v-model="adsDialog" class="create-pop-up" persistent>
-                
-              </v-dialog> -->
-              <!-- dialog end -->
-
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="col-md-5 col-sm-12 p-0 m-0" v-if="displayApproveView">
-          <!-- Display post section start -->
-
-          <div class="display-ads-post">
-
-            <div class="header mb-3 row">
-              <div class=" left-edit col-sm-12 col-md-12">
-                <div class="specific-edit d-flex align-items-center justify-content-center">
-                  <v-icon class="me-1">mdi-information</v-icon>
-                  <p class="mt-3">Approved ads</p>
-                </div>
-              </div>
-              <div class=" right-edit col-sm-12 only-767">
-                <div class="specific-edit d-flex align-items-center">
-                  <p class="p-0 m-0 me-2">Approved By</p>
-                  <h5 class="color-brick m-0">Admin</h5>
-                </div>
-                <v-btn rounded class="toggle-btn2 mb-2" @click="toggleDisplay2">show posts</v-btn>
-              </div>
-            </div>
-
-            <div class="body">
-
-              <div v-if="ads && ads.length > 0">
-                <!-- display ads start -->
-                <v-row>
-                  <v-col v-for="ad in ads" :key="ad.id" cols="12" class="d-flex">
-                    <v-card class="d-flex  w-100">
-                      <v-img :src="ad.imageUrl || ''" cover>
-                        <v-container class="fill-height d-flex align-start text-light"
-                          style="background: rgba(0, 0, 0, 0.5); cursor:pointer">
-                          <h4>{{ ad.title }}</h4>
-                        </v-container>
-
-                      </v-img>
-                      <!-- <span class="ad-status">{{ ad.status }}</span> -->
-                      <span class="px-3 py-2 ad-status badge rounded-pill text-uppercase  d-inline"
-                        style="font-size: 0.8rem; padding: 0.25em 0.5em;">{{ ad.status }}</span>
-
-
-                      <v-btn icon class="delete-button" @click="deleteAdPost(ad.ads_post_id)">
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </v-card>
-                  </v-col>
-                </v-row>
-                <!-- display ads end -->
-
-              </div>
-              <div v-else class="d-flex justify-content-center align-items-center">
-
-
-                <div style="width: 100%; height: 280px;" class="d-flex justify-content-center align-items-center"
-                  v-if="showLoading">
-                  <v-progress-circular v-if="showLoading" indeterminate :size="80" color="#e86f52"
-                    :width="7"></v-progress-circular>
-                </div>
-
-
-                <v-alert v-if="!showLoading" text="Currently, there is no advertisements available yet!"
-                  title="Post status" type="info"></v-alert>
-
-              </div>
-
-
-            </div>
-          </div>
-
-          <!-- Display post section end -->
-
-        </div>
+            <p>
+              <v-row cols="12" class="w-100 mt-4">
+                <v-btn class="submit ms-auto me-3" type="submitAdPost">
+                  Submit
+                </v-btn>
+              </v-row>
+            </p>
+          </form>
+        </v-dialog>
+        <!-- dialog end -->
       </div>
-      <!-- for Desktop end -->
+      <!-- Display ad posts -->
+      <div style="max-height: calc(100vh - 150px); overflow-y: auto;">
+
+        <v-row>
+          <v-col v-for="ad in ads" :key="ad.id" cols="12" md="4" class="d-flex">
+            <v-card class="d-flex pa-2 w-100">
+              <v-img :src="ad.imageUrl || ''" height="250px" width="400px" contain>
+                <v-container class="fill-height d-flex align-start"
+                  style="background: rgba(0, 0, 0, 0.5); color: white; cursor:pointer">
+                  <h4>{{ ad.title }}</h4>
+                </v-container>
+              </v-img>
+              <span class="ad-status" :class="getStatusClass(ad.status)">{{ ad.status }}</span>
+              <v-btn icon class="delete-button" @click="deleteAdPost(ad.ads_post_id)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </div>
 </template>
@@ -169,16 +77,6 @@ export default {
 
   data() {
     return {
-
-      //fade loading 
-      showLoading: false,
-
-      //specific view 
-      displayCreateView: true,
-      displayApproveView: window.innerWidth >= 768,
-      progressCircular: false,
-
-
       adsDialog: false,
       availAds: '',
       // ads:[],
@@ -194,45 +92,26 @@ export default {
     }
   },
 
-  beforeUnmount() {
-    window.removeEventListener('resize', this.updateView);
+  mounted() {
+    this.fetchSubUserInfo();
   },
 
-
   methods: {
-    toggleDisplay() {
-      this.displayCreateView = false;
-      this.displayApproveView = true;
-    },
-
-    toggleDisplay2() {
-      this.displayCreateView = true;
-      this.displayApproveView = false;
-    },
-
-    updateView() {
-      this.displayCreateView = true;
-      this.displayApproveView = window.innerWidth >= 768;
-    },
-
-
     openAdsDialog() {
-      const user = JSON.parse(sessionStorage.getItem('sub_user'));
-      const availAds = user.availAds;
-      if (availAds <= 0) {
-        this.adsDialog = false;
-        Swal.fire({
-          title: 'No Ads for your package!',
-          text: 'Your available ads is 0.',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'myCustomButton'
-          },
-          buttonsStyling: false
-        })
+      console.log(this.availAds);
+      if (!(this.availAds <= 0)) {
+        this.adsDialog = true;
         return;
       }
-      this.adsDialog = true;
+      Swal.fire({
+        title: 'No Ads for your package!',
+        text: 'Your available ads is 0.',
+        icon: 'error',
+        customClass: {
+          confirmButton: 'myCustomButton'
+        },
+        buttonsStyling: false
+      });
     },
     closeAdsDialog() {
       this.adsDialog = false;
@@ -249,31 +128,36 @@ export default {
         .then(response => {
           console.log(response.data.availAds);
           this.availAds = response.data.availAds;
-
+          if (this.availAds <= 0) {
+            this.adsDialog = false;
+            Swal.fire({
+              title: 'No Ads for your package!',
+              text: 'Your available ads is 0.',
+              icon: 'error',
+              customClass: {
+                confirmButton: 'myCustomButton'
+              },
+              buttonsStyling: false
+            })
+          }
         })
         .catch(error => {
           console.error('Error fetching data:', error); // Handle the error
         });
+      return true;
     },
 
-  },
-  mounted() {
-    this.fetchSubUserInfo();
-
-    // fake loader
-    this.showLoading = true;
-
-    window.addEventListener('resize', this.updateView);
-  },
-
-  watch: {
-    showLoading(newVal) {
-      if (newVal) {
-        setTimeout(() => {
-          this.showLoading = false;
-        }, 2000); // 3 seconds
+    getStatusClass(status) {
+      switch (status) {
+        case 'pending':
+          return 'text-bg-danger';  // အနီရောင် background
+        case 'complete':
+          return 'text-bg-success'; // အစိမ်းရောင် background
+        default:
+          return 'text-bg-secondary'; // Default background
       }
     },
+
   },
 
   setup() {
@@ -296,11 +180,6 @@ export default {
       }
     };
 
-    const clearImage = () => {
-      image.value = '';
-      imagePreview.value = '';
-    };
-
     const triggerFileInput = () => {
       document.querySelector('input[type="file"]').click();
     };
@@ -310,7 +189,15 @@ export default {
     const availAds = subUser.availAds;
     const submitAdPost = async () => {
       if (!title.value || !image.value) {
-        alert('Please provide both title and image.');
+        Swal.fire({
+          title: 'Missing Information!',
+          text: 'Please enter both title and image.',
+          icon: 'error',
+          customClass: {
+            confirmButton: 'myCustomButton'
+          },
+          buttonsStyling: false
+        });
         return;
       }
       function httpErrorHandler(error) {
@@ -463,7 +350,6 @@ export default {
     };
 
     onMounted(() => {
-      // fetchSubUserInfo();
       fetchAds();
     });
     return {
@@ -476,8 +362,7 @@ export default {
       submitAdPost,
       deleteAdPost,
       handleFileUpload,
-      triggerFileInput,
-      clearImage
+      triggerFileInput
     };
   }
 };
@@ -513,59 +398,92 @@ export default {
 
 }
 
-/* min if greater then given width it work */
-@media only screen and (min-width: 768px) {
-  .toggle-btn2 {
-    display: none;
+.form-edit2 {
+  margin: 0px auto;
+  overflow: hidden;
+  width: 800px;
+  height: auto;
+  padding: 40px 60px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: relative;
+  /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5); */
+
+  .close-btn {
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+
+  }
+
+  .submit {
+    color: #fff;
+    padding: 4px 14px;
+    background-color: #E97559;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 40px;
+    width: auto;
+  }
+
+  .clear {
+    border-radius: 20px;
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .create-ads-page-edit {
+.img-container1 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 250px;
+  border: 1px dashed #ccc;
+  cursor: pointer;
+}
 
-    .create-ads-post,
-    .display-ads-post {
-      .header {
-        .left-edit {
-          .specific-edit {
-            border: 1px solid red;
-            display: flex;
-            justify-content: center;
-          }
-        }
+.edit-icon {
+  background-color: #E86F52;
+  color: #fff;
+  padding: 10px;
+  font-size: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-        .right-edit {
-          border: 2px solid red;
-          display: flex;
-          justify-content: space-between;
+.edit-icon:hover {
+  transform: translateY(-3px);
+  background-color: #bd5c44;
+}
 
-          .toggle-btn2 {
-            text-transform: capitalize;
-          }
-        }
-      }
-    }
+.img1 {
+  width: 100%;
+  height: 100%;
+}
 
-    .create-ads-post {
-      .header {
-        .right-edit {
-          .toggle-btn2 {
-            background-color: #e86f52;
-          }
-        }
-      }
-    }
+.delete-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #E86F52;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+}
 
-    .display-ads-post {
-      .header {
-        .right-edit {
-          .toggle-btn2 {
-            background-color: #03c126;
-          }
-        }
-      }
-    }
+.ad-status {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  padding: 10px;
+  border-radius: 10%;
+}
 
-  }
+.brick-text {
+  color: #E97559;
 }
 </style>

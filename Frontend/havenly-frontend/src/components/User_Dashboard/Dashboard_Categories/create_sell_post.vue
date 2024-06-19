@@ -57,18 +57,18 @@
                                 <div class="p-0 row">
 
 
-                                    <!-- <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedCountry"
-                                    :items="uniqueCountries" label="Select country" required></v-select> -->
+                                    <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedCountry"
+                                        :items="uniqueCountries" label="Select country" required></v-select>
 
-                                    <!-- <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedProvince"
-                                    :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province"
-                                    required></v-select>
-                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedAmphoe"
-                                    :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe"
-                                    required></v-select>
-                                <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedRegion"
-                                    :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region"
-                                    required></v-select> -->
+                                    <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedProvince"
+                                        :items="uniqueProvinces" :disabled="!selectedCountry" label="Select province"
+                                        required></v-select>
+                                    <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedAmphoe"
+                                        :items="uniqueAmphoes" :disabled="!selectedProvince" label="Select amphoe"
+                                        required></v-select>
+                                    <v-select bg-color="white" class="col-6 col-md-3" v-model="selectedRegion"
+                                        :items="uniqueRegions" :disabled="!selectedAmphoe" label="Select region"
+                                        required></v-select>
 
                                     <h5 class="d-block d-sm-none test-start color-brick">Select location</h5>
                                     <!-- <select class="col-6 col-md-3 mb-3" v-model="selectedCountry"
@@ -102,7 +102,7 @@
                                     </select> -->
 
                                     <!-- start -->
-                                    <div class="row ">
+                                    <!-- <div class="row ">
 
 
                                         <div class="col-12 col-md-6 col-lg-3 p-0 m-0">
@@ -184,7 +184,7 @@
                                         </div>
 
 
-                                    </div>
+                                    </div> -->
                                     <!-- end -->
 
                                 </div>
@@ -193,10 +193,10 @@
                                         <span class="float-left mt-2 small"> Property Type </span>
                                     </div>
                                     <div class="col-md-9 col-sm-12">
-                                        <!-- <v-select required bg-color="#EDEDED" class="w-100"
+                                        <v-select required bg-color="#EDEDED" class="w-100"
                                             clear-icon="mdi-close-circle" clearable variant="solo" rounded="lg"
                                             density="compact" v-model="propertyTypes.value.value" :items="PropertyTypes"
-                                            placeholder="Select property type"></v-select> -->
+                                            placeholder="Select property type"></v-select>
 
 
                                         <!-- <select class="w-100 mb-3" v-model="propertyTypes.value.value"
@@ -213,7 +213,7 @@
                                             <option v-for="type in PropertyTypes" :key="type" :value="type">{{ type }}
                                             </option>
                                         </select> -->
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col-12 col-md-12 col-lg-12">
                                                 <div class="card p-1">
                                                     <div class="card-body ">
@@ -229,8 +229,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </div>
+                                        </div> -->
 
 
 
@@ -1179,16 +1178,7 @@ const submit = async () => {
 }
 
 /* edit post-card between*/
-@media (min-width: 768px) and (max-width: 991px) {
-
-    .create-sell-post-section {
-        .display-post {
-            .body {
-                .post-card {}
-            }
-        }
-    }
-}
+@media (min-width: 768px) and (max-width: 991px) {}
 
 @media (min-width: 767px) {
     .only-767 {

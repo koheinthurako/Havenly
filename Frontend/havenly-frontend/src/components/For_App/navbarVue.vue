@@ -62,7 +62,7 @@
                       <ul class="navbar-nav mx-auto">
                         <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
                           <router-link @click="toggleSidebar" to="/userDashboard" class="item-edit nav-link">
-                            <v-icon class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                            <v-icon class="me-1">mdi-account-circle</v-icon>User apk Profile</router-link>
                         </li>
                       </ul>
                     </v-expansion-panel-text>
@@ -843,6 +843,12 @@ export default {
 .active {
   background-color: #e86f52 !important;
   color: #fff !important;
+}
+
+@media only screen and (min-width: 992px) {
+  .navSidebar {
+    display: none;
+  }
 }
 
 .v-menu__content {

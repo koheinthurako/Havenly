@@ -335,7 +335,7 @@
 
                                                 <v-btn class="half-btn w-50" style="text-transform:capitalize;">{{
                                                     post.property_type
-                                                }}</v-btn>
+                                                    }}</v-btn>
                                                 <v-btn class="half-btn w-50 bg-green"
                                                     style="text-transform:capitalize;">
                                                     <!-- {{this.getPostType(post.post_id) }} -->
@@ -540,7 +540,10 @@
 
                                                 <v-expand-transition>
                                                     <div v-show="showCard">
-                                                        <v-card-text class="text-center mt-4">
+                                                        <v-card-text class="text-center mt-1">
+                                                            <h3 class="m-0 mt-2 p-0 color-brick">{{ postOwner.name }}
+                                                            </h3>
+
                                                             <p class="m-0 mt-2 p-0">{{ postOwner.email }}</p>
                                                             <p class="m-0 mt-2 p-0">{{ postOwner.phone }}</p>
                                                             <div class="action-group-p mt-3">
@@ -689,7 +692,7 @@
                                                                         <p><span>{{ data.type }} post</span>,
                                                                             uploaded <span>{{
                                                                                 calculateDate(data.date)
-                                                                            }}</span>
+                                                                                }}</span>
                                                                         </p>
 
                                                                     </div>
@@ -1770,13 +1773,16 @@ export default {
             }
 
             .ava-data {
-                transition: all 0.3s ease-in-out;
+
+                /*transition: all 0.3s ease-in-out;
                 transform: translateY(84px);
                 text-align: center;
                 margin: 0 auto;
                 font-weight: bold;
                 color: #e86f52;
-                font-size: 24px;
+                font-size: 24px;*/
+
+                display: none;
             }
 
             .action-close {

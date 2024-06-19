@@ -681,7 +681,7 @@ export default {
   name: 'helloW'
 }
 </script>
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 .first-index-apk5 {
   width: 100%;
   height: auto;
@@ -839,4 +839,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

@@ -158,9 +158,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-select .v-select__selection:hover,
-.v-select .v-select__selection:focus {
-  background-color: red !important;
-}
-</style>
+<style scoped></style>

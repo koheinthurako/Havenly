@@ -111,7 +111,9 @@
     </div>
 
 
-    <div class="swiper-container-mobile exceed-991">
+
+    <!-- don't use -->
+    <div class="swiper-container-mobile d-none">
         <div class="swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide menu">
@@ -507,6 +509,7 @@ export default {
 
 }
 
+
 #sidebar {
     height: 86vh;
     margin-top: 48px;
@@ -689,18 +692,53 @@ export default {
     background-color: #e86f52;
 }
 
-/* Styles for screens up to 991px */
+/* Add a media query to target screens with a width under 991px */
 @media (max-width: 991px) {
-    .inside-991 {
-        display: none !important;
+
+    /* Reduce the width of the sidebar */
+    #sidebar {
+        width: 50px;
+        min-width: 50px;
     }
-}
 
+    /* Reduce the padding and font size of the sidebar logo */
+    .sidebar-logo {
+        margin: auto 0;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
 
-/* Styles for screens wider than 991px */
-@media (min-width: 992px) {
-    .exceed-991 {
-        display: none !important;
+    /* Reduce the padding and font size of the sidebar nav items */
+    .sidebar-nav {
+        padding: 1rem 0;
+    }
+
+    .sidebar-item a.sideTextLink {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Reduce the size of the toggle button */
+    .toggle-btn {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Reduce the size of the custom logout button */
+    .custom-logout {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Reduce the size of the button box */
+    .button-box {
+        padding: 0.5rem;
+    }
+
+    .custom-link {
+        font-size: 0.8rem;
+    }
+
+    .custom-icon {
+        margin-top: 0.5px;
     }
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  see data
   <div class="third-carousel-page">
     <div class="custom-swiper-container">
       <div v-if="loading">
