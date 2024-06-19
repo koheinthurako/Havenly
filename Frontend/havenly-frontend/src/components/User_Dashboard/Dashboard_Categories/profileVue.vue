@@ -13,19 +13,19 @@
                         <div class="mt-3 p-3 mx-auto">
                             <div :v-if="user_data !== null">
                                 <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
-                                    variant="plain" v-model="items.name" label="Name" placeholder="User Name"
+                                    variant="outlined" v-model="items.name" label="Name" placeholder="User Name"
                                     readonly="true"></v-text-field>
 
                                 <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
-                                    variant="plain" v-model="items.email" label="Email" placeholder="Email"
+                                    variant="outlined" v-model="items.email" label="Email" placeholder="Email"
                                     readonly="true"></v-text-field>
 
                                 <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
-                                    variant="plain" v-model="items.phone" label="Phone" placeholder="Contact No"
+                                    variant="outlined" v-model="items.phone" label="Phone" placeholder="Contact No"
                                     readonly="true"></v-text-field>
 
                                 <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg"
-                                    variant="plain" v-model="items.nrc" label="NRC" placeholder="NRC"
+                                    variant="outlined" v-model="items.nrc" label="NRC" placeholder="NRC"
                                     readonly="true"></v-text-field>
                             </div>
                         </div>
@@ -643,7 +643,7 @@ export default {
 
 .user-profile {
     width: 100%;
-    padding: 10%;
+    padding: 1% 10%;
     margin: auto;
 
     .profile-box {
