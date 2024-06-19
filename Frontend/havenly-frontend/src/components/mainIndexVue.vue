@@ -102,7 +102,7 @@
 
 
     <button :class="{ show: showBackToTop }" @click="scrollToTop"
-      id="backToTopBtn"><v-icon>mdi-chevron-right</v-icon></button>
+      id="backToTopBtn"><v-icon>mdi-chevron-up</v-icon></button>
   </div>
 </template>
 

@@ -37,7 +37,7 @@
 
                 </v-row>
 
-                <v-row class=" p-0 m-0">
+                <v-row class=" p-0 m-0 mb-2">
                     <v-col cols="12" sm="6" md="3" class="ms-auto p-0 m-0 d-none d-sm-block">
                         <v-skeleton-loader class="m-auto " elevation="2" type="table-heading"
                             style="height: 60px; overflow:hidden;border-radius:30px;"></v-skeleton-loader>
