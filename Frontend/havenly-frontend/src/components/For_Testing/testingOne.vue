@@ -566,7 +566,7 @@ export default {
 }
 </style> -->
 
-
+<!-- 
 <template>
 
   <div class="first-index-apk5 mt-5">
@@ -660,11 +660,11 @@ export default {
 
           <div class="row">
             <div class="col-12 map-data-edit p-0 m-0">
-              <!-- <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM" :center="center"
+              <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM" :center="center"
                 :zoom="zoom" class="map-form w-100">
                 <Marker v-for="(location, index) in mapLocations" :key="index"
                   :options="{ position: { lat: parseFloat(location.latitude), lng: parseFloat(location.longitude) } }" />
-              </GoogleMap> -->
+              </GoogleMap>
             </div>
           </div>
 
@@ -680,7 +680,7 @@ export default {
 export default {
   name: 'helloW'
 }
-</script>
+</script> -->
 <!-- <style lang="scss" scoped>
 .first-index-apk5 {
   width: 100%;
@@ -840,3 +840,204 @@ export default {
   }
 }
 </style> -->
+
+<template>
+  <div style="margin-top: 200px;"></div>
+  <div class="profile-main-card">
+    <div class="container">
+      <div class="left-card">
+        <div class="profile-card main-profile">
+          <div class="profile-box">
+            <div class="profile-box-data pt-2 pb-5">
+              <div class="profile-img-container">
+                <v-img :src="profileImage || profilePicture" class="profile-img" alt="Profile Picture" padding=5px
+                  max-height="150" max-width="150" contain />
+              </div>
+              <div class="mt-3 p-3 mx-auto">
+                <div v-if="user_data !== null">
+                  <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg" variant="plain"
+                    v-model="items.name" label="Name" placeholder="User Name" readonly></v-text-field>
+                  <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg" variant="plain"
+                    v-model="items.email" label="Email" placeholder="Email" readonly></v-text-field>
+                  <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg" variant="plain"
+                    v-model="items.phone" label="Phone" placeholder="Contact No" readonly></v-text-field>
+                  <v-text-field density="comfortable" clear-icon="mdi-close-circle" rounded="lg" variant="plain"
+                    v-model="items.nrc" label="NRC" placeholder="NRC" readonly></v-text-field>
+                </div>
+              </div>
+              <div class="d-flex justify-center mt-2">
+                <p style="width: 90px; height:40px" class="mr-2 me-3">
+                  <span class="custom-button d-flex align-center" @click="openEditDialog"
+                    style="width: 100%; justify-content: center;">
+                    <v-icon>mdi-pencil</v-icon>&nbsp;Edit
+                  </span>
+                </p>
+                <v-dialog v-model="editDialog" class="create-pop-up" persistent>
+                  <form @submit.prevent="update" class="form-edit2">
+                    <v-row cols="12" class="mx-auto mb-3">
+                      <h3>Edit Profile</h3>
+                    </v-row>
+                    <button type="button" class="close-btn" @click="closeEditDialog">
+                      <v-icon>mdi-close-circle</v-icon>
+                    </button>
+                    <div class="profile-pic">
+                      <div class="profile-img-container1 align-center" @click="triggerFileInput">
+                        <v-img :src="profileImage || profilePicture" class="profile-img1 mb-2" alt="Profile Picture"
+                          max-height="150" max-width="150" contain />
+                        <v-icon class="edit-icon">mdi-pencil</v-icon>
+                        <input type="file" accept="image/png, image/jpeg, image/bmp" ref="fileInput"
+                          style="display: none;" prepend-icon="mdi-camera" @change="handleFileUpload" />
+                      </div>
+                    </div>
+                    <div style="margin-top: 150px;">
+                      <v-text-field density="comfortable" rounded="lg" variant="solo" v-model="user.name"
+                        :error-messages="nameErrorMessages" label="Name" placeholder="Enter your name"></v-text-field>
+                      <v-text-field density="comfortable" rounded="lg" variant="solo" v-model="user.phone"
+                        :error-messages="phoneErrorMessages" label="Phone Number"
+                        placeholder="Enter your phone number"></v-text-field>
+                    </div>
+                    <p>
+                      <v-row cols="12" class="w-100 mt-4">
+                        <v-btn class="submit ms-auto me-3" type="update"
+                          style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                          Update
+                        </v-btn>
+                      </v-row>
+                    </p>
+                  </form>
+                </v-dialog>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-cards">
+        <div class="profile-card">
+          <div class="profile-box">
+            <div class="profile-box-data">
+              <div class="p-3">
+                <div class="d-flex w-100 p-0 justify-space-between">
+                  <h5>Account info status</h5>
+                  <p style="color: #fff; padding: 4px 12px; background-color: #4CAF50; border-radius: 17px;">
+                    Editable<i class="fa-solid fa-check ms-1"></i>
+                  </p>
+                </div>
+                <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
+                <div class="d-flex justify-space-between">
+                  <p class="fw-bold">Purchased package</p>
+                  <p
+                    style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                    <span @click="packageDialogOpen" class="d-flex align-center">
+                      <v-icon>mdi-store</v-icon>&nbsp;Check
+                    </span>
+                  </p>
+                </div>
+                <div class="d-flex justify-space-between">
+                  <p class="fw-bold">Reset password</p>
+                  <p
+                    style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                    <span class="d-flex align-center" @click="openDialog">
+                      <v-icon>mdi-lock</v-icon>&nbsp;Reset
+                    </span>
+                  </p>
+                  <v-dialog v-model="packageDialog" class="create-pop-up">
+                    <div class="pop-up-subscribe">
+                      <div class="d-flex justify-space-between">
+                        <p>Subscribed Package</p>
+                      </div>
+                      <button class="close-btn1" @click="packageDialogClose">
+                        <v-icon>mdi-close-circle</v-icon>
+                      </button>
+                    </div>
+                  </v-dialog>
+                  <v-dialog v-model="resetdialog" class="create-pop-up" persistent>
+                    <form @submit.prevent="submit" class="form-edit2">
+                      <v-row cols="12" class="mx-auto mb-3">
+                        <h3>Change Password</h3>
+                      </v-row>
+                      <button class="close-btn" @click="closeDialog">
+                        <v-icon>mdi-close-circle</v-icon>
+                      </button>
+                      <div v-if="user_data !== null">
+                        <v-text-field density="comfortable" clear-icon="mdi-close-circle" clearable rounded="lg"
+                          variant="solo" v-model="items.email" :rules="[validateGmail]" label="G-mail"></v-text-field>
+                        <v-text-field density="comfortable" rounded="lg" variant="solo" v-model="change_pw.password"
+                          :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'" :rules="[validateResetPassword]"
+                          :type="visible ? 'text' : 'password'" class="input-group--focused"
+                          hint="At least 8 characters" label="Password" name="input-10-2"
+                          @click:append="visible = !visible"></v-text-field>
+                        <v-text-field density="comfortable" rounded="lg" variant="solo" v-model="change_pw.new_password"
+                          :append-icon="visible1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[validateResetConfirmPassword]"
+                          :type="visible1 ? 'text' : 'password'" class="input-group--focused"
+                          hint="At least 8 characters" label="New Password" name="input-10-2"
+                          @click:append="visible1 = !visible1"></v-text-field>
+                      </div>
+                      <p>
+                        <v-row cols="12" class="w-100 mt-4">
+                          <v-btn @click="resetPassword" class="submit ms-auto me-3" type="submit"
+                            style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                            Reset
+                          </v-btn>
+                        </v-row>
+                      </p>
+                    </form>
+                  </v-dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-card">
+          <div class="profile-box">
+            <div class="profile-box-data">
+              <div class="p-3">
+                <div class="d-flex w-100 p-0 justify-space-between">
+                  <h5>Account progress status</h5>
+                </div>
+                <v-divider class="mt-0 p-0 mb-2" :thickness="3"></v-divider>
+                <div class="d-flex justify-space-between">
+                  <p class="fw-bold">Deleted pending Posts</p>
+                  <p
+                    style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                    <span @click="pendingDialogOpen" class="d-flex align-center">
+                      <v-icon>mdi-trash-can</v-icon>&nbsp;Check
+                    </span>
+                  </p>
+                  <v-dialog v-model="pendingDialog" class="create-pop-up">
+                    <div class="pop-up-subscribe">
+                      <div class="d-flex justify-space-between">
+                        <p>Deleted pending posts</p>
+                      </div>
+                      <button class="close-btn1" @click="pendingDialogClose">
+                        <v-icon>mdi-close-circle"></v-icon>
+                      </button>
+                    </div>
+                  </v-dialog>
+                </div>
+                <div class="d-flex justify-space-between">
+                  <p class="fw-bold">Chat history</p>
+                  <p
+                    style="color: #fff; padding: 4px 14px; background-color: #E97559; border-radius: 17px; cursor: pointer;">
+                    <span class="d-flex align-center" @click="historyDialogOpen">
+                      <v-icon>mdi-chat</v-icon>&nbsp;Check
+                    </span>
+                  </p>
+                  <v-dialog v-model="historyDialog" class="create-pop-up">
+                    <div class="pop-up-subscribe">
+                      <div class="d-flex justify-space-between">
+                        <p>Chat history</p>
+                      </div>
+                      <button class="close-btn1" @click="historyDialogClose">
+                        <v-icon>mdi-close-circle"></v-icon>
+                      </button>
+                    </div>
+                  </v-dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -105,10 +105,11 @@
                                 </div>
 
                                 <!-- Edit Modal Box -->
-                                <div class="editModalBox">
+                                <div class="editModalBox mt-3">
                                     <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
+                                        <div style="top: 25px;"
+                                            class="modal-dialog modal-lg d-flex align-items-center fixed-top">
                                             <div class="modal-content" style="max-width: 2000px !important;">
                                                 <div class="modal-header">
                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
@@ -1011,12 +1012,14 @@ function triggerFileInput() {
 }
 
 .editOffcanvasBox {
+    margin-top: 20px;
     z-index: 3000;
 }
 
 .editModalBox {
+    margin-top: 20px;
     position: absolute;
-    z-index: 2000;
+    z-index: 4000;
 }
 
 body.modal-open {
@@ -1026,27 +1029,5 @@ body.modal-open {
 .modal {
     display: flex;
     align-items: center;
-}
-
-@media only screen and (max-width: 575px) {
-    .uploaded-all-posts {
-        .card-container {
-            .card {
-                width: 70% !important;
-                margin: auto;
-            }
-        }
-    }
-}
-
-@media only screen and (max-width: 431px) {
-    .uploaded-all-posts {
-        .card-container {
-            .card {
-                width: 100% !important;
-                margin: auto;
-            }
-        }
-    }
 }
 </style>

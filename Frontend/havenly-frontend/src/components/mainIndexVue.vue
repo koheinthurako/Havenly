@@ -198,20 +198,20 @@ export default {
         const isExist = await response.json();
         if (isExist) {
           Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Your account is deleted by admin team.',
-                            icon: 'error',
-                            customClass: {
-                                confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                          sessionStorage.removeItem('login_user');
-          window.location.href = '/login'; // Redirect to login page
-                        });
-          
+            title: 'Deleted!',
+            text: 'Your account is deleted by admin team.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then(() => {
+            sessionStorage.removeItem('login_user');
+            window.location.href = '/login'; // Redirect to login page
+          });
+
         }
       }
     },

@@ -293,7 +293,7 @@ body {
 
 /* Create Sell post main start */
 // for desktop
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 991px) {
   .create-sell-post-section {
     width: 100%;
     height: auto;
@@ -380,10 +380,6 @@ body {
         border-radius: 10px;
         overflow: hidden;
 
-        .post-card-mobile {
-          display: none;
-        }
-
         .post-card {
           display: block;
           @include create_section_post_card;
@@ -415,7 +411,7 @@ body {
   }
 }
 // for mobile 768
-@media only screen and (max-width: 769px) {
+@media only screen and (max-width: 991px) {
   .for-desktop {
     display: none;
   }
@@ -572,40 +568,6 @@ body {
         overflow: hidden;
         padding: 0px 14px;
 
-        .post-card-mobile {
-          display: block;
-          margin: 0px 10px;
-          border: 1px solid #525252;
-          overflow: hidden;
-          border-radius: 8px;
-
-          .header-image {
-            width: 100%;
-            height: 200px;
-            border: 1px solid red;
-          }
-
-          .body-content {
-            text-align: left !important;
-
-            .status {
-              background-color: #03c126;
-              text-transform: capitalize;
-              color: #fff;
-
-              .v-btn {
-                color: #525252;
-              }
-            }
-
-            .action-btns {
-              .v-btn {
-                width: 40%;
-              }
-            }
-          }
-        }
-
         .post-card {
           display: none;
         }
@@ -613,6 +575,41 @@ body {
     }
   }
 }
+
+.post-card-mobile-g {
+  display: block;
+  margin: 0px 10px;
+  border: 1px solid #525252;
+  overflow: hidden;
+  border-radius: 8px;
+
+  .header-image {
+    width: 100%;
+    height: 200px;
+    border: 1px solid red;
+  }
+
+  .body-content {
+    text-align: left !important;
+
+    .status {
+      background-color: #03c126;
+      text-transform: capitalize;
+      color: #fff;
+
+      .v-btn {
+        color: #525252;
+      }
+    }
+
+    .action-btns {
+      .v-btn {
+        width: 40%;
+      }
+    }
+  }
+}
+
 /* Create Sell post main end */
 
 /* For Navbar Main Start everything inside  */
@@ -1280,7 +1277,7 @@ body {
 
   .more-image-container {
     position: fixed;
-    top: 0;
+    top: 0 !important;
     left: 0;
     width: 100%;
     height: 100%;
@@ -1288,21 +1285,35 @@ body {
     z-index: 10000;
     display: flex;
     justify-content: center;
-    align-items: center;
-    text-align: center;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 
     .edit-size {
-      width: 100%;
-      height: 94vh;
-      box-shadow: 0px 4px 20p 1px rgba(0, 0, 0, 0.4);
-      margin: auto;
-      z-index: 3;
+      // position: fixed;
+      // top: 0;
+      // border: 2px solid red;
+      // width: 90%;
+      // height: 90% vh;
+      // box-shadow: 0px 4px 20p 1px rgba(0, 0, 0, 0.4);
+      // margin-bottom: auto;
+      // z-index: 3;
+      // background-color: #fff;
+      // box-shadow: rgba(255, 255, 255, 0.5);
+      // border-radius: 10px;
+
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-top: 2%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 80vh;
       background-color: #fff;
-      box-shadow: rgba(255, 255, 255, 0.5);
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      z-index: 1000;
       border-radius: 10px;
-      border: 2px solid #fff;
 
       .loading-card {
         width: 100%;
@@ -1833,7 +1844,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .post-detail-view-page {
     padding-top: 55px;
 
@@ -1846,33 +1857,16 @@ body {
     }
 
     .more-image-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 10000;
-      display: flex;
-      margin: auto;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-
       .edit-size {
         width: 90%;
         height: auto;
-        padding: 20px 0;
+        margin-top: 16%;
         box-shadow: 0px 4px 20p 1px rgba(0, 0, 0, 0.4);
-        margin: auto;
         z-index: 3;
         background-color: #fff;
         box-shadow: rgba(255, 255, 255, 0.5);
         border-radius: 10px;
         border: 2px solid #fff;
-        position: relative;
         overflow: hidden;
 
         .loading-card {
@@ -4872,37 +4866,37 @@ body {
 // @media only screen and (min-width: 768px) {
 //   // Define styles for desktop view here ( Desktop ) **
 
-/* For Navbar Start */
-// .navbar {
-//   .navbar-nav {
-//     gap: 10px;
-//     .nav-item {
-//       background-color: transparent;
-
-//       .nav-link {
-//         transition: all 0.2s ease-in-out;
-//         border-radius: 30px;
+//   /* For Navbar Start */
+//   .navbar {
+//     .navbar-nav {
+//       gap: 10px;
+//       .nav-item {
 //         background-color: transparent;
-//         color: #000;
-//         cursor: pointer;
-//         border-radius: 20px;
-//         padding: 8px 20px;
 
-//         &:hover {
-//           background-color: #e86f52;
-//           color: #fff;
-//           box-sizing: 0px 6px 24px 2px rgba(0, 0, 0, 0.4);
-//         }
-//         &:active {
-//           background-color: #e86f52;
-//           color: #fff;
-//           box-sizing: 0px 6px 24px 2px rgba(0, 0, 0, 0.4);
+//         .nav-link {
+//           transition: all 0.2s ease-in-out;
+//           border-radius: 30px;
+//           background-color: transparent;
+//           color: #000;
+//           cursor: pointer;
+//           border-radius: 20px;
+//           padding: 8px 20px;
+
+//           &:hover {
+//             background-color: #e86f52;
+//             color: #fff;
+//             box-sizing: 0px 6px 24px 2px rgba(0, 0, 0, 0.4);
+//           }
+//           &:active {
+//             background-color: #e86f52;
+//             color: #fff;
+//             box-sizing: 0px 6px 24px 2px rgba(0, 0, 0, 0.4);
+//           }
 //         }
 //       }
 //     }
 //   }
-// }
-/* For Navbar End */
+//   /* For Navbar End */
 
 //   /* For First Index start */
 //   .first-index {
@@ -5159,6 +5153,14 @@ body {
 //     }
 //   }
 //   /* For Fourth Package End */
+
+//   /* For fifth Doc Page start */
+
+//   .fifth-doc {
+//     padding: 80px 0px;
+//   }
+
+//   /* For fifth Doc Page end */
 
 //   /* For Commercial Page (one) start d */
 //   .commercial-vue {

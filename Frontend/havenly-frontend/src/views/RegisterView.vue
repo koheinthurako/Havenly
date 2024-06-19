@@ -129,4 +129,24 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#register .v-form button {
+  transition: 0.3s;
+}
+
+#register .v-form button:hover {
+  transform: translateY(-5px);
+}
+
+#register .imgBox {
+  background-image: url('../assets/img/h10.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(150%);
+}
+
+#register .imgBox .realImg {
+  background: linear-gradient(-270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.5) 60%, transparent 100%);
+}
+</style>

@@ -335,7 +335,7 @@
 
                                                 <v-btn class="half-btn w-50" style="text-transform:capitalize;">{{
                                                     post.property_type
-                                                    }}</v-btn>
+                                                }}</v-btn>
                                                 <v-btn class="half-btn w-50 bg-green"
                                                     style="text-transform:capitalize;">
                                                     <!-- {{this.getPostType(post.post_id) }} -->
@@ -374,7 +374,7 @@
 
                                 <!-- image edit start -->
                                 <div class="row more-image-container" v-show="showMoreImages">
-                                    <div class=" col-md-8 col-sm-12 p-0 m-0">
+                                    <div class=" col-md-10 col-sm-12 p-0 m-0">
                                         <!-- first show loading to wait image load -->
 
                                         <div class="edit-size mx-auto no-select">
@@ -541,18 +541,19 @@
                                                 <v-expand-transition>
                                                     <div v-show="showCard">
                                                         <v-card-text class="text-center mt-1">
-                                                            <h3 class="m-0 mt-2 p-0 color-brick">{{ postOwner.name }}
+                                                            <h3 class="m-0 p-0 color-brick">{{ postOwner.name }}
                                                             </h3>
 
                                                             <p class="m-0 mt-2 p-0">{{ postOwner.email }}</p>
                                                             <p class="m-0 mt-2 p-0">{{ postOwner.phone }}</p>
-                                                            <div class="action-group-p mt-3">
+                                                            <div class="action-group-p mt-2">
 
                                                                 <!-- menu btn 1 start -->
                                                                 <v-menu min-width="200px" rounded>
                                                                     <template v-slot:activator="{ props }">
                                                                         <v-btn rounded v-bind="props">
-                                                                            <v-badge color="red" content="9">
+                                                                            <v-badge color="red"
+                                                                                :content="sellPosts.length">
                                                                             </v-badge>
                                                                             Sell
                                                                         </v-btn>
@@ -576,7 +577,8 @@
                                                                 <v-menu min-width="200px" rounded>
                                                                     <template v-slot:activator="{ props }">
                                                                         <v-btn rounded v-bind="props" class="mx-3">
-                                                                            <v-badge color="red" content="9">
+                                                                            <v-badge color="red"
+                                                                                :content="rentPosts.length">
                                                                             </v-badge>
                                                                             Rent
                                                                         </v-btn>
@@ -596,29 +598,9 @@
                                                                 </v-menu>
                                                                 <!-- menu btn 2 start -->
 
-                                                                <!-- menu btn 3 start -->
-                                                                <v-menu min-width="200px" rounded>
-                                                                    <template v-slot:activator="{ props }">
-                                                                        <v-btn rounded v-bind="props">
-                                                                            <v-badge color="red" content="9">
-                                                                            </v-badge>
-                                                                            Interest
-                                                                        </v-btn>
-                                                                    </template>
-                                                                    <v-card>
-                                                                        <v-card-text>
-                                                                            <div class="mx-auto text-center">
-                                                                                <h4>Interested users</h4>
-                                                                                wai yan
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hein
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hello
-                                                                            </div>
-                                                                        </v-card-text>
-                                                                    </v-card>
-                                                                </v-menu>
-                                                                <!-- menu btn 3 end -->
+
+
+
                                                             </div>
                                                         </v-card-text>
                                                     </div>
@@ -692,7 +674,7 @@
                                                                         <p><span>{{ data.type }} post</span>,
                                                                             uploaded <span>{{
                                                                                 calculateDate(data.date)
-                                                                                }}</span>
+                                                                            }}</span>
                                                                         </p>
 
                                                                     </div>
@@ -763,6 +745,10 @@ export default {
     },
 
     data: () => ({
+
+        // get all uploader sell post count
+        sellPosts: [],
+        rentPosts: [],
 
         // for swiper js 
         thumbsSwiper: null,
@@ -902,6 +888,10 @@ export default {
             this.fetchAllPendingPosts();
         }
 
+        // to get Uploader post count 
+        if (this.splitData(this.$route.params.id)[1] === "Admin_View") {
+            this.fetchAllSellRentPostsToCount();
+        }
 
     },
 
@@ -934,6 +924,60 @@ export default {
     },
 
     methods: {
+        fetchAllSellRentPostsToCount() {
+            const user = JSON.parse(sessionStorage.getItem('sub_user'));
+            const subUserId = user.subUserId;
+            console.log(subUserId);
+
+            axios.get('http://localhost:8083/posts/allSellPost', {
+                params: {
+                    subUserId: subUserId
+                }
+            })
+                .then(response => {
+                    const sellPosts = [];
+                    const rentPosts = [];
+
+                    response.data.forEach(post => {
+                        if (post.sellpost != null) {
+                            const postId = post.post_id;
+                            const title = post.sellpost.title;
+                            const photoUrl = Array.isArray(post.sellpost.image) ? post.sellpost.image[0] : post.sellpost.image;
+
+                            sellPosts.push({
+                                post_id: postId,
+                                title: title,
+                                photo_url: photoUrl
+                            });
+                        } else if (post.rentpost != null) {
+                            const postId = post.post_id;
+                            const title = post.rentpost.title;
+                            const photoUrl = Array.isArray(post.rentpost.image) ? post.rentpost.image[0] : post.rentpost.image;
+
+                            rentPosts.push({
+                                post_id: postId,
+                                title: title,
+                                photo_url: photoUrl
+                            });
+                        }
+                    });
+
+                    // Update the data properties
+                    this.sellPosts = sellPosts;
+                    this.rentPosts = rentPosts;
+
+                    console.log("Number of sell posts received: ", sellPosts.length);
+                    console.log(sellPosts);
+
+                    console.log("Number of rent posts received: ", rentPosts.length);
+                    console.log(rentPosts);
+                })
+                .catch(error => {
+                    console.error("Error fetching posts: ", error);
+                });
+        },
+
+
         handleShowMoreImages() {
             this.showMoreImages = !this.showMoreImages;
         },
@@ -1735,6 +1779,9 @@ export default {
         }
     }
 }
+
+
+
 
 .uploaded-user-container {
 

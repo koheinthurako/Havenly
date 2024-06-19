@@ -487,10 +487,7 @@ export default {
 
 }
 
-
-
-
-
+/*
 .main-data {
     position: fixed;
     width: 100%;
@@ -501,45 +498,48 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
-    /*width: calc(100% - 70px);*/
+    width: calc(100% - 70px);
     padding: 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
     scrollbar-width: none !important;
+}
+*/
 
+.main-data {
+    padding-top: 65px;
+    margin-left: auto;
+    height: auto;
+    width: calc(100% - 70px);
+    transition: all 0.35s ease-in-out;
+    background-color: #fff;
 }
 
 
 #sidebar {
-    height: 86vh;
-    margin-top: 48px;
+    padding-top: 65px;
+    position: fixed;
     top: 0;
     left: 0;
     width: 70px;
     min-width: 70px;
+    height: 100vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
-    padding-top: 43px;
     background-color: #525252;
     display: flex;
     flex-direction: column;
-    border: 2px solid red;
 
     .toggle-btn {
         background-color: transparent;
         cursor: pointer;
         border: 0;
         padding: 1rem 1.5rem;
-        display: block;
+        transition: all 0.3s ease-in-out;
 
         .v-icon {
             font-size: 1.5rem;
             color: #FFF;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
     }
 }
@@ -567,7 +567,7 @@ export default {
 }
 
 .sidebar-nav {
-    padding: 2rem 0;
+    padding: 3rem 0;
     flex: 1 1 auto;
 
     .sidebar-item {

@@ -35,7 +35,8 @@
                                     <span>Available Posts : </span>
                                     <h5 class="text-red m-0">&nbsp; {{ availPosts }}</h5>
                                 </div>
-                                <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay">show posts</v-btn>
+                                <v-btn rounded class="toggle-btn mb-2" @click="showImageDialog = !showImageDialog">show
+                                    posts</v-btn>
                             </div>
                         </div>
 
@@ -192,7 +193,7 @@
 
                 </div>
 
-                <div class="col-md-5 col-sm-12 p-0 col-sm-12" v-if="displayApproveView">
+                <div class="col-md-5 col-sm-12 p-0 " v-if="displayApproveView">
                     <!-- Display post section start -->
 
                     <div class="display-post">
@@ -206,18 +207,23 @@
                         </div> -->
 
                         <div class="header mb-3 row">
-                            <div class=" left-edit col-sm-12 col-md-12">
+                            <!-- <div class=" left-edit col-sm-12 col-md-12">
                                 <div class="specific-edit d-flex align-items-center justify-content-center">
                                     <v-icon class="me-1">mdi-information</v-icon>
                                     <p class="mt-3">Approved posts</p>
                                 </div>
                             </div>
-                            <div class=" right-edit col-sm-12 only-767">
+                            <div class=" right-edit col-sm-12">
                                 <div class="specific-edit d-flex align-items-center">
                                     <p class="p-0 m-0 me-2">Approved By</p>
                                     <h5 class="color-brick m-0">Admin</h5>
                                 </div>
                                 <v-btn rounded class="toggle-btn mb-2" @click="toggleDisplay2">show posts</v-btn>
+                            </div> -->
+
+                            <div class="d-flex justify-content-center align-items-center">
+                                <v-icon class="me-1">mdi-information</v-icon>
+                                <p class="mt-3">Approved posts</p>
                             </div>
                         </div>
 
@@ -255,8 +261,9 @@
 
                                 </div>
                                 <!-- post card end -->
+
                                 <!-- post card for mobile start -->
-                                <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
+                                <!-- <div class="post-card-mobile bg-white" v-for="post in limitedPosts" :key="post">
 
                                     <div class="header-image">
                                         <v-img :src="post.photo_url[0]" cover></v-img>
@@ -282,8 +289,10 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div> -->
                                 <!-- post card for mobile end -->
+
+
                             </div>
                             <div v-else class="d-flex justify-content-center align-items-center">
 
@@ -307,14 +316,79 @@
         </v-container>
     </div>
 
+
+    <v-dialog v-model="showImageDialog" transition="dialog-top-transition" width="auto">
+
+        <v-card class="mobile-post-card-container">
+            <div class="d-flex header-card">
+                <h3>Uploaded posts</h3>
+                <v-btn rounded text="Close" @click="showImageDialog = !showImageDialog"></v-btn>
+            </div>
+
+            <v-card-text class="text-h2 pa-12">
+
+                <div v-if="limitedPosts && limitedPosts.length > 0">
+                    <!-- post card for mobile start -->
+                    <div class="post-card-mobile-g bg-white" v-for="post in limitedPosts" :key="post">
+
+                        <div class="header-image-g">
+                            <v-img :src="post.photo_url[0]" cover></v-img>
+                        </div>
+                        <div class="body-content-g py-3 px-3">
+                            <h3 class="mb-2 ">{{ post.title }}</h3>
+                            <h5>{{ post.description }}</h5>
+                            <h5 class="text-danger mb-3 opacity-75 ">
+                                <v-icon>mdi-map-marker-radius</v-icon>
+                                {{ post.region }} , {{ post.province }} , {{ post.country }}
+                            </h5>
+                            <div class="d-flex justify-space-between align-items-center">
+                                <h5>Post status :</h5>
+                                <v-btn rounded elevation="0" class="mb-3 status">
+                                    <v-icon class="me-1">mdi-format-list-bulleted-type</v-icon>
+                                    {{ post.status }}
+
+                                </v-btn>
+                            </div>
+                            <div class="action-btns d-flex justify-space-between align-items-center">
+
+
+                                <button class="btn btn-danger float-right ms-auto" @click="clickPost(post.id)">view post
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- post card for mobile end -->
+                </div>
+                <div v-else class="d-flex justify-content-center align-items-center">
+
+
+
+                    <v-progress-circular style="width: 100px;" v-if="showLoading" indeterminate :size="80"
+                        color="#e86f52" :width="7"></v-progress-circular>
+                    <v-alert v-if="!showLoading" text="Currently, there is no post available yet!" title="Post status"
+                        type="info"></v-alert>
+
+                </div>
+
+            </v-card-text>
+
+
+
+
+        </v-card>
+
+    </v-dialog>
+
 </template>
 
 <script>
-import AES from 'crypto-js/aes'
+
 export default {
     name: 'create_post',
     data: () => ({
         showLoading: false,
+        showImageDialog: false,
 
         //specific view 
         displayCreateView: true,
@@ -448,9 +522,22 @@ export default {
 
         //fake loader 
         this.showLoading = true;
+
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
+    },
+
+    beforeUnmount() {
+        window.removeEventListener('resize', this.handleResize);
     },
 
     methods: {
+
+        handleResize() {
+            if (window.innerWidth > 991) {
+                this.showImageDialog = false; // Update this to match your v-dialog v-model variable
+            }
+        },
 
         encryptId(id) {
             const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
@@ -798,9 +885,268 @@ const submit = async () => {
 
 
 <style lang="scss" scoped>
-@media (min-width: 767px) {
-    .only-767 {
-        display: none !important;
+.create-post-section {
+    width: 100%;
+    height: auto;
+
+    /* Create post */
+    .create-post {
+        overflow: hidden;
+        width: 100%;
+        height: auto;
+        padding: 8px 12px !important;
+
+        background-color: #fff;
+
+        .form-header {
+            background-color: #D9EDF7;
+            padding: 1px 0px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-body {
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+        }
+    }
+
+    /* Display post */
+    .display-post-section {
+        /* box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.4); */
+        background-color: #d3d3d3;
+        width: 100%;
+        height: 100%;
+        padding: 6px 16px;
+        border-radius: 10px;
+
+        /* background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%); */
+
+        .display-post {
+            width: 100%;
+            max-height: 220px !important;
+            overflow: hidden;
+            background-color: #D9EDF7;
+            box-shadow: 0px 5px 22px 1px rgba(0, 0, 0, 0.5);
+            margin-bottom: 14px;
+            border-radius: 4px;
+            animation: aniOne 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s 1 normal both;
+
+            .display-left {
+                position: relative;
+
+                .overlay {
+                    width: 100%;
+                    height: 24%;
+                    left: 0;
+                    bottom: 74px;
+                    position: absolute;
+                    background-color: rgba(255, 255, 255, 0.8);
+                    backdrop-filter: blur(40px);
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    opacity: 0;
+                    transform: translateY(200px);
+                    border-bottom-left-radius: 4px;
+                    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+
+                    .v-btn {
+                        text-transform: capitalize;
+                    }
+                }
+            }
+
+            .display-right {
+                padding: 10px 20px;
+                background-color: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
+                position: relative;
+
+                h5 {
+                    color: #E86F52;
+                }
+
+                p {
+                    text-indent: 30px;
+                }
+
+            }
+
+
+        }
+
+        .display-post:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+}
+
+@keyframes aniOne {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    38% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    55% {
+        animation-timing-function: ease-in;
+        transform: scale(0.7);
+    }
+
+    72% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    81% {
+        animation-timing-function: ease-in;
+        transform: scale(0.84);
+    }
+
+    89% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+
+    95% {
+        animation-timing-function: ease-in;
+        transform: scale(0.95);
+    }
+
+    100% {
+        animation-timing-function: ease-out;
+        transform: scale(1);
+    }
+}
+
+.customImgBox {
+
+
+    .v-card-actions {
+        color: red;
+        position: absolute;
+        z-index: 1000;
+        background-color: #fff;
+        opacity: 0.95;
+        right: 0;
+        border-radius: 0 0 0 10px;
+    }
+
+    .customImg>img {
+        object-fit: cover !important;
+    }
+
+}
+
+.disableClearBtn .v-field__clearable {
+    display: none !important;
+}
+
+@media (min-width: 992px) {
+    .col-md-5 {
+        display: block;
+        /* Hide right card on smaller screens */
+    }
+
+    .col-md-7 {
+        display: block;
+        /* Full width for the left card on smaller screens */
+    }
+}
+
+@media (max-width: 991px) {
+    .col-md-5 {
+        display: none;
+        /* Hide right card on smaller screens */
+    }
+
+    .col-md-7 {
+        width: 90%;
+        margin: 0 4%;
+        /* Full width for the left card on smaller screens */
+    }
+}
+
+@media (max-width: 760px) {
+    .col-md-5 {
+        display: none;
+        /* Hide right card on smaller screens */
+    }
+
+    .col-md-7 {
+        width: 100%;
+        margin: 0;
+        /* Full width for the left card on smaller screens */
+    }
+}
+
+
+@media (min-width: 992px) {
+    .mobile-post-card-container {
+        display: none;
+    }
+}
+
+.mobile-post-card-container {
+    width: 90vw;
+    max-width: 90vw;
+    overflow: scroll;
+    height: auto;
+    margin: auto;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ddd;
+
+    .header-card {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #525252;
+
+        h3 {
+            color: #E86F52;
+        }
+
+        .v-btn {
+            text-transform: capitalize;
+            background-color: #E86F52;
+            color: #fff;
+        }
+
+
+
+    }
+
+    .post-card-mobile-g {
+        width: 100%;
+
+        .body-content-g {
+            .status {
+                background-color: green;
+                border: 1px solid #ddd;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+                color: #fff;
+            }
+        }
     }
 }
 </style>

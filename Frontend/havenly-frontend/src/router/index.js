@@ -27,22 +27,13 @@ import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
 import indexAdminDashboard from '@/views/indexAdminDashboard.vue'
 
-// for testing 
-import testingOne from '@/components/For_Testing/testingOne.vue'
+import testingPage from '@/components/For_Testing/testingOne.vue'
 
-
-import createPsot from '@/components/User_Dashboard/Dashboard_Categories/create_rent_post.vue'
 const routes = [
-  {
-    path: '/createPost',
-    name: 'createPost',
-    component: createPsot
-  },
-
   {
     path: '/testingPage',
     name: 'testingPage',
-    component: testingOne
+    component: testingPage,
   },
   {
     path: '/',
