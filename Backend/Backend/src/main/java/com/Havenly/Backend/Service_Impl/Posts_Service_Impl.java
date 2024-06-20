@@ -18,47 +18,47 @@ public class Posts_Service_Impl implements Posts_Service {
 
 	@Autowired
 	Posts_Repo postsRepo;
-	
+
 	@Autowired
 	PackagesRepo packageRepo;
-	
+
 	@Override
 	public List<Posts> getAllSubuserPosts(int subUserId) {
 		return postsRepo.getAllSubuserPosts(subUserId);
 	}
-	
-//	@Override
-//	public List<Posts> getAllSubuserRentPosts(int subUserId) {
-//		return repo.getAllSubuserRentPosts(subUserId);
-//	}
+
+	// @Override
+	// public List<Posts> getAllSubuserRentPosts(int subUserId) {
+	// return repo.getAllSubuserRentPosts(subUserId);
+	// }
 
 	@Override
 	public List<Posts> getAllPendingPosts() {
 		// TODO Auto-generated method stub
 		return postsRepo.getAllPendingPosts();
 	}
-	
+
 	@Override
 	public List<Posts> getAllCompletePosts() {
 		// TODO Auto-generated method stub
 		return postsRepo.getAllCompletePosts();
 	}
-	
+
 	@Override
 	public List<Posts> getAllUserSellPosts(int subUserId) {
 		return postsRepo.getAllUserSellPosts(subUserId);
 	}
-	
+
 	@Override
 	public List<Posts> getAllUserRentPosts(int subUserId) {
 		return postsRepo.getAllUserRentPosts(subUserId);
 	}
-	
+
 	@Override
 	public Posts getPostById(int postId) {
 		return postsRepo.findById(postId).orElse(null);
 	}
-	
+
 	@Override
 	public List<Posts> getAllPostsByLocation(int locationId) {
 		return postsRepo.getAllPostsByLocation(locationId);
@@ -79,26 +79,26 @@ public class Posts_Service_Impl implements Posts_Service {
 	@Override
 	public void decliePost(@RequestParam int subUserId, @RequestParam int postId) {
 		Posts post = postsRepo.findById(postId)
-	            .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
-		if(post != null) {
+				.orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+		if (post != null) {
 			post.setStatus("rejected");
 		}
 		Packages pack = packageRepo.findByUserId(subUserId);
-        if (pack == null) {
-	        throw new RuntimeException("Package not found for user ID: " + subUserId);
-	    } else {
-	    	int postCount = pack.getAvailPosts()+1;
-		    packageRepo.updatePost(postCount, subUserId);
-		    System.out.println("Successfully updated plus 1 avail_post count in database!");
-	    }
-//		postsRepo.delete(post);
+		if (pack == null) {
+			throw new RuntimeException("Package not found for user ID: " + subUserId);
+		} else {
+			int postCount = pack.getAvailPosts() + 1;
+			packageRepo.updatePost(postCount, subUserId);
+			System.out.println("Successfully updated plus 1 avail_post count in database!");
+		}
+		// postsRepo.delete(post);
 	}
-	
+
 	@Transactional
 	@Override
 	public void deletePost(int postId) {
 		Posts post = postsRepo.findById(postId)
-	            .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+				.orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
 		postsRepo.delete(post);
 	}
 
@@ -106,11 +106,5 @@ public class Posts_Service_Impl implements Posts_Service {
 	public List<Posts> getInterestPostByRegId(int id) {
 		return postsRepo.getInterestedPostsByRegId(id);
 	}
-	
-
-	
-
-	
-
 
 }

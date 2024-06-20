@@ -1,40 +1,45 @@
 <template>
     <div class="interested-posts">
         <v-container>
-            <h3>Your interested posts</h3>
+            <div class="header-edit ">
+                <div class="row p-0 m-0 ">
+                    <div class="col-12 d-flex align-items-center">
+
+
+                        <div class="header d-flex"><v-icon class="me-2">mdi-check-circle</v-icon>
+                            <h4>Your interested posts.</h4>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
 
             <div class="body">
                 <div v-if="loading">
-                    <v-row class="g-1 mt-4">
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                    <v-row class="g-1 mt-2">
+                        <v-col cols="12" md="4" sm="9" lg="3">
+                            <v-skeleton-loader class="mx-auto" elevation="2"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                        <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
+                            <v-skeleton-loader class="mx-auto" elevation="2"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
+                        <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
+                            <v-skeleton-loader class="mx-auto" elevation="2"
                                 type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
-
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
-
                     </v-row>
                 </div>
                 <div v-else-if="error">{{ error }}</div>
                 <div v-else>
                     <div v-if="posts.length > 0">
                         <!-- card start -->
-                        <div class="row mb-3 g-3 mt-3">
-                            <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12">
+                        <div class="row mb-3 g-3 mt-2">
+                            <div v-for="post in posts" :key="post.post_id" class="col-md-4 col-sm-12 col-lg-3">
                                 <div class="card-container">
                                     <!-- TZH card styles -->
                                     <div class="card" style="height: 400px;">
@@ -66,15 +71,23 @@
 
                                         </div>
 
-                                        <v-card-actions class="py-0 m-0">
-                                            <v-btn @click="clickPost(post.post_id)" elevation="0" variant="outlined">
+                                        <v-card-actions
+                                            class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
+                                            <!-- <v-btn @click="clickPost(post.post_id)" elevation="0" variant="outlined">
                                                 Details
                                             </v-btn>
                                             <v-spacer></v-spacer>
                                             <v-btn color="error" @click="openDeleteDialog(post.post_id)" elevation="0"
                                                 variant="outlined">
                                                 Remove
-                                            </v-btn>
+                                            </v-btn> -->
+
+                                            <button class="btn btn-outline-danger w-100"
+                                                @click="clickPost(post.post_id)" data-bs-toggle="modal"
+                                                data-bs-target="#editModal">Details</button>
+                                            <button class="btn btn-danger w-100"
+                                                @click="openDeleteDialog(post.post_id)">Remove
+                                            </button>
                                         </v-card-actions>
                                     </div>
 

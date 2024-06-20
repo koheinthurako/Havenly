@@ -329,10 +329,6 @@ export default {
 </script>
 
 <style>
-.slide-in-enter-active {
-    animation: slide-in-bck-br 0.5s;
-}
-
 @-webkit-keyframes slide-in-bck-br {
     0% {
         -webkit-transform: translateZ(700px) translateY(300px) translateX(400px);

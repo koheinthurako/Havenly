@@ -16,10 +16,3 @@ export default {
 }
 
 </script>
-
-<style>
-.doc-page {
-    margin-top: 6%;
-    border: 2px solid red;
-}
-</style>

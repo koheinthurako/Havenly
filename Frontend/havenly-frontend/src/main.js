@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/main.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+// Import swiper js
+import 'swiper/swiper-bundle.css';
 
 // Import SweetAlert styles
 import 'sweetalert2/dist/sweetalert2.min.css'

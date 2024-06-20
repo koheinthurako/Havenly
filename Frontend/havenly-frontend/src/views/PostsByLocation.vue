@@ -4,35 +4,36 @@
         <main>
 
             <div v-if="loading">
-                    <v-row class="g-3 mt-4 d-flex flex-column">
-                        <v-col cols="12" md="12">
-                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                <v-row class="g-3 mt-4 d-flex flex-column">
+                    <v-col cols="12" md="4" lg="3" sm="12">
+                        <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
+                            type="card-avatar, article, actions"></v-skeleton-loader>
+                    </v-col>
 
-                        <v-col cols="12" md="12">
-                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                    <v-col cols="12" md="4" lg="3" sm="12">
+                        <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
+                            type="card-avatar, article, actions"></v-skeleton-loader>
+                    </v-col>
 
-                        <v-col cols="12" md="12">
-                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                    <v-col cols="12" md="4" lg="3" sm="12">
+                        <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
+                            type="card-avatar, article, actions"></v-skeleton-loader>
+                    </v-col>
 
-                        <v-col cols="12" md="12">
-                            <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                    <v-col cols="12" md="4" lg="3" sm="12">
+                        <v-skeleton-loader class="mx-auto" elevation="2" height="300px"
+                            type="card-avatar, article, actions"></v-skeleton-loader>
+                    </v-col>
 
-                    </v-row>
-                </div>
-                <div v-else-if="displayError">{{ displayError }}</div>
+                </v-row>
+            </div>
+            <div v-else-if="displayError">{{ displayError }}</div>
 
-            <div class="pt-5">
-                <div class="row mb-3 g-3">
-                    <div v-for="post in posts" :key="post.post_id" class="col-md-3 col-sm-12 element-to-scroll-to"
-                        @click="clickPost(post.post_id)">
+            <div class="pt-2">
+                <h1 v-if="posts && posts.length > 0" class="color-brick my-2">Available posts!</h1>
+                <div class="row mb-3 g-2">
+                    <div v-for="post in posts" :key="post.post_id"
+                        class="col-md-4 col-lg-3 col-sm-12 element-to-scroll-to" @click="clickPost(post.post_id)">
                         <div class="card-container">
                             <div class="card cursor-pointer" style="height: 390px;">
                                 <div class="cardImgBox" style="width: 100%; height: 160px;">
@@ -68,7 +69,11 @@
 
         </main>
     </v-container>
-    
+
+    <v-container v-if="reachedBut == 'none'">
+        <h2>No post available!</h2>
+    </v-container>
+
 </template>
 
 <script>
@@ -78,114 +83,118 @@ import Utf8 from 'crypto-js/enc-utf8';
 // import Swal from 'sweetalert2';
 
 
-    export default {
-        name: 'PostByLocations',
+export default {
+    name: 'PostByLocations',
 
-        props: {
-            encryptedLocationId: {
+    props: {
+        encryptedLocationId: {
             type: String,
             required: true,
-            },
+        },
+    },
+
+    data: () => ({
+        reachedBut: "data",
+
+        loading: false,
+        displayError: null,
+        locations: [],
+        mapLocations: [],
+        posts: [],
+        shortDescription: '',
+        fullDescription: '',
+    }),
+
+    // mounted() {
+    //     this.fetchPostsByLocation();
+    // },
+
+    watch: {
+        encryptedLocationId(newId) {
+
+
+            this.fetchPostsByLocation(newId);
+        },
+    },
+
+    methods: {
+
+        splitData(data) {
+            return data.split(' ')[0];
         },
 
-        data: () => ({
-            loading: false,
-            displayError: null,
-            locations: [],
-            mapLocations: [],
-            posts: [],
-            shortDescription: '',
-            fullDescription: '',
-        }),
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
+            return encryptedId;
+        },
 
-        // mounted() {
-        //     this.fetchPostsByLocation();
+        decryptId(encryptedId) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
+            const decryptedBytes = AES.decrypt(encryptedId, secretKey);
+            const decryptedId = decryptedBytes.toString(Utf8);
+            console.log(decryptedId + "decryptedId");
+            return parseInt(decryptedId, 10);
+        },
+
+        clickPost(post_id) {
+            const afterEncrypt = this.encryptId(post_id);
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+        },
+
+        // async fetchLocations() {
+
+        //     try {
+
+        //         Swal.fire({
+        //             title: 'Loading',
+        //             text: 'Fetching locations...',
+        //             icon: 'info',
+        //             allowOutsideClick: false,
+        //             allowEscapeKey: false,
+        //             showConfirmButton: false,
+        //             willOpen: () => {
+        //                 Swal.showLoading();
+        //             }
+        //         });
+
+        //         const response = await fetch('http://localhost:8083/locations/getall');
+        //         const data = await response.json();
+        //         const mappedData = data.map(location => ({
+        //         location_id: location.location_id,
+        //         country_name: location.country_name,
+        //         province: location.province,
+        //         amphoe: location.amphoe,
+        //         region: location.region,
+        //         latitude: location.latitude,
+        //         longitude: location.longitude
+        //         }));
+        //         sessionStorage.setItem('locations', JSON.stringify(mappedData));
+        //         this.locations = mappedData;
+        //         this.mapLocations = mappedData;
+        //         Swal.close();
+        //     } catch (error) {
+        //         console.error('Error fetching locations:', error);
+        //     }
         // },
 
-        watch: {
-            encryptedLocationId(newId) {
-                this.fetchPostsByLocation(newId);
-            },
-        },
+        // getLocationsFromSessionStorage() {
+        //     const data = sessionStorage.getItem('locations');
+        //     return data ? JSON.parse(data) : null;
+        // },
 
-        methods: {
+        async fetchPostsByLocation(encryptedLocationId) {
+            this.posts.splice(0, this.posts.length);
+            this.loading = true;
+            this.displayError = null;
+            const decryptLocationId = this.decryptId(encryptedLocationId);
+            console.log(decryptLocationId + " backend ko pot lite tae locationId");
 
-            splitData(data) {
-                return data.split(' ')[0];
-            },
-
-            encryptId(id) {
-                const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
-                const encryptedId = AES.encrypt(id.toString(), secretKey).toString();
-                return encryptedId;
-            },
-
-            decryptId(encryptedId) {
-                const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on';
-                const decryptedBytes = AES.decrypt(encryptedId, secretKey);
-                const decryptedId = decryptedBytes.toString(Utf8);
-                console.log(decryptedId + "decryptedId");
-                return parseInt(decryptedId, 10);
-            },
-
-            clickPost(post_id) {
-                const afterEncrypt = this.encryptId(post_id);
-                this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
-            },
-
-            // async fetchLocations() {
-
-            //     try {
-
-            //         Swal.fire({
-            //             title: 'Loading',
-            //             text: 'Fetching locations...',
-            //             icon: 'info',
-            //             allowOutsideClick: false,
-            //             allowEscapeKey: false,
-            //             showConfirmButton: false,
-            //             willOpen: () => {
-            //                 Swal.showLoading();
-            //             }
-            //         });
-
-            //         const response = await fetch('http://localhost:8083/locations/getall');
-            //         const data = await response.json();
-            //         const mappedData = data.map(location => ({
-            //         location_id: location.location_id,
-            //         country_name: location.country_name,
-            //         province: location.province,
-            //         amphoe: location.amphoe,
-            //         region: location.region,
-            //         latitude: location.latitude,
-            //         longitude: location.longitude
-            //         }));
-            //         sessionStorage.setItem('locations', JSON.stringify(mappedData));
-            //         this.locations = mappedData;
-            //         this.mapLocations = mappedData;
-            //         Swal.close();
-            //     } catch (error) {
-            //         console.error('Error fetching locations:', error);
-            //     }
-            // },
-
-            // getLocationsFromSessionStorage() {
-            //     const data = sessionStorage.getItem('locations');
-            //     return data ? JSON.parse(data) : null;
-            // },
-
-            async fetchPostsByLocation(encryptedLocationId) {
-                this.posts.splice(0, this.posts.length);
-                this.loading = true;
-                this.displayError = null;
-                const decryptLocationId = this.decryptId(encryptedLocationId);
-                console.log(decryptLocationId + " backend ko pot lite tae locationId");
-
-                axios.get('http://localhost:8083/posts/postsByLocation', {
-                    params: {
-                        locationId: decryptLocationId
-                    }
-                })
+            axios.get('http://localhost:8083/posts/postsByLocation', {
+                params: {
+                    locationId: decryptLocationId
+                }
+            })
                 .then(response => {
                     response.data.forEach(post => {
                         console.log(post);
@@ -246,6 +255,15 @@ import Utf8 from 'crypto-js/enc-utf8';
                             });
                         }
                     });
+
+                    // to check data is get or not
+                    if (this.posts.length > 0) {
+                        this.reachedBut = "get";
+                    } else {
+                        this.reachedBut = "none";
+                    }
+
+
                 })
                 .catch(error => {
                     console.error('Error fetching posts:', error);
@@ -255,32 +273,28 @@ import Utf8 from 'crypto-js/enc-utf8';
                     this.loading = false;  // Stop loading
                 });
 
-            }
+        }
 
-        },
+    },
 
-        mounted() {
+    mounted() {
 
-            // const cachedData = this.getLocationsFromSessionStorage();
-            // if(cachedData) {
-            //     this.locations = cachedData;
-            //     this.mapLocations = cachedData;
-            // } else {
-            //     this.fetchLocations();
-            // }
-            
+        // const cachedData = this.getLocationsFromSessionStorage();
+        // if(cachedData) {
+        //     this.locations = cachedData;
+        //     this.mapLocations = cachedData;
+        // } else {
+        //     this.fetchLocations();
+        // }
 
-            if (this.encryptedLocationId) {
-                this.fetchPostsByLocation(this.encryptedLocationId);
-            }
-        },
 
-    }
+        if (this.encryptedLocationId) {
+            this.fetchPostsByLocation(this.encryptedLocationId);
+        }
+    },
+
+}
 
 </script>
 
-<style>
-
-
-
-</style>
+<style></style>

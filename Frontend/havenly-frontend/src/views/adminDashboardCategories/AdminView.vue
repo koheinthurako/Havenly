@@ -32,7 +32,7 @@
               <td class="td">{{ item.phone }}</td>
               <td class="td">{{ item.date }}</td>
               <td class="td">
-                 <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn> 
+                <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn>
                 <v-btn @click="banUser(item)" color="#e86f52">Ban</v-btn>
               </td>
               <td class="td">{{ item.banned ? 'Yes' : 'No' }}</td>
@@ -136,13 +136,10 @@ export default {
 
   methods: {
 
-
     async fetchSubscribedUsers() {
 
       try {
         const response = await axios.get("http://localhost:8083/subscribe/getAll");
-
-
         if (response.status === 204) {
           console.log('No data available for this post.');
         } else {
@@ -203,24 +200,6 @@ export default {
         this.loading = false; // Stop loading
       }
     },
-    // fetchUsers() {
-    //   fetch('http://localhost:8083/getAll')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       const mappedData = data.map(users => ({
-    //         id: users.register_id,
-    //         name: users.name,
-    //         email: users.email,
-    //         phone: users.phone,
-    //         date: users.date,
-    //       }))
-    //       sessionStorage.setItem('users', JSON.stringify(mappedData));
-    //       this.users = mappedData;
-    //     }
-    //     )
-
-    //   console.log("this users : ", this.users);
-    // },
 
     deleteUser(email) {
       Swal.fire({
@@ -234,22 +213,22 @@ export default {
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
+          Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
             icon: "success",
             customClass: {
-                confirmButton: 'myCustomSuccessButton'
+              confirmButton: 'myCustomSuccessButton'
             },
           }).then(() => {
             axios.delete(`http://localhost:8083/delete/${email}`)
-            .then(() => {
-              this.users = this.users.filter((u) => u.email !== email);
-            })
-            .catch((error) => {
-              console.error('Error deleting user:', error);
-              alert('Failed to delete user. Please try again.');
-            });
+              .then(() => {
+                this.users = this.users.filter((u) => u.email !== email);
+              })
+              .catch((error) => {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user. Please try again.');
+              });
           })
         }
       })

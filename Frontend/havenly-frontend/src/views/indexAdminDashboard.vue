@@ -279,7 +279,6 @@ export default {
     padding: 6px 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
-
 }
 
 @media only screen and (min-width: 768px) {

@@ -1,4 +1,8 @@
 <template>
+
+  <!-- overlay test start -->
+  <div v-if="isOverlayVisible" class="overOverlay" :class="animateOverlayClass"></div>
+  <!-- overlay test end -->
   <nav class="navbar navbar-expand-lg p-0 fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -13,6 +17,7 @@
       <!-- style one end -->
 
       <!-- style two start -->
+
       <div v-click-outside="onClickOutside">
         <button class="navbar-toggler" type="button" @click="toggleSidebar">
           <span v-if="!isSidebarActive" class="navbar-toggler-icon"></span>
@@ -20,7 +25,7 @@
         </button>
 
         <!-- navbar for mobile view start -->
-        <div :class="['navSidebar', { 'activeOne': isSidebarActive }]" class="d-block d-sm-none">
+        <div :class="['navSidebar', { 'activeOne': isSidebarActive }]">
           <ul class="style-two navbar-nav mx-auto">
             <h4 class="mt-2 ms-2" style="color: #e86f52;">Links</h4>
             <li class="items nav-item" @click.stop="isSidebarActive = !isSidebarActive"
@@ -57,7 +62,7 @@
                       <ul class="navbar-nav mx-auto">
                         <li class="items nav-item" :class="{ sideBarActive: isActive('/userDashboard') }">
                           <router-link @click="toggleSidebar" to="/userDashboard" class="item-edit nav-link">
-                            <v-icon class="me-1">mdi-account-circle</v-icon>User Profile</router-link>
+                            <v-icon class="me-1">mdi-account-circle</v-icon>User apk Profile</router-link>
                         </li>
                       </ul>
                     </v-expansion-panel-text>
@@ -88,6 +93,7 @@
                   <v-icon color="white">mdi-bell</v-icon>
                 </v-badge>
               </div>
+
               <!-- noti start -->
 
               <div v-if="filteredOjbs && filteredOjbs.length > 0" class="notification-panel">
@@ -146,8 +152,7 @@
         <!-- navbar for mobile view end -->
 
       </div>
-
-      <!-- style two end -->
+      <!-- style two end (for mobile view) -->
 
       <!-- style one start -->
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -228,27 +233,57 @@
           <li class="nav-item">
             <div v-if="getUser2">
 
-              <!-- profile start -->
+              <!-- new profile start -->
+              <div v-click-outside="onClickOutside2">
 
+                <div v-if="isActive('/userdashboard')">
+                  <v-btn rounded class="profile-btn">
+                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-1"></v-icon>welcome</p>
+                  </v-btn>
+                </div>
+                <div v-else>
+                  <v-btn rounded class="profile-btn" v-if="!profileMenu" @click="handleProfileMenu">
+                    <p class="m-auto"><v-icon icon="mdi-account-circle" class="me-2"></v-icon>Profile</p>
+                  </v-btn>
 
-              <!-- profile end -->
+                  <v-btn rounded v-else color="warning" @click="handleProfileMenuClose" class="profile-close-btn">
+                    <p class="m-auto"><v-icon icon="mdi-close-circle" class="me-3"></v-icon>close</p>
+                  </v-btn>
+                </div>
 
-              <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <v-icon class=" me-1">mdi-account-box</v-icon>{{ getUser2.name }}
-              </button>
-              <ul class="dropdown-menu p-0">
-                <li>
-                  <router-link to="/userdashboard" class="dropdown-item"><v-icon
-                      class="me-1">mdi-account-circle</v-icon>User
-                    Profile</router-link>
-                </li>
-
-                <li>
-
-                  <div @click="logout" class="dropdown-item"><v-icon class="me-1">mdi-logout-variant</v-icon>Logout
+                <v-card elevation="8" class="profile-card-on-nav" :class="[{ 'card-display': profileMenu }]">
+                  <div class="top-profile mb-1">
+                    <div class="img-container mx-auto">
+                      <v-img :src="profilePic" class="w-100" />
+                    </div>
                   </div>
-                </li>
-              </ul>
+                  <div class="header mb-3">
+                    <!-- <h4 class="m-0 p-0">{{ getUser2.name }}</h4> -->
+                    <div v-if="getUser2 != ''">
+                      <h4 class="m-0 p-0">{{ truncateText(getUser2.name, 17) }}</h4>
+                    </div>
+
+                    <div v-if="fetchPackage != null">
+                      <p class="m-0 p-0"><span>Subscribed</span> : {{ fetchPackage }}</p>
+                    </div>
+                    <div v-else>
+                      <p class="m-0 p-0">Normal user</p>
+                    </div>
+                  </div>
+                  <div class="action-btns">
+                    <v-btn @click="gotoDashboard" rounded elevation="10" class="dash-btn">
+                      <v-icon icon="mdi-view-dashboard" class="me-2"></v-icon>Dashboard
+                    </v-btn>
+
+                    <v-btn @click="logout" icon size="large" elevation="12" class="out-btn">
+                      <v-icon icon="mdi-logout"></v-icon>
+                    </v-btn>
+                  </div>
+                </v-card>
+              </div>
+
+
+              <!-- new profile end -->
 
             </div>
 
@@ -353,7 +388,7 @@
                   <v-img :src="obj.photo_url[0]" class="me-auto" alt="" />
                 </div>
                 <div class="col-md-8">
-                  <span>{{ obj.name }}{{ obj.id }}</span> make interested your post.
+                  <span>{{ obj.name }}</span> make interested your post.
                 </div>
               </div>
             </v-expansion-panel-title>
@@ -408,6 +443,9 @@ import { useRouter } from 'vue-router';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { AES } from 'crypto-js';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import router from '@/router';
+
 
 export default {
   name: 'navbarVue',
@@ -425,6 +463,7 @@ export default {
     const getUser = ref([]);
     const objs = ref([]);
     const filteredOjbs = ref([]);
+    const packageType = ref('');
 
 
     const isNavLinkActive = (path) => {
@@ -575,6 +614,7 @@ export default {
     });
 
     return {
+      packageType,
       clickPost,
       cleanStorage,
       filteredOjbs,
@@ -599,11 +639,20 @@ export default {
   },
 
   data: () => ({
+
+    isOverlayVisible: false,
+    animateOverlayClass: '',
+
+    fetchPackage: '',
+
+    profilePic: require("@/assets/img/ava1.jpg"),
+
+    profileMenu: false,
     isSidebarActive: false,
     getUser: [],
     getUser2: [],
     activeDataLink: '',
-    user: {
+    newuser: {
       initials: 'JD',
       fullName: 'John Doe',
       email: 'john.doe@doe.com',
@@ -621,20 +670,131 @@ export default {
   mounted() {
     this.getUser = JSON.parse(sessionStorage.getItem('sub_user'));
     this.getUser2 = JSON.parse(sessionStorage.getItem('login_user'));
+
+    if (this.getUser2) {
+      this.fetchSubUserInfo();
+    }
   },
 
 
   methods: {
+
+    truncateText(text, charLimit) {
+      if (text.length > charLimit) {
+        return text.slice(0, charLimit) + '.';
+      }
+      return text;
+    },
+
+    fetchSubUserInfo() {
+      const user = JSON.parse(sessionStorage.getItem('login_user'));
+      const registerId = user.register_id;
+      console.log("registerId to send backend to show subUser informations : " + registerId)
+      axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
+        params: {
+          registerId: registerId
+        }
+      })
+        .then(response => {
+          console.log(response.data);
+          this.fetchPackage = response.data.packageType
+
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error); // Handle the error
+        });
+    },
+
+    handleProfileMenu() {
+      this.profileMenu = true;
+
+      setTimeout(() => {
+
+        this.isOverlayVisible = true;
+        this.animateOverlayClass = 'overlay-animate';
+      }, 170);
+    },
+
+    handleProfileMenuClose() {
+      this.animateOverlayClass = 'overlay-animate-reverse';
+
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 230);
+    },
+
+    gotoDashboard() {
+      // first hide the profile card
+      this.animateOverlayClass = 'overlay-animate-reverse';
+
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 230);
+
+      setTimeout(() => {
+        this.$router.push({ name: 'User_dashboard' });
+      }, 250);
+
+    },
+
+    goToExplain(get) {
+      // this.$router.push({ name: 'About' });
+      this.$router.push({ name: 'About', params: { href: `${get} explain` } });
+    },
 
     toggleSidebar() {
       this.isSidebarActive = !this.isSidebarActive;
 
     },
 
+    // onClickOutside(event) {
+    //   // Check if the click is outside the sidebar
+    //   const sidebarElement = this.$refs.navSidebar;
+    //   if (this.isSidebarActive && sidebarElement && !sidebarElement.contains(event.target)) {
+    //     this.isSidebarActive = false;
+    //   }
+
+    //   // Check if the click is outside the profile menu
+    //   const profileMenuElement = this.$refs.profileMenu;
+    //   if (this.profileMenu && profileMenuElement && !profileMenuElement.contains(event.target)) {
+    //     this.profileMenu = false;
+    //   }
+    // },
+
     onClickOutside(event) {
       if (this.isSidebarActive && !this.$el.contains(event.target)) {
         this.isSidebarActive = false;
       }
+
+    },
+
+    onClickOutside2(event) {
+      if (this.profileMenu && !this.$el.contains(event.target)) {
+        this.animateOverlayClass = 'overlay-animate-reverse';
+
+        setTimeout(() => {
+          this.isOverlayVisible = false;
+          this.isCardVisible = false;
+          this.animateOverlayClass = '';
+        }, 200);
+
+        setTimeout(() => {
+          this.profileMenu = false;
+        }, 230);
+      }
+
     },
 
     isActive(route) {
@@ -642,29 +802,119 @@ export default {
     },
 
     logout() {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will be logged out!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        reverseButtons: true,
-        confirmButtonText: 'Yes, log me out!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          sessionStorage.removeItem('login_user');
-          window.location.reload();
-        }
-      });
+      // first hide the profile card
+      this.animateOverlayClass = 'overlay-animate-reverse';
+
+      setTimeout(() => {
+        this.isOverlayVisible = false;
+        this.isCardVisible = false;
+        this.animateOverlayClass = '';
+      }, 200);
+
+      setTimeout(() => {
+        this.profileMenu = false;
+      }, 230);
+
+      setTimeout(() => {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'You will be logged out!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, log me out!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            sessionStorage.removeItem('login_user');
+            router.push('/').then(() => {
+              window.location.href = '/';
+            });
+          }
+        });
+      }, 270);
+
+
     },
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .active {
   background-color: #e86f52 !important;
   color: #fff !important;
+}
+
+@media only screen and (min-width: 992px) {
+  .navSidebar {
+    display: none;
+  }
+}
+
+.v-menu__content {
+  z-index: 2000 !important;
+  /* Adjust as needed */
+}
+
+.overOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 107%;
+  bottom: -1.6%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  border-radius: 0 0 10px 10px;
+  pointer-events: all;
+  transform: translate(-50%, -50%);
+
+}
+
+.overlay-animate {
+  animation: expandOverlay 0.3s both;
+}
+
+.overlay-animate-reverse {
+  animation: shrinkOverlay 0.4s both;
+}
+
+@keyframes expandOverlay {
+  from {
+    width: 250px;
+    height: 255px;
+
+  }
+
+  to {
+    width: 220vw;
+    height: 400vh;
+
+  }
+}
+
+@keyframes shrinkOverlay {
+  from {
+    width: 220vw;
+    height: 400vh;
+
+  }
+
+  to {
+    width: 250px;
+    height: 255px;
+
+  }
+}
+
+/* CSS for content B at min-width 992px */
+
+@media (min-width: 992px) {
+  .exceed-991-hide {
+    display: none;
+    /* Hide content A from 992px onwards */
+  }
 }
 </style>
