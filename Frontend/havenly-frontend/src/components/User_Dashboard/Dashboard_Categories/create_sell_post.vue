@@ -462,14 +462,15 @@ export default {
         },
 
         fetchAllSellPosts() {
-            const user = JSON.parse(sessionStorage.getItem('sub_user'));
-            const subUserId = user.subUserId;
-            console.log(subUserId);
-            axios.get('http://localhost:8083/posts/allSellPost', {
-                params: {
-                    subUserId: subUserId
-                }
-            })
+            if(JSON.parse(sessionStorage.getItem('sub_user'))) {
+                const user = JSON.parse(sessionStorage.getItem('sub_user'));
+                const subUserId = user.subUserId;
+                console.log(subUserId);
+                axios.get('http://localhost:8083/posts/allSellPost', {
+                    params: {
+                        subUserId: subUserId
+                    }
+                })
                 .then(response => {
                     response.data.forEach(post => {
                         if(post.sellpost != null) {
@@ -503,6 +504,9 @@ export default {
                         }
                     });
                 })
+            } else {
+                alert("There is no sub_user in session storage!")
+            }
         }
 
     },
