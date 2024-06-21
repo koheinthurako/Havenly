@@ -79,10 +79,9 @@
                     </div>
 
                     <div v-else-if="adminTab === 'pending-post'">
-                        <!-- <h3>All Post Content</h3>
-                        <p>This is where the add post content will be displayed.</p> -->
-                        <!-- <interestedPosts /> -->
-                        <AdminPost />
+                        <!-- <AdminPost /> -->
+                        <AdminPost @selectedPost="setSelectedPost" v-if="!selectedPost"/>
+                        <AdminPostDetails v-else :post="selectedPost" @back="clearSelectedPost"/>
                     </div>
 
                     <div v-else-if="adminTab === 'pending-ad'">
@@ -118,6 +117,7 @@ import AdminView from '@/views/adminDashboardCategories/AdminView.vue'
 import AdminPost from '@/views/adminDashboardCategories/AdminPost.vue'
 import AdminBanList from '@/views/adminDashboardCategories/AdminBanList.vue'
 import AdminProfile from '@/views/adminDashboardCategories/adminProfile.vue'
+import AdminPostDetails from '@/views/adminDashboardCategories/AdminPostDetails.vue'
 import AdminAd from './adminDashboardCategories/AdminAd.vue';
 // import router from '@/router';
 
@@ -130,14 +130,15 @@ export default {
         AdminPost,
         AdminAd,
         AdminBanList,
-        AdminProfile
+        AdminProfile,
+        AdminPostDetails
     },
 
     data() {
         return {
             adminExpanded: false,  // for left side dashboard collapse and expand
             adminTab: sessionStorage.getItem('adminTab') || 'adminProfile',
-
+            selectedPost: null
         };
     },
 
@@ -169,6 +170,14 @@ export default {
 
     methods: {
 
+        setSelectedPost(post) {
+            this.selectedPost = post;
+        },
+
+        clearSelectedPost() {
+            this.selectedPost = null;
+        },
+
         toggleAdminSidebar() {
             this.adminExpanded = !this.adminExpanded;
             if (this.adminExpanded) {
@@ -186,30 +195,6 @@ export default {
             this.adminTab = tab;
             sessionStorage.setItem('adminTab', this.adminTab);
         },
-
-        // changeTabForSub(tab) {
-        //   const checkSubUser = JSON.parse(localStorage.getItem('sub_user'));
-        //   const packageType = checkSubUser.packageType;
-        //   console.log(packageType);
-        //   if (packageType) {
-        //     this.adminTab = tab;
-        //     localStorage.setItem('adminTab', this.adminTab);
-        //   } else {
-        //     Swal.fire({
-        //       title: 'Need Subscription!',
-        //       text: 'This is for subscriber user only. Please subscribe first.',
-        //       icon: 'info',
-        //       customClass: {
-        //         confirmButton: 'myCustomButton'
-        //       },
-        //       buttonsStyling: false,
-        //       allowOutsideClick: false,
-        //       allowEscapeKey: false
-        //     }).then(() => {
-        //       router.push('/subscribe');
-        //     });
-        //   }
-        // },
 
         closeOnClickOutside(event) {
             if (!this.$refs.sidebar2 || !this.$refs.sidebar2.contains(event.target)) {
@@ -279,7 +264,6 @@ export default {
     padding: 6px 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
-
 }
 
 @media only screen and (min-width: 768px) {

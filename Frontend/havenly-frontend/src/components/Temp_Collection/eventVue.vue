@@ -30,32 +30,3 @@ export default {
 }
 
 </script>
-
-<style>
-.button-box {
-    background-color: #E86F52;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 10px 24px 1px rgba(0, 0, 0, 0.42);
-
-    .custom-link {
-        color: #000;
-        text-decoration: none;
-        position: relative;
-
-        .custom-icon {
-            position: absolute;
-            margin-top: 1px;
-            transition: all 0.3s ease-in-out;
-        }
-    }
-
-    .custom-link:hover .custom-icon {
-        margin-left: 16px;
-    }
-
-    .v-icon {
-        color: #525252;
-    }
-}
-</style>

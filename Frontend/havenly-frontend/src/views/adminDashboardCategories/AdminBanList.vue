@@ -20,7 +20,7 @@
               <td class="td">{{ item.name }}</td>
               <td class="td">{{ item.email }}</td>
               <td class="td">
-                <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn>
+                <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Remove</v-btn>
               </td>
             </tr>
           </template>
@@ -148,7 +148,7 @@ export default {
         // Show confirmation dialog
         const result = await Swal.fire({
           title: 'Are you sure?',
-          text: 'You won\'t be able to revert this!',
+          text: 'This account will remove from ban list!',
           icon: 'warning',
           showCancelButton: true,
           customClass: {
@@ -161,8 +161,8 @@ export default {
         if (result.isConfirmed) {
           // Show loading indicator
           Swal.fire({
-            title: 'Deleting...',
-            text: 'Please wait while the user is being deleted.',
+            title: 'Removing...',
+            text: 'Please wait while the user is being removed.',
             allowOutsideClick: false,
             didOpen: () => {
               Swal.showLoading();

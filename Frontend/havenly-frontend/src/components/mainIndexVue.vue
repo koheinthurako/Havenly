@@ -101,8 +101,8 @@
 
 
 
-    <button :class="{ show: showBackToTop }" @click="scrollToTop" id="backToTopBtn"><v-icon
-        style="transform:rotate(-90deg)">mdi-arrow-right</v-icon></button>
+    <button :class="{ show: showBackToTop }" @click="scrollToTop"
+      id="backToTopBtn"><v-icon>mdi-chevron-up</v-icon></button>
   </div>
 </template>
 
@@ -174,20 +174,20 @@ export default {
         const isBanned = await response.json();
         if (isBanned) {
           Swal.fire({
-                            title: 'Banned!',
-                            text: 'Your account is banned by admin team for 7 days.',
-                            icon: 'error',
-                            customClass: {
-                                confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                          sessionStorage.removeItem('login_user');
-          window.location.href = '/login'; // Redirect to login page
-                        });
-          
+            title: 'Banned!',
+            text: 'Your account is banned by admin team for 7 days.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then(() => {
+            sessionStorage.removeItem('login_user');
+            window.location.href = '/login'; // Redirect to login page
+          });
+
         }
       }
     },
@@ -198,20 +198,20 @@ export default {
         const isExist = await response.json();
         if (isExist) {
           Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Your account is deleted by admin team.',
-                            icon: 'error',
-                            customClass: {
-                                confirmButton: 'myCustomButton'
-                            },
-                            buttonsStyling: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then(() => {
-                          sessionStorage.removeItem('login_user');
-          window.location.href = '/login'; // Redirect to login page
-                        });
-          
+            title: 'Deleted!',
+            text: 'Your account is deleted by admin team.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'myCustomButton'
+            },
+            buttonsStyling: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then(() => {
+            sessionStorage.removeItem('login_user');
+            window.location.href = '/login'; // Redirect to login page
+          });
+
         }
       }
     },
@@ -385,7 +385,7 @@ export default {
         const user = JSON.parse(sessionStorage.getItem('sub_user'));
         const UserId = user.subUserId;
         fetch(`http://localhost:8083/interest/getAllNotiBySubId/${UserId}`)
-        .then((response) => {
+          .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -469,37 +469,7 @@ export default {
 </script>
 
 
-<style lang="scss">
-#backToTopBtn {
-  display: block;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 99;
-  padding: 16px 17px;
-  border-radius: 50%;
-  font-size: 22px;
-  cursor: pointer;
-  background-color: #e97559;
-  color: white;
-  border: none;
-  z-index: 2000;
-  font-weight: bold;
-  box-shadow: 0px 4px 28px 2px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transform: translateY(-800px);
-  transition: all 0.3s ease-in-out;
-}
-
-#backToTopBtn:hover {
-  background-color: #b13d20;
-}
-
-#backToTopBtn.show {
-  opacity: 1;
-}
-
-
+<style lang="scss" scoped>
 .notiActive {
   .v-icon {
     transform: rotate(360deg);

@@ -85,6 +85,7 @@ public class SellPost_Service_Impl implements SellPost_Service{
 
 	    sellRepo.save(tp);
 	    
+	    System.out.println(customId + "dr ka save dae Id --------------------");
 	    SellPost savedSellPost = sellRepo.findById(customId).orElseThrow();
 	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
 	    Posts post = new Posts();
