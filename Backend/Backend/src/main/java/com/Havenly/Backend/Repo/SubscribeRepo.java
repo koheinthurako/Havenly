@@ -26,7 +26,6 @@ public interface SubscribeRepo extends JpaRepository<Subscription, Integer> {
 			"LEFT JOIN sub.reg_user reg " +
 			"LEFT JOIN sub.packages pack " +
 			"WHERE reg.register_id = :registerId")
-	// List<Subscription_DTO> getSubUserInfo();
 	Subscription_DTO getSubUserInfo(@Param("registerId") int registerId);
 
 	@Query(value = "select sub_user_id from subscription where reg_user_id=?", nativeQuery = true)

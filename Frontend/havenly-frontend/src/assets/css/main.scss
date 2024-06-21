@@ -12,7 +12,11 @@ $font-family: "Roboto", sans-serif;
   position: relative;
   text-decoration: none;
   .bg-redbrick {
+    color: #fff;
     background-color: #e86f52;
+  }
+  .text-brick {
+    color: #e86f52 !important;
   }
 }
 
@@ -697,7 +701,7 @@ body {
 
 @media only screen and (min-width: 990px) {
   .navbar {
-    z-index: 10000;
+    // z-index: 10000;
     .navbar-nav {
       gap: 10px;
       .nav-item {
@@ -3224,6 +3228,11 @@ body {
       .ag-courses-item_date-box {
         font-size: 16px;
       }
+
+      .user-profile .v-overlay-container .v-overlay__content .form-edit2 {
+        width: 340px !important;
+      }
+
     }
   }
 
@@ -3336,7 +3345,7 @@ body {
 /* For main */
 .all-post-view {
   background-color: #fff;
-  padding-top: 80px;
+  padding-top: 40px;
   .left {
     .header {
       h3 {
@@ -3344,6 +3353,92 @@ body {
         color: #e86f52;
         border-bottom: 3px dashed #525252;
         padding: 10px 1px;
+      }
+    }
+
+    .card-container {
+      border: 1px solid #525252;
+      border-radius: 7px;
+      overflow: hidden;
+      cursor: pointer;
+
+      .overlay-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        transition: all 0.1s ease-in-out;
+        z-index: 1;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .header {
+          // transform: translateX(130px) translateY(150px);
+          font-weight: bold;
+        }
+
+        .v-icon {
+          color: #000;
+        }
+        p {
+          color: #fff;
+        }
+      }
+      .card-body {
+        .card-title {
+          color: #e86f52;
+          transition: all 0.3s ease-in-out;
+        }
+      }
+
+      &:hover .overlay-effect {
+        opacity: 1;
+        animation: spreadOutCircle 0.2s forwards;
+      }
+
+      &:not(:hover) .overlay-effect {
+        animation: reverseSpreadCricle 0.2s forwards;
+      }
+
+      @keyframes spreadOutCircle {
+        0% {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        100% {
+          width: 100%;
+          height: 100%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 0;
+        }
+      }
+      @keyframes reverseSpreadCricle {
+        0% {
+          width: 100%;
+          height: 100%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 0;
+        }
+        100% {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }
@@ -5574,3 +5669,9 @@ body {
 .swal2-container {
   z-index: 5000 !important;
 }
+
+// @media only screen and (max-width: 450px) {
+//   .user-profile .v-overlay-container .v-overlay__content .form-edit2 {
+//     width: 340px !important;
+//   }
+// }

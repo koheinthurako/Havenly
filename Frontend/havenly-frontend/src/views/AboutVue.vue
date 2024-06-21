@@ -1,7 +1,7 @@
 <template>
     <v-container class="mt-5 pt-5">
         <div class=" about-edit">
-            <h1 class="mb-3">Discover Your Dream Property with <span>Havenly</span></h1>
+            <h1 class="mb-4">Discover Your Dream Property with <span>Havenly</span></h1>
             <p>
                 Welcome to <span>Havenly</span>, your premier destination for all things real estate. Whether you're
                 searching for the perfect home, a lucrative investment opportunity, or a strategic commercial space, our

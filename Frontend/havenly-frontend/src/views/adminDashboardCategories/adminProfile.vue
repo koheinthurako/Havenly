@@ -5,49 +5,9 @@
                 <div class="profile-box-data pb-5">
                     <v-img :src="acc_img" class="profile-img mx-auto m-4" />
                     <form ref="form" fast-fail @submit.prevent="update" class="mx-auto m-2">
-                        <!-- <div class="mt-2 p-3 mx-auto"> -->
-         <!-- <div class="profile-img-container" @click="triggerFileInput">
-          <v-img
-            :src="profileImage || acc_img"
-            class="profile-img align-center"
-            alt="Profile Picture"
-            max-height="150"
-            max-width="150"
-            contain
-          />
-          <v-icon class="edit-icon">mdi-pencil</v-icon>
-          <input
-                type="file"
-                accept="image/png, image/jpeg, image/bmp"
-                ref="fileInput"
-                style="display: none;"
-                prepend-icon="mdi-camera"
-                @change="handleFileUpload"
-            />
-         </div> -->
-                            <!-- <input type="text" :value="user_data?.name || ''" label="User name">
-                                <input type="email" :value="user_data?.gmail || ''" label="E-mail">
-                                <input type="phone" :value="user_data?.phone || ''" label="phone"> -->
-
-                            <!-- <v-text-field variant="solo" density="comfortable" clear-icon="mdi-close-circle" clearable
-                                rounded="lg" v-model="getAdminData.name" :rules="[validateName]"
-                                label="Username"></v-text-field> -->
-
-                            <!-- <v-text-field class="mt-2" variant="solo" density="comfortable"
-                                clear-icon="mdi-close-circle" clearable rounded="lg" v-model="getAdminData.phone"
-                                :rules="[validatePhone]" label="Phone no."></v-text-field> -->
-
-                            <v-text-field class="mt-2 m-2" variant="solo" density="comfortable"
-                                clear-icon="mdi-close-circle" clearable rounded="lg" v-model="email"
-                                label="Email of this account" :rules="[validateGmail]"></v-text-field>
-
-                            <v-row class="w-100 mt-3">
-                                <v-btn elevation="5" class="submit mx-auto mt-2" type="submit"
-                                    style="text-transform:capitalize;">
-                                    Update
-                                </v-btn>
-                            </v-row>
-                        <!-- </div> -->
+                        <v-text-field disabled class="mt-2 m-2" variant="solo" density="comfortable"
+                            clear-icon="mdi-close-circle" clearable rounded="lg" v-model="email"
+                            label="Email of this account" :rules="[validateGmail]"></v-text-field>
                     </form>
                 </div>
             </div>

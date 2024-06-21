@@ -15,7 +15,7 @@
         </span>
         <!-- upload ads dialog start -->
         <v-dialog v-model="adsDialog" class="create-pop-up" persistent>
-          <form @submit.prevent="submitAdPost" class="form-edit2">
+          <form @submit.prevent="submitAdPost" @keydown="preventEnter" class="form-edit2">
             <v-row cols="12" class="mx-auto mb-3">
               <h3>Create an Ad</h3>
             </v-row>
@@ -97,6 +97,12 @@ export default {
   },
 
   methods: {
+    preventEnter(event) {
+      if(event.key === 'Enter') {
+        event.preventDefault();
+      }
+    },
+
     openAdsDialog() {
       console.log(this.availAds);
       if (!(this.availAds <= 0)) {
@@ -233,6 +239,7 @@ export default {
         });
       }
       else {
+        // this.closeAdsDialog();
         Swal.fire({
           title: 'Posting...',
           text: 'Your ads is being submitted. Please wait...',

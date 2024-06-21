@@ -105,206 +105,177 @@
                                 </div>
 
                                 <!-- Edit Modal Box -->
-                                <div class="editModalBox mt-3">
-                                    <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div style="top: 25px;"
-                                            class="modal-dialog modal-lg d-flex align-items-center fixed-top">
-                                            <div class="modal-content" style="max-width: 2000px !important;">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
-                                                        currentPost.post_type }}</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close" @click="reloadWindow"></button>
-                                                </div>
-                                                <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
-                                                    <form @submit.prevent="submit" enctype="multipart/form-data"
-                                                        class="w-100 px-4 py-3">
+                                <div class="editModalBox">
+                                <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
+                                        <div class="modal-content" style="max-width: 2000px !important;">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
+                                                    currentPost.post_type }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close" @click="reloadWindow"></button>
+                                            </div>
+                                            <div class="modal-body" style="overflow-y:auto; max-height: 70vh;">
+                                                <form @submit.prevent="submit" enctype="multipart/form-data"
+                                                    class="w-100 px-4 py-3">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Title <span
+                                                                    class="text-red">*</span></span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="fullTitle"
+                                                                :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
+                                                                placeholder="Title"></v-text-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12 py-0">
+                                                            <span class="float-left mt-2 small">Description<span
+                                                                    class="text-red">*</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12 py-0">
+                                                            <v-textarea required bg-color="#EDEDED" class="w-100"
+                                                                clear-icon="mdi-close-circle" clearable variant="solo"
+                                                                rounded="lg" density="compact" v-model="fullDescription"
+                                                                :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
+                                                                :counter="10000" placeholder="Description"></v-textarea>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="p-0 row-1 d-flex flex-wrap">
+                                                        <v-select bg-color="white" v-model="selectedCountry"
+                                                            :items="uniqueCountries" label="Select country"
+                                                            required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedProvince"
+                                                            :items="uniqueProvinces" :disabled="!selectedCountry"
+                                                            label="Select province" required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedAmphoe"
+                                                            :items="uniqueAmphoes" :disabled="!selectedProvince"
+                                                            label="Select amphoe" required></v-select>
+                                                        <v-select bg-color="white" v-model="selectedRegion"
+                                                            :items="uniqueRegions" :disabled="!selectedAmphoe"
+                                                            label="Select region" required></v-select>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small"> Property Type </span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-select required bg-color="#EDEDED" class="w-100"
+                                                                clear-icon="mdi-close-circle" clearable variant="solo"
+                                                                rounded="lg" density="compact" v-model="property_type"
+                                                                :items="PropertyTypes"
+                                                                placeholder="Select property type"></v-select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Price($Dollar)<span
+                                                                    class="text-red">*</span></span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="price"
+                                                                :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
+                                                                placeholder="price"></v-text-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Area</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="area"
+                                                                :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
+                                                                placeholder="Area"></v-text-field>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="currentPost.deposit" class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Deposit</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="deposit"
+                                                                :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
+                                                                placeholder="Deposit"></v-text-field>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="currentPost.least_contract"
+                                                        class="row justify-content-between">
+                                                        <div class="col-md-2 col-sm-12">
+                                                            <span class="float-left mt-2 small">Least Contract</span>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <v-text-field required bg-color="#EDEDED" filled variant="solo"
+                                                                density="compact" rounded="lg" clear-icon="mdi-close-circle"
+                                                                clearable class="w-100" v-model="least_contract"
+                                                                :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
+                                                                placeholder="Least Contract"></v-text-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <div :key="forceRerender">
                                                         <div class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small">Title <span
+                                                            <div class="col-md-3 col-sm-12 py-0">
+                                                                <span class="float-left mt-2 small">Replace Image<span
                                                                         class="text-red">*</span></span>
                                                             </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-text-field required bg-color="#EDEDED" filled
-                                                                    variant="solo" density="compact" rounded="lg"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    class="w-100" v-model="fullTitle"
-                                                                    :rules="[v => !!v || 'Title is required', v => !/^\s*$/.test(v) || 'Title cannot be just spaces']"
-                                                                    placeholder="Title"></v-text-field>
-                                                            </div>
-                                                        </div>
+                                                            <div class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
 
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12 py-0">
-                                                                <span class="float-left mt-2 small">Description<span
-                                                                        class="text-red">*</span>
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12 py-0">
-                                                                <v-textarea required bg-color="#EDEDED" class="w-100"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    variant="solo" rounded="lg" density="compact"
-                                                                    v-model="fullDescription"
-                                                                    :rules="[v => !!v || 'Description is required', v => !/^\s*$/.test(v) || 'Description cannot be just spaces']"
-                                                                    :counter="10000"
-                                                                    placeholder="Description"></v-textarea>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="p-0 row-1 d-flex">
-                                                            <v-select bg-color="white" v-model="selectedCountry"
-                                                                :items="uniqueCountries" label="Select country"
-                                                                required></v-select>
-                                                            <v-select bg-color="white" v-model="selectedProvince"
-                                                                :items="uniqueProvinces" :disabled="!selectedCountry"
-                                                                label="Select province" required></v-select>
-                                                            <v-select bg-color="white" v-model="selectedAmphoe"
-                                                                :items="uniqueAmphoes" :disabled="!selectedProvince"
-                                                                label="Select amphoe" required></v-select>
-                                                            <v-select bg-color="white" v-model="selectedRegion"
-                                                                :items="uniqueRegions" :disabled="!selectedAmphoe"
-                                                                label="Select region" required></v-select>
-                                                        </div>
-
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small"> Property Type
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-select required bg-color="#EDEDED" class="w-100"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    variant="solo" rounded="lg" density="compact"
-                                                                    v-model="property_type" :items="PropertyTypes"
-                                                                    placeholder="Select property type"></v-select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small">Price($Dollar)<span
-                                                                        class="text-red">*</span></span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-text-field required bg-color="#EDEDED" filled
-                                                                    variant="solo" density="compact" rounded="lg"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    class="w-100" v-model="price"
-                                                                    :rules="[v => !!v || 'Price is required', v => !/^\s*$/.test(v) || 'Price cannot be just spaces']"
-                                                                    placeholder="price"></v-text-field>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small">Area</span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-text-field required bg-color="#EDEDED" filled
-                                                                    variant="solo" density="compact" rounded="lg"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    class="w-100" v-model="area"
-                                                                    :rules="[v => !!v || 'Area is required', v => !/^\s*$/.test(v) || 'Area cannot be just spaces']"
-                                                                    placeholder="Area"></v-text-field>
-                                                            </div>
-                                                        </div>
-                                                        <div v-if="currentPost.deposit"
-                                                            class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small">Deposit</span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-text-field required bg-color="#EDEDED" filled
-                                                                    variant="solo" density="compact" rounded="lg"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    class="w-100" v-model="deposit"
-                                                                    :rules="[v => !!v || 'Deposit is required', v => !/^\s*$/.test(v) || 'Deposit cannot be just spaces']"
-                                                                    placeholder="Deposit"></v-text-field>
-                                                            </div>
-                                                        </div>
-                                                        <div v-if="currentPost.least_contract"
-                                                            class="row justify-content-between">
-                                                            <div class="col-md-2 col-sm-12">
-                                                                <span class="float-left mt-2 small">Least
-                                                                    Contract</span>
-                                                            </div>
-                                                            <div class="col-md-9 col-sm-12">
-                                                                <v-text-field required bg-color="#EDEDED" filled
-                                                                    variant="solo" density="compact" rounded="lg"
-                                                                    clear-icon="mdi-close-circle" clearable
-                                                                    class="w-100" v-model="least_contract"
-                                                                    :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
-                                                                    placeholder="Least Contract"></v-text-field>
-                                                            </div>
-                                                        </div>
-
-                                                        <div :key="forceRerender">
-                                                            <div class="row justify-content-between">
-                                                                <div class="col-md-3 col-sm-12 py-0">
-                                                                    <span class="float-left mt-2 small">Replace
-                                                                        Image<span class="text-red">*</span></span>
+                                                                <!-- Render original photos -->
+                                                                <div v-for="(photo, index) in currentPost.photo_url" :key="'photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
+                                                                    <img :src="photo" class="img-thumbnail" alt="Current Post Image">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'original')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                        <v-icon class="text-danger">mdi-close</v-icon>
+                                                                    </button>
                                                                 </div>
-                                                                <div
-                                                                    class="col-md-9 col-sm-12 py-0 d-flex flex-column flex-md-row flex-wrap">
 
-                                                                    <!-- Render original photos -->
-                                                                    <div v-for="(photo, index) in currentPost.photo_url"
-                                                                        :key="'photo_' + index"
-                                                                        class="mb-2 col-12 col-md-4 position-relative">
-                                                                        <img :src="photo" class="img-thumbnail"
-                                                                            alt="Current Post Image">
-                                                                        <button v-if="canDeletePhoto"
-                                                                            @click="deletePhoto(index, 'original')"
-                                                                            class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
-                                                                            <v-icon
-                                                                                class="text-danger">mdi-close</v-icon>
-                                                                        </button>
-                                                                    </div>
+                                                                <!-- Render additional photos -->
+                                                                <div v-for="(photo, index) in additionalPhotos" :key="'extra_photo_' + index" class="mb-2 col-12 col-md-4 position-relative">
+                                                                    <img :src="photo" class="img-thumbnail" alt="Additional Photo">
+                                                                    <button v-if="canDeletePhoto" @click="deletePhoto(index, 'additional')" class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
+                                                                        <v-icon class="text-danger">mdi-close</v-icon>
+                                                                    </button>
+                                                                </div>
 
-                                                                    <!-- Render additional photos -->
-                                                                    <div v-for="(photo, index) in additionalPhotos"
-                                                                        :key="'extra_photo_' + index"
-                                                                        class="mb-2 col-12 col-md-4 position-relative">
-                                                                        <img :src="photo" class="img-thumbnail"
-                                                                            alt="Additional Photo">
-                                                                        <button v-if="canDeletePhoto"
-                                                                            @click="deletePhoto(index, 'additional')"
-                                                                            class="bg-white rounded-start-2 p-2 imgDeleteIcon position-absolute top-0 end-0 ">
-                                                                            <v-icon
-                                                                                class="text-danger">mdi-close</v-icon>
-                                                                        </button>
-                                                                    </div>
-
-                                                                    <!-- Hidden file input -->
-                                                                    <input type="file" ref="fileInput"
-                                                                        style="display: none;"
-                                                                        @change="handleFileChange">
-                                                                    <div class="mb-2 col-12 col-md-4">
-                                                                        <button @click.prevent="triggerFileInput"
-                                                                            class="btn btn-outline-danger w-100 h-100 fs-1">
-                                                                            + </button>
-                                                                        <input type="file" ref="fileExtraInput" multiple
-                                                                            @change="addMorePhotos"
-                                                                            style="display: none;">
-                                                                    </div>
+                                                                <!-- Hidden file input -->
+                                                                <input type="file" ref="fileInput" style="display: none;"
+                                                                    @change="handleFileChange">
+                                                                <div class="mb-2 col-12 col-md-4">
+                                                                    <button @click.prevent="triggerFileInput" class="btn btn-outline-danger w-100 h-100 fs-1"> + </button>
+                                                                    <input type="file" ref="fileExtraInput" multiple @change="addMorePhotos" style="display: none;">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-danger"
-                                                        data-bs-dismiss="modal" @click="reloadWindow">Close</button>
-                                                    <button type="button" class="btn btn-danger"
-                                                        @click="submit(currentPost)">Save
-                                                        changes</button>
-                                                </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    data-bs-dismiss="modal" @click="reloadWindow">Close</button>
+                                                <button type="button" class="btn btn-danger"
+                                                    @click="submit(currentPost)">Save
+                                                    changes</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
                             </div>
                         </div>
@@ -1019,7 +990,7 @@ function triggerFileInput() {
 .editModalBox {
     margin-top: 20px;
     position: absolute;
-    z-index: 4000;
+    z-index: 2000 !important;
 }
 
 body.modal-open {

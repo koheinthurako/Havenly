@@ -1,6 +1,6 @@
 <template>
 
-    <div class="post-detail-view-page no-select">
+    <div class="post-detail-view-page no-select mb-lg-5">
 
         <v-overlay :model-value="overlay" class="align-center justify-center">
             <v-progress-circular color="#e86f52" size="72" width="8" indeterminate></v-progress-circular>
@@ -268,60 +268,61 @@
                                 <!-- start here -->
                                 <div class="row">
                                     <div class="description">
-                                        <h5 class="color-brick mb-4">ပို့စ် အကြောင်းအရာများ</h5>
+                                        <h4 class="color-brick mb-4">Post Description</h4>
 
                                         <p class="detail-text" v-html="formatDesc(post.description)"></p>
                                     </div>
-
-
                                 </div>
 
 
 
-                                <hr class="mx-auto">
+                                <hr class="mx-auto mb-lg-4">
 
 
                                 <div class="row">
-                                    <h5 class="color-brick mb-4">ပို့စ် အသေးစိတ်အချက်များ</h5>
+                                    <!-- <h5 class="color-brick mb-4">ပို့စ် အသေးစိတ်အချက်များ</h5> -->
 
                                     <div class="row p-0">
                                         <div class="col-6 ">
                                             <div class="d-flex"><v-icon class="s-icon">mdi-map-marker</v-icon>
-                                                <p>{{ post.province }} / {{
+                                                <p> &nbsp; {{ post.province }} / {{
                                                     post.region }} / {{
                                                         post.country }}</p>
                                             </div>
                                             <div class="d-flex"><v-icon class="s-icon">mdi-office-building</v-icon>
-                                                <p>{{ post.property_type }}</p>
+                                                <p> &nbsp; {{ post.property_type }}</p>
                                             </div>
 
                                             <div class="d-flex"><v-icon class="s-icon">mdi-arrow-expand-all</v-icon>
-                                                <p>{{ post.area }} Square Ft </p>
+                                                <p> &nbsp; {{ post.area }} Square Ft </p>
                                             </div>
+
+                                            <div v-if="post.deposit" class="d-flex">
+                                                <v-icon class="s-icon">mdi-cash</v-icon>
+                                                <p> &nbsp; {{ post.deposit }} (Deposit)</p>
+                                            </div>
+
+                                            <div v-if="post.least_contract" class="d-flex">
+                                                <v-icon class="s-icon">mdi-file</v-icon>
+                                                <p> &nbsp; {{ post.least_contract }} (Contract)</p>
+                                            </div>
+
                                         </div>
+
                                         <div class="col-6">
-                                            <!-- <div class="d-flex"><v-icon>mdi-checkbox-marked-circle</v-icon>
-                                        <p>ဆောက်လုပ်ပြီး</p>
-                                    </div> -->
-
-
 
                                             <div class="d-flex"><v-icon class="s-icon">mdi-tag-multiple</v-icon>
-                                                <p>စျေးနှုန်း</p><br>
+                                                <p> &nbsp; Price</p><br>
 
                                             </div>
-                                            <div class="d-flex">
-
-                                                <p class="price"> {{ post.price }}</p>
-                                                <span class="mt-1 ms-2">Kyats</span>
-                                            </div>
+                                            <p class="price"> {{ post.price }}</p>
 
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <hr class="mx-auto">
+                                <hr class="mx-auto mb-lg-4">
 
 
 
@@ -558,18 +559,6 @@
                                                                             Sell
                                                                         </v-btn>
                                                                     </template>
-                                                                    <v-card>
-                                                                        <v-card-text>
-                                                                            <div class="mx-auto text-center">
-                                                                                <h4>Uploaded Sell Posts</h4>
-                                                                                wai yan
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hein
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hello
-                                                                            </div>
-                                                                        </v-card-text>
-                                                                    </v-card>
                                                                 </v-menu>
                                                                 <!-- menu btn 1 end -->
 
@@ -583,24 +572,7 @@
                                                                             Rent
                                                                         </v-btn>
                                                                     </template>
-                                                                    <v-card>
-                                                                        <v-card-text>
-                                                                            <div class="mx-auto text-center">
-                                                                                <h4>Uploaded rent posts</h4>
-                                                                                wai yan
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hein
-                                                                                <v-divider class="my-3"></v-divider>
-                                                                                hello
-                                                                            </div>
-                                                                        </v-card-text>
-                                                                    </v-card>
                                                                 </v-menu>
-                                                                <!-- menu btn 2 start -->
-
-
-
-
                                                             </div>
                                                         </v-card-text>
                                                     </div>
@@ -925,11 +897,11 @@ export default {
 
     methods: {
         fetchAllSellRentPostsToCount() {
-            const user = JSON.parse(sessionStorage.getItem('sub_user'));
-            const subUserId = user.subUserId;
-            console.log(subUserId);
-
-            axios.get('http://localhost:8083/posts/allSellPost', {
+            if(JSON.parse(sessionStorage.getItem('sub_user'))) {
+                const user = JSON.parse(sessionStorage.getItem('sub_user'));
+                const subUserId = user.subUserId;
+                console.log(subUserId);
+                axios.get('http://localhost:8083/posts/allSellPost', {
                 params: {
                     subUserId: subUserId
                 }
@@ -961,8 +933,6 @@ export default {
                             });
                         }
                     });
-
-                    // Update the data properties
                     this.sellPosts = sellPosts;
                     this.rentPosts = rentPosts;
 
@@ -975,6 +945,8 @@ export default {
                 .catch(error => {
                     console.error("Error fetching posts: ", error);
                 });
+            }
+
         },
 
 
