@@ -32,7 +32,7 @@ public class AdsPostService_Impl implements AdsPostService{
 	@Autowired
 	SubscribeRepo subRepo;
 	
-	private int adsCount;
+//	private int adsCount;
 	
 	@Override
 	public AdsPost createAdsPost(MultipartFile img, int subUserId, String title) {
@@ -58,10 +58,9 @@ public class AdsPostService_Impl implements AdsPostService{
 			            e.printStackTrace();
 			        } 
 			}
-			 adsCount = (int) adsRepo.count();
-			 adsCount++;
-			    String customId = "a" + adsCount;
-			    ad.setAds_post_id(customId);
+//			 adsCount = (int) adsRepo.count();
+//			 adsCount++;
+//			    
 			    
 			    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
 			    ad.setSubUser(subUser);
@@ -84,7 +83,7 @@ public class AdsPostService_Impl implements AdsPostService{
 	
 	@Transactional
 	@Override
-	public void deleteAdsPost(int subUserid, String adsId) {
+	public void deleteAdsPost(int subUserid, int adsId) {
 			AdsPost adsPost = adsRepo.findById(adsId).orElse(null);
 			 if (adsPost == null) {
 		            throw new IllegalArgumentException("Ad not found.");   
@@ -125,7 +124,7 @@ public class AdsPostService_Impl implements AdsPostService{
 
 	@Transactional
 	@Override
-	public void deleteByAdmin(String adsId) {
+	public void deleteByAdmin(int adsId) {
 		
 		AdsPost adsPost = adsRepo.findById(adsId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adsId));
 		int subUserId = adsPost.getSubUser().getSubUserId();
@@ -141,6 +140,9 @@ public class AdsPostService_Impl implements AdsPostService{
 	    	
 		    packageRepo.updateAds(adsCount, subUserId);
 		    System.out.println("Successfully updated plus 1 avail_ads count in database!");
+	    	System.out.println("akm test "+adsCount);
+		    packageRepo.updateAds(adsCount, subUserId);
+		    System.out.println("Successfully updated plus 1 avail_post count in database!");
 	    }
 	}
 

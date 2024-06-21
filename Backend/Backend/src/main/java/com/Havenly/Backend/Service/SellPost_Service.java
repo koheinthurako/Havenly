@@ -1,11 +1,8 @@
 package com.Havenly.Backend.Service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.Havenly.Backend.Entity.Locations;
-import com.Havenly.Backend.Entity.SellPost;
 
 @Service
 public interface SellPost_Service {
