@@ -75,6 +75,7 @@
 
 
 <script>
+import Swal from 'sweetalert2';
 export default {
     name: 'ContactVue',
 
@@ -108,7 +109,16 @@ const textarea = useField('word')
 
 
 const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
+    // alert(JSON.stringify(values.email, null, 2))
+
+    Swal.fire({
+        title: 'Thank You!',
+        text: `Your submission with email ${values.email} has been received.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        handleReset();
+    })
 })
 </script>
 

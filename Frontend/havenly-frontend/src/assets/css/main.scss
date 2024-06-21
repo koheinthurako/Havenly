@@ -2,7 +2,19 @@ $font-family: "Roboto", sans-serif;
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+.all-post-view {
+  .model-body {
+    .v-menu > .v-overlay__content > .v-card,
+    .v-menu > .v-overlay__content > .v-sheet,
+    .v-menu > .v-overlay__content > .v-list {
+      z-index: 100000 !important;
+    }
+  }
+}
 
+.v-card > .v-sheet > .v-list {
+  z-index: 10000 !important;
+}
 * {
   padding: 0;
   margin: 0;
@@ -1099,7 +1111,9 @@ body {
 .color-brick {
   color: var(--primary-color);
 }
-
+.color-light-green {
+  color: lightgreen;
+}
 .price {
   font-size: 30px;
   color: var(--primary-color);
@@ -3244,44 +3258,61 @@ body {
       color: #525252;
     }
   }
-  .card-two {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
 
-  .card-two-edit {
+  .card-two {
     overflow: hidden;
     width: 100%;
     height: auto;
     position: relative;
+    .card-two-edit {
+      position: relative;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      overflow: hidden;
 
-    .card-body-2 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      bottom: -200px;
-
-      .edit-btn {
-        border-radius: 50%;
-        padding: 4px;
-        color: #fff;
-        margin-top: -1px;
-        margin-left: -4px;
-        background-color: #e86f52;
-        cursor: pointer;
-      }
-    }
-
-    &:hover {
       .card-body-1 {
-        transform: translateY(-100%);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s;
+        z-index: 1;
       }
 
       .card-body-2 {
         position: absolute;
-        bottom: 0px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s;
+        z-index: 0;
+        transform: translateY(100%);
+
+        .edit-btn {
+          border-radius: 50%;
+          padding: 4px;
+          color: #fff;
+          margin-top: -1px;
+          margin-left: -4px;
+          background-color: #e86f52;
+          cursor: pointer;
+        }
+      }
+
+      &:hover {
+        .card-body-1 {
+          transform: translateY(-100px);
+        }
+
+        .card-body-2 {
+          transform: translateY(0);
+        }
       }
     }
   }
@@ -3336,7 +3367,7 @@ body {
 /* For main */
 .all-post-view {
   background-color: #fff;
-  padding-top: 80px;
+  padding-top: 40px;
   .left {
     .header {
       h3 {
@@ -3344,6 +3375,92 @@ body {
         color: #e86f52;
         border-bottom: 3px dashed #525252;
         padding: 10px 1px;
+      }
+    }
+
+    .card-container {
+      border: 1px solid #525252;
+      border-radius: 7px;
+      overflow: hidden;
+      cursor: pointer;
+
+      .overlay-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        transition: all 0.1s ease-in-out;
+        z-index: 1;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .header {
+          // transform: translateX(130px) translateY(150px);
+          font-weight: bold;
+        }
+
+        .v-icon {
+          color: #000;
+        }
+        p {
+          color: #fff;
+        }
+      }
+      .card-body {
+        .card-title {
+          color: #e86f52;
+          transition: all 0.3s ease-in-out;
+        }
+      }
+
+      &:hover .overlay-effect {
+        opacity: 1;
+        animation: spreadOutCircle 0.2s forwards;
+      }
+
+      &:not(:hover) .overlay-effect {
+        animation: reverseSpreadCricle 0.2s forwards;
+      }
+
+      @keyframes spreadOutCircle {
+        0% {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        100% {
+          width: 100%;
+          height: 100%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 0;
+        }
+      }
+      @keyframes reverseSpreadCricle {
+        0% {
+          width: 100%;
+          height: 100%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 0;
+        }
+        100% {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }
@@ -3384,6 +3501,57 @@ body {
     }
   }
 }
+
+// .all-post-view {
+//   background-color: #fff;
+//   padding-top: 80px;
+//   .left {
+//     .header {
+//       h3 {
+//         display: inline-block;
+//         color: #e86f52;
+//         border-bottom: 3px dashed #525252;
+//         padding: 10px 1px;
+//       }
+//     }
+//   }
+//   .right {
+//     .filter-search {
+//       border-radius: 12px;
+//       border: 2px solid #525252;
+//       position: relative;
+//       margin-bottom: 10px;
+//       transition: all 0.3s ease-in-out;
+//       .header {
+//         @include header-absolute();
+//       }
+//       .body {
+//         padding: 14px 10px;
+//         line-height: 7px;
+//         .v-radio {
+//           border: 1px solid #e83b4f;
+//           padding-right: 7px;
+//           border-radius: 10px;
+//           margin-top: 6px;
+//           margin-bottom: -9px;
+//         }
+//         .search-btn {
+//           @include info-btn-outline();
+//           border-color: #e86f52;
+//           width: 45%;
+//           background-color: #e86f52;
+//           color: #fff;
+//         }
+//         .all-btn {
+//           @include info-btn-outline();
+//           border-color: #e86f52;
+//           color: #000;
+//           width: 45%;
+//         }
+//       }
+//     }
+//   }
+// }
 
 /* For Temp */
 .view-posts {

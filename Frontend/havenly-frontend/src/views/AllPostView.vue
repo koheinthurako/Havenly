@@ -67,7 +67,7 @@
                                                 <div class="d-flex mb-2 justify-content-between">
                                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{
                                                         post.deposit
-                                                    }}</span>
+                                                        }}</span>
                                                     <span v-if="post.least_contract" class="small opacity-75">Contract :
                                                         {{
                                                             post.least_contract }}</span>
@@ -160,7 +160,7 @@ export default {
         return {
 
             // for pagination
-            itemsPerPage: 4,
+            itemsPerPage: 20,
             currentPage: 1,
 
 

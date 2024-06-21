@@ -133,7 +133,7 @@
 
 <template>
     <div class="fourth-package2">
-        <div class="container ">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-12 mb-3">
                     <div class="row">
@@ -160,7 +160,7 @@
                                                     </span>
                                                     <footer>
                                                         <cite>
-                                                            U Mya
+                                                            John wick
                                                         </cite>
                                                     </footer>
                                                 </blockquote>
@@ -180,29 +180,32 @@
 
                         </div>
                         <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
-                            <div class="card card-two w-100 h-auto p-2">
+                            <div class="card card-two w-100 mt-auto ">
+
 
                                 <div class="card-two-edit">
                                     <div class="card-body-1">
                                         <div class="d-flex">
                                             <v-icon class="mt-1 me-2">mdi-shield-check</v-icon>
-                                            <h3>Security</h3>
+                                            <h4 class="color-brick">Security</h4>
                                         </div>
 
 
                                     </div>
 
                                     <div class="card-body-2">
-                                        <h5>hello world</h5>
+                                        <v-icon class="mt-1 me-2">mdi-check</v-icon>
+                                        <h5 class="color-brick">Security check</h5>
                                     </div>
 
                                 </div>
 
 
+
                             </div>
                         </div>
                         <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
-                            <div class="card h-auto p-2">
+                            <div class="card card-two p-1">
 
                                 <div class="card-two-edit">
                                     <div class="card-body-1 w-100">
@@ -229,7 +232,8 @@
                                                 <div class="color-brick m-auto">
                                                     {{ rate_Value }}
                                                 </div>
-                                                <v-icon v-if="rate_Value > 0" class="edit-btn">mdi-check</v-icon>
+                                                <v-icon v-if="rate_Value > 0" @click="showAlert(rate_value)"
+                                                    class="edit-btn">mdi-check</v-icon>
                                             </div>
                                             <h5>Give a Rating!</h5>
                                         </div>
@@ -330,7 +334,7 @@
 
 
 <script>
-
+import Swal from 'sweetalert2';
 export default {
     name: 'fourthPackage',
 
@@ -347,6 +351,15 @@ export default {
                 return text.slice(0, charLimit) + '...';
             }
             return text;
+        },
+
+        showAlert(data) {
+            Swal.fire({
+                title: 'Rating Submitted!',
+                text: `You have rated: ${data} stars`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
         },
     },
 }

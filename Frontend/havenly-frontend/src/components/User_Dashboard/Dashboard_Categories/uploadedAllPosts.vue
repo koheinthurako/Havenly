@@ -152,7 +152,8 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                        <div class="p-0 row-1 d-flex">
+                                                        <div class="p-0 row-1 d-flex" style="z-index: 1000000;">
+
                                                             <v-select bg-color="white" v-model="selectedCountry"
                                                                 :items="uniqueCountries" label="Select country"
                                                                 required></v-select>
@@ -1019,7 +1020,7 @@ function triggerFileInput() {
 .editModalBox {
     margin-top: 20px;
     position: absolute;
-    z-index: 4000;
+    z-index: 2000;
 }
 
 body.modal-open {
