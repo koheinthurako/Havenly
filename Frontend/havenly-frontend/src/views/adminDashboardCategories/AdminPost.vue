@@ -309,7 +309,7 @@ export default {
                 }
             }
 
-            axios.delete("http://localhost:8083/posts/decliePost", {
+            axios.delete("http://localhost:8083/posts/declinePost", {
              params: {
                  subUserId: post.subUserId, postId: post.post_id}
              })
