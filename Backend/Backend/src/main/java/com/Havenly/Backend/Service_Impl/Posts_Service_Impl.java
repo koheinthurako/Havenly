@@ -77,7 +77,7 @@ public class Posts_Service_Impl implements Posts_Service {
 
 	@Transactional
 	@Override
-	public void decliePost(@RequestParam int subUserId, @RequestParam int postId) {
+	public void declinePost(@RequestParam int subUserId, @RequestParam int postId) {
 		Posts post = postsRepo.findById(postId)
 	            .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
 		if(post != null) {

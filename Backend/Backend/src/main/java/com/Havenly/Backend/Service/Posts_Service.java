@@ -18,7 +18,7 @@ public interface Posts_Service {
 //	public List<Posts> getAllSubuserRentPosts(int subUserId);
 	public Posts getPostById(int postId);
 	public Posts update(Posts post);
-	public void decliePost(int subUserId, int postId);
+	public void declinePost(int subUserId, int postId);
 	public void deletePost(int postId);
 
 	// get interested posts

@@ -78,10 +78,10 @@ public class Posts_Controller {
 		return new ResponseEntity<Posts>(postService.update(post),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/decliePost")
+	@DeleteMapping("/declinePost")
 	public ResponseEntity<String> decliePostFromAdmin(@RequestParam int subUserId, @RequestParam int postId){
 		try {
-            postService.decliePost(subUserId, postId);
+            postService.declinePost(subUserId, postId);
             return ResponseEntity.ok("Post deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error declining post: " + e.getMessage());
