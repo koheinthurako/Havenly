@@ -10,7 +10,7 @@ import com.Havenly.Backend.Entity.AdsPost;
 
 import jakarta.transaction.Transactional;
 
-public interface AdsPost_Repo extends JpaRepository<AdsPost,String>{
+public interface AdsPost_Repo extends JpaRepository<AdsPost,Integer>{
 
 	@Query(value = "SELECT * FROM ads_post WHERE sub_user_id = ?1", nativeQuery = true)
 	public List<AdsPost> findAllSubUserAds(int subUserId);

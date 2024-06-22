@@ -51,9 +51,9 @@
                                     <span class="badge text-bg-danger rounded-pill">
                                         {{ post.property_type }}
                                     </span>
-                                    <div class="d-flex text-danger">
-                                        <v-icon class="mt-2 fs-3">mdi-currency-usd</v-icon>
-                                        <p class="m-0 small fw-bold fs-3">
+                                    <div class="d-flex text-danger align-items-center">
+                                        <v-icon class="mt-1 fs-3">mdi-currency-usd</v-icon>
+                                        <p class="m-0 small fw-bold fs-4">
                                             {{ post.price }}
                                         </p>
                                     </div>

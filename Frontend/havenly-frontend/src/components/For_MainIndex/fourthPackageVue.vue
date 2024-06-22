@@ -160,7 +160,7 @@
                                                     </span>
                                                     <footer>
                                                         <cite>
-                                                            U Mya
+                                                            Alina
                                                         </cite>
                                                     </footer>
                                                 </blockquote>
@@ -262,7 +262,7 @@
                                                     </span>
                                                     <footer>
                                                         <cite>
-                                                            Daw Hla
+                                                            David
                                                         </cite>
                                                     </footer>
                                                 </blockquote>

@@ -95,7 +95,7 @@
 
                             </div>
                         </div>
-                        <!-- card end -->
+                        <!-- `card end -->
                     </div>
                     <div v-else>
                         You maked no interest.<br><br>
@@ -182,6 +182,10 @@ export default {
                 showCancelButton: true,
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'myCustomButton'
+                },
             }).then((result) => {
                 if (result.isConfirmed) {
                     this.deletePost();

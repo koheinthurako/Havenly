@@ -51,7 +51,7 @@ public class AdsPostController {
 	}
 
     @DeleteMapping("/ads/delete")
-    public ResponseEntity<String> deleteAdPost(@RequestParam("subUserId") int subUserId, @RequestParam("ads_post_id") String adPostId) {
+    public ResponseEntity<String> deleteAdPost(@RequestParam("subUserId") int subUserId, @RequestParam("ads_post_id") int adPostId) {
         try {
             adsService.deleteAdsPost(subUserId, adPostId);
             return ResponseEntity.ok("ad deleted successfully");
@@ -84,7 +84,7 @@ public class AdsPostController {
     }
     
     @DeleteMapping("/admin/decline")
-    public ResponseEntity<String> declineAds(@RequestParam("AdsId") String adId) {
+    public ResponseEntity<String> declineAds(@RequestParam("AdsId") int adId) {
         try {
             adsService.deleteByAdmin(adId);
             return ResponseEntity.ok("ad declined successfully");
