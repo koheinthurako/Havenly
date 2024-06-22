@@ -20,11 +20,11 @@ public class AdminService_Impl implements AdminService{
 	}
 
 	@Override
-	public Admin Login(String gmail, String password) {
+	public Admin Login(String gmail, String ppassword) {
 		
 			Admin admin = adminRepo.findByEmail(gmail);
-			
-			if (admin == null) {
+			System.out.println(admin.getPassword());
+			if (admin == null || !(admin.getPassword().equals(ppassword) )) {
 				return null;
 			}
 			
