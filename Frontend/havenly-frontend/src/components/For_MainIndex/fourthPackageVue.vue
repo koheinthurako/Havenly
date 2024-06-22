@@ -160,7 +160,7 @@
                                                     </span>
                                                     <footer>
                                                         <cite>
-                                                            John wick
+                                                            Alina
                                                         </cite>
                                                     </footer>
                                                 </blockquote>
@@ -263,7 +263,7 @@
                                                     </span>
                                                     <footer>
                                                         <cite>
-                                                            Daw Hla
+                                                            David
                                                         </cite>
                                                     </footer>
                                                 </blockquote>

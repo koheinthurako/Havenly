@@ -488,7 +488,7 @@
                                                 :key="data.postId">
                                                 <div class="pi-overlay"></div>
                                                 <div class="col-3 p-0">
-                                                    <v-img :src="avatar" class="w-100 h-100" cover></v-img>
+                                                    <v-img :src="defaultProfile" class="w-100 h-100" cover></v-img>
                                                 </div>
                                                 <div class="col-9">
                                                     <p class="p-0 m-0 mt-1">
@@ -788,6 +788,7 @@ export default {
         // ],
 
         avatar: require('@/assets/img/ava5.jpg'),
+        defaultProfile: require('@/assets/img/defaultpp.jpg'),
         savedPosts: [],
 
         // to keep all datas
@@ -1372,7 +1373,10 @@ export default {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
-                            text: 'You make interested in this post.'
+                            text: 'You make interested in this post.',
+                            customClass: {
+                                confirmButton: 'myCustomSuccessButton'
+                            },
                         });
                     } else {
                         Swal.close();
@@ -1392,10 +1396,13 @@ export default {
 
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Relax bro!',
-                                text: 'You already made an interest in this post!',
-                                showCancelButton: false, // Hide the cancel button
-                                allowOutsideClick: true, // Allow clicking outside to close
+                                title: 'Already Interested!',
+                                text: 'You already interested this post!',
+                                showCancelButton: false,
+                                allowOutsideClick: true,
+                                customClass: {
+                                    confirmButton: 'myCustomButton'
+                                },
                             }).then((result) => {
                                 if (result.isConfirmed || result.isDismissed) {
                                     window.location.reload();

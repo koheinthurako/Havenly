@@ -953,6 +953,7 @@ export default {
                             });
                         window.location.reload();
                         this.fetchPosts();
+                        console.log(this.post_id);
                     });
                 }
 
