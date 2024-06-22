@@ -793,7 +793,6 @@ export default {
         fetchSubUserInfo() {
             const user = JSON.parse(sessionStorage.getItem('login_user'));
             const registerId = user.register_id;
-            console.log("registerId to send backend to show subUser informations : " + registerId)
             axios.get('http://localhost:8083/subscribe/getSubUserInfo', {
                 params: {
                     registerId: registerId
@@ -824,14 +823,15 @@ export default {
         },
 
         fetchAllSellPosts() {
-            const user = JSON.parse(sessionStorage.getItem('sub_user'));
-            const subUserId = user.subUserId;
-            console.log(subUserId);
-            axios.get('http://localhost:8083/posts/allSellPost', {
-                params: {
-                    subUserId: subUserId
-                }
-            })
+            if(JSON.parse(sessionStorage.getItem('sub_user'))) {
+                const user = JSON.parse(sessionStorage.getItem('sub_user'));
+                const subUserId = user.subUserId;
+                console.log(subUserId);
+                axios.get('http://localhost:8083/posts/allSellPost', {
+                    params: {
+                        subUserId: subUserId
+                    }
+                })
                 .then(response => {
                     console.log("show response : ", response);
                     response.data.forEach(post => {
@@ -866,6 +866,9 @@ export default {
                         }
                     });
                 })
+            } else {
+                alert("There is no sub_user in session storage!")
+            }
         }
 
     },

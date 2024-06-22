@@ -86,6 +86,7 @@
                         <p>This is where the add post content will be displayed.</p> -->
                         <interestedPosts />
                     </div>
+
                     <div v-else-if="openTab === 'all-post'">
                         <uploadedAllPosts />
                     </div>
@@ -232,70 +233,6 @@ import 'swiper/css/pagination';
 
 export default {
     name: 'indexUserDashboard',
-
-    // setup() {
-    //     const isCross = ref(false);
-    //     const swiperInstance = ref(null);
-    //     const display = ref('hello');
-
-    //     const openMenu = () => {
-    //         if (swiperInstance.value) {
-    //             swiperInstance.value.slidePrev();
-    //             isCross.value = true;
-    //         }
-    //     };
-
-    //     const Home = (data) => {
-    //         display.value = data;
-    //         closeMenu();
-    //     };
-
-    //     const closeMenu = () => {
-    //         if (swiperInstance.value) {
-    //             swiperInstance.value.slideNext();
-    //             isCross.value = false;
-    //         }
-    //     };
-
-    //     const toggleMenu = () => {
-    //         if (swiperInstance.value) {
-    //             if (swiperInstance.value.activeIndex === 1) {
-    //                 openMenu();
-    //             } else {
-    //                 closeMenu();
-    //             }
-    //         }
-    //     };
-
-    //     const onClickOutside = () => {
-    //         closeMenu();
-    //     }
-
-    //     onMounted(() => {
-    //         swiperInstance.value = new Swiper('.swiper', {
-    //             slidesPerView: 'auto',
-    //             initialSlide: 1,
-    //             resistanceRatio: 0,
-    //             slideToClickedSlide: false,
-    //             on: {
-    //                 slideChangeTransitionStart() {
-    //                     if (swiperInstance.value && swiperInstance.value.activeIndex === 0) {
-    //                         isCross.value = true;
-    //                     } else {
-    //                         isCross.value = false;
-    //                     }
-    //                 }
-    //             }
-    //         });
-    //     });
-
-    //     return {
-    //         isCross,
-    //         toggleMenu,
-    //         onClickOutside,
-    //         Home, display,
-    //     };
-    // },
 
     components: {
         profile_page,

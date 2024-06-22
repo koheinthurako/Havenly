@@ -43,7 +43,7 @@
 
                                                 <div>
                                                     <h3 class="header mb-2"
-                                                        :class="{ 'color-brick': post.status === 'Sell post', 'color-light-green': post.status === 'Rent post' }">
+                                                        :class = getStatusClass(post.status)>
                                                         {{ post.status }}</h3>
                                                     <div class="d-flex">
                                                         <v-icon class="me-2">mdi-view-compact</v-icon>
@@ -237,6 +237,17 @@ export default {
     methods: {
         onPageChange(page) {
             this.currentPage = page;
+        },
+
+        getStatusClass(status) {
+            switch (status) {
+                case 'Sell post':
+                    return 'text-success';  // အနီရောင် background
+                case 'Rent post':
+                    return 'text-danger'; // အစိမ်းရောင် background
+                default:
+                    return 'text-bg-secondary'; // Default background
+            }
         },
 
 

@@ -105,11 +105,10 @@
                                 </div>
 
                                 <!-- Edit Modal Box -->
-                                <div class="editModalBox mt-3">
+                                <div class="editModalBox">
                                     <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div style="top: 25px;"
-                                            class="modal-dialog modal-lg d-flex align-items-center fixed-top">
+                                        <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
                                             <div class="modal-content" style="max-width: 2000px !important;">
                                                 <div class="modal-header">
                                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Edit {{
@@ -152,8 +151,7 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                        <div class="p-0 row-1 d-flex" style="z-index: 1000000;">
-
+                                                        <div class="p-0 row-1 d-flex flex-wrap">
                                                             <v-select bg-color="white" v-model="selectedCountry"
                                                                 :items="uniqueCountries" label="Select country"
                                                                 required></v-select>
@@ -1020,7 +1018,7 @@ function triggerFileInput() {
 .editModalBox {
     margin-top: 20px;
     position: absolute;
-    z-index: 2000;
+    z-index: 2000 !important;
 }
 
 body.modal-open {

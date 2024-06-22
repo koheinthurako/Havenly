@@ -169,7 +169,7 @@
                                             <div class="ag-courses-item_date-box">
                                                 Date:
                                                 <span class="ag-courses-item_date">
-                                                    04.11.2022
+                                                    22.06.2024
                                                 </span>
                                             </div>
                                         </a>
@@ -180,28 +180,12 @@
 
                         </div>
                         <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
-                            <div class="card card-two w-100 mt-auto ">
-
-
-                                <div class="card-two-edit">
-                                    <div class="card-body-1">
-                                        <div class="d-flex">
-                                            <v-icon class="mt-1 me-2">mdi-shield-check</v-icon>
-                                            <h4 class="color-brick">Security</h4>
-                                        </div>
-
-
+                            <div class="card card-two w-100 h-auto p-2 border-0">
+                                <div class="">
+                                    <div class="d-flex">
+                                        <img class="w-100" :src="subImg" alt="">
                                     </div>
-
-                                    <div class="card-body-2">
-                                        <v-icon class="mt-1 me-2">mdi-check</v-icon>
-                                        <h5 class="color-brick">Security check</h5>
-                                    </div>
-
                                 </div>
-
-
-
                             </div>
                         </div>
                         <div class="col-md-5 col-12 mb-3 card-container d-none d-md-block">
@@ -288,7 +272,7 @@
                                             <div class="ag-courses-item_date-box">
                                                 Date:
                                                 <span class="ag-courses-item_date">
-                                                    04.11.2022
+                                                    22.06.2024
                                                 </span>
                                             </div>
                                         </a>
@@ -343,6 +327,7 @@ export default {
         img: require('@/assets/img/ava1.jpg'),
         img2: require('@/assets/img/ava2.jpg'),
         img3: require('@/assets/img/ava3.jpg'),
+        subImg: require('@/assets/img/subscribe.jpg')
     }),
 
     methods: {

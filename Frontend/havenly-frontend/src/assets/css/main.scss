@@ -24,7 +24,11 @@ $font-family: "Roboto", sans-serif;
   position: relative;
   text-decoration: none;
   .bg-redbrick {
+    color: #fff;
     background-color: #e86f52;
+  }
+  .text-brick {
+    color: #e86f52 !important;
   }
 }
 
@@ -709,7 +713,7 @@ body {
 
 @media only screen and (min-width: 990px) {
   .navbar {
-    z-index: 10000;
+    // z-index: 10000;
     .navbar-nav {
       gap: 10px;
       .nav-item {
@@ -3238,6 +3242,11 @@ body {
       .ag-courses-item_date-box {
         font-size: 16px;
       }
+
+      .user-profile .v-overlay-container .v-overlay__content .form-edit2 {
+        width: 340px !important;
+      }
+
     }
   }
 
@@ -5742,3 +5751,9 @@ body {
 .swal2-container {
   z-index: 5000 !important;
 }
+
+// @media only screen and (max-width: 450px) {
+//   .user-profile .v-overlay-container .v-overlay__content .form-edit2 {
+//     width: 340px !important;
+//   }
+// }

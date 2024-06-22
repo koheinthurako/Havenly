@@ -183,7 +183,7 @@
               :class="{ active: isActive('/userdashboard') }">Profile</router-link>
           </li>
 
-          <div v-if="getUser">
+          <!-- <div v-if="getUser">
             <div class="dropdown">
               <button class="btn btn-success dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -211,7 +211,7 @@
                 <li><a class="dropdown-item" href="#">Phone : {{ getUser2.phone }}</a></li>
               </ul>
             </div>
-          </div>
+          </div> -->
 
         </ul>
 
@@ -866,7 +866,7 @@ export default {
   width: 0;
   height: 0;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 2000;
+  // z-index: 2000;
   border-radius: 0 0 10px 10px;
   pointer-events: all;
   transform: translate(-50%, -50%);

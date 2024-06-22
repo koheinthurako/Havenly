@@ -27,14 +27,7 @@ import MainLocationPosts from '@/views/MainLocationPosts.vue'
 
 import indexAdminDashboard from '@/views/indexAdminDashboard.vue'
 
-import testingPage from '@/components/For_Testing/testingOne.vue'
-
 const routes = [
-  {
-    path: '/testingPage',
-    name: 'testingPage',
-    component: testingPage,
-  },
   {
     path: '/',
     name: 'home',
@@ -221,7 +214,8 @@ router.beforeEach((to, from, next) => {
         next(false);
       });
     } else {
-      next();
+      // next();
+      alert("Thwar pho pyin ny b")
     }
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!user) {
