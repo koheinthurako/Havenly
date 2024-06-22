@@ -254,7 +254,7 @@
                 <v-card elevation="8" class="profile-card-on-nav" :class="[{ 'card-display': profileMenu }]">
                   <div class="top-profile mb-1">
                     <div class="img-container mx-auto">
-                      <v-img :src="profilePic" class="w-100" />
+                      <v-img :src="defaultProfile" class="w-100" />
                     </div>
                   </div>
                   <div class="header mb-3">
@@ -267,7 +267,7 @@
                       <p class="m-0 p-0"><span>Subscribed</span> : {{ fetchPackage }}</p>
                     </div>
                     <div v-else>
-                      <p class="m-0 p-0">Normal user</p>
+                      <p class="m-0 p-0 small">Not subscribe yet.</p>
                     </div>
                   </div>
                   <div class="action-btns">
@@ -646,6 +646,7 @@ export default {
     fetchPackage: '',
 
     profilePic: require("@/assets/img/ava1.jpg"),
+    defaultProfile: require("@/assets/img/defaultpp.jpg"),
 
     profileMenu: false,
     isSidebarActive: false,

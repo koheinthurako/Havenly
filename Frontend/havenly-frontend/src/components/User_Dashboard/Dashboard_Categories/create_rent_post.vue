@@ -135,7 +135,7 @@
                                         <span class="float-left mt-2 small">Least Contract</span>
                                     </div>
                                     <div class="col-md-9 col-sm-12">
-                                        <v-text-field bg-color="#EDEDED" filled variant="solo" density="compact"
+                                        <v-text-field required bg-color="#EDEDED" filled variant="solo" density="compact"
                                             rounded="lg" clear-icon="mdi-close-circle" clearable class="w-100"
                                             :rules="[v => !!v || 'Least contract is required', v => !/^\s*$/.test(v) || 'Least contract cannot be just spaces']"
                                             v-model="least_contract.value.value"

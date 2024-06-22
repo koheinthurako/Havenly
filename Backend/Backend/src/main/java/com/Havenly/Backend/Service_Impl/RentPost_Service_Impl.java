@@ -86,8 +86,8 @@ public class RentPost_Service_Impl implements RentPost_Service{
 
 	    rentRepo.save(rp);
 
-	    RentPost rentpost = rentRepo.findById(customId).orElseThrow();
-	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
+	    RentPost rentpost = rentRepo.findById(customId).orElseThrow(() -> new RuntimeException("Custom ID not found with id: " + customId));
+	    Subscription subUser = subRepo.findById(subUserId).orElseThrow(() -> new RuntimeException("Subuser ID not found with id: " + subUserId));
 	    Posts post = new Posts();
 	    post.setPost_type("Rent Post");
 	    post.setStatus("pending");

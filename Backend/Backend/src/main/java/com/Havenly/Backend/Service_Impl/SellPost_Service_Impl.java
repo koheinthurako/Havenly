@@ -86,8 +86,8 @@ public class SellPost_Service_Impl implements SellPost_Service{
 	    sellRepo.save(tp);
 	    
 	    System.out.println(customId + "dr ka save dae Id --------------------");
-	    SellPost savedSellPost = sellRepo.findById(customId).orElseThrow();
-	    Subscription subUser = subRepo.findById(subUserId).orElseThrow();
+	    SellPost savedSellPost = sellRepo.findById(customId).orElseThrow(() -> new RuntimeException("Custom ID not found with id: " + customId));
+	    Subscription subUser = subRepo.findById(subUserId).orElseThrow(() -> new RuntimeException("Subuser ID not found with id: " + subUserId));
 	    Posts post = new Posts();
 	    post.setPost_type("Sell Post");
 	    post.setStatus("pending");
