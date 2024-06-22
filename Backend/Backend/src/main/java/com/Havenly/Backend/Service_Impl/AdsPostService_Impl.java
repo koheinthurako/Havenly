@@ -125,23 +125,9 @@ public class AdsPostService_Impl implements AdsPostService{
 	@Override
 	public void deleteByAdmin(int adsId) {
 		
-//		AdsPost adsPost = adsRepo.findById(adsId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adsId));
-//		int subUserId = adsPost.getSubUser().getSubUserId();
-//		 Packages pack = packageRepo.findByUserId(subUserId);
-//		    if (pack == null) {
-//		        throw new RuntimeException("Package not found for user ID: " + subUserId);
-//		    } else {
-//		    	int adsCount = pack.getAvailAds()+1;
-//		    	System.out.println("call UpdateAds method");
-//		    	System.out.println("adsCount value : " + adsCount);
-//			    packageRepo.updateAds(adsCount, subUserId);
-//			    System.out.println("Successfully updated avail_ads in database!");
-//		    }
-//		    
-//		adsRepo.delete(adsPost);
-		
 		AdsPost adsPost = adsRepo.findById(adsId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adsId));
 		int subUserId = adsPost.getSubUser().getSubUserId();
+		System.out.println(subUserId + " -------------- Sub User Id from admin declie -----------");
 		if(adsPost != null) {
 			adsPost.setStatus("rejected");
 		}
@@ -153,6 +139,7 @@ public class AdsPostService_Impl implements AdsPostService{
 	    	System.out.println("akm test "+adsCount);
 		    packageRepo.updateAds(adsCount, subUserId);
 		    System.out.println("Successfully updated plus 1 avail_post count in database!");
+
 	    }
 	}
 

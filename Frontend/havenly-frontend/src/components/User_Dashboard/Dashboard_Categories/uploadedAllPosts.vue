@@ -1,77 +1,111 @@
 <template>
-    <v-container>
-        <main>
-            <div>
-                <div v-if="loading">
-                    <v-row class="g-1 mt-4">
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+    <div class="uploaded-all-posts">
+        <v-container>
+            <main>
+                <div>
+                    <div class="header-edit ">
+                        <div class="row p-0 m-0 ">
+                            <div class="col-md-7 col-sm-12 d-flex align-items-center">
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                                <div class="header d-flex"><v-icon class="me-2">mdi-check-circle</v-icon>
+                                    <h4>Your uploaded posts.</h4>
+                                </div>
 
-                        <v-col cols="12" md="3">
-                            <v-skeleton-loader class="mx-auto" elevation="2" max-width="300"
-                                type="card-avatar, article, actions"></v-skeleton-loader>
-                        </v-col>
+                            </div>
+                            <div class="col-md-5 col-sm-12">
+                                <div class=" d-flex"><v-icon class="me-1 mt-1">mdi-filter</v-icon>
+                                    <h4>filter posts.</h4>
+                                </div>
+                                <v-radio-group hide-details v-model="radioFlip" inline>
+                                    <v-radio color="red" label="All" value="allpost"></v-radio>
+                                    <v-spacer></v-spacer>
+                                    <v-radio color="red" label="Approved" value="complete"></v-radio>
+                                    <v-spacer></v-spacer>
+                                    <v-radio color="red" label="Pending" value="pending"></v-radio>
+                                </v-radio-group>
+                            </div>
 
-                    </v-row>
-                </div>
-                <div v-else-if="displayError">{{ displayError }}</div>
-                <div v-else>
-                    <div v-if="posts.length > 0">
-                        <!-- display posts start -->
-                        <div class="row mb-5 g-3">
-                            <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-                                <div class="card-container">
-                                    <!-- TZH card styles -->
-                                    <div class="card cursor-pointer" style="height: 460px;">
-                                        <div class="cardImgBox mb-2">
-                                            <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap">
-                                        </div>
-                                        <div class="card-body p-3 d-flex flex-column" @click="clickPost(post.post_id)">
-                                            <div class="d-flex gap-1">
-                                                <div class="mb-2">
-                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                        :class="getStatusClass(post.post_type)">{{ post.post_type }}</span>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <span class="px-3 badge rounded-pill text-uppercase small d-inline"
-                                                        :class="getStatusClass(post.status)">{{ post.status }}</span>
-                                                </div>
+                        </div>
+                    </div>
+
+                    <div v-if="loading">
+                        <v-row class="g-1 mt-2">
+                            <v-col cols="12" md="4" sm="9" lg="3">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
+
+                            <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
+
+                            <v-col cols="12" md="4" lg="3" class="d-none d-sm-block">
+                                <v-skeleton-loader class="mx-auto" elevation="2"
+                                    type="card-avatar, article, actions"></v-skeleton-loader>
+                            </v-col>
+                        </v-row>
+                    </div>
+                    <div v-else-if="displayError">{{ displayError }}</div>
+                    <div v-else>
+                        <div v-if="posts.length > 0">
+                            <!-- display posts start -->
+                            <div class="row mt-2 mb-5">
+                                <div v-for="post in filteredPosts" :key="post.post_id"
+                                    class="col-md-4 col-lg-3 col-sm-6 mb-4">
+                                    <div class="card-container">
+                                        <!-- TZH card styles -->
+                                        <div class="card cursor-pointer" style="height: 460px;">
+                                            <div class="cardImgBox mb-1">
+                                                <!-- <img :src="post.photo_url[0]" class="w-100 h-100" alt="Card image cap"> -->
+                                                <v-img :src="post.photo_url[0]" cover></v-img>
                                             </div>
-                                            <h5 class="card-title mb-3">{{ post.shortTitle }}</h5>
-                                            <p class="card-text small opacity-75">{{ post.shortDescription }}</p>
-                                            <p class="card-text text-danger small mb-auto opacity-75 mb-auto">
-                                                <v-icon>mdi-map-marker-radius</v-icon>
-                                                {{ post.region }} , {{ post.province }} , {{ post.country }}
-                                            </p>
+                                            <div class="card-body p-3 " @click="clickPost(post.post_id, post.status)">
+                                                <div class="shape-edit d-flex gap-1">
+                                                    <div class="mb-2">
+                                                        <span
+                                                            class="px-2 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.post_type)"
+                                                            style="font-size: 0.8rem; padding: 0.25em 0.5em;">{{
+                                                                post.post_type
+                                                            }}</span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span
+                                                            class="px-2 badge rounded-pill text-uppercase small d-inline"
+                                                            :class="getStatusClass(post.status)"
+                                                            style="font-size: 0.8rem; padding: 0.25em 0.5em;">{{
+                                                                post.status
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                                <h5 class="card-title text-start mb-2 color-brick">{{ post.shortTitle }}
+                                                </h5>
+                                                <p class="card-text text-start small opacity-75">{{
+                                                    post.shortDescription }}</p>
+                                                <p
+                                                    class="card-text text-start text-danger small mb-auto opacity-75 mb-auto">
+                                                    <v-icon>mdi-map-marker-radius</v-icon>
+                                                    {{ post.region }} , {{ post.province }} , {{ post.country }}
+                                                </p>
 
+                                            </div>
+                                            <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
+                                                <button v-if="post.status != 'rejected'"
+                                                    class="btn btn-outline-danger w-100" @click="editPost(post)"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                                                <button class="btn btn-danger w-100" @click="deletePost(post)">Delete
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="buttonBox d-flex justify-content-between gap-3 mb-3 px-3">
-                                            <button v-if="post.status != 'rejected'" class="btn btn-outline-danger w-100" @click="editPost(post)"
-                                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                                            <button class="btn btn-danger w-100"
-                                                @click="deletePost(post)">Delete
-                                            </button>
-                                        </div>
+
                                     </div>
 
                                 </div>
 
-                            </div>
-
-                            <!-- Edit Modal Box -->
-                            <div class="editModalBox">
+                                <!-- Edit Modal Box -->
+                                <div class="editModalBox">
                                 <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg d-flex align-items-center fixed-top">
@@ -114,7 +148,7 @@
                                                         </div>
                                                     </div>
                                                     <hr>
-                                                    <div class="p-0 row-1 d-flex">
+                                                    <div class="p-0 row-1 d-flex flex-wrap">
                                                         <v-select bg-color="white" v-model="selectedCountry"
                                                             :items="uniqueCountries" label="Select country"
                                                             required></v-select>
@@ -243,17 +277,18 @@
                                 </div>
                             </div>
 
+                            </div>
+                        </div>
+                        <div v-else>
+                            No post found
+                        </div>
+                        <!-- display posts end -->
                     </div>
-                    </div>
-                    <div v-else>
-                        No post found
-                    </div>
-                    <!-- display posts end -->
-                </div>
 
-            </div>
-        </main>
-    </v-container>
+                </div>
+            </main>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -276,6 +311,9 @@ export default {
     name: 'uploadedAllPosts',
 
     data: () => ({
+        // filter 
+        radioFlip: 'allpost',
+
         loading: false,
         displayError: null,
         posts: [],
@@ -308,6 +346,16 @@ export default {
     }),
 
     computed: {
+
+        filteredPosts() {
+            let filtered = this.posts;
+            if (this.radioFlip === 'complete') {
+                filtered = this.posts.filter(post => post.status === this.radioFlip);
+            } else if (this.radioFlip === 'pending') {
+                filtered = this.posts.filter(post => post.status === this.radioFlip);
+            }
+            return filtered;
+        },
 
         totalPhotos() {
             return (this.currentPost.photo_url ? this.currentPost.photo_url.length : 0) + this.additionalPhotos.length;
@@ -349,13 +397,13 @@ export default {
 
     watch: {
         selectedRegion(newRegion) {
-        if (newRegion) {
-            const selectedLocation = this.locations.find(location => location.region === newRegion);
-            if(selectedLocation) {
-                this.selectedLocation = selectedLocation.location_id;
-                console.log(this.selectedLocation);
+            if (newRegion) {
+                const selectedLocation = this.locations.find(location => location.region === newRegion);
+                if (selectedLocation) {
+                    this.selectedLocation = selectedLocation.location_id;
+                    console.log(this.selectedLocation);
+                }
             }
-        }
         }
     },
 
@@ -397,9 +445,8 @@ export default {
             // router.push('/PostsView')
             const afterEncrypt = this.encryptId(post_id);
             // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
-            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Success` } });
+            this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} details` } });
         },
-
         async fetchLocations() {
             try {
 
@@ -418,14 +465,14 @@ export default {
                 const response = await fetch('http://localhost:8083/locations/getall');
                 const data = await response.json();
                 const mappedData = data.map(location => ({
-                location_id: location.location_id,
-                country_name: location.country_name,
-                province: location.province,
-                amphoe: location.amphoe,
-                region: location.region,
-                latitude: location.latitude,
-                longitude: location.longitude
-            }));
+                    location_id: location.location_id,
+                    country_name: location.country_name,
+                    province: location.province,
+                    amphoe: location.amphoe,
+                    region: location.region,
+                    latitude: location.latitude,
+                    longitude: location.longitude
+                }));
                 sessionStorage.setItem('locations', JSON.stringify(mappedData));
                 this.locations = mappedData;
                 this.mapLocations = mappedData;
@@ -470,12 +517,12 @@ export default {
             if (file) {
                 let reader = new FileReader();
                 reader.onload = () => {
-                if (this.clickedPhotoType === 'original') {
-                    this.currentPost.photo_url.splice(this.clickedPhotoIndex, 1, reader.result);
-                } else if (this.clickedPhotoType === 'additional') {
-                    this.additionalPhotos.splice(this.clickedPhotoIndex, 1, reader.result);
-                }
-                this.forceRerender = !this.forceRerender;
+                    if (this.clickedPhotoType === 'original') {
+                        this.currentPost.photo_url.splice(this.clickedPhotoIndex, 1, reader.result);
+                    } else if (this.clickedPhotoType === 'additional') {
+                        this.additionalPhotos.splice(this.clickedPhotoIndex, 1, reader.result);
+                    }
+                    this.forceRerender = !this.forceRerender;
                 };
                 reader.readAsDataURL(file);
                 console.log(this.currentPost.photo_url);
@@ -488,8 +535,8 @@ export default {
                 const file = files[i];
                 const maxSize = 30 * 1024 * 1024; // 30 MB
                 if (file.size > maxSize) {
-                alert('File size exceeds the limit of 30 MB.');
-                continue;
+                    alert('File size exceeds the limit of 30 MB.');
+                    continue;
                 }
                 let reader = new FileReader();
                 reader.onload = () => {
@@ -506,15 +553,15 @@ export default {
                 alert("Can't delete this photo.");
                 return;
             }
-            
+
             if (type === 'original') {
                 this.currentPost.photo_url.splice(index, 1);
             } else if (type === 'additional') {
                 this.additionalPhotos.splice(index, 1);
             }
             this.forceRerender = !this.forceRerender;
-        
-            
+
+
         },
 
         validateBeforeSubmit() {
@@ -586,7 +633,7 @@ export default {
                 formData.append('rentPostId', rentId);
                 formData.append('deposit', this.deposit);
                 formData.append('least_contract', this.least_contract);
-                
+
                 formData.forEach((value, key) => {
                     console.log(`${key}:`, value);
                 });
@@ -740,82 +787,82 @@ export default {
                     subUserId: subUserId
                 }
             })
-            .then(response => {
-                response.data.forEach(post => {
-                    console.log(post);
-                    if (post.rentpost) {
-                        let tt = post.rentpost.title;
-                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
-                        let des = post.rentpost.description;
-                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
-
-                        let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
-                        console.log(imageUrls);
+                .then(response => {
+                    response.data.forEach(post => {
                         console.log(post);
+                        if (post.rentpost) {
+                            let tt = post.rentpost.title;
+                            let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
+                            let des = post.rentpost.description;
+                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                        this.posts.unshift({
-                            post_id: post.post_id,
-                            rentPostId: post.rentpost.rent_post_id,
-                            province: post.rentpost.locations.province,
-                            region: post.rentpost.locations.region,
-                            amphoe: post.rentpost.locations.amphoe,
-                            location_id: post.rentpost.locations.location_id,
-                            country: post.rentpost.locations.countries.country_name,
-                            // title: post.rentpost.title,
-                            shortTitle: shortTt,
-                            fullTitle: post.rentpost.title,
-                            shortDescription: shortDescription,
-                            fullDescription: post.rentpost.description,
-                            property_type: post.rentpost.property_type,
-                            area: post.rentpost.area,
-                            price: post.rentpost.price,
-                            deposit: post.rentpost.deposit,
-                            least_contract: post.rentpost.least_contract,
-                            photo_url: imageUrls,
-                            status: post.status,
-                            post_type: post.post_type,
-                        });
-                    } else if (post.sellpost) {
-                        console.log(post);
-                        let tt = post.sellpost.title;
-                        let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
-                        let des = post.sellpost.description;
-                        let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
+                            let imageUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image];
+                            console.log(imageUrls);
+                            console.log(post);
 
-                        let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
-                        console.log(imageUrls);
-                        console.log(post);
+                            this.posts.unshift({
+                                post_id: post.post_id,
+                                rentPostId: post.rentpost.rent_post_id,
+                                province: post.rentpost.locations.province,
+                                region: post.rentpost.locations.region,
+                                amphoe: post.rentpost.locations.amphoe,
+                                location_id: post.rentpost.locations.location_id,
+                                country: post.rentpost.locations.countries.country_name,
+                                // title: post.rentpost.title,
+                                shortTitle: shortTt,
+                                fullTitle: post.rentpost.title,
+                                shortDescription: shortDescription,
+                                fullDescription: post.rentpost.description,
+                                property_type: post.rentpost.property_type,
+                                area: post.rentpost.area,
+                                price: post.rentpost.price,
+                                deposit: post.rentpost.deposit,
+                                least_contract: post.rentpost.least_contract,
+                                photo_url: imageUrls,
+                                status: post.status,
+                                post_type: post.post_type,
+                            });
+                        } else if (post.sellpost) {
+                            console.log(post);
+                            let tt = post.sellpost.title;
+                            let shortTt = tt.length > 20 ? tt.substring(0, 20) + "..." : tt;
+                            let des = post.sellpost.description;
+                            let shortDescription = des.length > 60 ? des.substring(0, 60) + "..." : des;
 
-                        this.posts.unshift({
-                            post_id: post.post_id,
-                            sellPostId: post.sellpost.sell_post_id,
-                            province: post.sellpost.locations.province,
-                            region: post.sellpost.locations.region,
-                            amphoe: post.sellpost.locations.amphoe,
-                            location_id: post.sellpost.locations.location_id,
-                            country: post.sellpost.locations.countries.country_name,
-                            // title: post.sellpost.title,
-                            shortTitle: shortTt,
-                            fullTitle: post.sellpost.title,
-                            shortDescription: shortDescription,
-                            fullDescription: post.sellpost.description,
-                            property_type: post.sellpost.property_type,
-                            area: post.sellpost.area,
-                            price: post.sellpost.price,
-                            photo_url: imageUrls,
-                            status: post.status,
-                            post_type: post.post_type,
-                        });
-                    }
+                            let imageUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image];
+                            console.log(imageUrls);
+                            console.log(post);
+
+                            this.posts.unshift({
+                                post_id: post.post_id,
+                                sellPostId: post.sellpost.sell_post_id,
+                                province: post.sellpost.locations.province,
+                                region: post.sellpost.locations.region,
+                                amphoe: post.sellpost.locations.amphoe,
+                                location_id: post.sellpost.locations.location_id,
+                                country: post.sellpost.locations.countries.country_name,
+                                // title: post.sellpost.title,
+                                shortTitle: shortTt,
+                                fullTitle: post.sellpost.title,
+                                shortDescription: shortDescription,
+                                fullDescription: post.sellpost.description,
+                                property_type: post.sellpost.property_type,
+                                area: post.sellpost.area,
+                                price: post.sellpost.price,
+                                photo_url: imageUrls,
+                                status: post.status,
+                                post_type: post.post_type,
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching posts:', error);
+                    this.displayError = 'Error fetching posts';
+                })
+                .finally(() => {
+                    this.loading = false;  // Stop loading
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching posts:', error);
-                this.displayError = 'Error fetching posts';
-            })
-            .finally(() => {
-                this.loading = false;  // Stop loading
-            });
         },
 
         editPost(post) {
@@ -865,22 +912,22 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success",
-                    customClass: {
-                        confirmButton: 'myCustomSuccessButton'
-                    },
-                }).then (() => {
-                    axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
-                    .catch(error => {
-                        console.error("There was an error deleting the post!", error);
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success",
+                        customClass: {
+                            confirmButton: 'myCustomSuccessButton'
+                        },
+                    }).then(() => {
+                        axios.delete(`http://localhost:8083/posts/deletepost/${this.post_id}`)
+                            .catch(error => {
+                                console.error("There was an error deleting the post!", error);
+                            });
+                        window.location.reload();
+                        this.fetchPosts();
                     });
-                    window.location.reload();
-                    this.fetchPosts();
-                });
                 }
-                
+
             });
         },
 
@@ -927,29 +974,31 @@ function triggerFileInput() {
 </script>
 
 <style>
-    .card-container .card {
-        transition: 0.2s
-    }
+.card-container .card {
+    transition: 0.2s
+}
 
-    .card-container .card:hover {
-        transform: scale(1.007);
-    }
+.card-container .card:hover {
+    transform: scale(1.007);
+}
 
-    .editOffcanvasBox {
-        z-index: 3000;
-    }
+.editOffcanvasBox {
+    margin-top: 20px;
+    z-index: 3000;
+}
 
-    .editModalBox {
-        position: absolute;
-        z-index: 2000;
-    }
+.editModalBox {
+    margin-top: 20px;
+    position: absolute;
+    z-index: 2000 !important;
+}
 
-    body.modal-open {
-        overflow: hidden;
-    }
+body.modal-open {
+    overflow: hidden;
+}
 
-    .modal {
-        display: flex;
-        align-items: center;
-    }
+.modal {
+    display: flex;
+    align-items: center;
+}
 </style>

@@ -31,7 +31,7 @@
               <v-col cols="auto">
 
               <div class="text-center mt-4">
-                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Register</button>
+                    <button type="submit" class="btn text-white px-5 w-fit-content rounded-pill mt-3" style="background-color: #e86f52 !important;">Login</button>
               </div>
 
 
@@ -43,38 +43,6 @@
         </div>
     </div>
   </section>
-
-
-  <!-- <div class="d-flex align-center justify-center mt-5 pt-5" style="height: 70vh;">
-    <v-sheet width="400" class="mx-auto">
-      <v-form fast-fail @submit.prevent="login">
-
-        <v-text-field v-model="user.email" label="Email" :rules="[value => !!value || 'Required']"></v-text-field>
-
-        <v-text-field v-model="user.password" :type="showPassword ? 'text' : 'Password'"
-          :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner=togglePasswordVisibility()
-          label="password" :rules="[value => !!value || 'Required']">
-
-        </v-text-field>
-
-
-            <a href="/forgot" class="text-body-2 font-weight-regular">Forgot Password?</a>
-            <v-row justify="space-around">
-      <v-col cols="auto">
-        
-        <div class="text-center mr-2">
-              <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3" v-bind:rounded="true" style="height: 40px; width: 164px;">Sign in</v-btn>
-        </div>
-  
-
-      </v-col> </v-row>
-
-      </v-form>
-      <div class="mt-2">
-        <p class="text-body-2">Don't have an account? <a href="/register">Sign Up</a></p>
-      </div>
-    </v-sheet>
-  </div> -->
 </template>
 
 <script>

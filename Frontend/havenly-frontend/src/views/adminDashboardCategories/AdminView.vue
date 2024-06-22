@@ -4,86 +4,8 @@
 
   <div class="">
     <h2 class="mb-0 mx-3" style="color: #e86f52;">All user list</h2>
-    <!-- <div class="box1">
-      <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
-        <div class="d-flex">
-
-
-          <v-icon>mdi-view-grid</v-icon>
-
-
-          <ul class="sidebar-nav ">
-            <li class="sidebar-item">
-              <a class="sidebar-link" @click="pushhh()">
-                <span>Pending Posts</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" @click="pushy()">
-                <span>Users</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" @click="ban()">
-
-                <span>Ban List</span>
-              </a>
-            </li>
-
-
-
-          </ul>
-
-        </div>
-
-        <div class="d-flex custom-logout" @click="logout" style="cursor:pointer;">
-          <button class="toggle-btn" type="button">
-            <v-icon>mdi-logout</v-icon>
-          </button>
-          <div class="sidebar-logo">
-            <a class="sidebar-link">&nbsp; &nbsp; &nbsp; &nbsp;Logout</a>
-          </div>
-        </div>
-
-      </div>
-    </div> -->
 
     <div class="box2">
-
-      <!-- new table start -->
-
-      <!-- <v-card flat class="w-100">
-        <div class="d-flex mb-1 justify-content-end">
-
-          <div class="w-25">
-            <v-text-field v-model="search" label="Search by name" prepend-inner-icon="mdi-magnify" variant="outlined"
-              hide-details single-line></v-text-field>
-          </div>
-          <div class="w-75">
-
-            <v-radio-group v-model="radios" inline class="d-flex justify-content-end">
-              <v-radio label="All user" value="alluser"></v-radio>
-              <v-radio label="Normal user" value="reguser"></v-radio>
-              <v-radio label="Subscribe user" value="subuser"></v-radio>
-            </v-radio-group>
-          </div>
-        </div>
-        <v-data-table :headers="headers" :items="indexedUsers" :search="search">
-          <template v-slot:item="{ item }">
-            <tr>
-              <td class="td">{{ item.index }}</td>
-              <td class="td">{{ item.name }}</td>
-              <td class="td">{{ item.email }}</td>
-              <td class="td">{{ item.phone }}</td>
-              <td class="td">{{ item.date }}</td>
-              <td class="td">
-                <v-btn @click="deleteUser(item.id)" color="#e86f52" class="me-2">Delete</v-btn>
-                <v-btn @click="banUser(item)" color="#e86f52">Ban</v-btn>
-              </td>
-            </tr>
-          </template>
-</v-data-table>
-</v-card> -->
       <v-card flat class="w-100">
         <!-- Search and Radio buttons -->
         <div class="d-flex mb-1 justify-content-end">
@@ -110,54 +32,14 @@
               <td class="td">{{ item.phone }}</td>
               <td class="td">{{ item.date }}</td>
               <td class="td">
-                 <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn> 
+                <v-btn @click="deleteUser(item.email)" color="#e86f52" class="me-2">Delete</v-btn>
                 <v-btn @click="banUser(item)" color="#e86f52">Ban</v-btn>
               </td>
               <td class="td">{{ item.banned ? 'Yes' : 'No' }}</td>
-              <!-- <td class="td">
-                <v-icon v-if="item.banned">mdi-cancel</v-icon>
-              </td> -->
             </tr>
           </template>
         </v-data-table>
-
-        <!-- Loading Indicator -->
-        <v-col cols="12" md="12" v-else>
-          <v-skeleton-loader class="w-100" type="heading"></v-skeleton-loader>
-          <v-skeleton-loader class="w-100" type="table-heading"></v-skeleton-loader>
-
-          <v-skeleton-loader class="w-100" type="table-tfoot"></v-skeleton-loader>
-
-        </v-col>
       </v-card>
-
-      <!-- new table end -->
-
-
-
-      <!-- <v-table>
-        <thead>
-          <tr>
-            <th class="text-left">
-              Name
-            </th>
-            <th class="text-left">
-              E-mail
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="haha in users" :key="haha.name">
-            <td>{{ haha.name }}</td>
-            <td>{{ haha.email }}</td>
-            <td>
-
-              <v-btn class="mt-2 me-3 bg-redbrick text-white" @click="deleteUser(haha.email)">Delete</v-btn>
-              <v-btn class="mt-2 bg-redbrick text-white" @click="banUser(haha)">Ban</v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </v-table> -->
     </div>
 
 
@@ -254,13 +136,10 @@ export default {
 
   methods: {
 
-
     async fetchSubscribedUsers() {
 
       try {
         const response = await axios.get("http://localhost:8083/subscribe/getAll");
-
-
         if (response.status === 204) {
           console.log('No data available for this post.');
         } else {
@@ -321,42 +200,38 @@ export default {
         this.loading = false; // Stop loading
       }
     },
-    // fetchUsers() {
-    //   fetch('http://localhost:8083/getAll')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       const mappedData = data.map(users => ({
-    //         id: users.register_id,
-    //         name: users.name,
-    //         email: users.email,
-    //         phone: users.phone,
-    //         date: users.date,
-    //       }))
-    //       sessionStorage.setItem('users', JSON.stringify(mappedData));
-    //       this.users = mappedData;
-    //     }
-    //     )
-
-    //   console.log("this users : ", this.users);
-    // },
 
     deleteUser(email) {
-      axios.delete(`http://localhost:8083/delete/${email}`)
-        .then(() => {
-          this.users = this.users.filter((u) => u.email !== email);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "This user will permanently delete!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#E86F52",
+        cancelButtonColor: "##525252",
+        confirmButtonText: "Yes, delete it!",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
           Swal.fire({
-            title: 'Deleted!',
-            text: 'User deleted successfully!',
-            icon: 'success',
-            confirmButtonText: 'OK',
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
             customClass: {
               confirmButton: 'myCustomSuccessButton'
-            }});
-        })
-        .catch((error) => {
-          console.error('Error deleting user:', error);
-          alert('Failed to delete user. Please try again.');
-        });
+            },
+          }).then(() => {
+            axios.delete(`http://localhost:8083/delete/${email}`)
+              .then(() => {
+                this.users = this.users.filter((u) => u.email !== email);
+              })
+              .catch((error) => {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user. Please try again.');
+              });
+          })
+        }
+      })
     },
 
     async banUser(user) {
@@ -384,8 +259,9 @@ export default {
           text: 'Do you really want to ban this user?',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
+          customClass: {
+            confirmButton: 'myCustomButton'
+          },
           confirmButtonText: 'Yes, ban!',
           reverseButtons: true,
           cancelButtonText: 'Cancel'
@@ -408,11 +284,14 @@ export default {
           Swal.close();
 
           // Show success message
-          Swal.fire(
-            'Success!',
-            'User has been banned successfully.',
-            'success'
-          );
+          Swal.fire({
+            title: 'Success!',
+            text: 'User has been banned successfully.',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'myCustomSuccessButton'
+            },
+          });
 
           // Fetch users and banned users again
           this.fetchUsers();

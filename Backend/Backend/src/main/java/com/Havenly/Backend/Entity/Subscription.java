@@ -35,7 +35,7 @@ public class Subscription {
 
 	private LocalDateTime subStartTime;
 
-	@JsonIgnore
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "reg_user_id", referencedColumnName = "register_id")
 	private Reg_user reg_user;

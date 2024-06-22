@@ -1,12 +1,11 @@
 <template>
-
     <div class="all-post-view">
         <v-container>
-            <div class="row px-5">
+            <div class="row px-2">
                 <div class="col-12">
                     <div class="left">
                         <div class="header mb-2">
-                            <h3>See all post of {{ getName }} </h3>
+                            <h3>More available posts of {{ getName }} </h3>
 
                         </div>
 
@@ -15,17 +14,17 @@
 
                         <div v-if="loading">
                             <v-row class="g-1 mb-3">
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
 
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
 
-                                <v-col cols="12" md="4">
+                                <v-col cols="12" md="4" lg="3" sm="12">
                                     <v-skeleton-loader class="mx-auto" elevation="2" type="image, article, article"
                                         style="height: 380px; overflow:hidden;"></v-skeleton-loader>
                                 </v-col>
@@ -34,12 +33,25 @@
                             </v-row>
                         </div>
                         <div v-else>
-                            <div class="row mb-3 g-3 " style="cursor: pointer;">
-                                <div v-for="post in displayedPosts" :key="post.post_id" class="display-post col-md-4"
-                                    @click="clickPost(post.post_id)">
-                                    <div class="card-container">
+                            <div class="row mb-3 g-3">
+                                <div v-for="post in paginatedItems" :key="post.post_id"
+                                    class="display-post col-md-4 col-lg-3 col-sm-12" @click="clickPost(post.post_id)">
+                                    <div>
                                         <!-- TZH card styles -->
-                                        <div class="card" style="height: 400px;">
+                                        <div class="card-container" style="height: 400px;">
+                                            <div class="overlay-effect">
+
+                                                <div>
+                                                    <h3 class="header mb-2"
+                                                        :class = getStatusClass(post.status)>
+                                                        {{ post.status }}</h3>
+                                                    <div class="d-flex">
+                                                        <v-icon class="me-2">mdi-view-compact</v-icon>
+                                                        <p>Click to see details</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                             <!-- <div v-for="url in post.photo_urls" :key="url" class="cardImgBox mb-2">
                                                     <img :src="url" class="w-100 h-100" alt="Card image cap">
                                                 </div> -->
@@ -50,9 +62,9 @@
                                             <div class="card-body px-3 py-2 d-flex flex-column">
                                                 <h5 class="card-title mb-2">{{ truncateText(post.title, 30) }}</h5>
                                                 <p class="card-text small opacity-75" style="text-indent: 30px;">{{
-                                                    truncateText(post.description, 80) }}
+                                                    truncateText(post.description, 60) }}
                                                 </p>
-                                                <div class="d-flex mb-3 justify-content-between">
+                                                <div class="d-flex mb-2 justify-content-between">
                                                     <span v-if="post.deposit" class="small opacity-75">Deposit : {{
                                                         post.deposit
                                                     }}</span>
@@ -130,7 +142,8 @@
 
         </v-container>
     </div>
-
+    <v-pagination active-color="#e86f52" rounded="circle" v-model="currentPage" :length="totalPages"
+        @input="onPageChange"></v-pagination>
 </template>
 
 <script>
@@ -145,6 +158,12 @@ export default {
 
     data() {
         return {
+
+            // for pagination
+            itemsPerPage: 4,
+            currentPage: 1,
+
+
             loading: false,
             posts: [],
             // get datas
@@ -200,13 +219,38 @@ export default {
             const filteredPosts = this.posts.filter(post => post.property_type.toLowerCase() === this.decryptData(this.splitData(this.$route.params.postType)).toLowerCase());
 
             // Return only the first four filtered posts
-            return filteredPosts.slice(0, 8);
+            return filteredPosts;
+        },
 
+        totalPages() {
+            return Math.ceil(this.displayedPosts.length / this.itemsPerPage);
+        },
+
+        paginatedItems() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.displayedPosts.slice(start, end);
         },
 
     },
 
     methods: {
+        onPageChange(page) {
+            this.currentPage = page;
+        },
+
+        getStatusClass(status) {
+            switch (status) {
+                case 'Sell post':
+                    return 'text-success';  // အနီရောင် background
+                case 'Rent post':
+                    return 'text-danger'; // အစိမ်းရောင် background
+                default:
+                    return 'text-bg-secondary'; // Default background
+            }
+        },
+
+
         clickPost(post_id) {
             // router.push('/PostsView')
             const afterEncrypt = this.encryptId(post_id);
@@ -269,6 +313,10 @@ export default {
             if (type === 'rentpost') {
                 processedPost.deposit = postData.deposit;
                 processedPost.least_contract = postData.least_contract;
+                processedPost.status = 'Rent post';
+            }
+            else if (type === 'sellpost') {
+                processedPost.status = 'Sell post';
             }
 
             this.posts.unshift(processedPost);
