@@ -137,12 +137,10 @@ public class AdsPostService_Impl implements AdsPostService{
 	        throw new RuntimeException("Package not found for user ID: " + subUserId);
 	    } else {
 	    	int adsCount = pack.getAvailAds()+1;
-	    	
+
 		    packageRepo.updateAds(adsCount, subUserId);
 		    System.out.println("Successfully updated plus 1 avail_ads count in database!");
-	    	System.out.println("akm test "+adsCount);
-		    packageRepo.updateAds(adsCount, subUserId);
-		    System.out.println("Successfully updated plus 1 avail_post count in database!");
+
 	    }
 	}
 
