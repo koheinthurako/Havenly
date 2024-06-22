@@ -1,51 +1,7 @@
 <template>
 
     <div class="container">
-        <h1>Users' pending posts!</h1>
-        <!-- <div class="box1">
-            <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
-                <div class="d-flex">
-
-
-                    <v-icon>mdi-view-grid</v-icon>
-
-
-                    <ul class="sidebar-nav ">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" @click="pushhh()">
-                                <span>Pending Posts</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" @click="pushy()">
-                                <span>Users</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" @click="ban()">
-
-                                <span>Ban List</span>
-                            </a>
-                        </li>
-
-
-
-                    </ul>
-
-                </div>
-
-                <div class="d-flex custom-logout" @click="logout" style="cursor:pointer;">
-                    <button class="toggle-btn" type="button">
-                        <v-icon>mdi-logout</v-icon>
-                    </button>
-                    <div class="sidebar-logo">
-                        <a class="sidebar-link">&nbsp; &nbsp; &nbsp; &nbsp;Logout</a>
-                    </div>
-                </div>
-
-            </div>
-        </div> -->
-
+        <h1 style="color: #e86f52;">Users' pending posts!</h1>
         <div v-if="loading">
             <v-row class="g-1 mb-3">
                 <v-col cols="12" md="3">
@@ -73,12 +29,11 @@
         </div>
         <div v-else>
             <div class="row mt-3 mb-5 box2">
-                <div v-for="post in posts" :key="post.post_id" class="col-md-3">
-
+                <div v-for="post in posts" :key="post.post_id" class="col-md-3" @click="clickPost(post)">
 
                     <div class="card-container">
                         <!-- TZH card styles -->
-                        <div class="card" style="height: 400px;">
+                        <div class="card" style="height: 360px; cursor: pointer;">
                             <div class="cardImgBox mb-1" style="width: 100%; height: 150px;">
                                 <img :src="post.photo_url[0]" class="h-100 w-100 m-auto" alt="Card image cap">
                             </div>
@@ -92,8 +47,7 @@
                                     {{ post.region }} , {{ post.province }} , {{ post.country }}
 
                                 </p>
-                                <!-- <p class="mb-0">{{ post.status }}</p> -->
-                                <div class="d-flex align-items-center justify-content-between mb-0">
+                                <div class="d-flex align-items-center justify-content-between mb-3 mt-auto">
                                     <span class="badge text-bg-danger rounded-pill">
                                         {{ post.property_type }}
                                     </span>
@@ -107,13 +61,6 @@
 
                             </div>
 
-                            <v-card-actions class="py-0 m-0">
-                                <v-btn elevation="0" variant="outlined" @click="approve(post)"
-                                    style="text-transform:capitalize;">Approve</v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn elevation="0" variant="outlined" @click="reject(post)"
-                                    style="text-transform:capitalize;">Reject</v-btn>
-                            </v-card-actions>
                         </div>
 
                     </div>
@@ -121,9 +68,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
 </template>
@@ -133,6 +77,7 @@ import axios from 'axios';
 import router from '@/router';
 import Swal from 'sweetalert2';
 
+import AES from 'crypto-js/aes';
 export default {
 
     data: () => ({
@@ -146,6 +91,25 @@ export default {
     },
 
     methods: {
+        encryptId(id) {
+            const secretKey = 'post-detail-view-secret-code-havenly-2024-still-go-on'
+            const encryptedId = AES.encrypt(id.toString(), secretKey).toString()
+            return encryptedId
+        },
+
+        // clickPost(post_id) {
+        //     // router.push('/PostsView')
+        //     const afterEncrypt = this.encryptId(post_id);
+        //     // this.$router.push({ name: 'postDetailView', params: { id: `${encryptData} Success` } });
+        //     this.$router.push({ name: 'postDetailView', params: { id: `${afterEncrypt} Admin_View` } });
+        // },
+
+        clickPost(post) {
+            this.$emit('selectedPost', post);
+            console.log("you clicked post!")
+            console.log(post.photo_url);
+        },
+
         truncateText(text, charLimit) {
             if (text.length > charLimit) {
                 return text.slice(0, charLimit) + '...';
@@ -181,8 +145,9 @@ export default {
         processPostData(post, type) {
             const postDetails = post[type];
             const imgUrls = Array.isArray(postDetails.image) ? postDetails.image : [postDetails.image];
-
+            console.log(post);
             return {
+                registerid: post.subUser.reg_user.register_id,
                 subUserId: post.subUser.subUserId,
                 post_id: post.post_id,
                 status: post.status,
@@ -200,63 +165,6 @@ export default {
                 photo_url: imgUrls,
             };
         },
-
-        // fetchPosts() {
-        //     // Make API call to fetch posts from backend
-        //     fetch('http://localhost:8083/posts/allPending')
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             console.log(data);
-        //             data.forEach(post => {
-        //                 if (post.rentpost) {
-        //                     let imgUrls = Array.isArray(post.rentpost.image) ? post.rentpost.image : [post.rentpost.image]
-
-        //                     console.log(post)
-        //                     this.posts.unshift({
-        //                         post_id: post.post_id,
-        //                         status: post.status,
-        //                         province: post.rentpost.locations.province,
-        //                         region: post.rentpost.locations.region,
-        //                         country: post.rentpost.locations.countries.country_name,
-        //                         title: post.rentpost.title,
-        //                         description: post.rentpost.description,
-        //                         house_type: post.rentpost.house_type,
-        //                         property_type: post.rentpost.property_type,
-        //                         area: post.rentpost.area,
-        //                         price: post.rentpost.price,
-        //                         deposit: post.rentpost.deposit,
-        //                         least_contract: post.rentpost.least_contract,
-        //                         photo_url: imgUrls,
-        //                     });
-        //                     console.log(imgUrls)
-        //                 } else if (post.sellpost) {
-        //                     let imgUrls = Array.isArray(post.sellpost.image) ? post.sellpost.image : [post.sellpost.image]
-
-        //                     console.log(post)
-        //                     this.posts.unshift({
-        //                         post_id: post.post_id,
-        //                         status: post.status,
-        //                         province: post.sellpost.locations.province,
-        //                         region: post.sellpost.locations.region,
-        //                         country: post.sellpost.locations.countries.country_name,
-        //                         title: post.sellpost.title,
-        //                         description: post.sellpost.description,
-        //                         house_type: post.sellpost.house_type,
-        //                         property_type: post.sellpost.property_type,
-        //                         area: post.sellpost.area,
-        //                         price: post.sellpost.price,
-        //                         photo_url: imgUrls,
-        //                     });
-        //                     console.log(imgUrls)
-        //                 }
-
-        //             });
-        //             // console.log(this.posts);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching photos:', error);
-        //         });
-        // },
 
         approve(post) {
 

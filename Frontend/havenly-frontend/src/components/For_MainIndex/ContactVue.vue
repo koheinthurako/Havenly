@@ -2,7 +2,7 @@
     <div class="contact-page">
         <div class="contact-data">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 col-12">
                     <div class="left-data">
                         <div>
                             <h3>Contact us</h3>
@@ -23,7 +23,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+
+                <hr class="d-block d-sm-none my-4">
+
+                <div class="col-md-6 col-12">
                     <h3>Give your feedback</h3>
 
                     <form @submit.prevent="submit">
@@ -34,24 +37,34 @@
                         <v-textarea v-model="textarea.value.value" :error-messages="textarea.errorMessage.value"
                             label="Label"></v-textarea>
 
-                        <v-btn :elevation="20" class="me-4 mt-3 submit" type="submit" style="border-radius: 30px;">
+                        <v-btn :elevation="10" class="me-4 mt-3 submit" type="submit" style="border-radius: 30px;">
                             submit
                         </v-btn>
 
-                        <v-btn :elevation="20" @click="handleReset" class="mt-3 clear" style="border-radius: 30px;">
+                        <v-btn :elevation="10" @click="handleReset" class="mt-3 clear" style="border-radius: 30px;">
                             clear
                         </v-btn>
                     </form>
 
                 </div>
-                <div class="col-md-2">
+                <hr class="d-block d-sm-none my-4">
+                <div class="col-md-2 col-12">
                     <h3>Links </h3>
-                    <div class="link-colletion">
+                    <div class="link-colletion d-none d-sm-block">
+
                         <router-link to="/" class="nav-link ">Home</router-link>
-                        <router-link to="/" class="nav-link ">Address</router-link>
-                        <router-link to="/" class="nav-link">Contact</router-link>
-                        <router-link to="/" class="nav-link">About</router-link>
-                        <v-btn variant="elevated" class="call-bg">Call Now</v-btn>
+                        <router-link to="/package" class="nav-link ">Packages</router-link>
+                        <router-link to="/subscribe" class="nav-link">Subscribe</router-link>
+                        <router-link to="/about" class="nav-link">About</router-link>
+                    </div>
+
+                    <div class="link-colletion d-block d-sm-none">
+                        <div class="d-flex justify-space-between align-items-center">
+                            <router-link to="/" class="nav-link ">Home</router-link>
+                            <router-link to="/package" class="nav-link ">Packages</router-link>
+                            <router-link to="/subscribe" class="nav-link">Subscribe</router-link>
+                            <router-link to="/about" class="nav-link">About</router-link>
+                        </div>
                     </div>
 
                 </div>

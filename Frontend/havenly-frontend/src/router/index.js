@@ -214,7 +214,8 @@ router.beforeEach((to, from, next) => {
         next(false);
       });
     } else {
-      next();
+      // next();
+      alert("Thwar pho pyin ny b")
     }
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!user) {

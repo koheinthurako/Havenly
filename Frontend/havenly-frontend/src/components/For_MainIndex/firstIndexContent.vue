@@ -1,19 +1,51 @@
   <template>
 
     <div class="first-index mt-5">
-      <div class="button-group d-flex flex-column mt-5 pt-3">
-        <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
-                :center="center"
-                :zoom="zoom"
-                style="width: 100%; height: 430px;">
-            <Marker v-for="(location, index) in mapLocations"
-            :key="index"
-            :options="{position: {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)}}"/>
-        </GoogleMap>
-        <div class="d-flex justify-content-end mt-5">
-          <button class="btn btn-lg btn-light text-danger rounded-pill px-5" @click="searchPostByLocations(selectedLocation)">Search posts by location >></button>
+
+      <v-container>
+        <div class="row">
+
+          <div class="col-12 map-container-edit">
+
+            <div class="map-header-text d-none">
+              <h3 class="color-brick fw-bold">Search post by location</h3>
+            </div>
+
+            <!-- map here -->
+            <div class="map-data-edit d-flex flex-column">
+              <GoogleMap :key="mapLocations.length" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM" :center="center"
+                :zoom="zoom" class="map-form w-100">
+                <Marker v-for="(location, index) in mapLocations" :key="index"
+                  :options="{ position: { lat: parseFloat(location.latitude), lng: parseFloat(location.longitude) } }" />
+              </GoogleMap>
+            </div>
+            <v-btn rounded class="map-search-btn my-2 float-right"
+              @click="searchPostByLocations(selectedLocation)">Search posts by location
+              >></v-btn>
+          </div>
+
         </div>
-      </div>
+      </v-container>
+
+      <!-- <v-container>
+        <div class="row">
+
+          <div class="col-12 d-flex flex-column" style="border: 1px solid red;">
+            <GoogleMap :key="mapLocations.length || ''" api-key="AIzaSyBqvZfzDW7YlZHtfaR-5l1v8f0YkMzswQM"
+              :center="center" :zoom="zoom" style="width: 100%; height: 430px;">
+              <Marker v-for="(location, index) in mapLocations" :key="index"
+                :options="{ position: { lat: parseFloat(location.latitude), lng: parseFloat(location.longitude) } }" />
+            </GoogleMap>
+            <div class="d-flex justify-content-end mt-5">
+              <button class=" btn btn-lg btn-light text-danger rounded-pill px-5"
+                @click="searchPostByLocations(selectedLocation)">Search posts by location >></button>
+            </div>
+          </div>
+
+
+        </div>
+      </v-container> -->
+
     </div>
   </template>
 
@@ -51,9 +83,9 @@ export default {
   mounted() {
     localStorage.removeItem('openTab');
     const cachedData = this.getLocationsFromSessionStorage();
-    if(cachedData) {
-        this.locations = cachedData;
-        this.mapLocations = cachedData;
+    if (cachedData) {
+      this.locations = cachedData;
+      this.mapLocations = cachedData;
     }
     this.fetchSubUser();
   },
@@ -61,8 +93,8 @@ export default {
   methods: {
 
     getLocationsFromSessionStorage() {
-        const data = sessionStorage.getItem('locations');
-        return data ? JSON.parse(data) : null;
+      const data = sessionStorage.getItem('locations');
+      return data ? JSON.parse(data) : null;
     },
 
     async fetchSubUser() {
@@ -126,9 +158,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-select .v-select__selection:hover,
-.v-select .v-select__selection:focus {
-    background-color: red !important;
-}
-</style>
+<style scoped></style>

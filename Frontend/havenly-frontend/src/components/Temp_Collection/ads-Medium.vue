@@ -121,6 +121,7 @@ export default {
 
 
 <style>
+/*
 .ads-medium-page {
     width: 100%;
     height: auto;
@@ -211,7 +212,7 @@ export default {
 
 @media only screen and (min-width: 768px) {
 
-    /* For Desktop */
+    
     .ads-medium-page {
         .card-img-medium {
             margin: 0px 8px;
@@ -222,11 +223,10 @@ export default {
 
 @media only screen and (max-width: 767px) {
 
-    /* For mobile */
+   
     .ads-medium-page {
         .card-img-medium {
             margin-right: 5px;
         }
     }
-}
-</style>
+}</style>*/

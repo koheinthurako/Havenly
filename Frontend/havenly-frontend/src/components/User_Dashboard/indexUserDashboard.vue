@@ -1,6 +1,6 @@
 <template>
-    <div class="user-dashboard">
-        <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }">
+    <div class="user-dashboard content-b p-0 m-0">
+        <div id="sidebar" ref="sidebar" :class="{ expand: isExpanded }" class="inside-991">
             <div class="d-flex">
                 <button class="toggle-btn" type="button" @click="toggleSidebar" :title="dynamicTitle">
                     <v-icon :hidden="isExpanded">mdi-view-grid</v-icon>
@@ -13,7 +13,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
 
-                    <a class="sideTextLink" :class="{ active: openTab === 'profile' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'profile' }"
                         @click="changeTab('profile'); toggleSidebar2()">
                         <v-icon>mdi-account</v-icon>
                         <span>Profile</span>
@@ -21,7 +21,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-interest-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'all-interest-post' }"
                         @click="changeTab('all-interest-post'); toggleSidebar2()">
                         <v-icon>mdi-star-box-multiple</v-icon>
                         <span>Interested post</span>
@@ -29,31 +29,29 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'all-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'all-post' }"
                         @click="changeTabForSub('all-post'); toggleSidebar2()">
                         <v-icon>mdi-post</v-icon>
                         <span>All post</span>
                     </a>
                 </li>
 
-
-
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-sell-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-sell-post' }"
                         @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
                         <v-icon>mdi-note-plus</v-icon>
                         <span>Create Sell Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-rent-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-rent-post' }"
                         @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
                         <v-icon>mdi-note-plus-outline</v-icon>
                         <span>Create Rent Post</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sideTextLink" :class="{ active: openTab === 'create-ads-post' }"
+                    <a class="sideTextLink" :class="{ userActive: openTab === 'create-ads-post' }"
                         @click="changeTabForSub('create-ads-post'); toggleSidebar2()">
                         <v-icon>mdi-google-ads</v-icon>
                         <span>Create Ads</span>
@@ -73,9 +71,6 @@
         </div>
 
 
-
-
-
         <div class="main-data">
 
 
@@ -91,6 +86,7 @@
                         <p>This is where the add post content will be displayed.</p> -->
                         <interestedPosts />
                     </div>
+
                     <div v-else-if="openTab === 'all-post'">
                         <uploadedAllPosts />
                     </div>
@@ -115,6 +111,105 @@
 
     </div>
 
+
+
+    <!-- don't use -->
+    <div class="swiper-container-mobile d-none">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide menu">
+                    <!-- <v-btn class="link" @click="Home('home')">Home</v-btn> -->
+
+                    <div class="sideTextLink mb-4" @click="toggleSidebar2()">
+                        <v-icon>mdi-view-grid</v-icon>
+                        <span>Dashboard</span>
+                    </div>
+
+                    <!-- profile btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'profile' }"
+                        @click="changeTab('profile'); toggleSidebar2()">
+                        <v-icon>mdi-account</v-icon>
+                        <span>Profile</span>
+                    </div>
+
+                    <!-- interest btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'all-interest-post' }"
+                        @click="changeTab('all-interest-post'); toggleSidebar2()">
+                        <v-icon>mdi-star-box-multiple</v-icon>
+                        <span>Interested post</span>
+                    </div>
+
+                    <!-- created posts btn -->
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'all-post' }"
+                        @click="changeTabForSub('all-post'); toggleSidebar2()">
+                        <v-icon>mdi-post</v-icon>
+                        <span>All post</span>
+                    </div>
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-sell-post' }"
+                        @click="changeTabForSub('create-sell-post'); toggleSidebar2()">
+                        <v-icon>mdi-note-plus</v-icon>
+                        <span>Create Sell Post</span>
+                    </div>
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-rent-post' }"
+                        @click="changeTabForSub('create-rent-post'); toggleSidebar2()">
+                        <v-icon>mdi-note-plus-outline</v-icon>
+                        <span>Create Rent Post</span>
+                    </div>
+
+
+                    <div class="sideTextLink" :class="{ userActive: openTab === 'create-ads-post' }"
+                        @click="changeTabForSub('create-ads'); toggleSidebar2()">
+                        <v-icon>mdi-google-ads</v-icon>
+                        <span>Create Ads</span>
+                    </div>
+                    <v-spacer></v-spacer>
+                    <div class="sideTextLink sideTextLinkUnder" @click="logout">
+                        <v-icon>mdi-logout</v-icon>
+                        <span>logout</span>
+                    </div>
+                </div>
+                <div class="swiper-slide content">
+                    <div :class="['menu-button', { cross: isCross }]" @click="toggleMenu">
+                        <div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                    <!-- content start -->
+                    <div class="content-datas">
+                        <div v-if="openTab === 'profile'">
+                            <profile_page />
+                        </div>
+                        <div v-else-if="openTab === 'all-interest-post'">
+                            <!-- <h3>All Post Content</h3>
+                            <p>This is where the add post content will be displayed.</p> -->
+                            <interestedPosts />
+                        </div>
+                        <div v-else-if="openTab === 'all-post'">
+                            <uploadedAllPosts />
+                        </div>
+
+                        <div v-else-if="openTab === 'create-sell-post'">
+                            <create_sell_post_page />
+                        </div>
+
+                        <div v-else-if="openTab === 'create-rent-post'">
+                            <create_rent_post_page />
+                        </div>
+                        <div v-else-if="openTab === 'create-ads-post'">
+                            <create_ads_post />
+                        </div>
+                    </div>
+                    <!-- content end -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </template>
 
 <script>
@@ -130,6 +225,11 @@ import create_ads_post from './Dashboard_Categories/create_ads_post.vue';
 import interestedPosts from '@/components/User_Dashboard/Dashboard_Categories/interestedPosts.vue'
 import router from '@/router';
 
+import Swiper from 'swiper/bundle';
+import 'swiper/css/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default {
     name: 'indexUserDashboard',
@@ -145,6 +245,11 @@ export default {
 
     data() {
         return {
+            // mobile staff
+            isCross: false,
+            swiperInstance: null,
+
+
             isExpanded: false,  // for left side dashboard collapse and expand
             isCollapsed: false,
             openTab: localStorage.getItem('openTab') || 'profile',
@@ -157,6 +262,27 @@ export default {
         }
     },
     methods: {
+        openMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slidePrev();
+                this.isCross = true;
+            }
+        },
+        closeMenu() {
+            if (this.swiperInstance) {
+                this.swiperInstance.slideNext();
+                this.isCross = false;
+            }
+        },
+        toggleMenu() {
+            if (this.swiperInstance) {
+                if (this.swiperInstance.activeIndex === 1) {
+                    this.openMenu();
+                } else {
+                    this.closeMenu();
+                }
+            }
+        },
         toggleSidebar() {
             this.isExpanded = !this.isExpanded;
             if (this.isExpanded) {
@@ -168,6 +294,7 @@ export default {
 
         toggleSidebar2() {
             this.isExpanded = false;
+            this.closeMenu();
         },
 
         changeTab(tab) {
@@ -208,6 +335,7 @@ export default {
 
         // for Logout 
         logout() {
+            this.closeMenu();
             Swal.fire({
                 title: 'Be careful!',
                 text: "Are you sure, you want to logout!",
@@ -227,11 +355,23 @@ export default {
 
     },
     mounted() {
-        // console.log("Reached Mounted !");
-        // if (this.openTab === "profile") {
-        //     console.log("REached into!", this.openTab);
-        //     this.isExpanded = true;
-        // }
+        this.swiperInstance = new Swiper('.swiper', {
+            slidesPerView: 'auto',
+            initialSlide: 1,
+            resistanceRatio: 0,
+            slideToClickedSlide: false,
+            on: {
+                slideChangeTransitionStart: () => {
+                    if (this.swiperInstance && this.swiperInstance.activeIndex === 0) {
+                        this.isCross = true;
+                    } else {
+                        this.isCross = false;
+                    }
+                }
+            }
+        });
+
+
         const getData = localStorage.getItem("openTab");
         if (getData === "profile" || this.openTab === "profile") {
             this.isExpanded = true;
@@ -246,6 +386,15 @@ export default {
 </script>
 
 <style scoped>
+.userActive {
+    background-color: #e86f52 !important;
+    color: #525252;
+
+    .v-icon {
+        color: #525252;
+    }
+}
+
 .create-pop-up {
     width: 100%;
     height: auto;
@@ -275,45 +424,45 @@ export default {
 
 }
 
+/*
+.main-data {
+    position: fixed;
+    width: 100%;
+    height: 86vh;
+    margin-top: 48px;
+    overflow-y: scroll;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 70px);
+    padding: 20px;
+    transition: all 0.35s ease-in-out;
+    background-color: #fff;
+    scrollbar-width: none !important;
+}
+*/
 
 .main-data {
+    padding-top: 65px;
     margin-left: auto;
     height: auto;
     width: calc(100% - 70px);
-    padding: 6px 20px;
     transition: all 0.35s ease-in-out;
     background-color: #fff;
-
 }
 
-@media only screen and (min-width: 768px) {
-
-    /* for Desktop */
-    .main-data {
-        margin-top: 7%;
-    }
-}
-
-
-@media only screen and (max-width: 767px) {
-
-    /* for mobile */
-    .main-data {
-        margin-top: 11%;
-    }
-}
 
 #sidebar {
-    overflow: hidden;
+    padding-top: 65px;
     position: fixed;
-    top: 8%;
+    top: 0;
     left: 0;
     width: 70px;
     min-width: 70px;
-    height: 92vh;
+    height: 100vh;
     z-index: 1000;
     transition: all 0.3s ease-in-out;
-    padding-top: 43px;
     background-color: #525252;
     display: flex;
     flex-direction: column;
@@ -323,23 +472,18 @@ export default {
         cursor: pointer;
         border: 0;
         padding: 1rem 1.5rem;
-        display: block;
+        transition: all 0.3s ease-in-out;
 
         .v-icon {
             font-size: 1.5rem;
             color: #FFF;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
     }
 }
 
 #sidebar.expand {
-    width: 260px;
-    min-width: 260px;
+    width: 250px;
+    min-width: 250px;
 }
 
 
@@ -360,7 +504,7 @@ export default {
 }
 
 .sidebar-nav {
-    padding: 2rem 0;
+    padding: 3rem 0;
     flex: 1 1 auto;
 
     .sidebar-item {
@@ -483,5 +627,55 @@ export default {
 
 #sidebar .sidebar-item .sideTextLink:hover {
     background-color: #e86f52;
+}
+
+/* Add a media query to target screens with a width under 991px */
+@media (max-width: 991px) {
+
+    /* Reduce the width of the sidebar */
+    #sidebar {
+        width: 50px;
+        min-width: 50px;
+    }
+
+    /* Reduce the padding and font size of the sidebar logo */
+    .sidebar-logo {
+        margin: auto 0;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    /* Reduce the padding and font size of the sidebar nav items */
+    .sidebar-nav {
+        padding: 1rem 0;
+    }
+
+    .sidebar-item a.sideTextLink {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Reduce the size of the toggle button */
+    .toggle-btn {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Reduce the size of the custom logout button */
+    .custom-logout {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Reduce the size of the button box */
+    .button-box {
+        padding: 0.5rem;
+    }
+
+    .custom-link {
+        font-size: 0.8rem;
+    }
+
+    .custom-icon {
+        margin-top: 0.5px;
+    }
 }
 </style>

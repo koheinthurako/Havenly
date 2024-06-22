@@ -23,4 +23,5 @@ public interface Posts_Service {
 
 	// get interested posts
 	List<Posts> getInterestPostByRegId(int id);
+
 }

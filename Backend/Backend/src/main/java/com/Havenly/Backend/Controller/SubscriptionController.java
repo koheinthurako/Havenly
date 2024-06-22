@@ -39,7 +39,7 @@ public class SubscriptionController {
 	public ResponseEntity<Subscription_DTO> getSubUserInfo(@RequestParam int registerId) {
 		return new ResponseEntity<Subscription_DTO>(subRepo.getSubUserInfo(registerId), HttpStatus.OK);
 	}
-	
+
 	
 	@PostMapping("/subscribe")
 	public ResponseEntity<Subscription_DTO> subscribe(@Valid @RequestBody Subscription_DTO dto){

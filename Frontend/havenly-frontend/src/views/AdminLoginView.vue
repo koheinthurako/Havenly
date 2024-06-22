@@ -11,9 +11,6 @@
 
         </v-text-field>
 
-
-        <a href="/forgotpassword" class="text-body-2 font-weight-regular">Forgot Password?</a>
-
         <v-btn type="submit" block class="mt-2 bg-redbrick text-white mt-3">Sign in</v-btn>
 
       </v-form>
