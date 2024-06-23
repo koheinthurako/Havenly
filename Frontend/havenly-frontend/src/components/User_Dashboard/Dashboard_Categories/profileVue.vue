@@ -10,7 +10,7 @@
                             <div class="col-4 col-lg-3">
                                 <div class="d-flex flex-column justify-content-center">
                                     <v-img :src="profileImage || profilePicture" class="profile-img" alt="Profile Picture"
-                                        padding=5px max-height="150" max-width="100%" contain />
+                                        padding=5px max-height="150" max-width="100%" contain/>
                                     <div class="mt-2 mt-lg-4">
                                         <button class="btn btn-danger bg-redbrick py-2 rounded-pill px-5 d-flex align-center" @click="openEditDialog"
                                             style="width: 100%; justify-content: center;">
@@ -565,7 +565,7 @@ export default {
     .profile-img1 {
         width: 130px;
         height: 130px;
-        border-radius: 50%;
+        /* border-radius: 50%; */
         margin: left;
     }
 
